@@ -2,3445 +2,842 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>EarnBoard</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inbox Dollars</title>
 
 <style>
-
-:root{
-  --bg:#0A0A0C;
-  --bg-card:#161619;
-  --bg-card-2:#1E1E22;
-  --gold:#FFC72C;
-  --gold-dim:#8A6A24;
-  --teal:#FFC72C;
-  --text:#F5F5F7;
-  --text-dim:#9A9AA2;
-  --danger:#FF6767;
-  --radius:18px;
-  --nav-h:64px;
-}
-
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  padding-bottom:calc(var(--nav-h) + 20px);
+    background:#08090b;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-.display{
-  font-family:Georgia,'Times New Roman',serif;
-  font-weight:900;
-  letter-spacing:-0.02em;
+.app{
+    min-height:100vh;
+    padding-bottom:85px;
 }
 
-header.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:18px 20px 10px;
+.header{
+    height:95px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 32px;
+    border-bottom:1px solid #18191d;
 }
 
-header.topbar .brand{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.logo{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:1px;
 }
 
-header.topbar .brand .dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--gold);
-  box-shadow:0 0 10px var(--gold);
+.logo span{
+    color:#ffc328;
 }
 
-header.topbar .brand span.name{
-  font-size:15px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--text-dim);
+.balance{
+    background:#15161a;
+    border:1px solid #292a2f;
+    border-radius:30px;
+    padding:12px 20px;
+    color:#ffc328;
+    font-weight:800;
 }
 
-header.topbar .balance-pill{
-  background:var(--bg-card);
-  border:1px solid #2A2A2E;
-  border-radius:999px;
-  padding:6px 14px;
-  font-size:13px;
-  display:flex;
-  align-items:center;
-  gap:6px;
+.page{
+    padding:28px 34px;
 }
-
-header.topbar .balance-pill b{
-  color:var(--gold);
-  font-size:14px;
-}
-
-.section{
-  padding:0 20px;
-  display:none;
-}
-
-.section.active{
-  display:block;
-  animation:fadeIn .25s ease;
-}
-
-@keyframes fadeIn{
-  from{
-    opacity:0;
-    transform:translateY(6px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* ================= HOME ================= */
 
 .hero{
-  background:var(--bg-card);
-  border-radius:var(--radius);
-  padding:24px;
-  margin-top:6px;
-  position:relative;
-  overflow:hidden;
-  border:1px solid #2A2A2E;
+    background:#171719;
+    border:1px solid #28282c;
+    border-radius:28px;
+    padding:38px;
+    margin-bottom:22px;
 }
 
-.hero::after{
-  content:"";
-  position:absolute;
-  right:-40px;
-  top:-40px;
-  width:160px;
-  height:160px;
-  background:radial-gradient(
-    circle,
-    rgba(255,199,44,.14),
-    transparent 70%
-  );
+.hero small{
+    color:#9a9aa1;
+    letter-spacing:2px;
+    font-weight:bold;
 }
 
-.hero .eyebrow{
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  color:var(--text-dim);
-  font-weight:700;
+.hero h1{
+    font-family:Georgia,serif;
+    font-size:50px;
+    line-height:1.05;
+    margin:20px 0;
 }
 
-.hero .headline{
-  font-size:30px;
-  line-height:1.15;
-  margin-top:10px;
-  font-weight:900;
+.yellow{
+    color:#ffc328;
 }
 
-.hero .headline .gold{
-  color:var(--gold);
+.hero p{
+    color:#a5a5ab;
+    font-size:18px;
+    line-height:1.5;
 }
 
-.hero .sub{
-  margin-top:10px;
-  font-size:13px;
-  color:var(--text-dim);
-  line-height:1.5;
+.main-btn{
+    width:100%;
+    margin-top:28px;
+    padding:20px;
+    border:0;
+    border-radius:24px;
+    background:#ffc328;
+    color:#111;
+    font-size:20px;
+    font-weight:800;
 }
 
-.hero-cta{
-  margin-top:18px;
-  width:100%;
-  padding:15px;
-  border-radius:14px;
-  border:none;
-  background:var(--gold);
-  color:#1A1200;
-  font-weight:900;
-  font-size:15px;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+.section-title{
+    font-size:22px;
+    margin:25px 0 18px;
 }
 
-.qa-heading{
-  font-size:14px;
-  font-weight:900;
-  margin:24px 0 12px;
+.action{
+    background:#171719;
+    border:1px solid #29292d;
+    border-radius:24px;
+    padding:20px;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    cursor:pointer;
 }
 
-.qa-card{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  background:var(--bg-card);
-  border:1px solid #2A2A2E;
-  border-radius:16px;
-  padding:14px 16px;
-  margin-bottom:12px;
-  cursor:pointer;
+.icon{
+    width:70px;
+    height:70px;
+    border-radius:18px;
+    background:#302500;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    flex-shrink:0;
 }
 
-.qa-icon{
-  width:44px;
-  height:44px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:19px;
-  background:#221B0A;
-  flex-shrink:0;
+.action h3{
+    font-size:22px;
+    margin-bottom:5px;
 }
 
-.qa-text{
-  flex:1;
+.action p{
+    color:#99999f;
+    font-size:16px;
 }
 
-.qa-text h4{
-  font-size:14.5px;
-  font-weight:800;
+.rate{
+    color:#ffc328 !important;
+    font-weight:bold;
+    margin-top:8px;
 }
 
-.qa-text p{
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:2px;
+.arrow{
+    margin-left:auto;
+    color:#ffc328;
+    font-size:28px;
 }
 
-.qa-text .rate{
-  font-size:12px;
-  color:var(--gold);
-  font-weight:800;
-  margin-top:5px;
+.back{
+    color:#ffc328;
+    font-weight:bold;
+    margin-bottom:20px;
+    cursor:pointer;
 }
 
-.qa-chevron{
-  font-size:18px;
-  color:var(--gold);
-}
-
-.back-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:6px;
-  cursor:pointer;
-}
-
-.back-row .arrow{
-  font-size:18px;
-  color:var(--gold);
-}
-
-.back-row span.label{
-  font-size:14px;
-  color:var(--text-dim);
-  font-weight:700;
+.ad-page{
+    display:none;
 }
 
 .ad-card{
-  background:var(--bg-card);
-  border:1px solid #2A2A2E;
-  border-radius:16px;
-  padding:20px;
-  margin-top:14px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  gap:12px;
+    background:#171719;
+    border:1px solid #29292d;
+    border-radius:25px;
+    padding:30px;
+    text-align:center;
 }
 
-.ad-card .left{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
+.ad-card .big-icon{
+    font-size:55px;
+    margin-bottom:15px;
 }
 
-.ad-icon{
-  width:52px;
-  height:52px;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
+.ad-card h2{
+    font-size:25px;
 }
 
-.ad-icon.light{
-  background:rgba(61,220,151,.15);
-  color:var(--teal);
+.ad-card .rate{
+    margin:10px 0 25px;
 }
 
-.ad-icon.pro{
-  background:rgba(242,179,61,.15);
-  color:var(--gold);
+.ad-button{
+    width:100%;
+    padding:17px;
+    border:0;
+    border-radius:18px;
+    background:#ffc328;
+    font-size:18px;
+    font-weight:bold;
 }
 
-.ad-title{
-  font-size:16px;
-  font-weight:800;
+.ad-button.disabled{
+    background:#302f34;
+    color:#aaa;
 }
 
-.ad-reward{
-  font-size:13px;
-  color:var(--text-dim);
-  margin-top:2px;
-  font-weight:600;
+.progress{
+    margin-top:25px;
+    display:flex;
+    justify-content:space-between;
+    color:#999;
 }
 
-.watch-btn{
-  background:var(--teal);
-  color:#1A1200;
-  border:none;
-  padding:12px 28px;
-  border-radius:12px;
-  font-weight:800;
-  font-size:14px;
-  cursor:pointer;
-  width:100%;
+.completed{
+    margin-top:18px;
+    padding:17px;
+    text-align:center;
+    border:1px solid #66500b;
+    border-radius:18px;
+    color:#ffc328;
+    background:#211c0b;
+    font-weight:bold;
 }
 
-.watch-btn.pro{
-  background:var(--gold);
-  color:#221800;
+/* WALLET */
+.wallet h1{
+    font-family:Georgia,serif;
+    font-size:48px;
+    margin-bottom:20px;
 }
-
-.watch-btn:disabled{
-  background:#2A2A2E;
-  color:var(--text-dim);
-}
-
-.count-row{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:16px;
-}
-
-.limit-complete{
-  margin-top:12px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(255,199,44,.10);
-  border:1px solid rgba(255,199,44,.28);
-  color:var(--gold);
-  text-align:center;
-  font-size:12px;
-  font-weight:900;
-}
-
-.premium-card{
-  margin-top:20px;
-  border-radius:var(--radius);
-  padding:20px;
-  background:linear-gradient(135deg,#2A2108,#161619);
-  border:1px solid var(--gold-dim);
-}
-
-.premium-card h3{
-  font-size:16px;
-}
-
-.premium-card p{
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:6px;
-  line-height:1.5;
-}
-
-.premium-btn{
-  margin-top:14px;
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  background:var(--gold);
-  color:#221800;
-  font-weight:700;
-  font-size:14px;
-  cursor:pointer;
-}
-
-/* ================= GENERAL ================= */
-
-.page-title{
-  font-size:30px;
-  margin:20px 0 6px;
-  font-weight:900;
-}
-
-.page-sub{
-  font-size:13px;
-  color:var(--text-dim);
-  line-height:1.5;
-}
-
-.list-card{
-  background:var(--bg-card);
-  border:1px solid #2A2A2E;
-  border-radius:16px;
-  padding:16px;
-  margin-top:14px;
-}
-
-.list-card h4{
-  font-size:14px;
-}
-
-.list-card p{
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:4px;
-  line-height:1.5;
-}
-
-.task-card{
-  background:var(--bg-card);
-  border:1px solid #2A2A2E;
-  border-radius:16px;
-  padding:16px;
-  margin-top:14px;
-}
-
-.task-card h4{
-  font-size:14.5px;
-  font-weight:800;
-}
-
-.task-card p{
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:4px;
-  line-height:1.5;
-}
-
-.task-card .watch-btn{
-  margin-top:12px;
-}
-
-.streak-grid{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:6px;
-  margin-top:14px;
-}
-
-.streak-day{
-  background:var(--bg-card-2);
-  border:1px solid #2A2A2E;
-  border-radius:10px;
-  padding:8px 2px;
-  text-align:center;
-}
-
-.streak-day .d{
-  font-size:9px;
-  color:var(--text-dim);
-  font-weight:700;
-}
-
-.streak-day .r{
-  font-size:11px;
-  font-weight:800;
-  margin-top:4px;
-}
-
-.streak-day.done{
-  border-color:var(--gold);
-  background:rgba(255,199,44,.1);
-}
-
-.streak-day.done .r{
-  color:var(--gold);
-}
-
-.streak-day.current{
-  border-color:var(--gold);
-  box-shadow:0 0 0 1px var(--gold);
-}
-
-.row-between{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.refer-code{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:var(--bg-card-2);
-  border:1px dashed var(--gold-dim);
-  border-radius:12px;
-  padding:12px 14px;
-  margin-top:12px;
-}
-
-.refer-code b{
-  letter-spacing:.08em;
-  color:var(--gold);
-}
-
-.copy-btn{
-  background:none;
-  border:1px solid var(--gold);
-  color:var(--gold);
-  padding:6px 12px;
-  border-radius:8px;
-  font-size:12px;
-  cursor:pointer;
-}
-
-/* ================= WALLET ================= */
 
 .wallet-balance{
-  text-align:center;
-  margin-top:10px;
+    text-align:center;
+    margin:20px 0 30px;
 }
 
-.wallet-balance .num{
-  font-size:42px;
+.wallet-balance .amount{
+    font-family:Georgia,serif;
+    font-size:68px;
+    color:#ffc328;
 }
 
-.wallet-balance .num span{
-  color:var(--gold);
+.wallet-balance p{
+    color:#999;
+    font-size:18px;
 }
 
-.wallet-actions{
-  display:flex;
-  gap:10px;
-  margin-top:16px;
+.wallet-buttons{
+    display:flex;
+    gap:16px;
 }
 
-.wallet-actions button{
-  flex:1;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #2A2A2E;
-  background:var(--bg-card);
-  color:var(--text);
-  font-weight:600;
-  font-size:13px;
-  cursor:pointer;
+.wallet-btn{
+    flex:1;
+    padding:20px;
+    border-radius:20px;
+    border:1px solid #303139;
+    background:#17181c;
+    color:white;
+    font-size:19px;
+    font-weight:bold;
 }
 
-.tx-item{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 0;
-  border-bottom:1px solid #232326;
-  font-size:13px;
+.wallet-btn.primary{
+    background:#ffc328;
+    color:#111;
 }
 
-.tx-item:last-child{
-  border-bottom:none;
+.limits{
+    text-align:center;
+    color:#999;
+    margin:18px 0 40px;
 }
 
-.tx-item .meta{
-  color:var(--text-dim);
-  font-size:11px;
-  margin-top:2px;
+.limits strong{
+    color:#ffc328;
 }
 
-.tx-amount.plus{
-  color:var(--teal);
-  font-weight:700;
+.currency-box{
+    background:#15171c;
+    border:1px solid #292c33;
+    border-radius:28px;
+    padding:25px;
+    margin-bottom:30px;
 }
 
-.withdraw-limit{
-  text-align:center;
-  font-size:12px;
-  color:var(--text-dim);
-  margin-top:10px;
-  font-weight:600;
+.currency-box h2{
+    margin-bottom:25px;
 }
 
-.withdraw-limit b{
-  color:var(--gold);
+.currencies{
+    display:flex;
+    gap:16px;
 }
 
-.currency-row{
-  display:flex;
-  gap:10px;
-  margin-top:14px;
+.currency{
+    flex:1;
+    min-height:220px;
+    border:1px solid #292c33;
+    border-radius:24px;
+    padding:22px 10px;
+    text-align:center;
+    background:#101116;
 }
 
-.currency-chip{
-  flex:1;
-  background:var(--bg-card);
-  border:1px solid #2A2A2E;
-  border-radius:12px;
-  padding:12px 6px;
-  text-align:center;
-  cursor:pointer;
+.currency.selected{
+    border:2px solid #20d878;
+    background:#0d3026;
 }
 
-.currency-chip.active{
-  border-color:var(--gold);
-  background:var(--bg-card-2);
+.coin{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+    font-weight:bold;
 }
 
-.currency-chip .sym{
-  font-size:20px;
+.usdt{background:#18c978;}
+.usdc{background:#287be8;}
+.btc{background:#f5a719;}
+
+.currency h3{
+    margin-top:18px;
+    font-size:21px;
 }
 
-.currency-chip .name{
-  font-size:11px;
-  color:var(--text-dim);
-  margin-top:4px;
-  font-weight:700;
+.currency p{
+    color:#999;
+    margin-top:8px;
 }
 
-/* ================= PROFILE ================= */
-
-.profile-title{
-  font-size:30px;
-  margin:20px 0 20px;
-  font-weight:900;
+.withdraw-box{
+    background:#15171c;
+    border:1px solid #292c33;
+    border-radius:28px;
+    padding:28px;
 }
 
-.profile-header{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  background:linear-gradient(135deg,#19191e,#121216);
-  border:1px solid #2A2A2E;
-  border-radius:20px;
-  padding:18px;
+.withdraw-box h2{
+    margin-bottom:10px;
 }
 
-.profile-avatar-box{
-  width:70px;
-  height:70px;
-  position:relative;
-  flex-shrink:0;
+.withdraw-box p{
+    color:#999;
 }
 
-.profile-avatar{
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#FFC72C,#9B6A00);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#171200;
-  font-size:28px;
-  font-weight:900;
-  overflow:hidden;
-  border:2px solid rgba(255,199,44,.35);
+.input{
+    width:100%;
+    margin-top:25px;
+    padding:18px;
+    border-radius:15px;
+    border:1px solid #292c33;
+    background:#0d0e12;
+    color:#fff;
 }
 
-.profile-avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.transactions{
+    margin-top:30px;
 }
 
-.online-dot{
-  position:absolute;
-  right:1px;
-  bottom:2px;
-  width:15px;
-  height:15px;
-  border-radius:50%;
-  background:#3DDC97;
-  border:3px solid #15151a;
+.transaction{
+    display:flex;
+    justify-content:space-between;
+    padding:18px 0;
+    border-bottom:1px solid #292a2e;
 }
 
-.profile-info{
-  min-width:0;
+.transaction small{
+    display:block;
+    color:#777;
+    margin-top:5px;
 }
 
-.profile-name{
-  font-size:19px;
-  font-weight:900;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.transaction strong{
+    color:#ffc328;
 }
 
-.profile-username{
-  font-size:13px;
-  color:var(--text-dim);
-  margin-top:4px;
+/* NAV */
+.nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:80px;
+    background:#101116;
+    border-top:1px solid #24252a;
+    display:flex;
+    justify-content:space-around;
+    z-index:100;
 }
 
-.profile-id{
-  font-size:11px;
-  color:#6F6F78;
-  margin-top:4px;
+.nav-item{
+    flex:1;
+    text-align:center;
+    padding-top:10px;
+    color:#999;
+    cursor:pointer;
 }
 
-.profile-rank{
-  margin-top:15px;
-  padding:17px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#2A2108,#17171B);
-  border:1px solid rgba(255,199,44,.25);
-  display:flex;
-  align-items:center;
-  gap:14px;
-  cursor:pointer;
+.nav-item .nav-icon{
+    font-size:27px;
+    display:block;
 }
 
-.rank-badge{
-  width:50px;
-  height:50px;
-  border-radius:15px;
-  background:rgba(255,199,44,.12);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
+.nav-item.active{
+    color:#ffc328;
 }
 
-.rank-details{
-  flex:1;
+@media(max-width:600px){
+    .header{
+        padding:18px 22px;
+    }
+
+    .page{
+        padding:25px 20px;
+    }
+
+    .hero{
+        padding:28px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .action{
+        padding:17px;
+    }
+
+    .icon{
+        width:60px;
+        height:60px;
+    }
+
+    .currencies{
+        gap:10px;
+    }
+
+    .currency{
+        min-height:190px;
+        padding:15px 5px;
+    }
+
+    .coin{
+        width:75px;
+        height:75px;
+        font-size:35px;
+    }
 }
-
-.rank-label{
-  color:var(--text-dim);
-  font-size:11px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-.rank-value{
-  color:var(--gold);
-  font-size:19px;
-  font-weight:900;
-  margin-top:3px;
-}
-
-.rank-arrow{
-  font-size:24px;
-  color:#77777F;
-}
-
-.profile-menu{
-  margin-top:18px;
-  background:#151519;
-  border:1px solid #29292F;
-  border-radius:19px;
-  overflow:hidden;
-}
-
-.profile-menu-item{
-  min-height:62px;
-  padding:0 17px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid #28282E;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.profile-menu-item:last-child{
-  border-bottom:none;
-}
-
-.profile-menu-item:active{
-  background:#202027;
-}
-
-.profile-menu-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
-.menu-icon{
-  width:36px;
-  height:36px;
-  border-radius:11px;
-  background:#202027;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:17px;
-}
-
-.menu-text{
-  font-size:14px;
-  font-weight:800;
-}
-
-.menu-arrow{
-  color:#707078;
-  font-size:23px;
-}
-
-.logout-menu{
-  margin-bottom:30px;
-}
-
-.logout-item .menu-text{
-  color:var(--danger);
-}
-
-.logout-item .menu-icon{
-  background:rgba(255,103,103,.08);
-}
-
-/* ================= POPUP ================= */
-
-.profile-popup{
-  position:fixed;
-  inset:0;
-  z-index:300;
-  display:none;
-}
-
-.profile-popup.show{
-  display:block;
-}
-
-.popup-backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(5px);
-}
-
-.popup-card{
-  position:absolute;
-  left:18px;
-  right:18px;
-  bottom:18px;
-  max-height:78vh;
-  overflow:auto;
-  background:#18181E;
-  border:1px solid #32323A;
-  border-radius:22px;
-  padding:20px;
-  animation:popupSlide .2s ease;
-}
-
-@keyframes popupSlide{
-  from{
-    opacity:0;
-    transform:translateY(25px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-.popup-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-}
-
-.popup-top h3{
-  font-size:20px;
-  font-weight:900;
-}
-
-.popup-close{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  border:1px solid #33333B;
-  background:#222229;
-  color:white;
-  cursor:pointer;
-}
-
-.popup-body{
-  font-size:13px;
-  color:var(--text-dim);
-  line-height:1.6;
-}
-
-.popup-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:13px 0;
-  border-bottom:1px solid #2B2B32;
-}
-
-.popup-row:last-child{
-  border-bottom:none;
-}
-
-.popup-row b{
-  color:var(--text);
-}
-
-/* ================= NAV ================= */
-
-nav.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:var(--nav-h);
-  background:#111113;
-  border-top:1px solid #232326;
-  display:flex;
-  z-index:50;
-}
-
-nav.bottom-nav .nav-btn{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:3px;
-  color:var(--text-dim);
-  font-size:10.5px;
-  background:none;
-  border:none;
-  cursor:pointer;
-}
-
-nav.bottom-nav .nav-btn .icon{
-  font-size:19px;
-}
-
-nav.bottom-nav .nav-btn.active{
-  color:var(--gold);
-}
-
-/* ================= TOAST ================= */
-
-.toast{
-  position:fixed;
-  top:16px;
-  left:50%;
-  transform:translateX(-50%) translateY(-20px);
-  background:var(--teal);
-  color:#1A1200;
-  padding:10px 18px;
-  border-radius:10px;
-  font-size:13px;
-  font-weight:700;
-  opacity:0;
-  transition:all .25s ease;
-  z-index:500;
-  pointer-events:none;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="toast" id="toast"></div>
+<div class="app">
 
-<header class="topbar">
-
-  <div class="brand">
-    <span class="dot"></span>
-    <span class="name">EarnBoard</span>
-  </div>
-
-  <div class="balance-pill">
-    💰 <b id="topBalance">$0.00</b>
-  </div>
-
+<header class="header">
+    <div class="logo">🟡 INBOX DOLLARS</div>
+    <div class="balance">💰 $<span id="topBalance">0.00</span></div>
 </header>
 
+<!-- HOME -->
+<section id="homePage" class="page">
 
-<!-- ================= HOME ================= -->
+    <div class="hero">
+        <small>WELCOME TO EARNBOARD</small>
 
-<section class="section active" id="sec-home">
-
-  <div class="hero">
-
-    <div class="eyebrow">
-      Welcome to EarnBoard
-    </div>
-
-    <div class="headline display">
-      Earn <span class="gold">More.</span><br>
-      Get <span class="gold">Paid.</span>
-    </div>
-
-    <div class="sub">
-      Watch ads, complete tasks, invite friends,
-      and build your rewards balance.
-    </div>
-
-    <button class="hero-cta" onclick="switchSection('task')">
-      📋 View Tasks
-    </button>
-
-  </div>
-
-
-  <div id="quickActions">
-
-    <div class="qa-heading">
-      Quick Actions
-    </div>
-
-
-    <!-- LIGHT ADS -->
-
-    <div class="qa-card" onclick="openTier('light')">
-
-      <div class="qa-icon">
-        ▶️
-      </div>
-
-      <div class="qa-text">
-
-        <h4>
-          Light Ads
-        </h4>
+        <h1>
+            Earn <span class="yellow">More.</span><br>
+            Get <span class="yellow">Paid.</span>
+        </h1>
 
         <p>
-          Watch ads and earn rewards
+            Watch ads, complete tasks, invite friends,
+            and build your rewards balance.
         </p>
 
-        <div class="rate">
-          100 Ads = $1.00
+        <button class="main-btn" onclick="openTasks()">
+            📋 View Tasks
+        </button>
+    </div>
+
+    <h2 class="section-title">Quick Actions</h2>
+
+    <div class="action" onclick="openAdPage('Light Ads','▶️')">
+        <div class="icon">▶️</div>
+        <div>
+            <h3>Light Ads</h3>
+            <p>Watch ads and earn rewards</p>
+            <p class="rate">100 Ads = $1.00</p>
         </div>
-
-      </div>
-
-      <div class="qa-chevron">
-        ›
-      </div>
-
+        <div class="arrow">›</div>
     </div>
 
-
-    <!-- PRO ADS -->
-
-    <div class="qa-card" onclick="openTier('pro')">
-
-      <div class="qa-icon">
-        ⭐
-      </div>
-
-      <div class="qa-text">
-
-        <h4>
-          Pro Ads
-        </h4>
-
-        <p>
-          Watch Pro ads and earn rewards
-        </p>
-
-        <div class="rate">
-          100 Ads = $1.00
+    <div class="action" onclick="openAdPage('Pro Ads','⭐')">
+        <div class="icon">⭐</div>
+        <div>
+            <h3>Pro Ads</h3>
+            <p>Watch Pro ads and earn rewards</p>
+            <p class="rate">100 Ads = $1.00</p>
         </div>
-
-      </div>
-
-      <div class="qa-chevron">
-        ›
-      </div>
-
+        <div class="arrow">›</div>
     </div>
 
-
-    <!-- EXTRA ADS -->
-
-    <div class="qa-card" onclick="openTier('extra')">
-
-      <div class="qa-icon">
-        ⚡
-      </div>
-
-      <div class="qa-text">
-
-        <h4>
-          Extra Ads
-        </h4>
-
-        <p>
-          Extra daily ads for more earning
-        </p>
-
-        <div class="rate">
-          100 Ads = $1.00
+    <div class="action" onclick="openAdPage('Extra Ads','⚡')">
+        <div class="icon">⚡</div>
+        <div>
+            <h3>Extra Ads</h3>
+            <p>Extra daily ads for more earning</p>
+            <p class="rate">100 Ads = $1.00</p>
         </div>
-
-      </div>
-
-      <div class="qa-chevron">
-        ›
-      </div>
-
+        <div class="arrow">›</div>
     </div>
 
-
-    <!-- PREMIUM -->
-
-    <div class="qa-card" onclick="openTier('premium')">
-
-      <div class="qa-icon">
-        💎
-      </div>
-
-      <div class="qa-text">
-
-        <h4>
-          Premium Membership
-        </h4>
-
-        <p>
-          Premium membership · $30/month
-        </p>
-
-      </div>
-
-      <div class="qa-chevron">
-        ›
-      </div>
-
+    <div class="action">
+        <div class="icon">💎</div>
+        <div>
+            <h3>Premium Membership</h3>
+            <p>Premium membership · $30/month</p>
+        </div>
+        <div class="arrow">›</div>
     </div>
-
-  </div>
-
-
-  <div id="tierPanel" style="display:none;">
-
-    <div class="back-row" onclick="closeTier">
-
-      <span class="arrow">‹</span>
-
-      <span class="label">
-        Back to Home
-      </span>
-
-    </div>
-
-    <div id="tierContent"></div>
-
-  </div>
 
 </section>
 
 
-<!-- ================= TASK ================= -->
+<!-- AD PAGE -->
+<section id="adPage" class="page ad-page">
 
-<section class="section" id="sec-task">
+    <div class="hero">
+        <small>WELCOME TO EARNBOARD</small>
 
-  <h2 class="page-title display">
-    Task
-  </h2>
+        <h1>
+            Earn <span class="yellow">More.</span><br>
+            Get <span class="yellow">Paid.</span>
+        </h1>
 
-  <p class="page-sub">
-    Complete these to earn extra rewards
-  </p>
+        <p>Watch ads and build your rewards balance.</p>
 
-
-  <div class="task-card">
-
-    <h4>
-      Daily Check-in Streak
-    </h4>
-
-    <p>
-      Check in every day — reward grows each day,
-      biggest on Day 7
-    </p>
-
-    <div class="streak-grid" id="streakGrid"></div>
-
-    <button
-      class="watch-btn"
-      id="checkinBtn"
-      onclick="watchAdForCheckin()">
-
-      Claim
-
-    </button>
-
-  </div>
-
-
-  <div class="task-card">
-
-    <h4>
-      Watch 3 Ads
-    </h4>
-
-    <p>
-      Complete 3 ads in one day — bonus $0.05
-    </p>
-
-    <button
-      class="watch-btn"
-      onclick="claimTask('ads3',0.05)">
-
-      Claim
-
-    </button>
-
-  </div>
-
-
-  <div class="task-card">
-
-    <h4>
-      Telegram Channel Join
-    </h4>
-
-    <p>
-      Join our official channel to get $0.03
-    </p>
-
-    <button
-      class="watch-btn"
-      onclick="claimTask('joinchannel',0.03)">
-
-      Claim
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= REFER ================= -->
-
-<section class="section" id="sec-refer">
-
-  <h2 class="page-title display">
-    Refer & Earn
-  </h2>
-
-  <p class="page-sub">
-    Invite friends and both of you earn rewards
-  </p>
-
-
-  <div class="list-card">
-
-    <h4>
-      Apna Refer Code
-    </h4>
-
-    <div class="refer-code">
-
-      <b id="referCode">
-        EB-7X92K
-      </b>
-
-      <button
-        class="copy-btn"
-        onclick="copyRefer()">
-
-        Copy
-
-      </button>
-
+        <button class="main-btn" onclick="showPage('homePage')">
+            📋 View Tasks
+        </button>
     </div>
 
-  </div>
-
-
-  <div class="list-card">
-
-    <div class="row-between">
-
-      <div>
-
-        <h4>
-          Total Referrals
-        </h4>
-
-        <p>
-          Friends invited so far
-        </p>
-
-      </div>
-
-      <div
-        class="display"
-        style="font-size:22px;color:var(--gold);"
-        id="referCount">
-
-        0
-
-      </div>
-
+    <div class="back" onclick="showPage('homePage')">
+        ‹ Back to Home
     </div>
 
-  </div>
+    <div class="ad-card">
 
+        <div class="big-icon" id="adIcon">⚡</div>
 
-  <div class="list-card">
+        <h2 id="adTitle">Extra Ads</h2>
 
-    <h4>
-      Reward per Referral
-    </h4>
+        <p class="rate">100 Ads = $1.00</p>
 
-    <p>
-      You get $0.10 for every new friend who joins,
-      once they watch their first ad
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- ================= WALLET ================= -->
-
-<section class="section" id="sec-wallet">
-
-  <h2 class="page-title display">
-    Wallet
-  </h2>
-
-  <div class="wallet-balance">
-
-    <div class="num display">
-      <span id="walletMain">$0.00</span>
-    </div>
-
-    <p class="page-sub">
-      Available Balance
-    </p>
-
-  </div>
-
-
-  <div class="wallet-actions">
-
-    <button onclick="requestWithdraw()">
-      Withdraw
-    </button>
-
-    <button onclick="switchSection('task')">
-      Earn More
-    </button>
-
-  </div>
-
-
-  <div class="withdraw-limit">
-    Minimum withdraw <b>$15.00</b>
-    &nbsp;•&nbsp;
-    Maximum withdraw <b>$100.00</b>
-  </div>
-
-
-  <h4 style="margin-top:24px;font-size:14px;color:var(--text-dim);font-weight:800;">
-    Withdraw Currency
-  </h4>
-
-
-  <div class="currency-row">
-
-    <div
-      class="currency-chip active"
-      data-currency="USDT"
-      onclick="selectCurrency(this)">
-
-      <div class="sym">
-        ₮
-      </div>
-
-      <div class="name">
-        USDT
-      </div>
-
-    </div>
-
-
-    <div
-      class="currency-chip"
-      data-currency="USDC"
-      onclick="selectCurrency(this)">
-
-      <div class="sym">
-        Ⓒ
-      </div>
-
-      <div class="name">
-        USDC
-      </div>
-
-    </div>
-
-
-    <div
-      class="currency-chip"
-      data-currency="BTC"
-      onclick="selectCurrency(this)">
-
-      <div class="sym">
-        ₿
-      </div>
-
-      <div class="name">
-        Bitcoin
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <h4 style="margin-top:24px;font-size:14px;color:var(--text-dim);font-weight:800;">
-    Recent Transactions
-  </h4>
-
-
-  <div
-    class="list-card"
-    id="txList"
-    style="margin-top:10px;">
-
-    <p style="color:var(--text-dim);">
-      No transactions yet
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- ================= PROFILE ================= -->
-
-<section class="section" id="sec-profile">
-
-  <h2 class="profile-title display">
-    Profile
-  </h2>
-
-
-  <div class="profile-header">
-
-    <div class="profile-avatar-box">
-
-      <div
-        class="profile-avatar"
-        id="avatarInit">
-
-        U
-
-      </div>
-
-      <div class="online-dot"></div>
-
-    </div>
-
-
-    <div class="profile-info">
-
-      <div
-        class="profile-name"
-        id="profName">
-
-        User
-
-      </div>
-
-      <div
-        class="profile-username"
-        id="profUsername">
-
-        @username
-
-      </div>
-
-      <div
-        class="profile-id"
-        id="profId">
-
-        Telegram ID: —
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div
-    class="profile-rank"
-    onclick="openProfileOption('rank')">
-
-    <div class="rank-badge">
-      🏆
-    </div>
-
-    <div class="rank-details">
-
-      <div class="rank-label">
-        Your Rank
-      </div>
-
-      <div
-        class="rank-value"
-        id="userRank">
-
-        Bronze
-
-      </div>
-
-    </div>
-
-    <div class="rank-arrow">
-      ›
-    </div>
-
-  </div>
-
-
-  <div class="profile-menu">
-
-    <div
-      class="profile-menu-item"
-      onclick="openProfileOption('account')">
-
-      <div class="profile-menu-left">
-
-        <div class="menu-icon">
-          👤
-        </div>
-
-        <div class="menu-text">
-          Account
-        </div>
-
-      </div>
-
-      <div class="menu-arrow">
-        ›
-      </div>
-
-    </div>
-
-
-    <div
-      class="profile-menu-item"
-      onclick="openProfileOption('referrals')">
-
-      <div class="profile-menu-left">
-
-        <div class="menu-icon">
-          🔗
-        </div>
-
-        <div class="menu-text">
-          Referrals
-        </div>
-
-      </div>
-
-      <div class="menu-arrow">
-        ›
-      </div>
-
-    </div>
-
-
-    <div
-      class="profile-menu-item"
-      onclick="openProfileOption('security')">
-
-      <div class="profile-menu-left">
-
-        <div class="menu-icon">
-          🔒
-        </div>
-
-        <div class="menu-text">
-          Security
-        </div>
-
-      </div>
-
-      <div class="menu-arrow">
-        ›
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="profile-menu">
-
-    <div
-      class="profile-menu-item"
-      onclick="openProfileOption('terms')">
-
-      <div class="profile-menu-left">
-
-        <div class="menu-icon">
-          📄
-        </div>
-
-        <div class="menu-text">
-          Terms & Conditions
-        </div>
-
-      </div>
-
-      <div class="menu-arrow">
-        ›
-      </div>
-
-    </div>
-
-
-    <div
-      class="profile-menu-item"
-      onclick="openProfileOption('privacy')">
-
-      <div class="profile-menu-left">
-
-        <div class="menu-icon">
-          🛡️
-        </div>
-
-        <div class="menu-text">
-          Privacy Policy
-        </div>
-
-      </div>
-
-      <div class="menu-arrow">
-        ›
-      </div>
-
-    </div>
-
-
-    <div
-      class="profile-menu-item"
-      onclick="openProfileOption('support')">
-
-      <div class="profile-menu-left">
-
-        <div class="menu-icon">
-          💬
-        </div>
-
-        <div class="menu-text">
-          Help & Support
-        </div>
-
-      </div>
-
-      <div class="menu-arrow">
-        ›
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="profile-menu logout-menu">
-
-    <div
-      class="profile-menu-item logout-item"
-      onclick="logoutUser()">
-
-      <div class="profile-menu-left">
-
-        <div class="menu-icon">
-          🚪
-        </div>
-
-        <div class="menu-text">
-          Log Out
-        </div>
-
-      </div>
-
-      <div class="menu-arrow">
-        ›
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div
-    class="profile-popup"
-    id="profilePopup">
-
-    <div
-      class="popup-backdrop"
-      onclick="closeProfilePopup()">
-    </div>
-
-    <div class="popup-card">
-
-      <div class="popup-top">
-
-        <h3 id="popupTitle">
-          Account
-        </h3>
-
-        <button
-          class="popup-close"
-          onclick="closeProfilePopup()">
-
-          ✕
-
+        <button id="watchButton" class="ad-button" onclick="watchAd()">
+            Watch Ad
         </button>
 
-      </div>
-
-      <div
-        class="popup-body"
-        id="popupContent">
-      </div>
-
     </div>
 
-  </div>
+    <div class="progress">
+        <span>Ads today</span>
+        <span><b id="adCount">0</b> / 50</span>
+    </div>
+
+    <div id="completedMessage" class="completed" style="display:none;">
+        Ads limit completed — come tomorrow
+    </div>
 
 </section>
 
 
-<!-- ================= NAV ================= -->
+<!-- WALLET -->
+<section id="walletPage" class="page wallet" style="display:none;">
 
-<nav class="bottom-nav">
+    <h1>Wallet</h1>
 
-  <button
-    class="nav-btn active"
-    data-target="home">
+    <div class="wallet-balance">
+        <div class="amount">$<span id="walletBalance">0.00</span></div>
+        <p>Available Balance</p>
+    </div>
 
-    <span class="icon">
-      🏠
-    </span>
+    <div class="wallet-buttons">
+        <button class="wallet-btn primary">▣ Withdraw</button>
+        <button class="wallet-btn" onclick="openTasks()">↗ Earn More</button>
+    </div>
 
-    Home
+    <div class="limits">
+        Minimum: <strong>$15.00</strong>
+        &nbsp; • &nbsp;
+        Maximum: <strong>$100.00</strong>
+    </div>
 
-  </button>
+    <div class="currency-box">
+
+        <h2>Withdraw Currency</h2>
+
+        <div class="currencies">
+
+            <div class="currency selected">
+                <div class="coin usdt">₮</div>
+                <h3>USDT</h3>
+                <p>Tether USD</p>
+            </div>
+
+            <div class="currency">
+                <div class="coin usdc">$</div>
+                <h3>USDC</h3>
+                <p>USD Coin</p>
+            </div>
+
+            <div class="currency">
+                <div class="coin btc">₿</div>
+                <h3>BTC</h3>
+                <p>Bitcoin</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="withdraw-box">
+
+        <h2>Request Withdrawal</h2>
+        <p>Enter your payout details carefully.</p>
+
+        <h3 style="margin-top:25px;">Withdrawal Amount</h3>
+
+        <input
+            class="input"
+            type="number"
+            placeholder="Enter amount"
+        >
+
+        <input
+            class="input"
+            type="text"
+            placeholder="USDT / USDC / BTC address"
+        >
+
+        <button class="main-btn">
+            Request Withdrawal
+        </button>
+
+    </div>
+
+    <div class="transactions">
+
+        <h2>Recent Transactions</h2>
+
+        <div id="transactionList">
+
+            <div class="transaction">
+                <div>
+                    No transactions yet
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-  <button
-    class="nav-btn"
-    data-target="task">
+<!-- BOTTOM NAV -->
+<nav class="nav">
 
-    <span class="icon">
-      ✅
-    </span>
+    <div class="nav-item active" onclick="showPage('homePage')">
+        <span class="nav-icon">🏠</span>
+        Home
+    </div>
 
-    Task
+    <div class="nav-item" onclick="openTasks()">
+        <span class="nav-icon">✅</span>
+        Tasks
+    </div>
 
-  </button>
+    <div class="nav-item">
+        <span class="nav-icon">🔗</span>
+        Refer
+    </div>
 
+    <div class="nav-item" onclick="showPage('walletPage')">
+        <span class="nav-icon">💳</span>
+        Wallet
+    </div>
 
-  <button
-    class="nav-btn"
-    data-target="refer">
-
-    <span class="icon">
-      🔗
-    </span>
-
-    Refer
-
-  </button>
-
-
-  <button
-    class="nav-btn"
-    data-target="wallet">
-
-    <span class="icon">
-      💳
-    </span>
-
-    Wallet
-
-  </button>
-
-
-  <button
-    class="nav-btn"
-    data-target="profile">
-
-    <span class="icon">
-      👤
-    </span>
-
-    Profile
-
-  </button>
+    <div class="nav-item">
+        <span class="nav-icon">👤</span>
+        Profile
+    </div>
 
 </nav>
+
+</div>
 
 
 <script>
 
-/* ================= TELEGRAM ================= */
+let balance = 0.00;
+let currentAdType = "";
+let adCount = 0;
+const DAILY_LIMIT = 50;
 
-let tg =
-  window.Telegram
-    ? window.Telegram.WebApp
-    : null;
+function updateBalance(){
 
-if(tg){
-  tg.ready();
-  tg.expand();
+    document.getElementById("topBalance").textContent =
+        balance.toFixed(2);
+
+    document.getElementById("walletBalance").textContent =
+        balance.toFixed(2);
 }
 
 
-/* ================= STATE ================= */
+function hideAllPages(){
 
-const STORAGE_KEY =
-  'earnboard_state_v1';
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("adPage").style.display = "none";
+    document.getElementById("walletPage").style.display = "none";
+}
 
-const AD_LIMIT = 50;
 
-/* 100 ADS = $1.00 */
-const AD_REWARD = 0.01;
+function showPage(page){
 
-function loadState(){
+    hideAllPages();
 
-  const defaults = {
+    document.getElementById(page).style.display = "block";
 
-    balance:0,
-    todayEarned:0,
-    totalEarned:0,
+    if(page === "homePage"){
+        window.scrollTo(0,0);
+    }
+}
 
-    lightWatched:0,
-    proWatched:0,
-    extraWatched:0,
-    premiumWatched:0,
 
-    premium:false,
+function openTasks(){
 
-    checkinDay:1,
-    lastCheckinDate:null,
-    lastAdResetDate:null,
+    showPage("homePage");
 
-    tasksClaimed:{},
+    window.scrollTo({
+        top:500,
+        behavior:"smooth"
+    });
+}
 
-    referCount:0,
 
-    transactions:[],
+function openAdPage(type,icon){
 
-    joinDate:
-      new Date().toLocaleDateString('en-IN')
+    currentAdType = type;
 
-  };
+    document.getElementById("adTitle").textContent = type;
+    document.getElementById("adIcon").textContent = icon;
 
-  const raw =
-    localStorage.getItem(STORAGE_KEY);
+    showPage("adPage");
 
-  if(raw){
+    updateAdUI();
 
-    try{
+    window.scrollTo(0,0);
+}
 
-      const saved =
-        JSON.parse(raw);
 
-      return Object.assign(
-        {},
-        defaults,
-        saved
-      );
+function watchAd(){
 
-    }catch(e){
+    if(adCount >= DAILY_LIMIT){
 
-      return defaults;
-
+        updateAdUI();
+        return;
     }
 
-  }
+    /*
+      Demo reward:
+      100 ads = $1.00
+      Therefore each ad = $0.01
+    */
 
-  return defaults;
+    adCount++;
+    balance += 0.01;
 
-}
+    updateBalance();
+    updateAdUI();
 
-
-let state =
-  loadState();
-
-
-function saveState(){
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(state)
-  );
+    addTransaction();
 
 }
 
 
-/* ================= DAILY RESET ================= */
+function updateAdUI(){
 
-function resetDailyAdsIfNeeded(){
+    document.getElementById("adCount").textContent = adCount;
 
-  const today =
-    new Date().toDateString();
+    const button =
+        document.getElementById("watchButton");
 
-  if(state.lastAdResetDate !== today){
+    const message =
+        document.getElementById("completedMessage");
 
-    state.lightWatched = 0;
-    state.proWatched = 0;
-    state.extraWatched = 0;
-    state.premiumWatched = 0;
+    if(adCount >= DAILY_LIMIT){
 
-    state.todayEarned = 0;
+        button.textContent = "Limit Completed";
+        button.classList.add("disabled");
+        button.disabled = true;
 
-    state.lastAdResetDate = today;
+        message.style.display = "block";
 
-    saveState();
+    }else{
 
-  }
+        button.textContent = "Watch Ad";
+        button.classList.remove("disabled");
+        button.disabled = false;
 
-}
-
-
-/* ================= FORMAT ================= */
-
-function fmt(n){
-
-  return '$' +
-    Number(n).toFixed(2);
-
-}
-
-
-/* ================= RENDER ================= */
-
-function renderTop(){
-
-  document.getElementById(
-    'topBalance'
-  ).textContent =
-    fmt(state.balance);
-
-  document.getElementById(
-    'walletMain'
-  ).textContent =
-    fmt(state.balance);
-
-  document.getElementById(
-    'referCount'
-  ).textContent =
-    state.referCount;
-
-}
-
-
-/* ================= LIMIT MESSAGE ================= */
-
-function limitMessage(watched){
-
-  if(watched >= AD_LIMIT){
-
-    return `
-      <div class="limit-complete">
-        Ads limit completed — come tomorrow
-      </div>
-    `;
-
-  }
-
-  return '';
-
-}
-
-
-/* ================= TIER ================= */
-
-function openTier(tier){
-
-  resetDailyAdsIfNeeded();
-
-  document.getElementById(
-    'quickActions'
-  ).style.display='none';
-
-  document.getElementById(
-    'tierPanel'
-  ).style.display='block';
-
-  renderTierContent(tier);
-
-}
-
-
-function closeTier(){
-
-  document.getElementById(
-    'tierPanel'
-  ).style.display='none';
-
-  document.getElementById(
-    'quickActions'
-  ).style.display='block';
-
-}
-
-
-function renderTierContent(tier){
-
-  resetDailyAdsIfNeeded();
-
-  const el =
-    document.getElementById(
-      'tierContent'
-    );
-
-
-  /* LIGHT */
-
-  if(tier === 'light'){
-
-    el.innerHTML = `
-
-      <div class="ad-card">
-
-        <div class="left">
-
-          <div class="ad-icon light">
-            ▶
-          </div>
-
-          <div>
-
-            <div class="ad-title">
-              Light Ads
-            </div>
-
-            <div class="ad-reward">
-              100 Ads = $1.00
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <button
-          class="watch-btn"
-          onclick="watchAd('light')"
-          ${state.lightWatched>=AD_LIMIT?'disabled':''}>
-
-          ${
-            state.lightWatched>=AD_LIMIT
-            ? 'Limit Completed'
-            : 'Watch Ad'
-          }
-
-        </button>
-
-      </div>
-
-
-      <div class="count-row">
-
-        <span>
-          Ads today
-        </span>
-
-        <span>
-          ${state.lightWatched} / ${AD_LIMIT}
-        </span>
-
-      </div>
-
-      ${limitMessage(state.lightWatched)}
-
-    `;
-
-  }
-
-
-  /* PRO */
-
-  else if(tier === 'pro'){
-
-    el.innerHTML = `
-
-      <div class="ad-card">
-
-        <div class="left">
-
-          <div class="ad-icon pro">
-            ⭐
-          </div>
-
-          <div>
-
-            <div class="ad-title">
-              Pro Ads
-            </div>
-
-            <div class="ad-reward">
-              100 Ads = $1.00
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <button
-          class="watch-btn pro"
-          onclick="watchAd('pro')"
-          ${state.proWatched>=AD_LIMIT?'disabled':''}>
-
-          ${
-            state.proWatched>=AD_LIMIT
-            ? 'Limit Completed'
-            : 'Watch Ad'
-          }
-
-        </button>
-
-      </div>
-
-
-      <div class="count-row">
-
-        <span>
-          Ads today
-        </span>
-
-        <span>
-          ${state.proWatched} / ${AD_LIMIT}
-        </span>
-
-      </div>
-
-      ${limitMessage(state.proWatched)}
-
-    `;
-
-  }
-
-
-  /* EXTRA */
-
-  else if(tier === 'extra'){
-
-    el.innerHTML = `
-
-      <div class="ad-card">
-
-        <div class="left">
-
-          <div class="ad-icon pro">
-            ⚡
-          </div>
-
-          <div>
-
-            <div class="ad-title">
-              Extra Ads
-            </div>
-
-            <div class="ad-reward">
-              100 Ads = $1.00
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <button
-          class="watch-btn pro"
-          onclick="watchAd('extra')"
-          ${state.extraWatched>=AD_LIMIT?'disabled':''}>
-
-          ${
-            state.extraWatched>=AD_LIMIT
-            ? 'Limit Completed'
-            : 'Watch Ad'
-          }
-
-        </button>
-
-      </div>
-
-
-      <div class="count-row">
-
-        <span>
-          Ads today
-        </span>
-
-        <span>
-          ${state.extraWatched} / ${AD_LIMIT}
-        </span>
-
-      </div>
-
-      ${limitMessage(state.extraWatched)}
-
-    `;
-
-  }
-
-
-  /* PREMIUM */
-
-  else{
-
-    el.innerHTML = `
-
-      <div class="premium-card">
-
-        <h3 class="display">
-          Premium Membership
-        </h3>
-
-        <p>
-          Subscribe for $30/month to unlock
-          premium ads.
-        </p>
-
-        <button
-          class="premium-btn"
-          onclick="activatePremium()">
-
-          ${
-            state.premium
-            ? 'Active ✓'
-            : 'Subscribe – $30/month'
-          }
-
-        </button>
-
-      </div>
-
-
-      ${
-        state.premium
-        ? `
-
-          <div class="ad-card">
-
-            <div class="left">
-
-              <div class="ad-icon pro">
-                💎
-              </div>
-
-              <div>
-
-                <div class="ad-title">
-                  Premium Ad
-                </div>
-
-                <div class="ad-reward">
-                  $0.10 – $0.20 per ad
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <button
-              class="watch-btn pro"
-              onclick="watchAd('premium')"
-              ${state.premiumWatched>=35?'disabled':''}>
-
-              ${
-                state.premiumWatched>=35
-                ? 'Done'
-                : 'Watch'
-              }
-
-            </button>
-
-          </div>
-
-
-          <div class="count-row">
-
-            <span>
-              Watched today
-            </span>
-
-            <span>
-              ${state.premiumWatched} / 35
-            </span>
-
-          </div>
-
-        `
-        : ''
-      }
-
-    `;
-
-  }
-
-}
-
-
-/* ================= TRANSACTIONS ================= */
-
-function renderTx(){
-
-  const list =
-    document.getElementById(
-      'txList'
-    );
-
-
-  if(
-    state.transactions.length===0
-  ){
-
-    list.innerHTML =
-      '<p style="color:var(--text-dim);">No transactions yet</p>';
-
-    return;
-
-  }
-
-
-  list.innerHTML =
-    state.transactions
-      .slice(0,10)
-      .map(tx=>`
-
-        <div class="tx-item">
-
-          <div>
-
-            <div>
-              ${tx.label}
-            </div>
-
-            <div class="meta">
-              ${tx.date}
-            </div>
-
-          </div>
-
-          <div class="tx-amount plus">
-            +${fmt(tx.amount)}
-          </div>
-
-        </div>
-
-      `)
-      .join('');
-
-}
-
-
-/* ================= EARNINGS ================= */
-
-function addEarning(amount,label){
-
-  state.balance += amount;
-
-  state.todayEarned += amount;
-
-  state.totalEarned += amount;
-
-  state.transactions.unshift({
-
-    label:label,
-
-    amount:amount,
-
-    date:
-      new Date().toLocaleString('en-IN')
-
-  });
-
-  saveState();
-
-  renderTop();
-
-  renderTx();
-
-}
-
-
-/* ================= ADS ================= */
-
-function watchAd(tier){
-
-  resetDailyAdsIfNeeded();
-
-  let watchedKey;
-
-
-  if(tier==='light'){
-
-    watchedKey =
-      'lightWatched';
-
-  }
-
-  else if(tier==='pro'){
-
-    watchedKey =
-      'proWatched';
-
-  }
-
-  else if(tier==='extra'){
-
-    watchedKey =
-      'extraWatched';
-
-  }
-
-  else{
-
-    watchedKey =
-      'premiumWatched';
-
-  }
-
-
-  const limit =
-    tier==='premium'
-    ? 35
-    : AD_LIMIT;
-
-
-  if(
-    tier==='premium' &&
-    !state.premium
-  ){
-
-    showToast(
-      'Premium is not active'
-    );
-
-    return;
-
-  }
-
-
-  if(
-    state[watchedKey] >= limit
-  ){
-
-    showToast(
-      'Ads limit completed — come tomorrow'
-    );
-
-    renderTierContent(tier);
-
-    return;
-
-  }
-
-
-  state[watchedKey]++;
-
-
-  let reward;
-
-
-  if(tier==='premium'){
-
-    reward =
-      Math.random() *
-      (.20-.10)
-      +.10;
-
-    reward =
-      Math.round(reward*100)/100;
-
-  }
-
-  else{
-
-    reward =
-      AD_REWARD;
-
-  }
-
-
-  const label =
-    tier==='light'
-    ? 'Light Ad'
-    : tier==='pro'
-    ? 'Pro Ad'
-    : tier==='extra'
-    ? 'Extra Ad'
-    : 'Premium Ad';
-
-
-  addEarning(
-    reward,
-    label + ' Reward'
-  );
-
-
-  showToast(
-    '+'+
-    fmt(reward)+
-    ' earned!'
-  );
-
-
-  renderTierContent(tier);
-
-}
-
-
-/* ================= PREMIUM ================= */
-
-function activatePremium(){
-
-  if(state.premium){
-
-    showToast(
-      'Premium is already active'
-    );
-
-    return;
-
-  }
-
-
-  state.premium=true;
-
-  saveState();
-
-  renderTierContent('premium');
-
-  showToast(
-    'Premium activated!'
-  );
-
-}
-
-
-/* ================= CHECKIN ================= */
-
-const STREAK_REWARDS = [
-  .02,
-  .03,
-  .04,
-  .05,
-  .06,
-  .08,
-  .10
-];
-
-
-function getPendingCheckinDay(){
-
-  const today =
-    new Date().toDateString();
-
-  const yesterday =
-    new Date(
-      Date.now()-86400000
-    ).toDateString();
-
-
-  if(
-    state.lastCheckinDate===today
-  )
-    return state.checkinDay;
-
-
-  if(
-    state.lastCheckinDate===yesterday
-  ){
-
-    return state.checkinDay>=7
-      ? 1
-      : state.checkinDay+1;
-
-  }
-
-
-  return 1;
-
-}
-
-
-function renderStreak(){
-
-  const today =
-    new Date().toDateString();
-
-
-  const grid =
-    document.getElementById(
-      'streakGrid'
-    );
-
-
-  const btn =
-    document.getElementById(
-      'checkinBtn'
-    );
-
-
-  const claimedToday =
-    state.lastCheckinDate===today;
-
-
-  const pending =
-    getPendingCheckinDay();
-
-
-  const doneCount =
-    claimedToday
-    ? state.checkinDay
-    : pending-1;
-
-
-  let html='';
-
-
-  for(
-    let i=1;
-    i<=7;
-    i++
-  ){
-
-    const isDone =
-      i<=doneCount;
-
-
-    const isCurrent =
-      i===pending &&
-      !claimedToday;
-
-
-    html += `
-
-      <div
-        class="streak-day
-        ${isDone?'done':''}
-        ${isCurrent?'current':''}">
-
-        <div class="d">
-          Day ${i}
-        </div>
-
-        <div class="r">
-
-          ${
-            isDone
-            ? '✓'
-            : '$'+
-              STREAK_REWARDS[i-1]
-              .toFixed(2)
-          }
-
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
-
-  grid.innerHTML =
-    html;
-
-
-  if(claimedToday){
-
-    btn.disabled=true;
-
-    btn.textContent =
-      'Claimed for today — come back tomorrow';
-
-  }
-
-  else{
-
-    btn.disabled=false;
-
-    btn.textContent =
-      'Watch Ad to Claim Day '+
-      pending+
-      ' – $'+
-      STREAK_REWARDS[pending-1]
-      .toFixed(2);
-
-  }
-
-}
-
-
-function watchAdForCheckin(){
-
-  const today =
-    new Date().toDateString();
-
-
-  if(
-    state.lastCheckinDate===today
-  )
-    return;
-
-
-  const btn =
-    document.getElementById(
-      'checkinBtn'
-    );
-
-
-  btn.disabled=true;
-
-  btn.textContent =
-    'Watching Ad…';
-
-
-  showToast(
-    'Ad playing…'
-  );
-
-
-  setTimeout(
-    ()=>{
-      claimCheckin();
-    },
-    2000
-  );
-
-}
-
-
-function claimCheckin(){
-
-  const today =
-    new Date().toDateString();
-
-
-  if(
-    state.lastCheckinDate===today
-  )
-    return;
-
-
-  const dayToClaim =
-    getPendingCheckinDay();
-
-
-  const reward =
-    STREAK_REWARDS[
-      dayToClaim-1
-    ];
-
-
-  state.checkinDay =
-    dayToClaim;
-
-
-  state.lastCheckinDate =
-    today;
-
-
-  addEarning(
-    reward,
-    'Day '+
-    dayToClaim+
-    ' Check-in'
-  );
-
-
-  showToast(
-    '+'+
-    fmt(reward)+
-    ' earned! Day '+
-    dayToClaim+
-    ' streak'
-  );
-
-
-  renderStreak();
-
-}
-
-
-/* ================= TASKS ================= */
-
-function claimTask(id,amount){
-
-  if(
-    state.tasksClaimed[id]
-  ){
-
-    showToast(
-      'This task has already been claimed'
-    );
-
-    return;
-
-  }
-
-
-  state.tasksClaimed[id]=true;
-
-
-  addEarning(
-    amount,
-    'Task Reward'
-  );
-
-
-  showToast(
-    '+'+
-    fmt(amount)+
-    ' earned from task!'
-  );
-
-}
-
-
-/* ================= WALLET ================= */
-
-let selectedCurrency =
-  'USDT';
-
-
-function selectCurrency(el){
-
-  document
-    .querySelectorAll('.currency-chip')
-    .forEach(
-      c=>c.classList.remove('active')
-    );
-
-
-  el.classList.add('active');
-
-
-  selectedCurrency =
-    el.dataset.currency;
-
-}
-
-
-function requestWithdraw(){
-
-  if(
-    state.balance<15
-  ){
-
-    showToast(
-      'Minimum withdraw is $15.00, your balance is too low'
-    );
-
-    return;
-
-  }
-
-
-  showToast(
-    'Withdraw request sent ('+
-    selectedCurrency+
-    ')'
-  );
-
-}
-
-
-/* ================= REFER ================= */
-
-function copyRefer(){
-
-  const code =
-    document.getElementById(
-      'referCode'
-    ).textContent;
-
-
-  if(
-    navigator.clipboard
-  ){
-
-    navigator.clipboard
-      .writeText(code);
-
-  }
-
-
-  showToast(
-    'Referral code copied'
-  );
-
-}
-
-
-/* ================= TOAST ================= */
-
-function showToast(msg){
-
-  const t =
-    document.getElementById(
-      'toast'
-    );
-
-
-  t.textContent =
-    msg;
-
-  t.classList.add(
-    'show'
-  );
-
-
-  setTimeout(
-    ()=>{
-      t.classList.remove(
-        'show'
-      );
-    },
-    1800
-  );
-
-}
-
-
-/* ================= NAVIGATION ================= */
-
-function switchSection(target){
-
-  document
-    .querySelectorAll('.section')
-    .forEach(
-      s=>s.classList.remove('active')
-    );
-
-
-  const section =
-    document.getElementById(
-      'sec-'+target
-    );
-
-
-  if(section)
-    section.classList.add('active');
-
-
-  document
-    .querySelectorAll('.nav-btn')
-    .forEach(
-      b=>{
-        b.classList.toggle(
-          'active',
-          b.dataset.target===target
-        );
-      }
-    );
-
-}
-
-
-document
-  .querySelectorAll('.nav-btn')
-  .forEach(
-    btn=>{
-
-      btn.addEventListener(
-        'click',
-        ()=>{
-          switchSection(
-            btn.dataset.target
-          );
-        }
-      );
-
+        message.style.display = "none";
     }
-  );
-
-
-/* ================= PROFILE ================= */
-
-function openProfileOption(type){
-
-  const popup =
-    document.getElementById(
-      'profilePopup'
-    );
-
-
-  const title =
-    document.getElementById(
-      'popupTitle'
-    );
-
-
-  const content =
-    document.getElementById(
-      'popupContent'
-    );
-
-
-  let html='';
-
-
-  if(type==='rank'){
-
-    title.textContent =
-      'Your Rank';
-
-
-    html=`
-
-      <div style="
-        text-align:center;
-        padding:10px 0 20px;
-      ">
-
-        <div style="
-          font-size:58px;
-        ">
-          🏆
-        </div>
-
-        <div style="
-          color:var(--gold);
-          font-size:25px;
-          font-weight:900;
-          margin-top:5px;
-        ">
-          ${
-            document
-              .getElementById('userRank')
-              .textContent
-          }
-        </div>
-
-        <p style="
-          margin-top:8px;
-        ">
-          Keep completing tasks,
-          watching ads and earning rewards
-          to improve your rank.
-        </p>
-
-      </div>
-
-    `;
-
-  }
-
-
-  else if(type==='account'){
-
-    title.textContent =
-      'Account';
-
-
-    html=`
-
-      <div class="popup-row">
-        <span>Name</span>
-        <b>
-          ${
-            document
-              .getElementById('profName')
-              .textContent
-          }
-        </b>
-      </div>
-
-      <div class="popup-row">
-        <span>Username</span>
-        <b>
-          ${
-            document
-              .getElementById('profUsername')
-              .textContent
-          }
-        </b>
-      </div>
-
-      <div class="popup-row">
-        <span>Telegram ID</span>
-        <b>
-          ${
-            document
-              .getElementById('profId')
-              .textContent
-              .replace(
-                'Telegram ID: ',
-                ''
-              )
-          }
-        </b>
-      </div>
-
-      <div class="popup-row">
-        <span>Balance</span>
-        <b>
-          ${fmt(state.balance)}
-        </b>
-      </div>
-
-      <div class="popup-row">
-        <span>Total Earned</span>
-        <b>
-          ${fmt(state.totalEarned)}
-        </b>
-      </div>
-
-    `;
-
-  }
-
-
-  else if(type==='referrals'){
-
-    title.textContent =
-      'Referrals';
-
-
-    html=`
-
-      <div class="popup-row">
-        <span>Referral Code</span>
-        <b>
-          ${
-            document
-              .getElementById('referCode')
-              .textContent
-          }
-        </b>
-      </div>
-
-      <div class="popup-row">
-        <span>Total Referrals</span>
-        <b>
-          ${state.referCount}
-        </b>
-      </div>
-
-      <div class="popup-row">
-        <span>Reward Per Referral</span>
-        <b>
-          $0.10
-        </b>
-      </div>
-
-    `;
-
-  }
-
-
-  else if(type==='security'){
-
-    title.textContent =
-      'Security';
-
-
-    html=`
-
-      <div class="popup-row">
-        <span>Telegram Login</span>
-        <b style="color:#3DDC97;">
-          Connected ✓
-        </b>
-      </div>
-
-      <div class="popup-row">
-        <span>Account Protection</span>
-        <b>
-          Active
-        </b>
-      </div>
-
-      <p style="margin-top:15px;">
-        Your EarnBoard account is connected
-        with Telegram WebApp.
-      </p>
-
-    `;
-
-  }
-
-
-  else if(type==='terms'){
-
-    title.textContent =
-      'Terms & Conditions';
-
-
-    html=`
-
-      <p>
-        By using EarnBoard, you agree to
-        follow the platform rules and
-        applicable task requirements.
-      </p>
-
-      <p style="margin-top:12px;">
-        Rewards may be subject to verification.
-        Fraudulent or abusive activity may
-        result in account restrictions.
-      </p>
-
-    `;
-
-  }
-
-
-  else if(type==='privacy'){
-
-    title.textContent =
-      'Privacy Policy';
-
-
-    html=`
-
-      <p>
-        EarnBoard uses information provided
-        through Telegram WebApp to identify
-        your account and provide platform
-        features.
-      </p>
-
-      <p style="margin-top:12px;">
-        We aim to keep account information
-        protected and only use information
-        required for the service.
-      </p>
-
-    `;
-
-  }
-
-
-  else if(type==='support'){
-
-    title.textContent =
-      'Help & Support';
-
-
-    html=`
-
-      <p>
-        Need help with your account,
-        tasks or withdrawal?
-      </p>
-
-      <button
-        onclick="showToast('Support will be available soon')"
-        style="
-          margin-top:15px;
-          width:100%;
-          padding:14px;
-          border:0;
-          border-radius:12px;
-          background:var(--gold);
-          color:#171200;
-          font-weight:900;
-          font-size:14px;
-          cursor:pointer;
-        ">
-
-        Contact Support
-
-      </button>
-
-    `;
-
-  }
-
-
-  content.innerHTML =
-    html;
-
-
-  popup.classList.add(
-    'show'
-  );
-
 }
 
 
-function closeProfilePopup(){
+function addTransaction(){
 
-  document
-    .getElementById('profilePopup')
-    .classList.remove('show');
+    const list =
+        document.getElementById("transactionList");
 
-}
-
-
-/* ================= LOGOUT ================= */
-
-function logoutUser(){
-
-  const confirmed =
-    confirm(
-      'Are you sure you want to log out?'
-    );
-
-
-  if(!confirmed)
-    return;
-
-
-  localStorage.removeItem(
-    STORAGE_KEY
-  );
-
-
-  showToast(
-    'Logged out'
-  );
-
-
-  setTimeout(
-    ()=>{
-      location.reload();
-    },
-    700
-  );
-
-}
-
-
-/* ================= TELEGRAM PROFILE ================= */
-
-function initProfile(){
-
-  let user =
-    tg &&
-    tg.initDataUnsafe &&
-    tg.initDataUnsafe.user;
-
-
-  if(user){
-
-    const fullName =
-      (
-        (user.first_name || '')+
-        ' '+
-        (user.last_name || '')
-      ).trim();
-
-
-    document.getElementById(
-      'profName'
-    ).textContent =
-      fullName || 'User';
-
-
-    document.getElementById(
-      'profUsername'
-    ).textContent =
-      user.username
-      ? '@'+user.username
-      : '@username';
-
-
-    document.getElementById(
-      'profId'
-    ).textContent =
-      'Telegram ID: '+user.id;
-
-
-    document.getElementById(
-      'referCode'
-    ).textContent =
-      'EB-'+
-      user.id.toString().slice(-6);
-
-
-    const avatar =
-      document.getElementById(
-        'avatarInit'
-      );
-
-
-    if(user.photo_url){
-
-      avatar.innerHTML =
-        `<img src="${user.photo_url}" alt="Profile">`;
-
+    if(list.innerHTML.includes("No transactions yet")){
+        list.innerHTML = "";
     }
 
-    else{
+    const item = document.createElement("div");
 
-      avatar.textContent =
-        (
-          user.first_name ||
-          'U'
-        )
-        .charAt(0)
-        .toUpperCase();
+    item.className = "transaction";
 
-    }
+    item.innerHTML = `
+        <div>
+            ${currentAdType} Reward
+            <small>${new Date().toLocaleString()}</small>
+        </div>
 
-  }
+        <strong>+$0.01</strong>
+    `;
 
-  else{
-
-    document.getElementById(
-      'profName'
-    ).textContent =
-      'User';
-
-    document.getElementById(
-      'profUsername'
-    ).textContent =
-      '@username';
-
-    document.getElementById(
-      'profId'
-    ).textContent =
-      'Telegram ID: —';
-
-  }
-
+    list.prepend(item);
 }
 
 
-/* ================= BOOT ================= */
-
-resetDailyAdsIfNeeded();
-
-initProfile();
-
-renderTop();
-
-renderTx();
-
-renderStreak();
+updateBalance();
 
 </script>
 
