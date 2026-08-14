@@ -2,52 +2,39 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<meta
-  name="viewport"
-  content="width=device-width,
-  initial-scale=1.0,
-  maximum-scale=1.0,
-  user-scalable=no"
->
-
-<title>INBOX DOLLARS</title>
+<title>Inbox Dollars</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 
-/* =========================================================
-   GLOBAL
-========================================================= */
-
 :root{
   --bg:#07090d;
-  --bg2:#0b0d12;
-  --card:#11141b;
-  --card2:#151821;
-  --border:#242934;
+  --card:#10131a;
+  --card2:#0c0f15;
+  --border:#252a34;
 
-  --text:#f7f7fa;
-  --muted:#9298a6;
+  --gold:#ffc21c;
+  --gold2:#ffb900;
 
-  --gold:#ffc72c;
-  --gold-light:#ffdb67;
+  --text:#f7f7f8;
+  --muted:#969ba7;
 
-  --usdt:#26d77d;
-  --usdt-dark:#0b3d27;
+  --green:#18d96b;
+  --green-bg:rgba(24,217,107,.10);
 
-  --usdc:#277cff;
-  --usdc-dark:#0b234d;
+  --blue:#277cff;
+  --blue-bg:rgba(39,124,255,.10);
 
-  --btc:#f7931a;
-  --btc-dark:#432609;
+  --orange:#ff9d00;
+  --orange-bg:rgba(255,157,0,.10);
 
-  --green:#35d49a;
-  --red:#ff6969;
+  --danger:#ff6262;
 
   --radius:20px;
-  --nav-height:68px;
+  --nav-h:70px;
 }
 
 *{
@@ -61,35 +48,37 @@ html{
 }
 
 body{
-  min-height:100vh;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
   background:
     radial-gradient(
-      circle at 90% 0%,
-      rgba(255,199,44,.07),
-      transparent 30%
+      circle at 50% -10%,
+      rgba(255,194,28,.055),
+      transparent 35%
     ),
     var(--bg);
 
   color:var(--text);
+  min-height:100vh;
 
-  font-family:
-    Inter,
-    "Segoe UI",
-    system-ui,
-    -apple-system,
-    sans-serif;
-
-  padding-bottom:
-    calc(var(--nav-height) + 18px);
+  padding-bottom:calc(var(--nav-h) + 25px);
 }
 
 button,
-input{
-  font:inherit;
+input,
+select{
+  font-family:inherit;
 }
 
 button{
-  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
 }
 
 .display{
@@ -101,28 +90,26 @@ button{
   font-weight:900;
 }
 
-/* =========================================================
+/* =========================================
    TOP BAR
-========================================================= */
+========================================= */
 
 .topbar{
-  height:62px;
-
   display:flex;
   align-items:center;
   justify-content:space-between;
 
-  padding:0 17px;
-
-  background:
-    rgba(8,10,14,.94);
-
-  border-bottom:
-    1px solid rgba(255,255,255,.04);
+  padding:18px 20px 12px;
 
   position:sticky;
   top:0;
-  z-index:30;
+  z-index:40;
+
+  background:rgba(7,9,13,.92);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+
+  border-bottom:1px solid rgba(255,255,255,.025);
 }
 
 .brand{
@@ -134,21 +121,20 @@ button{
 .brand-dot{
   width:10px;
   height:10px;
-
   border-radius:50%;
 
   background:var(--gold);
 
   box-shadow:
-    0 0 12px
-    rgba(255,199,44,.85);
+    0 0 8px rgba(255,194,28,.75),
+    0 0 18px rgba(255,194,28,.35);
 }
 
 .brand-name{
-  font-size:14px;
+  font-size:15px;
   font-weight:900;
   letter-spacing:.08em;
-  color:#f2f2f4;
+  text-transform:uppercase;
 }
 
 .balance-pill{
@@ -156,28 +142,29 @@ button{
   align-items:center;
   gap:6px;
 
-  padding:7px 12px;
+  padding:7px 13px;
 
-  background:#11141a;
-
+  background:#11141b;
   border:1px solid var(--border);
 
   border-radius:999px;
 
-  font-size:12px;
+  font-size:13px;
+  color:var(--muted);
 }
 
 .balance-pill b{
   color:var(--gold);
+  font-size:14px;
 }
 
-/* =========================================================
+/* =========================================
    SECTIONS
-========================================================= */
+========================================= */
 
 .section{
-  display:none;
   padding:0 18px;
+  display:none;
 }
 
 .section.active{
@@ -193,80 +180,53 @@ button{
 
   to{
     opacity:1;
-    transform:none;
+    transform:translateY(0);
   }
 }
 
 .page-title{
   font-size:24px;
-  margin:18px 0 4px;
+  margin:20px 0 4px;
+  font-weight:900;
 }
 
 .page-sub{
   color:var(--muted);
   font-size:13px;
-  line-height:1.5;
+  margin-bottom:10px;
 }
 
-/* =========================================================
+/* =========================================
    HOME
-========================================================= */
+========================================= */
 
 .hero{
-  position:relative;
-  overflow:hidden;
-
-  margin-top:10px;
-
-  padding:24px 20px;
-
-  border-radius:22px;
-
-  border:1px solid var(--border);
-
-  background:
-    linear-gradient(
-      145deg,
-      #191c23,
-      #0f1116
-    );
-}
-
-.hero:after{
-  content:"";
-
-  position:absolute;
-
-  width:190px;
-  height:190px;
-
-  right:-85px;
-  top:-85px;
+  margin-top:8px;
+  padding:24px;
 
   background:
     radial-gradient(
-      circle,
-      rgba(255,199,44,.18),
-      transparent 70%
-    );
+      circle at 90% 0%,
+      rgba(255,194,28,.10),
+      transparent 35%
+    ),
+    var(--card);
+
+  border:1px solid var(--border);
+  border-radius:var(--radius);
 }
 
 .eyebrow{
   color:var(--muted);
-
-  font-size:10px;
-
+  font-size:11px;
   font-weight:800;
-
-  letter-spacing:.15em;
-
+  letter-spacing:.12em;
   text-transform:uppercase;
 }
 
 .headline{
-  font-size:32px;
+  font-size:31px;
   line-height:1.12;
-
   margin-top:10px;
 }
 
@@ -275,59 +235,53 @@ button{
 }
 
 .hero-sub{
-  margin-top:10px;
-
   color:var(--muted);
-
   font-size:13px;
-
-  line-height:1.5;
+  line-height:1.55;
+  margin-top:11px;
 }
 
-.primary-btn{
+.hero-btn{
   width:100%;
-
-  border:0;
-
-  border-radius:13px;
-
-  padding:14px;
-
   margin-top:18px;
 
-  background:var(--gold);
-
-  color:#171100;
-
-  font-weight:900;
-}
-
-.section-heading{
-  margin:23px 0 11px;
-
-  font-size:14px;
-
-  font-weight:900;
-}
-
-.quick{
-  display:flex;
-  align-items:center;
-
-  gap:13px;
+  border:0;
+  border-radius:14px;
 
   padding:14px;
 
-  margin-bottom:10px;
+  background:var(--gold);
+  color:#171000;
+
+  font-size:15px;
+  font-weight:900;
+
+  cursor:pointer;
+}
+
+.qa-heading{
+  font-size:14px;
+  font-weight:900;
+  margin:24px 0 12px;
+}
+
+.qa-card{
+  display:flex;
+  align-items:center;
+  gap:14px;
 
   background:var(--card);
 
   border:1px solid var(--border);
+  border-radius:16px;
 
-  border-radius:17px;
+  padding:14px 15px;
+  margin-bottom:11px;
+
+  cursor:pointer;
 }
 
-.quick-icon{
+.qa-icon{
   width:45px;
   height:45px;
 
@@ -337,240 +291,155 @@ button{
 
   border-radius:13px;
 
-  background:#251e09;
+  background:#1c180b;
 
-  font-size:20px;
+  font-size:19px;
 }
 
-.quick-info{
+.qa-text{
   flex:1;
 }
 
-.quick-info b{
+.qa-text h4{
   font-size:14px;
+  font-weight:800;
 }
 
-.quick-info p{
+.qa-text p{
   margin-top:3px;
-
   color:var(--muted);
-
-  font-size:11px;
+  font-size:11.5px;
 }
 
-.arrow{
+.qa-arrow{
   color:var(--gold);
   font-size:22px;
 }
 
-/* =========================================================
-   COMMON CARD
-========================================================= */
+/* =========================================
+   CARDS
+========================================= */
 
-.card{
-  margin-top:14px;
+.list-card,
+.task-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
 
   padding:16px;
-
-  background:var(--card);
-
-  border:1px solid var(--border);
-
-  border-radius:18px;
+  margin-top:13px;
 }
 
-.card-title{
+.list-card h4,
+.task-card h4{
   font-size:14px;
-  font-weight:900;
+  font-weight:850;
 }
 
-.card-sub{
-  margin-top:4px;
-
+.list-card p,
+.task-card p{
   color:var(--muted);
-
   font-size:12px;
-
   line-height:1.5;
+  margin-top:4px;
 }
 
-/* =========================================================
-   ADS
-========================================================= */
+/* =========================================
+   BUTTONS
+========================================= */
 
-.ad-card{
-  margin-top:14px;
+.primary-btn{
+  width:100%;
+  border:0;
 
-  padding:20px;
+  background:var(--gold);
+  color:#171000;
 
-  text-align:center;
+  border-radius:13px;
+  padding:13px;
 
-  background:var(--card);
+  font-weight:900;
+  font-size:14px;
+
+  cursor:pointer;
+}
+
+.secondary-btn{
+  width:100%;
 
   border:1px solid var(--border);
+  background:#11141a;
+  color:var(--text);
 
-  border-radius:18px;
-}
+  border-radius:13px;
+  padding:13px;
 
-.ad-icon{
-  width:54px;
-  height:54px;
+  font-weight:800;
+  font-size:14px;
 
-  margin:auto;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:15px;
-
-  background:#241e0b;
-
-  font-size:23px;
-}
-
-.ad-title{
-  margin-top:10px;
-
-  font-size:16px;
-
-  font-weight:900;
-}
-
-.ad-reward{
-  margin-top:4px;
-
-  color:var(--muted);
-
-  font-size:12px;
+  cursor:pointer;
 }
 
 .watch-btn{
   width:100%;
-
-  margin-top:14px;
-
-  padding:12px;
+  margin-top:12px;
 
   border:0;
-
   border-radius:12px;
 
   background:var(--gold);
+  color:#171000;
 
-  color:#171100;
+  padding:12px;
 
+  font-size:14px;
   font-weight:900;
+
+  cursor:pointer;
 }
 
 .watch-btn:disabled{
   background:#292d35;
-  color:#777d88;
+  color:#858a94;
 }
 
-.count-row{
-  display:flex;
-  justify-content:space-between;
-
-  margin-top:12px;
-
-  color:var(--muted);
-
-  font-size:11px;
-}
-
-.back-row{
-  display:flex;
-  align-items:center;
-
-  gap:8px;
-
-  margin-top:9px;
-
-  color:var(--muted);
-
-  font-size:13px;
-
-  font-weight:700;
-}
-
-.back-row span:first-child{
-  color:var(--gold);
-  font-size:22px;
-}
-
-/* =========================================================
-   TASKS
-========================================================= */
-
-.task-card{
-  margin-top:14px;
-
-  padding:16px;
-
-  background:var(--card);
-
-  border:1px solid var(--border);
-
-  border-radius:18px;
-}
-
-.task-card h4{
-  font-size:14px;
-}
-
-.task-card p{
-  margin-top:4px;
-
-  color:var(--muted);
-
-  font-size:12px;
-
-  line-height:1.5;
-}
+/* =========================================
+   STREAK
+========================================= */
 
 .streak-grid{
   display:grid;
-
-  grid-template-columns:
-    repeat(7,1fr);
-
+  grid-template-columns:repeat(7,1fr);
   gap:5px;
-
   margin-top:14px;
 }
 
 .streak-day{
-  padding:7px 2px;
-
-  text-align:center;
-
-  background:var(--card2);
-
+  background:#151820;
   border:1px solid var(--border);
 
   border-radius:9px;
+
+  padding:8px 2px;
+
+  text-align:center;
 }
 
 .streak-day .d{
-  color:var(--muted);
   font-size:8px;
+  color:var(--muted);
+  font-weight:800;
 }
 
 .streak-day .r{
-  margin-top:4px;
-
   font-size:10px;
-
   font-weight:900;
+  margin-top:4px;
 }
 
 .streak-day.done{
-  background:
-    rgba(255,199,44,.08);
-
-  border-color:
-    var(--gold);
+  border-color:var(--gold);
+  background:rgba(255,194,28,.08);
 }
 
 .streak-day.done .r{
@@ -578,670 +447,848 @@ button{
 }
 
 .streak-day.current{
-  box-shadow:
-    0 0 0 1px var(--gold);
+  border-color:var(--gold);
+  box-shadow:0 0 0 1px rgba(255,194,28,.35);
 }
 
-/* =========================================================
+/* =========================================
    REFER
-========================================================= */
+========================================= */
 
-.refer-box{
+.refer-code{
   display:flex;
   align-items:center;
   justify-content:space-between;
 
   margin-top:12px;
 
-  padding:12px;
-
-  background:var(--card2);
-
-  border:1px dashed #796126;
+  padding:12px 13px;
 
   border-radius:12px;
+
+  background:#151820;
+
+  border:1px dashed #735c20;
 }
 
-.refer-box b{
+.refer-code b{
   color:var(--gold);
-
   letter-spacing:.08em;
 }
 
 .copy-btn{
-  padding:6px 11px;
-
-  background:none;
-
   border:1px solid var(--gold);
-
+  background:transparent;
   color:var(--gold);
 
+  padding:6px 11px;
   border-radius:8px;
 
   font-size:11px;
+  font-weight:800;
 }
 
-.profile-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+/* =========================================
+   WALLET
+========================================= */
 
-.profile-row span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* =========================================================
-   WALLET HEADER
-========================================================= */
-
-.wallet-main{
-  padding:25px 0 8px;
-
+.wallet-balance{
   text-align:center;
+  padding-top:8px;
 }
 
-.wallet-main .amount{
-  font-size:45px;
-
+.wallet-number{
+  font-size:50px;
   line-height:1;
+  font-weight:900;
 }
 
-.wallet-main small{
-  display:block;
-
-  margin-top:9px;
-
+.wallet-label{
   color:var(--muted);
-
-  font-size:12px;
+  margin-top:7px;
+  font-size:13px;
 }
 
 .wallet-actions{
-  display:flex;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 
-  gap:9px;
-
-  margin-top:14px;
+  margin-top:24px;
 }
 
-.wallet-actions button{
-  flex:1;
+.wallet-action{
+  height:58px;
 
-  padding:13px;
+  border-radius:16px;
 
-  border-radius:13px;
-
-  border:1px solid var(--border);
-
-  background:var(--card);
-
-  color:var(--text);
-
+  font-size:15px;
   font-weight:900;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
 }
 
-.wallet-actions button:first-child{
-  background:var(--gold);
-
-  color:#171100;
-
+.withdraw-action{
   border:0;
+  background:var(--gold);
+  color:#171000;
 }
 
-.limit{
-  margin-top:10px;
+.earn-action{
+  background:#0d1117;
+  border:1px solid #424752;
+  color:#fff;
+}
 
+.withdraw-limits{
   text-align:center;
 
   color:var(--muted);
 
-  font-size:11px;
+  font-size:13px;
+
+  margin-top:16px;
 }
 
-.limit b{
+.withdraw-limits b{
   color:var(--gold);
 }
 
-/* =========================================================
-   WITHDRAW CURRENCY
-   STACKED COLORED BOXES
-========================================================= */
+/* =========================================
+   CURRENCY CONTAINER
+========================================= */
 
-.currency-title{
-  margin-bottom:12px;
+.currency-section{
+  margin-top:24px;
 
-  font-size:15px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.015),
+      rgba(255,255,255,.005)
+    ),
+    #0e1218;
 
-  font-weight:900;
+  border:1px solid #303640;
+
+  border-radius:20px;
+
+  padding:18px 12px 20px;
 }
 
-.currency-list{
-  display:flex;
+.currency-title{
+  font-size:17px;
+  font-weight:900;
 
-  flex-direction:column;
+  padding:0 4px 15px;
+}
 
-  gap:10px;
+/*
+   THREE CURRENCY BOXES
+*/
+
+.currency-grid{
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:12px;
 }
 
 .currency-card{
   position:relative;
 
-  width:100%;
+  min-width:0;
+
+  height:198px;
+
+  border-radius:18px;
+
+  background:#0c1016;
+
+  border:1px solid #242a34;
 
   display:flex;
+  flex-direction:column;
 
   align-items:center;
+  justify-content:center;
 
-  gap:14px;
-
-  padding:14px;
-
-  border-radius:17px;
-
-  background:#0e1016;
-
-  border:1px solid var(--border);
+  cursor:pointer;
 
   transition:
-    .2s ease;
-
-  overflow:hidden;
+    transform .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
 }
 
-.currency-card:before{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  top:0;
-  bottom:0;
-
-  width:4px;
-
-  border-radius:
-    17px 0 0 17px;
+.currency-card:active{
+  transform:scale(.97);
 }
 
 /* USDT */
 
-.currency-card.usdt:before{
-  background:var(--usdt);
-}
-
-.currency-card.usdt.active{
-  border-color:var(--usdt);
+.currency-card.usdt.selected{
+  border-color:var(--green);
 
   background:
-    linear-gradient(
-      90deg,
-      rgba(38,215,125,.12),
-      #0e1016 65%
-    );
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(24,217,107,.16),
+      transparent 58%
+    ),
+    var(--green-bg);
 
   box-shadow:
-    0 0 20px
-    rgba(38,215,125,.08);
+    0 0 0 1px rgba(24,217,107,.2),
+    0 0 22px rgba(24,217,107,.16);
 }
 
 /* USDC */
 
-.currency-card.usdc:before{
-  background:var(--usdc);
-}
-
-.currency-card.usdc.active{
-  border-color:var(--usdc);
+.currency-card.usdc.selected{
+  border-color:var(--blue);
 
   background:
-    linear-gradient(
-      90deg,
-      rgba(39,124,255,.12),
-      #0e1016 65%
-    );
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(39,124,255,.17),
+      transparent 58%
+    ),
+    var(--blue-bg);
 
   box-shadow:
-    0 0 20px
-    rgba(39,124,255,.08);
+    0 0 0 1px rgba(39,124,255,.2),
+    0 0 22px rgba(39,124,255,.16);
 }
 
 /* BTC */
 
-.currency-card.btc:before{
-  background:var(--btc);
-}
-
-.currency-card.btc.active{
-  border-color:var(--btc);
+.currency-card.btc.selected{
+  border-color:var(--orange);
 
   background:
-    linear-gradient(
-      90deg,
-      rgba(247,147,26,.12),
-      #0e1016 65%
-    );
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(255,157,0,.16),
+      transparent 58%
+    ),
+    var(--orange-bg);
 
   box-shadow:
-    0 0 20px
-    rgba(247,147,26,.08);
+    0 0 0 1px rgba(255,157,0,.2),
+    0 0 22px rgba(255,157,0,.16);
 }
 
-.currency-logo{
-  position:relative;
+/* =========================================
+   CRYPTO LOGO CIRCLES
+========================================= */
 
-  flex-shrink:0;
+.coin-logo{
+  width:78px;
+  height:78px;
 
-  width:52px;
-  height:52px;
+  border-radius:50%;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  border-radius:50%;
+  margin-bottom:13px;
 
-  font-size:24px;
+  position:relative;
 
+  overflow:hidden;
+}
+
+/* USDT */
+
+.usdt .coin-logo{
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #2eea86,
+      #0b9e50 70%
+    );
+
+  box-shadow:
+    0 7px 20px rgba(24,217,107,.20);
+}
+
+/* USDC */
+
+.usdc .coin-logo{
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #3f91ff,
+      #1762d8 70%
+    );
+
+  box-shadow:
+    0 7px 20px rgba(39,124,255,.20);
+}
+
+/* BTC */
+
+.btc .coin-logo{
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffb52e,
+      #ef8500 70%
+    );
+
+  box-shadow:
+    0 7px 20px rgba(255,157,0,.22);
+}
+
+.coin-logo svg{
+  width:52px;
+  height:52px;
+}
+
+/* Currency text */
+
+.currency-name{
+  font-size:19px;
   font-weight:900;
+
+  letter-spacing:.01em;
 }
 
-.currency-card.usdt
-.currency-logo{
-  background:
-    rgba(38,215,125,.15);
+.currency-full{
+  color:#a9adb5;
 
-  color:var(--usdt);
+  font-size:12px;
+
+  margin-top:6px;
 }
 
-.currency-card.usdc
-.currency-logo{
-  background:
-    rgba(39,124,255,.15);
-
-  color:#69a3ff;
-}
-
-.currency-card.btc
-.currency-logo{
-  background:
-    rgba(247,147,26,.15);
-
-  color:var(--btc);
-}
-
-.currency-info{
-  flex:1;
-}
-
-.currency-info b{
-  display:block;
-
-  font-size:16px;
-
-  font-weight:900;
-}
-
-.currency-info span{
-  display:block;
-
-  margin-top:3px;
-
-  color:var(--muted);
-
-  font-size:11px;
-}
+/* selected check */
 
 .currency-check{
+  position:absolute;
+
+  right:8px;
+  top:8px;
+
   width:25px;
   height:25px;
+
+  border-radius:50%;
 
   display:none;
 
   align-items:center;
   justify-content:center;
 
-  border-radius:50%;
+  color:#071008;
 
-  font-size:13px;
-
-  font-weight:900;
+  font-size:15px;
+  font-weight:1000;
 }
 
-.currency-card.active
-.currency-check{
+.usdt.selected .currency-check{
   display:flex;
+  background:var(--green);
 }
 
-.currency-card.usdt
-.currency-check{
-  background:var(--usdt);
-
-  color:#03150d;
-}
-
-.currency-card.usdc
-.currency-check{
-  background:var(--usdc);
-
+.usdc.selected .currency-check{
+  display:flex;
+  background:var(--blue);
   color:white;
 }
 
-.currency-card.btc
-.currency-check{
-  background:var(--btc);
-
-  color:#251300;
+.btc.selected .currency-check{
+  display:flex;
+  background:var(--orange);
+  color:#1a1000;
 }
 
-/* =========================================================
-   WITHDRAW FORM
-========================================================= */
+/* =========================================
+   WITHDRAW REQUEST CARD
+========================================= */
 
-.withdraw-title{
-  font-size:16px;
+.withdraw-card{
+  margin-top:20px;
 
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.018),
+      rgba(255,255,255,.005)
+    ),
+    #0e1218;
+
+  border:1px solid #303640;
+
+  border-radius:20px;
+
+  padding:20px 16px;
+}
+
+.withdraw-card-title{
+  font-size:19px;
   font-weight:900;
 }
 
-.input-label{
+.withdraw-card-sub{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:5px;
+  margin-bottom:22px;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.form-group{
+  margin-top:17px;
+}
+
+.form-label{
   display:block;
 
-  margin:
-    14px 0 6px;
+  color:#aeb2bb;
 
-  color:var(--muted);
-
-  font-size:11px;
-
+  font-size:13px;
   font-weight:800;
+
+  margin-bottom:9px;
 }
 
 .input-wrap{
   position:relative;
 }
 
-.input{
+.input-icon{
+  position:absolute;
+
+  left:16px;
+  top:50%;
+
+  transform:translateY(-50%);
+
+  color:#8e949e;
+
+  font-size:20px;
+
+  pointer-events:none;
+}
+
+.form-input{
   width:100%;
 
-  padding:13px;
+  height:58px;
+
+  padding:0 15px 0 48px;
+
+  border-radius:16px;
+
+  border:1px solid #252b35;
+
+  background:#080b10;
+
+  color:#fff;
 
   outline:none;
 
-  color:var(--text);
-
-  background:#080a0e;
-
-  border:
-    1px solid var(--border);
-
-  border-radius:13px;
-
   font-size:14px;
+
+  transition:border-color .2s, box-shadow .2s;
 }
 
-.input:focus{
+.form-input:focus{
   border-color:var(--gold);
 
   box-shadow:
-    0 0 0 2px
-    rgba(255,199,44,.07);
+    0 0 0 3px rgba(255,194,28,.08);
 }
 
-.input::placeholder{
-  color:#676d79;
+.form-input::placeholder{
+  color:#626771;
 }
 
-.withdraw-note{
-  margin-top:13px;
+.address-input{
+  padding-left:48px;
+  padding-right:50px;
+}
 
-  padding:12px;
+.qr-icon{
+  position:absolute;
 
-  border:
-    1px solid #55451c;
+  right:15px;
+  top:50%;
 
-  border-radius:12px;
+  transform:translateY(-50%);
+
+  color:#9da2aa;
+
+  font-size:21px;
+
+  cursor:pointer;
+}
+
+/* =========================================
+   NETWORK
+========================================= */
+
+.network-wrap{
+  display:none;
+}
+
+.network-wrap.show{
+  display:block;
+}
+
+.network-select{
+  width:100%;
+
+  height:53px;
+
+  padding:0 14px;
+
+  border-radius:14px;
+
+  border:1px solid #292f39;
+
+  background:#090c11;
+
+  color:#fff;
+
+  outline:none;
+
+  font-size:13px;
+}
+
+/* =========================================
+   WARNING
+========================================= */
+
+.warning{
+  display:flex;
+
+  gap:11px;
+
+  margin-top:18px;
+
+  padding:14px;
+
+  border-radius:15px;
+
+  border:1px solid #5a4613;
 
   background:
-    rgba(91,72,15,.18);
+    linear-gradient(
+      135deg,
+      rgba(255,194,28,.10),
+      rgba(255,194,28,.035)
+    );
+}
 
-  color:#cfc59f;
+.warning-icon{
+  font-size:19px;
+  flex-shrink:0;
+}
 
-  font-size:10.5px;
+.warning-text{
+  color:#d7d0bd;
+
+  font-size:12px;
 
   line-height:1.55;
 }
 
-.submit-withdraw{
+.warning-text strong{
+  color:#ffd85a;
+}
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+.submit-btn{
   width:100%;
 
-  margin-top:14px;
+  height:58px;
 
-  padding:14px;
+  margin-top:20px;
 
   border:0;
 
-  border-radius:13px;
+  border-radius:16px;
 
-  background:var(--gold);
+  background:
+    linear-gradient(
+      135deg,
+      #ffd12f,
+      #ffb900
+    );
 
-  color:#171100;
+  color:#151000;
 
-  font-weight:900;
+  font-size:15px;
+  font-weight:1000;
 
-  font-size:14px;
-}
-
-.submit-withdraw:active{
-  transform:scale(.99);
-}
-
-/* =========================================================
-   TRANSACTIONS
-========================================================= */
-
-.tx{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  padding:12px 0;
-
-  border-bottom:
-    1px solid #20232b;
-}
-
-.tx:last-child{
-  border-bottom:0;
-}
-
-.tx-title{
-  font-size:12px;
-}
-
-.tx-date{
-  margin-top:3px;
-
-  color:var(--muted);
-
-  font-size:10px;
-}
-
-.tx-amount{
-  font-size:12px;
-
-  font-weight:900;
-}
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-.profile-head{
-  display:flex;
-
-  align-items:center;
-
-  gap:13px;
-
-  margin-top:15px;
-}
-
-.avatar{
-  width:56px;
-  height:56px;
+  cursor:pointer;
 
   display:flex;
-
   align-items:center;
   justify-content:center;
 
+  gap:10px;
+
+  box-shadow:
+    0 7px 20px rgba(255,194,28,.12);
+}
+
+.submit-btn:active{
+  transform:scale(.985);
+}
+
+/* =========================================
+   TRANSACTIONS
+========================================= */
+
+.tx-item{
+  display:flex;
+  justify-content:space-between;
+
+  padding:13px 0;
+
+  border-bottom:1px solid #232831;
+
+  font-size:13px;
+}
+
+.tx-item:last-child{
+  border-bottom:0;
+}
+
+.tx-meta{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.tx-plus{
+  color:var(--green);
+  font-weight:900;
+}
+
+.tx-pending{
+  color:var(--gold);
+  font-weight:800;
+}
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.profile-head{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  margin-top:18px;
+}
+
+.avatar{
+  width:58px;
+  height:58px;
+
   border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   background:
     linear-gradient(
       135deg,
       var(--gold),
-      var(--gold-light)
+      #ff8f00
     );
 
-  color:#181200;
+  color:#171000;
 
   font-size:21px;
-
   font-weight:900;
 }
 
-.uid{
-  margin-top:3px;
-
+.profile-id{
   color:var(--muted);
-
-  font-size:11px;
+  font-size:12px;
+  margin-top:3px;
 }
 
-/* =========================================================
+/* =========================================
    BOTTOM NAV
-========================================================= */
+========================================= */
 
 .bottom-nav{
   position:fixed;
-
-  z-index:50;
 
   left:0;
   right:0;
   bottom:0;
 
-  height:var(--nav-height);
+  height:var(--nav-h);
+
+  z-index:100;
 
   display:flex;
 
   background:
-    rgba(15,17,23,.97);
+    rgba(13,16,22,.96);
 
-  border-top:
-    1px solid var(--border);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
 
-  padding-bottom:
-    env(safe-area-inset-bottom);
+  border-top:1px solid #242932;
 }
 
 .nav-btn{
   flex:1;
 
-  display:flex;
+  border:0;
+  background:none;
 
+  color:#777d88;
+
+  display:flex;
   flex-direction:column;
 
   align-items:center;
-
   justify-content:center;
 
-  gap:3px;
+  gap:4px;
 
-  border:0;
-
-  background:none;
-
-  color:#777d89;
-
-  font-size:9px;
+  cursor:pointer;
 }
 
-.nav-btn .icon{
-  font-size:18px;
+.nav-icon{
+  font-size:21px;
+  line-height:1;
+}
+
+.nav-label{
+  font-size:10px;
+  font-weight:700;
 }
 
 .nav-btn.active{
   color:var(--gold);
 }
 
-/* =========================================================
+.nav-btn.active .nav-icon{
+  filter:drop-shadow(0 0 6px rgba(255,194,28,.25));
+}
+
+/* =========================================
    TOAST
-========================================================= */
+========================================= */
 
 .toast{
   position:fixed;
 
-  z-index:100;
-
-  top:16px;
+  top:18px;
   left:50%;
 
   transform:
-    translate(-50%,-20px);
+    translateX(-50%)
+    translateY(-15px);
 
-  padding:10px 15px;
+  z-index:300;
 
-  border-radius:10px;
+  background:#171b22;
 
-  background:var(--gold);
+  border:1px solid #343a45;
 
-  color:#171100;
+  color:#fff;
+
+  padding:11px 17px;
+
+  border-radius:12px;
 
   font-size:12px;
-
-  font-weight:900;
+  font-weight:800;
 
   opacity:0;
 
   pointer-events:none;
 
-  transition:.25s;
+  transition:.25s ease;
+
+  white-space:nowrap;
 }
 
 .toast.show{
   opacity:1;
 
   transform:
-    translate(-50%,0);
+    translateX(-50%)
+    translateY(0);
+}
+
+/* =========================================
+   MOBILE OPTIMIZATION
+========================================= */
+
+@media(max-width:380px){
+
+  .section{
+    padding:0 13px;
+  }
+
+  .currency-grid{
+    gap:7px;
+  }
+
+  .currency-card{
+    height:170px;
+    border-radius:15px;
+  }
+
+  .coin-logo{
+    width:62px;
+    height:62px;
+  }
+
+  .coin-logo svg{
+    width:43px;
+    height:43px;
+  }
+
+  .currency-name{
+    font-size:16px;
+  }
+
+  .currency-full{
+    font-size:10px;
+  }
+
+  .wallet-number{
+    font-size:45px;
+  }
 }
 
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =======================================================
-     TOAST
-======================================================= -->
-
-<div
-  class="toast"
-  id="toast">
-</div>
-
-
-<!-- =======================================================
+<!-- =========================================
      TOP BAR
-======================================================= -->
+========================================= -->
 
 <header class="topbar">
 
@@ -1250,158 +1297,135 @@ button{
     <span class="brand-dot"></span>
 
     <span class="brand-name">
-      INBOX DOLLARS 💌
+      INBOX DOLLARS
     </span>
 
   </div>
 
-
   <div class="balance-pill">
-
     💰
-
-    <b id="topBalance">
-      $0.00
-    </b>
-
+    <b id="topBalance">$0.00</b>
   </div>
 
 </header>
 
 
-<!-- =======================================================
+<!-- =========================================
      HOME
-======================================================= -->
+========================================= -->
 
-<section
-  class="section active"
-  id="sec-home">
+<section class="section active" id="sec-home">
 
   <div class="hero">
 
     <div class="eyebrow">
-      Telegram Rewards Platform
+      Welcome to Inbox Dollars
     </div>
 
     <div class="headline display">
-
-      Earn
-      <span class="gold">More.</span>
-
-      <br>
-
-      Get
-      <span class="gold">Paid.</span>
-
+      Earn <span class="gold">More.</span><br>
+      Get <span class="gold">Paid.</span>
     </div>
 
     <div class="hero-sub">
-
-      Watch ads, complete tasks,
-      invite friends and build
-      your rewards balance.
-
+      Watch ads, complete tasks, invite friends,
+      and build your rewards balance.
     </div>
 
-
     <button
-      class="primary-btn"
-      onclick="switchSection('task')">
-
+      class="hero-btn"
+      onclick="switchSection('task')"
+    >
       📋 View Tasks
-
     </button>
 
   </div>
 
 
-  <div id="quickActions">
+  <div class="qa-heading">
+    Quick Actions
+  </div>
 
-    <div class="section-heading">
-      Quick Actions
+
+  <div
+    class="qa-card"
+    onclick="openTier('light')"
+  >
+
+    <div class="qa-icon">
+      ▶️
     </div>
 
+    <div class="qa-text">
 
-    <div
-      class="quick"
-      onclick="openTier('light')">
+      <h4>
+        Light Ads
+      </h4>
 
-      <div class="quick-icon">
-        ▶️
-      </div>
-
-      <div class="quick-info">
-
-        <b>
-          Light Ads
-        </b>
-
-        <p>
-          $0.01 – $0.05 per ad ·
-          35 ads/day
-        </p>
-
-      </div>
-
-      <div class="arrow">
-        ›
-      </div>
+      <p>
+        $0.01 – $0.05 per ad · 35 ads/day
+      </p>
 
     </div>
 
+    <div class="qa-arrow">
+      ›
+    </div>
 
-    <div
-      class="quick"
-      onclick="openTier('pro')">
+  </div>
 
-      <div class="quick-icon">
-        ⭐
-      </div>
 
-      <div class="quick-info">
+  <div
+    class="qa-card"
+    onclick="openTier('pro')"
+  >
 
-        <b>
-          Pro Ads
-        </b>
+    <div class="qa-icon">
+      ⭐
+    </div>
 
-        <p>
-          $0.05 – $0.10 per ad ·
-          35 ads/day
-        </p>
+    <div class="qa-text">
 
-      </div>
+      <h4>
+        Pro Ads
+      </h4>
 
-      <div class="arrow">
-        ›
-      </div>
+      <p>
+        $0.05 – $0.10 per ad · 35 ads/day
+      </p>
 
     </div>
 
+    <div class="qa-arrow">
+      ›
+    </div>
 
-    <div
-      class="quick"
-      onclick="openTier('premium')">
+  </div>
 
-      <div class="quick-icon">
-        💎
-      </div>
 
-      <div class="quick-info">
+  <div
+    class="qa-card"
+    onclick="openTier('premium')"
+  >
 
-        <b>
-          Premium Membership
-        </b>
+    <div class="qa-icon">
+      💎
+    </div>
 
-        <p>
-          $30/month · Premium rewards
-        </p>
+    <div class="qa-text">
 
-      </div>
+      <h4>
+        Premium Membership
+      </h4>
 
-      <div class="arrow">
-        ›
-      </div>
+      <p>
+        35 ads/day · $0.10 – $0.20 per ad
+      </p>
 
+    </div>
+
+    <div class="qa-arrow">
+      ›
     </div>
 
   </div>
@@ -1409,73 +1433,64 @@ button{
 
   <div
     id="tierPanel"
-    style="display:none">
+    style="display:none;"
+  >
 
     <div
-      class="back-row"
-      onclick="closeTier()">
-
-      <span>‹</span>
-
-      <span>
-        Back to Home
-      </span>
-
+      onclick="closeTier()"
+      style="
+        margin-top:15px;
+        color:var(--gold);
+        font-weight:800;
+        cursor:pointer;
+      "
+    >
+      ‹ Back to Home
     </div>
 
-
-    <div
-      id="tierContent">
-    </div>
+    <div id="tierContent"></div>
 
   </div>
 
 </section>
 
 
-<!-- =======================================================
-     TASKS
-======================================================= -->
+<!-- =========================================
+     TASK
+========================================= -->
 
-<section
-  class="section"
-  id="sec-task">
+<section class="section" id="sec-task">
 
   <h2 class="page-title display">
     Tasks
   </h2>
 
   <p class="page-sub">
-    Complete tasks and increase
-    your rewards.
+    Complete these tasks to earn extra rewards
   </p>
 
 
   <div class="task-card">
 
     <h4>
-      🔥 Daily Check-in Streak
+      Daily Check-in Streak
     </h4>
 
     <p>
-      Check in every day and
-      increase your daily reward.
+      Check in every day — reward grows each day.
     </p>
-
 
     <div
       class="streak-grid"
-      id="streakGrid">
-    </div>
-
+      id="streakGrid"
+    ></div>
 
     <button
       class="watch-btn"
       id="checkinBtn"
-      onclick="watchAdForCheckin()">
-
+      onclick="watchAdForCheckin()"
+    >
       Claim
-
     </button>
 
   </div>
@@ -1484,21 +1499,18 @@ button{
   <div class="task-card">
 
     <h4>
-      📺 Watch 3 Ads
+      Watch 3 Ads
     </h4>
 
     <p>
-      Complete 3 ads in one day
-      and receive a $0.05 bonus.
+      Complete 3 ads in one day — bonus $0.05
     </p>
-
 
     <button
       class="watch-btn"
-      onclick="claimTask('ads3',0.05)">
-
-      Claim $0.05
-
+      onclick="claimTask('ads3',0.05)"
+    >
+      Claim
     </button>
 
   </div>
@@ -1507,21 +1519,18 @@ button{
   <div class="task-card">
 
     <h4>
-      📢 Join Official Channel
+      Telegram Channel Join
     </h4>
 
     <p>
-      Join the official Telegram
-      channel to receive your reward.
+      Join our official channel to get $0.03
     </p>
-
 
     <button
       class="watch-btn"
-      onclick="claimTask('joinchannel',0.03)">
-
-      Claim $0.03
-
+      onclick="claimTask('joinchannel',0.03)"
+    >
+      Claim
     </button>
 
   </div>
@@ -1529,43 +1538,38 @@ button{
 </section>
 
 
-<!-- =======================================================
+<!-- =========================================
      REFER
-======================================================= -->
+========================================= -->
 
-<section
-  class="section"
-  id="sec-refer">
+<section class="section" id="sec-refer">
 
   <h2 class="page-title display">
     Refer & Earn
   </h2>
 
   <p class="page-sub">
-    Invite friends and earn rewards.
+    Invite friends and both of you earn rewards
   </p>
 
 
-  <div class="card">
+  <div class="list-card">
 
-    <div class="card-title">
+    <h4>
       Your Referral Code
-    </div>
+    </h4>
 
-
-    <div class="refer-box">
+    <div class="refer-code">
 
       <b id="referCode">
-        EB-000000
+        EB-7X92K
       </b>
-
 
       <button
         class="copy-btn"
-        onclick="copyRefer()">
-
+        onclick="copyRefer()"
+      >
         Copy
-
       </button>
 
     </div>
@@ -1573,94 +1577,98 @@ button{
   </div>
 
 
-  <div class="card">
+  <div class="list-card">
 
-    <div class="profile-row">
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+      "
+    >
 
       <div>
 
-        <div class="card-title">
+        <h4>
           Total Referrals
-        </div>
+        </h4>
 
-        <div class="card-sub">
-          Friends invited
-        </div>
+        <p>
+          Friends invited so far
+        </p>
 
       </div>
 
-
-      <b
+      <strong
         id="referCount"
         style="
-          font-size:22px;
+          font-size:24px;
           color:var(--gold);
-        ">
-
+        "
+      >
         0
-
-      </b>
+      </strong>
 
     </div>
 
   </div>
 
 
-  <div class="card">
+  <div class="list-card">
 
-    <div class="card-title">
-      Referral Reward
-    </div>
+    <h4>
+      Reward per Referral
+    </h4>
 
-    <div class="card-sub">
-
-      Earn $0.10 when a new
-      referral joins and completes
-      their first eligible activity.
-
-    </div>
+    <p>
+      You get $0.10 for every new friend who joins,
+      once they watch their first ad.
+    </p>
 
   </div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =========================================
      WALLET
-======================================================= -->
+========================================= -->
 
-<section
-  class="section"
-  id="sec-wallet">
-
+<section class="section" id="sec-wallet">
 
   <h2 class="page-title display">
     Wallet
   </h2>
 
 
-  <div class="wallet-main">
+  <div class="wallet-balance">
 
     <div
-      class="amount display"
-      id="walletMain">
-
+      class="wallet-number display"
+      id="walletMain"
+    >
       $0.00
-
     </div>
 
-
-    <small>
+    <div class="wallet-label">
       Available Balance
-    </small>
+    </div>
 
   </div>
 
 
+  <!-- ACTION BUTTONS -->
+
   <div class="wallet-actions">
 
     <button
-      onclick="openWithdraw()">
+      class="wallet-action withdraw-action"
+      onclick="scrollToWithdraw()"
+    >
+
+      <span style="font-size:20px;">
+        ▣
+      </span>
 
       Withdraw
 
@@ -1668,7 +1676,13 @@ button{
 
 
     <button
-      onclick="switchSection('task')">
+      class="wallet-action earn-action"
+      onclick="switchSection('task')"
+    >
+
+      <span style="font-size:20px;">
+        ↗
+      </span>
 
       Earn More
 
@@ -1677,7 +1691,7 @@ button{
   </div>
 
 
-  <div class="limit">
+  <div class="withdraw-limits">
 
     Minimum:
     <b>$15.00</b>
@@ -1690,114 +1704,271 @@ button{
   </div>
 
 
-  <!-- =====================================================
-       CURRENCY SELECTOR
-  ====================================================== -->
+  <!-- =====================================
+       CURRENCY SECTION
+  ====================================== -->
 
-  <div class="card">
+  <div
+    class="currency-section"
+    id="currencySection"
+  >
 
     <div class="currency-title">
       Withdraw Currency
     </div>
 
 
-    <div class="currency-list">
+    <div class="currency-grid">
 
 
-      <!-- USDT -->
+      <!-- ================================
+           USDT
+      ================================= -->
 
       <div
-        class="currency-card usdt active"
+        class="currency-card usdt selected"
         data-currency="USDT"
-        onclick="selectCurrency(this)">
-
-
-        <div class="currency-logo">
-          ₮
-        </div>
-
-
-        <div class="currency-info">
-
-          <b>
-            USDT
-          </b>
-
-          <span>
-            Tether USD
-          </span>
-
-        </div>
-
+        onclick="selectCurrency(this)"
+      >
 
         <div class="currency-check">
           ✓
         </div>
 
+
+        <div class="coin-logo">
+
+          <!-- TETHER SVG LOGO -->
+
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+
+            <circle
+              cx="50"
+              cy="50"
+              r="50"
+              fill="none"
+            />
+
+            <path
+              d="
+                M26 25
+                H74
+                V37
+                H57
+                V70
+                C57 75 53 78 50 78
+                C47 78 43 75 43 70
+                V37
+                H26 Z
+              "
+              fill="white"
+            />
+
+            <path
+              d="
+                M20 28
+                H80
+                V38
+                H20 Z
+              "
+              fill="white"
+            />
+
+            <ellipse
+              cx="50"
+              cy="48"
+              rx="28"
+              ry="8"
+              fill="none"
+              stroke="white"
+              stroke-width="4"
+            />
+
+          </svg>
+
+        </div>
+
+
+        <div class="currency-name">
+          USDT
+        </div>
+
+        <div class="currency-full">
+          Tether USD
+        </div>
+
       </div>
 
 
-      <!-- USDC -->
+      <!-- ================================
+           USDC
+      ================================= -->
 
       <div
         class="currency-card usdc"
         data-currency="USDC"
-        onclick="selectCurrency(this)">
-
-
-        <div class="currency-logo">
-          ◉
-        </div>
-
-
-        <div class="currency-info">
-
-          <b>
-            USDC
-          </b>
-
-          <span>
-            USD Coin
-          </span>
-
-        </div>
-
+        onclick="selectCurrency(this)"
+      >
 
         <div class="currency-check">
           ✓
+        </div>
+
+
+        <div class="coin-logo">
+
+          <!-- USDC STYLE SVG LOGO -->
+
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+
+            <circle
+              cx="50"
+              cy="50"
+              r="42"
+              fill="none"
+              stroke="white"
+              stroke-width="8"
+            />
+
+            <path
+              d="
+                M35 29
+                C29 34 26 41 26 50
+                C26 59 29 66 35 71
+              "
+              fill="none"
+              stroke="white"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="
+                M65 29
+                C71 34 74 41 74 50
+                C74 59 71 66 65 71
+              "
+              fill="none"
+              stroke="white"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+
+            <text
+              x="50"
+              y="67"
+              text-anchor="middle"
+              font-size="48"
+              font-weight="900"
+              fill="white"
+              font-family="Arial"
+            >
+              $
+            </text>
+
+          </svg>
+
+        </div>
+
+
+        <div class="currency-name">
+          USDC
+        </div>
+
+        <div class="currency-full">
+          USD Coin
         </div>
 
       </div>
 
 
-      <!-- BITCOIN -->
+      <!-- ================================
+           BITCOIN
+      ================================= -->
 
       <div
         class="currency-card btc"
         data-currency="BTC"
-        onclick="selectCurrency(this)">
-
-
-        <div class="currency-logo">
-          ₿
-        </div>
-
-
-        <div class="currency-info">
-
-          <b>
-            BTC
-          </b>
-
-          <span>
-            Bitcoin
-          </span>
-
-        </div>
-
+        onclick="selectCurrency(this)"
+      >
 
         <div class="currency-check">
           ✓
+        </div>
+
+
+        <div class="coin-logo">
+
+          <!-- BITCOIN SVG LOGO -->
+
+          <svg
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+
+            <path
+              d="
+                M56 18
+                V26
+                C68 27 75 33 75 43
+                C75 49 72 54 67 57
+                C73 60 77 65 77 72
+                C77 83 68 89 56 90
+                V98
+                H48
+                V90
+                H39
+                V98
+                H31
+                V90
+                H23
+                V80
+                H31
+                V30
+                H23
+                V20
+                H31
+                V12
+                H39
+                V20
+                H48
+                V12
+                H56 Z
+
+                M42 30
+                V48
+                H51
+                C58 48 63 45 63 39
+                C63 33 58 30 51 30
+                Z
+
+                M42 58
+                V80
+                H53
+                C61 80 66 76 66 69
+                C66 62 61 58 53 58
+                Z
+              "
+              fill="white"
+            />
+
+          </svg>
+
+        </div>
+
+
+        <div class="currency-name">
+          BTC
+        </div>
+
+        <div class="currency-full">
+          Bitcoin
         </div>
 
       </div>
@@ -1808,96 +1979,158 @@ button{
   </div>
 
 
-  <!-- =====================================================
-       WITHDRAW FORM
-  ====================================================== -->
+  <!-- =====================================
+       WITHDRAWAL FORM
+  ====================================== -->
 
   <div
-    class="card"
-    id="withdrawBox"
-    style="display:none">
+    class="withdraw-card"
+    id="withdrawCard"
+  >
 
-
-    <div class="withdraw-title">
-
+    <div class="withdraw-card-title">
       Request Withdrawal
+    </div>
+
+    <div class="withdraw-card-sub">
+      Enter your payout details carefully.
+    </div>
+
+
+    <!-- AMOUNT -->
+
+    <div class="form-group">
+
+      <label class="form-label">
+        Withdrawal Amount
+      </label>
+
+      <div class="input-wrap">
+
+        <span class="input-icon">
+          $
+        </span>
+
+        <input
+          class="form-input"
+          id="withdrawAmount"
+          type="number"
+          min="15"
+          max="100"
+          step="0.01"
+          placeholder="Minimum $15.00"
+        >
+
+      </div>
 
     </div>
 
 
-    <div class="card-sub">
+    <!-- WALLET ADDRESS -->
 
-      Enter your payout details
-      carefully.
+    <div class="form-group">
+
+      <label class="form-label">
+        Wallet Address
+      </label>
+
+      <div class="input-wrap">
+
+        <span class="input-icon">
+          ▣
+        </span>
+
+        <input
+          class="form-input address-input"
+          id="walletAddress"
+          type="text"
+          placeholder="Enter your crypto wallet address"
+          autocomplete="off"
+        >
+
+        <span
+          class="qr-icon"
+          onclick="showToast('QR scanner will be connected later')"
+        >
+          ▣
+        </span>
+
+      </div>
 
     </div>
 
 
-    <label class="input-label">
+    <!-- NETWORK -->
 
-      Withdrawal Amount
+    <div
+      class="form-group network-wrap show"
+      id="networkWrap"
+    >
 
-    </label>
+      <label class="form-label">
+        Network
+      </label>
 
-
-    <div class="input-wrap">
-
-      <input
-        class="input"
-        id="withdrawAmount"
-        type="number"
-        min="15"
-        max="100"
-        step="0.01"
-        placeholder="Minimum $15.00"
+      <select
+        class="network-select"
+        id="networkSelect"
       >
 
-    </div>
+        <option value="TRC20">
+          TRON — TRC20
+        </option>
 
+        <option value="ERC20">
+          Ethereum — ERC20
+        </option>
 
-    <label class="input-label">
+        <option value="BEP20">
+          BNB Smart Chain — BEP20
+        </option>
 
-      Wallet Address
-
-    </label>
-
-
-    <div class="input-wrap">
-
-      <input
-        class="input"
-        id="walletAddress"
-        type="text"
-        autocomplete="off"
-        placeholder="Enter your crypto wallet address"
-      >
+      </select>
 
     </div>
 
 
-    <div class="withdraw-note">
+    <!-- WARNING -->
 
-      ⚠️ Make sure the wallet address
-      matches the selected currency
-      and network.
+    <div class="warning">
 
-      <br><br>
+      <div class="warning-icon">
+        ⚠️
+      </div>
 
-      Incorrect addresses may result
-      in loss of funds.
+      <div class="warning-text">
 
-      <br><br>
+        <strong>
+          Make sure the wallet address matches the selected currency/network.
+        </strong>
 
-      Withdrawal requests require
-      backend/admin verification before
-      any real payout.
+        <br>
+
+        Incorrect addresses may result in loss of funds.
+
+        <br>
+
+        Withdrawal requests require backend/admin verification
+        before any real payout.
+
+      </div>
 
     </div>
 
+
+    <!-- SUBMIT -->
 
     <button
-      class="submit-withdraw"
-      onclick="submitWithdrawal()">
+      class="submit-btn"
+      onclick="requestWithdraw()"
+    >
+
+      <span style="font-size:20px;">
+        ➤
+      </span>
 
       Submit Withdrawal Request
 
@@ -1906,39 +2139,42 @@ button{
   </div>
 
 
-  <!-- =====================================================
+  <!-- =====================================
        TRANSACTIONS
-  ====================================================== -->
+  ====================================== -->
 
-  <div class="card">
+  <h4
+    style="
+      margin-top:24px;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:900;
+    "
+  >
+    Recent Transactions
+  </h4>
 
-    <div class="card-title">
-      Recent Transactions
-    </div>
 
+  <div
+    class="list-card"
+    id="txList"
+    style="margin-top:10px;"
+  >
 
-    <div
-      id="txList"
-      style="margin-top:8px">
-
-      <div class="card-sub">
-        No transactions yet.
-      </div>
-
-    </div>
+    <p>
+      No transactions yet
+    </p>
 
   </div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =========================================
      PROFILE
-======================================================= -->
+========================================= -->
 
-<section
-  class="section"
-  id="sec-profile">
+<section class="section" id="sec-profile">
 
   <h2 class="page-title display">
     Profile
@@ -1949,30 +2185,28 @@ button{
 
     <div
       class="avatar"
-      id="avatarInit">
-
+      id="avatarInit"
+    >
       U
-
     </div>
-
 
     <div>
 
       <div
-        style="font-weight:800"
-        id="profName">
-
+        id="profName"
+        style="
+          font-size:17px;
+          font-weight:900;
+        "
+      >
         User
-
       </div>
 
-
       <div
-        class="uid"
-        id="profId">
-
+        class="profile-id"
+        id="profId"
+      >
         Telegram ID: —
-
       </div>
 
     </div>
@@ -1980,9 +2214,14 @@ button{
   </div>
 
 
-  <div class="card">
+  <div class="list-card">
 
-    <div class="profile-row">
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+      "
+    >
 
       <span>
         Joining Date
@@ -1997,9 +2236,14 @@ button{
   </div>
 
 
-  <div class="card">
+  <div class="list-card">
 
-    <div class="profile-row">
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+      "
+    >
 
       <span>
         Total Earned
@@ -2014,9 +2258,14 @@ button{
   </div>
 
 
-  <div class="card">
+  <div class="list-card">
 
-    <div class="profile-row">
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+      "
+    >
 
       <span>
         Premium Status
@@ -2024,10 +2273,9 @@ button{
 
       <b
         id="profPremium"
-        style="color:var(--muted)">
-
+        style="color:var(--muted);"
+      >
         Inactive
-
       </b>
 
     </div>
@@ -2037,113 +2285,132 @@ button{
 </section>
 
 
-<!-- =======================================================
+<!-- =========================================
      BOTTOM NAV
-======================================================= -->
+========================================= -->
 
 <nav class="bottom-nav">
 
-
   <button
     class="nav-btn active"
-    data-target="home">
+    data-target="home"
+  >
 
-    <span class="icon">
+    <span class="nav-icon">
       🏠
     </span>
 
-    Home
+    <span class="nav-label">
+      Home
+    </span>
 
   </button>
 
 
   <button
     class="nav-btn"
-    data-target="task">
+    data-target="task"
+  >
 
-    <span class="icon">
+    <span class="nav-icon">
       ✅
     </span>
 
-    Tasks
+    <span class="nav-label">
+      Tasks
+    </span>
 
   </button>
 
 
   <button
     class="nav-btn"
-    data-target="refer">
+    data-target="refer"
+  >
 
-    <span class="icon">
+    <span class="nav-icon">
       🔗
     </span>
 
-    Refer
+    <span class="nav-label">
+      Refer
+    </span>
 
   </button>
 
 
   <button
     class="nav-btn"
-    data-target="wallet">
+    data-target="wallet"
+  >
 
-    <span class="icon">
+    <span class="nav-icon">
       💳
     </span>
 
-    Wallet
+    <span class="nav-label">
+      Wallet
+    </span>
 
   </button>
 
 
   <button
     class="nav-btn"
-    data-target="profile">
+    data-target="profile"
+  >
 
-    <span class="icon">
+    <span class="nav-icon">
       👤
     </span>
 
-    Profile
+    <span class="nav-label">
+      Profile
+    </span>
 
   </button>
 
 </nav>
 
 
+<!-- TOAST -->
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
 <script>
 
-/* =========================================================
-   TELEGRAM WEB APP
-========================================================= */
+/* =========================================
+   TELEGRAM
+========================================= */
 
-const tg =
-  window.Telegram &&
-  window.Telegram.WebApp
+let tg =
+  window.Telegram
     ? window.Telegram.WebApp
     : null;
-
 
 if(tg){
 
   tg.ready();
-
   tg.expand();
 
 }
 
 
-/* =========================================================
+/* =========================================
    STORAGE
-========================================================= */
+========================================= */
 
 const STORAGE_KEY =
-  "inbox_dollars_state_v3";
+  "inbox_dollars_state_v2";
 
 
-function defaultState(){
+function loadState(){
 
-  return {
+  const defaults = {
 
     balance:0,
 
@@ -2169,52 +2436,41 @@ function defaultState(){
 
     transactions:[],
 
-    withdrawals:[],
-
     joinDate:
-      new Date()
-        .toLocaleDateString("en-GB")
+      new Date().toLocaleDateString("en-IN")
 
   };
 
-}
-
-
-function loadState(){
 
   const raw =
-    localStorage.getItem(
-      STORAGE_KEY
-    );
+    localStorage.getItem(STORAGE_KEY);
 
 
-  if(!raw){
+  if(raw){
 
-    return defaultState();
+    try{
 
-  }
+      return Object.assign(
+        {},
+        defaults,
+        JSON.parse(raw)
+      );
 
+    }catch(e){
 
-  try{
+      return defaults;
 
-    return Object.assign(
-      defaultState(),
-      JSON.parse(raw)
-    );
-
-  }
-
-  catch(e){
-
-    return defaultState();
+    }
 
   }
+
+
+  return defaults;
 
 }
 
 
-let state =
-  loadState();
+let state = loadState();
 
 
 function saveState(){
@@ -2227,76 +2483,49 @@ function saveState(){
 }
 
 
-/* =========================================================
+/* =========================================
    CONSTANTS
-========================================================= */
+========================================= */
 
 const LIGHT_MAX = 35;
 const PRO_MAX = 35;
 const PREMIUM_MAX = 35;
 
-const LIGHT_MIN_R = .01;
-const LIGHT_MAX_R = .05;
+const LIGHT_MIN_R = 0.01;
+const LIGHT_MAX_R = 0.05;
 
-const PRO_MIN_R = .05;
-const PRO_MAX_R = .10;
+const PRO_MIN_R = 0.05;
+const PRO_MAX_R = 0.10;
 
-const PREMIUM_MIN_R = .10;
-const PREMIUM_MAX_R = .20;
+const PREMIUM_MIN_R = 0.10;
+const PREMIUM_MAX_R = 0.20;
 
 const STREAK_REWARDS =
-  [.02,.03,.04,.05,.06,.08,.10];
+  [
+    0.02,
+    0.03,
+    0.04,
+    0.05,
+    0.06,
+    0.08,
+    0.10
+  ];
 
-const MIN_WITHDRAW = 15;
-const MAX_WITHDRAW = 100;
 
-let selectedCurrency =
-  "USDT";
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
+/* =========================================
+   FORMAT
+========================================= */
 
 function fmt(n){
 
-  return "$" +
-    Number(n).toFixed(2);
+  return "$" + Number(n).toFixed(2);
 
 }
 
 
-function showToast(message){
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-
-  toast.textContent =
-    message;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  setTimeout(
-    () =>
-      toast.classList.remove(
-        "show"
-      ),
-    1800
-  );
-
-}
-
-
-/* =========================================================
-   RENDER TOP
-========================================================= */
+/* =========================================
+   TOP RENDER
+========================================= */
 
 function renderTop(){
 
@@ -2350,42 +2579,29 @@ function renderTop(){
 }
 
 
-/* =========================================================
-   EARNING
-========================================================= */
+/* =========================================
+   ADD EARNING
+========================================= */
 
-function addEarning(
-  amount,
-  label
-){
+function addEarning(amount,label){
 
-  amount =
-    Number(amount);
+  state.balance += amount;
 
+  state.todayEarned += amount;
 
-  state.balance +=
-    amount;
-
-
-  state.todayEarned +=
-    amount;
-
-
-  state.totalEarned +=
-    amount;
+  state.totalEarned += amount;
 
 
   state.transactions.unshift({
-
-    type:"earning",
 
     label:label,
 
     amount:amount,
 
     date:
-      new Date()
-        .toLocaleString("en-GB")
+      new Date().toLocaleString(
+        "en-IN"
+      )
 
   });
 
@@ -2399,23 +2615,117 @@ function addEarning(
 }
 
 
-/* =========================================================
-   TIER SYSTEM
-========================================================= */
+/* =========================================
+   TOAST
+========================================= */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+
+  toast.textContent =
+    message;
+
+
+  toast.classList.add("show");
+
+
+  setTimeout(()=>{
+
+    toast.classList.remove("show");
+
+  },1800);
+
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function switchSection(target){
+
+  document
+    .querySelectorAll(".section")
+    .forEach(section => {
+
+      section.classList.remove("active");
+
+    });
+
+
+  const targetSection =
+    document.getElementById(
+      "sec-" + target
+    );
+
+
+  if(targetSection){
+
+    targetSection.classList.add(
+      "active"
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(".nav-btn")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.target === target
+      );
+
+    });
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+document
+  .querySelectorAll(".nav-btn")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      ()=>{
+
+        switchSection(
+          button.dataset.target
+        );
+
+      }
+    );
+
+  });
+
+
+/* =========================================
+   TIER
+========================================= */
 
 function openTier(tier){
 
   document.getElementById(
     "quickActions"
-  ).style.display =
-    "none";
+  );
 
+  const panel =
+    document.getElementById(
+      "tierPanel"
+    );
 
-  document.getElementById(
-    "tierPanel"
-  ).style.display =
+  panel.style.display =
     "block";
-
 
   renderTierContent(tier);
 
@@ -2429,12 +2739,6 @@ function closeTier(){
   ).style.display =
     "none";
 
-
-  document.getElementById(
-    "quickActions"
-  ).style.display =
-    "block";
-
 }
 
 
@@ -2446,260 +2750,180 @@ function renderTierContent(tier){
     );
 
 
+  let rewardMin;
+  let rewardMax;
+  let watched;
+  let max;
+  let title;
+
+
   if(tier === "light"){
 
-    el.innerHTML = `
+    rewardMin =
+      LIGHT_MIN_R;
 
-      <div class="ad-card">
+    rewardMax =
+      LIGHT_MAX_R;
 
-        <div class="ad-icon">
-          ▶
-        </div>
+    watched =
+      state.lightWatched;
 
-        <div class="ad-title">
-          Light Ad
-        </div>
+    max =
+      LIGHT_MAX;
 
-        <div class="ad-reward">
-          $0.01 – $0.05 per ad
-        </div>
-
-        <button
-          class="watch-btn"
-          onclick="watchAd('light')"
-          ${
-            state.lightWatched >= LIGHT_MAX
-              ? "disabled"
-              : ""
-          }>
-
-          ${
-            state.lightWatched >= LIGHT_MAX
-              ? "Daily Limit Reached"
-              : "Watch Ad"
-          }
-
-        </button>
-
-      </div>
-
-
-      <div class="count-row">
-
-        <span>
-          Watched today
-        </span>
-
-        <span>
-          ${state.lightWatched}
-          /
-          ${LIGHT_MAX}
-        </span>
-
-      </div>
-
-    `;
+    title =
+      "Light Ad";
 
   }
-
 
   else if(tier === "pro"){
 
-    el.innerHTML = `
+    rewardMin =
+      PRO_MIN_R;
 
-      <div class="ad-card">
+    rewardMax =
+      PRO_MAX_R;
 
-        <div class="ad-icon">
-          ⭐
-        </div>
+    watched =
+      state.proWatched;
 
-        <div class="ad-title">
-          Pro Ad
-        </div>
+    max =
+      PRO_MAX;
 
-        <div class="ad-reward">
-          $0.05 – $0.10 per ad
-        </div>
-
-        <button
-          class="watch-btn"
-          onclick="watchAd('pro')"
-          ${
-            state.proWatched >= PRO_MAX
-              ? "disabled"
-              : ""
-          }>
-
-          ${
-            state.proWatched >= PRO_MAX
-              ? "Daily Limit Reached"
-              : "Watch Ad"
-          }
-
-        </button>
-
-      </div>
-
-
-      <div class="count-row">
-
-        <span>
-          Watched today
-        </span>
-
-        <span>
-          ${state.proWatched}
-          /
-          ${PRO_MAX}
-        </span>
-
-      </div>
-
-    `;
+    title =
+      "Pro Ad";
 
   }
-
 
   else{
 
+    rewardMin =
+      PREMIUM_MIN_R;
+
+    rewardMax =
+      PREMIUM_MAX_R;
+
+    watched =
+      state.premiumWatched;
+
+    max =
+      PREMIUM_MAX;
+
+    title =
+      "Premium Ad";
+
+  }
+
+
+  if(tier === "premium" &&
+     !state.premium){
+
     el.innerHTML = `
 
-      <div class="card">
+      <div class="list-card">
 
-        <div class="card-title">
+        <h4>
           💎 Premium Membership
-        </div>
+        </h4>
 
-        <div class="card-sub">
-
-          Subscribe for $30/month
-          to unlock premium ads.
-
-        </div>
-
+        <p>
+          Subscribe for $30/month to
+          unlock premium ads.
+        </p>
 
         <button
-          class="primary-btn"
-          onclick="activatePremium()">
-
-          ${
-            state.premium
-              ? "Premium Active ✓"
-              : "Subscribe – $30/month"
-          }
-
+          class="watch-btn"
+          onclick="activatePremium()"
+        >
+          Subscribe – $30/month
         </button>
 
       </div>
 
-      ${
-        state.premium
-        ? `
-
-          <div class="ad-card">
-
-            <div class="ad-icon">
-              💎
-            </div>
-
-            <div class="ad-title">
-              Premium Ad
-            </div>
-
-            <div class="ad-reward">
-              $0.10 – $0.20 per ad
-            </div>
-
-            <button
-              class="watch-btn"
-              onclick="watchAd('premium')"
-              ${
-                state.premiumWatched >= PREMIUM_MAX
-                  ? "disabled"
-                  : ""
-              }>
-
-              ${
-                state.premiumWatched >= PREMIUM_MAX
-                  ? "Daily Limit Reached"
-                  : "Watch Ad"
-              }
-
-            </button>
-
-          </div>
-
-        `
-        : ""
-      }
-
     `;
 
+    return;
+
   }
+
+
+  el.innerHTML = `
+
+    <div class="list-card">
+
+      <h4>
+        ${title}
+      </h4>
+
+      <p>
+        $${rewardMin.toFixed(2)}
+        –
+        $${rewardMax.toFixed(2)}
+        per ad
+      </p>
+
+      <button
+        class="watch-btn"
+        onclick="watchAd('${tier}')"
+        ${watched >= max ? "disabled":""}
+      >
+        ${
+          watched >= max
+            ? "Daily Limit Reached"
+            : "▶ Watch Ad"
+        }
+      </button>
+
+      <p style="margin-top:12px;">
+        Watched today:
+        ${watched}/${max}
+      </p>
+
+    </div>
+
+  `;
 
 }
 
 
-/* =========================================================
+/* =========================================
    WATCH AD
-========================================================= */
+========================================= */
 
 function watchAd(tier){
 
-  let reward = 0;
+  let reward;
 
 
   if(tier === "light"){
 
-    if(
-      state.lightWatched >=
-      LIGHT_MAX
-    ){
-
+    if(state.lightWatched >= LIGHT_MAX)
       return;
-
-    }
-
 
     reward =
       Math.random() *
-      (
-        LIGHT_MAX_R -
-        LIGHT_MIN_R
-      ) +
+      (LIGHT_MAX_R - LIGHT_MIN_R)
+      +
       LIGHT_MIN_R;
-
 
     state.lightWatched++;
 
   }
 
-
   else if(tier === "pro"){
 
-    if(
-      state.proWatched >=
-      PRO_MAX
-    ){
-
+    if(state.proWatched >= PRO_MAX)
       return;
-
-    }
-
 
     reward =
       Math.random() *
-      (
-        PRO_MAX_R -
-        PRO_MIN_R
-      ) +
+      (PRO_MAX_R - PRO_MIN_R)
+      +
       PRO_MIN_R;
-
 
     state.proWatched++;
 
   }
-
 
   else{
 
@@ -2714,24 +2938,15 @@ function watchAd(tier){
     }
 
 
-    if(
-      state.premiumWatched >=
-      PREMIUM_MAX
-    ){
-
+    if(state.premiumWatched >= PREMIUM_MAX)
       return;
-
-    }
 
 
     reward =
       Math.random() *
-      (
-        PREMIUM_MAX_R -
-        PREMIUM_MIN_R
-      ) +
+      (PREMIUM_MAX_R - PREMIUM_MIN_R)
+      +
       PREMIUM_MIN_R;
-
 
     state.premiumWatched++;
 
@@ -2759,29 +2974,25 @@ function watchAd(tier){
 
 
   showToast(
-    "+" +
-    fmt(reward) +
-    " earned"
+    "+" + fmt(reward) + " earned!"
   );
 
 
-  renderTierContent(
-    tier
-  );
+  renderTierContent(tier);
 
 }
 
 
-/* =========================================================
+/* =========================================
    PREMIUM
-========================================================= */
+========================================= */
 
 function activatePremium(){
 
   if(state.premium){
 
     showToast(
-      "Premium already active"
+      "Premium is already active"
     );
 
     return;
@@ -2789,9 +3000,7 @@ function activatePremium(){
   }
 
 
-  state.premium =
-    true;
-
+  state.premium = true;
 
   saveState();
 
@@ -2801,36 +3010,31 @@ function activatePremium(){
     "premium"
   );
 
-
   showToast(
-    "Premium activated in demo mode"
+    "Premium activated"
   );
 
 }
 
 
-/* =========================================================
+/* =========================================
    STREAK
-========================================================= */
+========================================= */
 
 function getPendingCheckinDay(){
 
   const today =
-    new Date()
-      .toDateString();
+    new Date().toDateString();
 
 
   const yesterday =
     new Date(
-      Date.now() -
-      86400000
-    )
-    .toDateString();
+      Date.now() - 86400000
+    ).toDateString();
 
 
   if(
-    state.lastCheckinDate ===
-    today
+    state.lastCheckinDate === today
   ){
 
     return state.checkinDay;
@@ -2839,8 +3043,7 @@ function getPendingCheckinDay(){
 
 
   if(
-    state.lastCheckinDate ===
-    yesterday
+    state.lastCheckinDate === yesterday
   ){
 
     return state.checkinDay >= 7
@@ -2858,13 +3061,11 @@ function getPendingCheckinDay(){
 function renderStreak(){
 
   const today =
-    new Date()
-      .toDateString();
+    new Date().toDateString();
 
 
-  const claimed =
-    state.lastCheckinDate ===
-    today;
+  const claimedToday =
+    state.lastCheckinDate === today;
 
 
   const pending =
@@ -2883,8 +3084,8 @@ function renderStreak(){
     );
 
 
-  const doneCount =
-    claimed
+  let doneCount =
+    claimedToday
       ? state.checkinDay
       : pending - 1;
 
@@ -2904,24 +3105,23 @@ function renderStreak(){
 
     const current =
       i === pending &&
-      !claimed;
+      !claimedToday;
 
 
     html += `
 
       <div
-        class="
-          streak-day
-          ${done ? "done" : ""}
-          ${current ? "current" : ""}
-        ">
+        class="streak-day
+          ${done ? "done":""}
+          ${current ? "current":""}
+        "
+      >
 
         <div class="d">
           Day ${i}
         </div>
 
         <div class="r">
-
           ${
             done
               ? "✓"
@@ -2930,7 +3130,6 @@ function renderStreak(){
                   i-1
                 ].toFixed(2)
           }
-
         </div>
 
       </div>
@@ -2944,23 +3143,21 @@ function renderStreak(){
     html;
 
 
-  if(claimed){
+  if(claimedToday){
 
-    btn.disabled =
-      true;
+    btn.disabled = true;
 
     btn.textContent =
-      "Claimed Today ✓";
+      "Claimed for today";
 
   }
 
   else{
 
-    btn.disabled =
-      false;
+    btn.disabled = false;
 
     btn.textContent =
-      "Watch Ad to Claim Day " +
+      "Claim Day " +
       pending +
       " – $" +
       STREAK_REWARDS[
@@ -2975,13 +3172,11 @@ function renderStreak(){
 function watchAdForCheckin(){
 
   const today =
-    new Date()
-      .toDateString();
+    new Date().toDateString();
 
 
   if(
-    state.lastCheckinDate ===
-    today
+    state.lastCheckinDate === today
   ){
 
     return;
@@ -2995,18 +3190,22 @@ function watchAdForCheckin(){
     );
 
 
-  btn.disabled =
-    true;
-
+  btn.disabled = true;
 
   btn.textContent =
     "Watching Ad...";
 
 
-  setTimeout(
-    claimCheckin,
-    2000
+  showToast(
+    "Ad playing..."
   );
+
+
+  setTimeout(()=>{
+
+    claimCheckin();
+
+  },2000);
 
 }
 
@@ -3014,13 +3213,11 @@ function watchAdForCheckin(){
 function claimCheckin(){
 
   const today =
-    new Date()
-      .toDateString();
+    new Date().toDateString();
 
 
   if(
-    state.lastCheckinDate ===
-    today
+    state.lastCheckinDate === today
   ){
 
     return;
@@ -3057,7 +3254,7 @@ function claimCheckin(){
   showToast(
     "+" +
     fmt(reward) +
-    " streak reward"
+    " earned!"
   );
 
 
@@ -3066,21 +3263,18 @@ function claimCheckin(){
 }
 
 
-/* =========================================================
-   TASKS
-========================================================= */
+/* =========================================
+   TASK
+========================================= */
 
-function claimTask(
-  id,
-  amount
-){
+function claimTask(id,amount){
 
   if(
     state.tasksClaimed[id]
   ){
 
     showToast(
-      "Task already claimed"
+      "This task has already been claimed"
     );
 
     return;
@@ -3107,9 +3301,9 @@ function claimTask(
 }
 
 
-/* =========================================================
+/* =========================================
    REFERRAL
-========================================================= */
+========================================= */
 
 function copyRefer(){
 
@@ -3120,8 +3314,7 @@ function copyRefer(){
 
 
   if(
-    navigator.clipboard &&
-    navigator.clipboard.writeText
+    navigator.clipboard
   ){
 
     navigator.clipboard
@@ -3137,31 +3330,39 @@ function copyRefer(){
 }
 
 
-/* =========================================================
-   CURRENCY SELECT
-========================================================= */
+/* =========================================
+   CURRENCY
+========================================= */
 
-function selectCurrency(el){
+let selectedCurrency =
+  "USDT";
+
+
+function selectCurrency(card){
 
   document
     .querySelectorAll(
       ".currency-card"
     )
-    .forEach(
-      card =>
-        card.classList.remove(
-          "active"
-        )
-    );
+    .forEach(c => {
+
+      c.classList.remove(
+        "selected"
+      );
+
+    });
 
 
-  el.classList.add(
-    "active"
+  card.classList.add(
+    "selected"
   );
 
 
   selectedCurrency =
-    el.dataset.currency;
+    card.dataset.currency;
+
+
+  updateNetworkOptions();
 
 
   showToast(
@@ -3172,89 +3373,162 @@ function selectCurrency(el){
 }
 
 
-/* =========================================================
-   OPEN WITHDRAW
-========================================================= */
+/* =========================================
+   NETWORK
+========================================= */
 
-function openWithdraw(){
+function updateNetworkOptions(){
 
-  switchSection(
-    "wallet"
-  );
-
-
-  document.getElementById(
-    "withdrawBox"
-  ).style.display =
-    "block";
+  const select =
+    document.getElementById(
+      "networkSelect"
+    );
 
 
-  setTimeout(
-    () =>
-      document
-        .getElementById(
-          "withdrawAmount"
-        )
-        .focus(),
-    100
-  );
+  if(
+    selectedCurrency === "BTC"
+  ){
+
+    select.innerHTML = `
+
+      <option value="BITCOIN">
+        Bitcoin Network
+      </option>
+
+    `;
+
+  }
+
+  else if(
+    selectedCurrency === "USDC"
+  ){
+
+    select.innerHTML = `
+
+      <option value="ERC20">
+        Ethereum — ERC20
+      </option>
+
+      <option value="BEP20">
+        BNB Smart Chain — BEP20
+      </option>
+
+      <option value="SOLANA">
+        Solana Network
+      </option>
+
+    `;
+
+  }
+
+  else{
+
+    select.innerHTML = `
+
+      <option value="TRC20">
+        TRON — TRC20
+      </option>
+
+      <option value="ERC20">
+        Ethereum — ERC20
+      </option>
+
+      <option value="BEP20">
+        BNB Smart Chain — BEP20
+      </option>
+
+    `;
+
+  }
 
 }
 
 
-/* =========================================================
-   WITHDRAW
-========================================================= */
+/* =========================================
+   SCROLL TO WITHDRAW
+========================================= */
 
-function submitWithdrawal(){
+function scrollToWithdraw(){
+
+  const wallet =
+    document.getElementById(
+      "sec-wallet"
+    );
+
+
+  wallet.scrollIntoView({
+    behavior:"smooth"
+  });
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById(
+        "withdrawCard"
+      )
+      .scrollIntoView({
+        behavior:"smooth"
+      });
+
+  },250);
+
+}
+
+
+/* =========================================
+   WITHDRAW
+========================================= */
+
+function requestWithdraw(){
+
+  const amountInput =
+    document.getElementById(
+      "withdrawAmount"
+    );
+
+
+  const addressInput =
+    document.getElementById(
+      "walletAddress"
+    );
+
 
   const amount =
-    Number(
-      document.getElementById(
-        "withdrawAmount"
-      ).value
+    parseFloat(
+      amountInput.value
     );
 
 
   const address =
-    document.getElementById(
-      "walletAddress"
-    ).value.trim();
+    addressInput.value.trim();
 
 
-  if(!amount){
-
-    showToast(
-      "Enter withdrawal amount"
-    );
-
-    return;
-
-  }
-
+  /* AMOUNT VALIDATION */
 
   if(
-    amount <
-    MIN_WITHDRAW
+    !amount ||
+    amount < 15
   ){
 
     showToast(
-      "Minimum withdrawal is $15"
+      "Minimum withdrawal is $15.00"
     );
+
+    amountInput.focus();
 
     return;
 
   }
 
 
-  if(
-    amount >
-    MAX_WITHDRAW
-  ){
+  if(amount > 100){
 
     showToast(
-      "Maximum withdrawal is $100"
+      "Maximum withdrawal is $100.00"
     );
+
+    amountInput.focus();
 
     return;
 
@@ -3262,8 +3536,7 @@ function submitWithdrawal(){
 
 
   if(
-    amount >
-    state.balance
+    amount > state.balance
   ){
 
     showToast(
@@ -3275,11 +3548,17 @@ function submitWithdrawal(){
   }
 
 
-  if(!address){
+  /* ADDRESS VALIDATION */
+
+  if(
+    address.length < 10
+  ){
 
     showToast(
-      "Enter wallet address"
+      "Please enter a valid wallet address"
     );
+
+    addressInput.focus();
 
     return;
 
@@ -3287,95 +3566,59 @@ function submitWithdrawal(){
 
 
   /*
-    DEMO ONLY
-
-    Real crypto withdrawal will be
-    connected to the backend later.
+     IMPORTANT:
+     This front-end does not send real funds.
+     Backend/admin verification is required.
   */
-
-
-  state.balance -=
-    amount;
-
-
-  state.withdrawals.unshift({
-
-    amount:
-      amount,
-
-    currency:
-      selectedCurrency,
-
-    address:
-      address,
-
-    status:
-      "Pending",
-
-    date:
-      new Date()
-        .toLocaleString(
-          "en-GB"
-        )
-
-  });
 
 
   state.transactions.unshift({
 
-    type:
-      "withdrawal",
-
     label:
-      "Withdrawal Request (" +
-      selectedCurrency +
-      ")",
+      "Withdrawal Request — " +
+      selectedCurrency,
 
     amount:
       -amount,
 
     date:
-      new Date()
-        .toLocaleString(
-          "en-GB"
-        )
+      new Date().toLocaleString(
+        "en-IN"
+      ),
+
+    status:
+      "Pending"
 
   });
 
 
+  /*
+     Balance is NOT deducted here
+     because the real backend should
+     approve/reject the withdrawal.
+  */
+
+
   saveState();
 
-  renderTop();
-
   renderTx();
-
-
-  document.getElementById(
-    "withdrawAmount"
-  ).value = "";
-
-
-  document.getElementById(
-    "walletAddress"
-  ).value = "";
-
-
-  document.getElementById(
-    "withdrawBox"
-  ).style.display =
-    "none";
 
 
   showToast(
     "Withdrawal request submitted"
   );
 
+
+  amountInput.value = "";
+
+  addressInput.value = "";
+
 }
 
 
-/* =========================================================
+/* =========================================
    TRANSACTIONS
-========================================================= */
+========================================= */
 
 function renderTx(){
 
@@ -3386,17 +3629,11 @@ function renderTx(){
 
 
   if(
-    state.transactions.length ===
-    0
+    state.transactions.length === 0
   ){
 
-    list.innerHTML = `
-
-      <div class="card-sub">
-        No transactions yet.
-      </div>
-
-    `;
+    list.innerHTML =
+      "<p>No transactions yet</p>";
 
     return;
 
@@ -3408,21 +3645,21 @@ function renderTx(){
       .slice(0,10)
       .map(tx => {
 
-        const positive =
-          tx.amount >= 0;
+        const isWithdrawal =
+          tx.amount < 0;
 
 
         return `
 
-          <div class="tx">
+          <div class="tx-item">
 
             <div>
 
-              <div class="tx-title">
+              <div>
                 ${tx.label}
               </div>
 
-              <div class="tx-date">
+              <div class="tx-meta">
                 ${tx.date}
               </div>
 
@@ -3430,23 +3667,19 @@ function renderTx(){
 
 
             <div
-              class="tx-amount"
-              style="
-                color:
-                ${
-                  positive
-                    ? 'var(--green)'
-                    : 'var(--red)'
-                };
-              ">
+              class="${
+                isWithdrawal
+                  ? "tx-pending"
+                  : "tx-plus"
+              }"
+            >
 
               ${
-                positive
-                  ? "+"
-                  : ""
+                isWithdrawal
+                  ? "Pending"
+                  : "+" +
+                    fmt(tx.amount)
               }
-
-              ${fmt(tx.amount)}
 
             </div>
 
@@ -3460,80 +3693,9 @@ function renderTx(){
 }
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function switchSection(
-  target
-){
-
-  document
-    .querySelectorAll(
-      ".section"
-    )
-    .forEach(
-      section =>
-        section.classList.remove(
-          "active"
-        )
-    );
-
-
-  const section =
-    document.getElementById(
-      "sec-" +
-      target
-    );
-
-
-  if(section){
-
-    section.classList.add(
-      "active"
-    );
-
-  }
-
-
-  document
-    .querySelectorAll(
-      ".nav-btn"
-    )
-    .forEach(
-      button =>
-        button.classList.toggle(
-          "active",
-          button.dataset.target ===
-          target
-        )
-    );
-
-}
-
-
-document
-  .querySelectorAll(
-    ".nav-btn"
-  )
-  .forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () =>
-          switchSection(
-            button.dataset.target
-          )
-      );
-
-    }
-  );
-
-
-/* =========================================================
+/* =========================================
    TELEGRAM PROFILE
-========================================================= */
+========================================= */
 
 function initProfile(){
 
@@ -3545,23 +3707,20 @@ function initProfile(){
 
   if(user){
 
-    const fullName =
+    const name =
       (
-        user.first_name ||
-        ""
+        user.first_name || ""
       ) +
+      " " +
       (
-        user.last_name
-          ? " " +
-            user.last_name
-          : ""
+        user.last_name || ""
       );
 
 
     document.getElementById(
       "profName"
     ).textContent =
-      fullName ||
+      name.trim() ||
       "Telegram User";
 
 
@@ -3587,7 +3746,8 @@ function initProfile(){
       "referCode"
     ).textContent =
       "EB-" +
-      String(user.id)
+      user.id
+        .toString()
         .slice(-6);
 
   }
@@ -3597,16 +3757,16 @@ function initProfile(){
     document.getElementById(
       "profId"
     ).textContent =
-      "Telegram ID: Not available";
+      "Telegram ID: unavailable";
 
   }
 
 }
 
 
-/* =========================================================
-   BOOT
-========================================================= */
+/* =========================================
+   START
+========================================= */
 
 initProfile();
 
@@ -3615,6 +3775,8 @@ renderTop();
 renderTx();
 
 renderStreak();
+
+updateNetworkOptions();
 
 </script>
 
