@@ -44,11 +44,60 @@ body{
   letter-spacing:-0.02em;
 }
 
+header.appbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px 8px;
+  border-bottom:1px solid #1C1C20;
+}
+
+header.appbar .app-close{
+  background:none;
+  border:none;
+  color:var(--text);
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  width:30px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+header.appbar .app-title{
+  flex:1;
+  text-align:center;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding:0 8px;
+}
+
+header.appbar .app-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+header.appbar .app-actions button{
+  background:none;
+  border:none;
+  color:var(--text);
+  font-size:16px;
+  cursor:pointer;
+  padding:2px;
+}
+
 header.topbar{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:18px 20px 10px;
+  padding:14px 20px 10px;
 }
 
 header.topbar .brand{
@@ -119,6 +168,7 @@ header.topbar .balance-pill b{
   position:relative;
   overflow:hidden;
   border:1px solid #2A2A2E;
+  box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
 
 .hero::after{
@@ -175,53 +225,84 @@ header.topbar .balance-pill b{
 }
 
 .qa-heading{
-  font-size:14px;
+  font-size:15px;
   font-weight:900;
-  margin:20px 0 10px;
+  margin:22px 0 12px;
+  letter-spacing:.01em;
 }
 
 .qa-card{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
   background:var(--bg-card);
   border:1px solid #2A2A2E;
-  border-radius:15px;
-  padding:12px 14px;
-  margin-bottom:9px;
+  border-radius:18px;
+  padding:16px 16px;
+  margin-bottom:11px;
   cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.22);
+  transition:border-color .15s ease, transform .15s ease;
+}
+
+.qa-card:active{
+  transform:scale(.985);
+  border-color:var(--gold-dim);
 }
 
 .qa-icon{
-  width:40px;
-  height:40px;
-  border-radius:11px;
+  width:52px;
+  height:52px;
+  border-radius:14px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:18px;
+  font-size:24px;
   background:#221B0A;
   flex-shrink:0;
+  box-shadow:inset 0 0 0 1px rgba(255,199,44,.12);
 }
 
 .qa-text{
   flex:1;
+  min-width:0;
 }
 
 .qa-text h4{
-  font-size:14px;
+  font-size:16px;
   font-weight:800;
 }
 
 .qa-text p{
-  font-size:11.5px;
+  font-size:12.5px;
   color:var(--text-dim);
-  margin-top:2px;
+  margin-top:3px;
 }
 
 .qa-chevron{
-  font-size:18px;
+  font-size:22px;
   color:var(--gold);
+  flex-shrink:0;
+}
+
+.qa-icon.acc-light{
+  background:rgba(255,138,61,.15);
+  color:#FF8A3D;
+}
+
+.qa-icon.acc-pro{
+  background:rgba(255,199,44,.15);
+  color:var(--gold);
+}
+
+.qa-icon.acc-extra{
+  background:rgba(255,224,90,.15);
+  color:#FFE05A;
+}
+
+.qa-icon.acc-premium{
+  background:rgba(93,201,255,.15);
+  color:#5DC9FF;
 }
 
 .back-row{
@@ -575,11 +656,14 @@ header.topbar .balance-pill b{
 
 .currency-chip{
   flex:1;
+  display:flex;
+  align-items:center;
+  gap:14px;
   background:var(--bg-card);
   border:1px solid #2A2A2E;
-  border-radius:12px;
-  padding:12px 6px;
-  text-align:center;
+  border-radius:15px;
+  padding:14px 16px;
+  text-align:left;
   cursor:pointer;
 }
 
@@ -593,10 +677,153 @@ header.topbar .balance-pill b{
 }
 
 .currency-chip .name{
-  font-size:11px;
+  font-size:12px;
   color:var(--text-dim);
-  margin-top:4px;
+  margin-top:2px;
   font-weight:700;
+}
+
+.currency-chip{
+  position:relative;
+}
+
+.currency-chip .check{
+  position:absolute;
+  top:50%;
+  right:14px;
+  transform:translateY(-50%);
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:#3DDC97;
+  color:#0A0A0C;
+  font-size:12px;
+  font-weight:900;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.currency-chip.active .check{
+  display:flex;
+}
+
+.currency-chip .coin-icon{
+  flex-shrink:0;
+  margin:0;
+}
+
+.currency-chip .chip-text{
+  flex:1;
+  min-width:0;
+}
+
+.currency-chip .chip-text .name:first-child{
+  margin-top:0;
+}
+
+.coin-icon{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto;
+  color:#fff;
+}
+
+.coin-icon svg{
+  width:58%;
+  height:58%;
+  display:block;
+}
+
+.coin-icon.usdt{
+  background:#26A17B;
+}
+
+.coin-icon.usdc{
+  background:#2775CA;
+}
+
+.coin-icon.btc{
+  background:#F7931A;
+}
+
+.withdraw-form{
+  margin-top:20px;
+  background:var(--bg-card);
+  border:1px solid #2A2A2E;
+  border-radius:var(--radius);
+  padding:16px;
+}
+
+.withdraw-form h4{
+  font-size:15px;
+  font-weight:900;
+}
+
+.withdraw-form .form-sub{
+  font-size:11.5px;
+  color:var(--text-dim);
+  margin-top:3px;
+}
+
+.form-field{
+  margin-top:14px;
+}
+
+.form-field label{
+  font-size:11.5px;
+  color:var(--text-dim);
+  font-weight:700;
+  display:block;
+  margin-bottom:6px;
+}
+
+.form-field input{
+  width:100%;
+  background:var(--bg-card-2);
+  border:1px solid #2A2A2E;
+  border-radius:11px;
+  padding:12px 13px;
+  color:var(--text);
+  font-size:13.5px;
+  font-family:inherit;
+}
+
+.form-field input::placeholder{
+  color:#6F6F78;
+}
+
+.form-field input:focus{
+  outline:none;
+  border-color:var(--gold-dim);
+}
+
+.withdraw-warning{
+  margin-top:14px;
+  padding:12px 13px;
+  border-radius:11px;
+  background:rgba(255,199,44,.08);
+  border:1px solid rgba(255,199,44,.25);
+  color:var(--gold);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.submit-withdraw-btn{
+  margin-top:14px;
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:var(--gold);
+  color:#221800;
+  font-weight:900;
+  font-size:14px;
+  cursor:pointer;
 }
 
 /* ================= PROFILE ================= */
@@ -944,6 +1171,19 @@ nav.bottom-nav .nav-btn.active{
 
 <div class="toast" id="toast"></div>
 
+<header class="appbar">
+
+  <button class="app-close" onclick="closeApp()">✕</button>
+
+  <div class="app-title">INBOX DOLLAR'S 📥</div>
+
+  <div class="app-actions">
+    <button aria-label="More options">⌄</button>
+    <button aria-label="Menu">⋮</button>
+  </div>
+
+</header>
+
 <header class="topbar">
 
   <div class="brand">
@@ -996,14 +1236,14 @@ nav.bottom-nav .nav-btn.active{
 
     <div class="qa-card" onclick="openTier('light')">
 
-      <div class="qa-icon">
+      <div class="qa-icon acc-light">
         ▶️
       </div>
 
       <div class="qa-text">
         <h4>Light Ads</h4>
         <p>
-          100 Ads is equal to $1
+          100 Ads = $1.00 · 50 ads/day limit
         </p>
       </div>
 
@@ -1016,14 +1256,14 @@ nav.bottom-nav .nav-btn.active{
 
     <div class="qa-card" onclick="openTier('pro')">
 
-      <div class="qa-icon">
+      <div class="qa-icon acc-pro">
         ⭐
       </div>
 
       <div class="qa-text">
         <h4>Pro Ads</h4>
         <p>
-          100 Ads is equal to $1
+          100 Ads = $1.00 · 50 ads/day limit
         </p>
       </div>
 
@@ -1036,14 +1276,14 @@ nav.bottom-nav .nav-btn.active{
 
     <div class="qa-card" onclick="openTier('extra')">
 
-      <div class="qa-icon">
+      <div class="qa-icon acc-extra">
         ⚡
       </div>
 
       <div class="qa-text">
         <h4>Extra Ads</h4>
         <p>
-          100 Ads is equal to $1
+          100 Ads = $1.00 · 50 ads/day limit
         </p>
       </div>
 
@@ -1056,7 +1296,7 @@ nav.bottom-nav .nav-btn.active{
 
     <div class="qa-card" onclick="openTier('premium')">
 
-      <div class="qa-icon">
+      <div class="qa-icon acc-premium">
         💎
       </div>
 
@@ -1292,39 +1532,53 @@ nav.bottom-nav .nav-btn.active{
   </h4>
 
 
-  <div class="currency-row">
+  <div class="currency-row" style="max-width:100%;">
 
     <div
       class="currency-chip active"
       data-currency="USDT"
       onclick="selectCurrency(this)">
 
-      <div class="sym">₮</div>
-      <div class="name">USDT</div>
+      <div class="check">✓</div>
+      <div class="coin-icon usdt">
+        <svg viewBox="0 0 2000 2000" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#fff" d="M1123.42 866.76V644.34h504.5V310.29H353.1v334.05h504.5v222.37C579.07 887.66 322 942.9 322 1008.05c0 65.15 257.07 120.39 535.6 141.32v520.55h265.82v-520.66c278.16-20.9 534.8-76.14 534.8-141.19 0-65.05-256.64-120.28-534.8-141.31zm0 241.7v-.24c-6.7.44-41.1 2.6-117.7 2.6-61.1 0-104-1.7-119.15-2.5v.26c-235.03-10.35-410.53-51.32-410.53-100.34s175.5-89.98 410.53-100.36v159.87c15.37 1.06 59.3 3.62 120.15 3.62 73.09 0 109.76-3 116.7-3.62V907.9c234.6 10.36 409.7 51.34 409.7 100.35 0 49.02-175.1 89.97-409.7 100.32z"/>
+        </svg>
+      </div>
+      <div class="chip-text">
+        <div class="name" style="font-weight:900;color:var(--text);font-size:14px;">USDT</div>
+        <div class="name">Tether USD · BEP20</div>
+      </div>
 
     </div>
 
+  </div>
 
-    <div
-      class="currency-chip"
-      data-currency="USDC"
-      onclick="selectCurrency(this)">
 
-      <div class="sym">Ⓒ</div>
-      <div class="name">USDC</div>
+  <div class="withdraw-form">
 
+    <h4>Request Withdrawal</h4>
+    <p class="form-sub">Enter your payout details carefully. USDT (BEP20 – BNB Smart Chain) only.</p>
+
+    <div class="form-field">
+      <label>Withdrawal Amount</label>
+      <input type="number" id="withdrawAmount" placeholder="Minimum $15.00">
     </div>
 
-
-    <div
-      class="currency-chip"
-      data-currency="BTC"
-      onclick="selectCurrency(this)">
-
-      <div class="sym">₿</div>
-      <div class="name">Bitcoin</div>
-
+    <div class="form-field">
+      <label>BEP20 Address</label>
+      <input type="text" id="withdrawAddress" placeholder="Enter your USDT BEP20 (BNB Smart Chain) address">
     </div>
+
+    <div class="withdraw-warning">
+      ⚠️ Only send to a <b>BEP20 (BNB Smart Chain)</b> address. Addresses on other networks
+      (ERC20, TRC20, etc.) are not supported and may result in permanent loss of funds.
+      Withdrawal requests will require backend/admin verification before any real payout.
+    </div>
+
+    <button class="submit-withdraw-btn" onclick="submitWithdrawForm()">
+      📤 Submit Withdrawal Request
+    </button>
 
   </div>
 
@@ -2705,6 +2959,46 @@ function selectCurrency(el){
 
 function requestWithdraw(){
 
+  const form =
+    document.querySelector(
+      '.withdraw-form'
+    );
+
+
+  if(form){
+
+    form.scrollIntoView({
+      behavior:'smooth',
+      block:'center'
+    });
+
+  }
+
+}
+
+
+function submitWithdrawForm(){
+
+  const amountInput =
+    document.getElementById(
+      'withdrawAmount'
+    );
+
+
+  const addressInput =
+    document.getElementById(
+      'withdrawAddress'
+    );
+
+
+  const amount =
+    parseFloat(amountInput.value);
+
+
+  const address =
+    addressInput.value.trim();
+
+
   if(state.balance<15){
 
     showToast(
@@ -2716,11 +3010,46 @@ function requestWithdraw(){
   }
 
 
+  if(!amount || amount<15 || amount>100){
+
+    showToast(
+      'Enter an amount between $15.00 and $100.00'
+    );
+
+    return;
+
+  }
+
+
+  if(amount>state.balance){
+
+    showToast(
+      'Amount exceeds your available balance'
+    );
+
+    return;
+
+  }
+
+
+  if(!address){
+
+    showToast(
+      'Enter your BEP20 wallet address'
+    );
+
+    return;
+
+  }
+
+
   showToast(
-    'Withdraw request sent ('+
-    selectedCurrency+
-    ')'
+    'Withdrawal request submitted (USDT · BEP20)'
   );
+
+
+  amountInput.value='';
+  addressInput.value='';
 
 }
 
@@ -2757,6 +3086,25 @@ function copyRefer(){
     showToast(
       'Referral code: '+code
     );
+
+  }
+
+}
+
+
+/* ================= APP CHROME ================= */
+
+function closeApp(){
+
+  if(tg && tg.close){
+
+    tg.close();
+
+  }
+
+  else{
+
+    showToast('Close app');
 
   }
 
