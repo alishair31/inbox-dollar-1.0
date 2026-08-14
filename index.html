@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>EarnBoard</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
+
 :root{
   --bg:#0A0A0C;
   --bg-card:#161619;
@@ -19,9 +20,6 @@
   --text:#F5F5F7;
   --text-dim:#9A9AA2;
   --danger:#FF6767;
-  --green:#20D66B;
-  --blue:#1683FF;
-  --orange:#FF9800;
   --radius:18px;
   --nav-h:64px;
 }
@@ -40,14 +38,10 @@ body{
   padding-bottom:calc(var(--nav-h) + 20px);
 }
 
-button,input{
-  font:inherit;
-}
-
 .display{
   font-family:Georgia,'Times New Roman',serif;
   font-weight:900;
-  letter-spacing:-.02em;
+  letter-spacing:-0.02em;
 }
 
 header.topbar{
@@ -57,13 +51,13 @@ header.topbar{
   padding:18px 20px 10px;
 }
 
-.brand{
+header.topbar .brand{
   display:flex;
   align-items:center;
   gap:8px;
 }
 
-.brand .dot{
+header.topbar .brand .dot{
   width:10px;
   height:10px;
   border-radius:50%;
@@ -71,14 +65,14 @@ header.topbar{
   box-shadow:0 0 10px var(--gold);
 }
 
-.brand .name{
+header.topbar .brand span.name{
   font-size:15px;
   letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--text-dim);
 }
 
-.balance-pill{
+header.topbar .balance-pill{
   background:var(--bg-card);
   border:1px solid #2A2A2E;
   border-radius:999px;
@@ -89,7 +83,7 @@ header.topbar{
   gap:6px;
 }
 
-.balance-pill b{
+header.topbar .balance-pill b{
   color:var(--gold);
   font-size:14px;
 }
@@ -105,11 +99,17 @@ header.topbar{
 }
 
 @keyframes fadeIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(6px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
-/* HOME */
+/* ================= HOME ================= */
 
 .hero{
   background:var(--bg-card);
@@ -121,17 +121,21 @@ header.topbar{
   border:1px solid #2A2A2E;
 }
 
-.hero:after{
+.hero::after{
   content:"";
   position:absolute;
   right:-40px;
   top:-40px;
   width:160px;
   height:160px;
-  background:radial-gradient(circle,rgba(255,199,44,.14),transparent 70%);
+  background:radial-gradient(
+    circle,
+    rgba(255,199,44,.14),
+    transparent 70%
+  );
 }
 
-.eyebrow{
+.hero .eyebrow{
   font-size:11px;
   letter-spacing:.14em;
   text-transform:uppercase;
@@ -139,17 +143,18 @@ header.topbar{
   font-weight:700;
 }
 
-.headline{
+.hero .headline{
   font-size:30px;
   line-height:1.15;
   margin-top:10px;
+  font-weight:900;
 }
 
-.gold{
+.hero .headline .gold{
   color:var(--gold);
 }
 
-.sub{
+.hero .sub{
   margin-top:10px;
   font-size:13px;
   color:var(--text-dim);
@@ -167,6 +172,10 @@ header.topbar{
   font-weight:900;
   font-size:15px;
   cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
 }
 
 .qa-heading{
@@ -199,10 +208,33 @@ header.topbar{
   flex-shrink:0;
 }
 
-.qa-text{flex:1}
-.qa-text h4{font-size:14.5px;font-weight:800}
-.qa-text p{font-size:12px;color:var(--text-dim);margin-top:2px}
-.qa-chevron{font-size:18px;color:var(--gold)}
+.qa-text{
+  flex:1;
+  min-width:0;
+}
+
+.qa-text h4{
+  font-size:14.5px;
+  font-weight:800;
+}
+
+.qa-text p{
+  font-size:12px;
+  color:var(--text-dim);
+  margin-top:2px;
+}
+
+.qa-rate{
+  font-size:11px;
+  color:var(--gold);
+  margin-top:4px;
+  font-weight:800;
+}
+
+.qa-chevron{
+  font-size:18px;
+  color:var(--gold);
+}
 
 .back-row{
   display:flex;
@@ -217,7 +249,7 @@ header.topbar{
   color:var(--gold);
 }
 
-.back-row .label{
+.back-row span.label{
   font-size:14px;
   color:var(--text-dim);
   font-weight:700;
@@ -263,6 +295,11 @@ header.topbar{
   color:var(--gold);
 }
 
+.ad-icon.extra{
+  background:rgba(130,100,255,.15);
+  color:#B49CFF;
+}
+
 .ad-title{
   font-size:16px;
   font-weight:800;
@@ -292,6 +329,11 @@ header.topbar{
   color:#221800;
 }
 
+.watch-btn.extra{
+  background:#B49CFF;
+  color:#160E30;
+}
+
 .watch-btn:disabled{
   background:#2A2A2E;
   color:var(--text-dim);
@@ -313,7 +355,10 @@ header.topbar{
   border:1px solid var(--gold-dim);
 }
 
-.premium-card h3{font-size:16px}
+.premium-card h3{
+  font-size:16px;
+}
+
 .premium-card p{
   font-size:12px;
   color:var(--text-dim);
@@ -334,11 +379,11 @@ header.topbar{
   cursor:pointer;
 }
 
-/* GENERAL */
+/* ================= GENERAL ================= */
 
 .page-title{
   font-size:30px;
-  margin:20px 0 4px;
+  margin:20px 0 5px;
 }
 
 .page-sub{
@@ -347,7 +392,25 @@ header.topbar{
   line-height:1.5;
 }
 
-.list-card,
+.list-card{
+  background:var(--bg-card);
+  border:1px solid #2A2A2E;
+  border-radius:16px;
+  padding:16px;
+  margin-top:14px;
+}
+
+.list-card h4{
+  font-size:14px;
+}
+
+.list-card p{
+  font-size:12px;
+  color:var(--text-dim);
+  margin-top:4px;
+  line-height:1.5;
+}
+
 .task-card{
   background:var(--bg-card);
   border:1px solid #2A2A2E;
@@ -356,13 +419,11 @@ header.topbar{
   margin-top:14px;
 }
 
-.list-card h4,
 .task-card h4{
-  font-size:14px;
+  font-size:14.5px;
   font-weight:800;
 }
 
-.list-card p,
 .task-card p{
   font-size:12px;
   color:var(--text-dim);
@@ -406,7 +467,9 @@ header.topbar{
   background:rgba(255,199,44,.1);
 }
 
-.streak-day.done .r{color:var(--gold)}
+.streak-day.done .r{
+  color:var(--gold);
+}
 
 .streak-day.current{
   border-color:var(--gold);
@@ -445,66 +508,67 @@ header.topbar{
   cursor:pointer;
 }
 
-/* =========================================================
-   WALLET — OLD DESIGN PRESERVED / INTEGRATED
-   ========================================================= */
-
-.wallet-page-title{
-  font-size:30px;
-  margin:20px 0 10px;
-  font-weight:900;
-}
+/* ================= WALLET ================= */
 
 .wallet-balance{
   text-align:center;
-  margin-top:4px;
+  margin-top:10px;
 }
 
 .wallet-balance .num{
-  font-size:58px;
-  line-height:1.05;
+  font-size:42px;
 }
 
 .wallet-balance .num span{
-  color:var(--text);
-}
-
-.wallet-balance .balance-label{
-  color:#B7B7BE;
-  font-size:15px;
-  margin-top:4px;
+  color:var(--gold);
 }
 
 .wallet-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+  display:flex;
   gap:10px;
-  margin-top:22px;
+  margin-top:16px;
 }
 
 .wallet-actions button{
-  min-height:58px;
-  padding:12px 8px;
-  border-radius:17px;
-  border:1px solid #303038;
-  background:#111419;
-  color:#F5F5F7;
-  font-weight:900;
-  font-size:15px;
+  flex:1;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #2A2A2E;
+  background:var(--bg-card);
+  color:var(--text);
+  font-weight:600;
+  font-size:13px;
   cursor:pointer;
 }
 
-.wallet-actions .withdraw-main{
-  background:var(--gold);
-  color:#171200;
-  border-color:var(--gold);
+.tx-item{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid #232326;
+  font-size:13px;
+}
+
+.tx-item:last-child{
+  border-bottom:none;
+}
+
+.tx-item .meta{
+  color:var(--text-dim);
+  font-size:11px;
+  margin-top:2px;
+}
+
+.tx-amount.plus{
+  color:var(--teal);
+  font-weight:700;
 }
 
 .withdraw-limit{
   text-align:center;
-  font-size:13px;
-  color:#B7B7BE;
-  margin-top:15px;
+  font-size:12px;
+  color:var(--text-dim);
+  margin-top:10px;
   font-weight:600;
 }
 
@@ -512,269 +576,43 @@ header.topbar{
   color:var(--gold);
 }
 
-.wallet-box{
-  background:linear-gradient(145deg,#111419,#0D0F12);
-  border:1px solid #2C3038;
-  border-radius:20px;
-  padding:20px;
-  margin-top:22px;
-}
-
-.wallet-box-title{
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:16px;
-}
-
-.currency-option{
-  position:relative;
-  display:flex;
-  align-items:center;
-  gap:15px;
-  width:100%;
-  min-height:92px;
-  padding:14px 16px;
-  margin-top:14px;
-  border-radius:18px;
-  background:#0D1116;
-  border:2px solid #30343B;
-  cursor:pointer;
-  transition:.15s;
-  text-align:left;
-}
-
-.currency-option:first-of-type{
-  margin-top:0;
-}
-
-.currency-option.usdt{
-  border-color:#00D66B;
-}
-
-.currency-option.usdc{
-  border-color:#1683FF;
-}
-
-.currency-option.btc{
-  border-color:#FF9800;
-}
-
-.currency-option.active.usdt{
-  background:linear-gradient(90deg,rgba(0,214,107,.13),rgba(0,214,107,.025));
-  box-shadow:0 0 18px rgba(0,214,107,.06);
-}
-
-.currency-option.active.usdc{
-  background:linear-gradient(90deg,rgba(22,131,255,.13),rgba(22,131,255,.025));
-}
-
-.currency-option.active.btc{
-  background:linear-gradient(90deg,rgba(255,152,0,.13),rgba(255,152,0,.025));
-}
-
-.currency-logo{
-  width:56px;
-  height:56px;
-  min-width:56px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:31px;
-  font-weight:900;
-  color:white;
-}
-
-.currency-logo.usdt{
-  background:#19B978;
-}
-
-.currency-logo.usdc{
-  background:#277BE8;
-}
-
-.currency-logo.btc{
-  background:#F7931A;
-}
-
-.currency-info{
-  flex:1;
-}
-
-.currency-name{
-  font-size:20px;
-  font-weight:900;
-}
-
-.currency-sub{
-  font-size:14px;
-  color:#B7B7BE;
-  margin-top:3px;
-}
-
-.currency-check{
-  width:42px;
-  height:42px;
-  min-width:42px;
-  border-radius:50%;
-  border:3px solid #7A7D84;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:23px;
-  color:#07130C;
-}
-
-.currency-option.active.usdt .currency-check{
-  background:#20D66B;
-  border-color:#20D66B;
-}
-
-.currency-option.active.usdc .currency-check{
-  background:#1683FF;
-  border-color:#1683FF;
-  color:white;
-}
-
-.currency-option.active.btc .currency-check{
-  background:#FF9800;
-  border-color:#FF9800;
-  color:white;
-}
-
-.withdraw-form{
-  background:linear-gradient(145deg,#111419,#0D0F12);
-  border:1px solid #2C3038;
-  border-radius:20px;
-  padding:20px;
-  margin-top:18px;
-}
-
-.withdraw-form h3{
-  font-size:20px;
-  font-weight:900;
-}
-
-.withdraw-form .form-sub{
-  color:#B7B7BE;
-  font-size:14px;
-  margin-top:5px;
-  margin-bottom:20px;
-}
-
-.field-label{
-  display:block;
-  color:#C1C1C7;
-  font-size:14px;
-  font-weight:700;
-  margin:0 0 8px;
-}
-
-.wallet-input{
-  width:100%;
-  height:58px;
-  border-radius:15px;
-  border:1px solid #30343B;
-  background:#080A0D;
-  color:white;
-  outline:none;
-  padding:0 16px;
-  font-size:16px;
-}
-
-.wallet-input:focus{
-  border-color:var(--gold);
-}
-
-.amount-wrap{
-  position:relative;
-}
-
-.amount-wrap .currency-symbol{
-  position:absolute;
-  left:16px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#BFC1C6;
-  font-size:20px;
-  pointer-events:none;
-}
-
-.amount-wrap input{
-  padding-left:50px;
-}
-
-.address-wrap{
-  position:relative;
-}
-
-.address-wrap input{
-  padding-right:55px;
-}
-
-.address-icon{
-  position:absolute;
-  right:16px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#C8C8CD;
-  font-size:23px;
-  pointer-events:none;
-}
-
-.warning-box{
+.currency-row{
   display:flex;
   gap:10px;
-  margin-top:16px;
-  padding:15px;
-  border-radius:14px;
-  border:1px solid #9C6A00;
-  background:rgba(156,106,0,.11);
-  color:#F0C94C;
-  font-size:13px;
-  line-height:1.55;
+  margin-top:14px;
 }
 
-.warning-icon{
-  font-size:20px;
-  flex-shrink:0;
-}
-
-.withdraw-submit{
-  width:100%;
-  min-height:58px;
-  margin-top:16px;
-  border:none;
-  border-radius:15px;
-  background:var(--gold);
-  color:#171200;
-  font-size:17px;
-  font-weight:900;
+.currency-chip{
+  flex:1;
+  background:var(--bg-card);
+  border:1px solid #2A2A2E;
+  border-radius:12px;
+  padding:12px 6px;
+  text-align:center;
   cursor:pointer;
 }
 
-.withdraw-submit:disabled{
-  background:#343438;
-  color:#85858C;
+.currency-chip.active{
+  border-color:var(--gold);
+  background:var(--bg-card-2);
 }
 
-.withdraw-status{
-  display:none;
-  margin-top:12px;
-  padding:12px;
-  border-radius:12px;
-  background:rgba(32,214,107,.09);
-  border:1px solid rgba(32,214,107,.35);
-  color:#54E892;
-  font-size:13px;
-  text-align:center;
+.currency-chip .sym{
+  font-size:20px;
 }
 
-/* PROFILE */
+.currency-chip .name{
+  font-size:11px;
+  color:var(--text-dim);
+  margin-top:4px;
+  font-weight:700;
+}
+
+/* ================= PROFILE ================= */
 
 .profile-title{
   font-size:30px;
-  margin:20px 0;
+  margin:20px 0 20px;
   font-weight:900;
 }
 
@@ -782,7 +620,11 @@ header.topbar{
   display:flex;
   align-items:center;
   gap:15px;
-  background:linear-gradient(135deg,#19191e,#121216);
+  background:linear-gradient(
+    135deg,
+    #19191e,
+    #121216
+  );
   border:1px solid #2A2A2E;
   border-radius:20px;
   padding:18px;
@@ -827,7 +669,9 @@ header.topbar{
   border:3px solid #15151a;
 }
 
-.profile-info{min-width:0}
+.profile-info{
+  min-width:0;
+}
 
 .profile-name{
   font-size:19px;
@@ -872,7 +716,9 @@ header.topbar{
   font-size:27px;
 }
 
-.rank-details{flex:1}
+.rank-details{
+  flex:1;
+}
 
 .rank-label{
   color:var(--text-dim);
@@ -910,11 +756,16 @@ header.topbar{
   justify-content:space-between;
   border-bottom:1px solid #28282E;
   cursor:pointer;
+  transition:.15s;
 }
 
-.profile-menu-item:last-child{border-bottom:none}
+.profile-menu-item:last-child{
+  border-bottom:none;
+}
 
-.profile-menu-item:active{background:#202027}
+.profile-menu-item:active{
+  background:#202027;
+}
 
 .profile-menu-left{
   display:flex;
@@ -943,13 +794,19 @@ header.topbar{
   font-size:23px;
 }
 
-.logout-menu{margin-bottom:30px}
+.logout-menu{
+  margin-bottom:30px;
+}
 
-.logout-item .menu-text{color:var(--danger)}
+.logout-item .menu-text{
+  color:var(--danger);
+}
 
 .logout-item .menu-icon{
   background:rgba(255,103,103,.08);
 }
+
+/* ================= POPUP ================= */
 
 .profile-popup{
   position:fixed;
@@ -958,7 +815,9 @@ header.topbar{
   display:none;
 }
 
-.profile-popup.show{display:block}
+.profile-popup.show{
+  display:block;
+}
 
 .popup-backdrop{
   position:absolute;
@@ -982,8 +841,14 @@ header.topbar{
 }
 
 @keyframes popupSlide{
-  from{opacity:0;transform:translateY(25px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(25px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
 
 .popup-top{
@@ -1022,11 +887,15 @@ header.topbar{
   border-bottom:1px solid #2B2B32;
 }
 
-.popup-row:last-child{border-bottom:none}
+.popup-row:last-child{
+  border-bottom:none;
+}
 
-.popup-row b{color:var(--text)}
+.popup-row b{
+  color:var(--text);
+}
 
-/* NAV */
+/* ================= NAV ================= */
 
 nav.bottom-nav{
   position:fixed;
@@ -1040,7 +909,7 @@ nav.bottom-nav{
   z-index:50;
 }
 
-.nav-btn{
+nav.bottom-nav .nav-btn{
   flex:1;
   display:flex;
   flex-direction:column;
@@ -1054,11 +923,15 @@ nav.bottom-nav{
   cursor:pointer;
 }
 
-.nav-btn .icon{font-size:19px}
+nav.bottom-nav .nav-btn .icon{
+  font-size:19px;
+}
 
-.nav-btn.active{color:var(--gold)}
+nav.bottom-nav .nav-btn.active{
+  color:var(--gold);
+}
 
-/* TOAST */
+/* ================= TOAST ================= */
 
 .toast{
   position:fixed;
@@ -1075,8 +948,6 @@ nav.bottom-nav{
   transition:all .25s ease;
   z-index:500;
   pointer-events:none;
-  text-align:center;
-  max-width:90%;
 }
 
 .toast.show{
@@ -1084,13 +955,6 @@ nav.bottom-nav{
   transform:translateX(-50%) translateY(0);
 }
 
-@media(max-width:380px){
-  .section{padding:0 14px}
-  .wallet-balance .num{font-size:50px}
-  .wallet-box,.withdraw-form{padding:16px}
-  .currency-option{padding:12px}
-  .currency-logo{width:50px;height:50px;min-width:50px}
-}
 </style>
 </head>
 
@@ -1099,6 +963,7 @@ nav.bottom-nav{
 <div class="toast" id="toast"></div>
 
 <header class="topbar">
+
   <div class="brand">
     <span class="dot"></span>
     <span class="name">EarnBoard</span>
@@ -1107,6 +972,7 @@ nav.bottom-nav{
   <div class="balance-pill">
     💰 <b id="topBalance">$0.00</b>
   </div>
+
 </header>
 
 
@@ -1115,7 +981,10 @@ nav.bottom-nav{
 <section class="section active" id="sec-home">
 
   <div class="hero">
-    <div class="eyebrow">Welcome to EarnBoard</div>
+
+    <div class="eyebrow">
+      Welcome to EarnBoard
+    </div>
 
     <div class="headline display">
       Earn <span class="gold">More.</span><br>
@@ -1130,52 +999,151 @@ nav.bottom-nav{
     <button class="hero-cta" onclick="switchSection('task')">
       📋 View Tasks
     </button>
+
   </div>
+
 
   <div id="quickActions">
 
-    <div class="qa-heading">Quick Actions</div>
+    <div class="qa-heading">
+      Quick Actions
+    </div>
+
+
+    <!-- LIGHT ADS -->
 
     <div class="qa-card" onclick="openTier('light')">
-      <div class="qa-icon">▶️</div>
 
-      <div class="qa-text">
-        <h4>Light Ads</h4>
-        <p>$0.01 – $0.05 per ad · 35 ads/day</p>
+      <div class="qa-icon">
+        ▶️
       </div>
 
-      <div class="qa-chevron">›</div>
+      <div class="qa-text">
+
+        <h4>
+          Light Ads
+        </h4>
+
+        <p>
+          Watch ads and earn rewards
+        </p>
+
+        <div class="qa-rate">
+          100 Ads = $1.00
+        </div>
+
+      </div>
+
+      <div class="qa-chevron">
+        ›
+      </div>
+
     </div>
+
+
+    <!-- PRO ADS -->
 
     <div class="qa-card" onclick="openTier('pro')">
-      <div class="qa-icon">⭐</div>
 
-      <div class="qa-text">
-        <h4>Pro Ads</h4>
-        <p>$0.05 – $0.10 per ad · 35 ads/day</p>
+      <div class="qa-icon">
+        ⭐
       </div>
 
-      <div class="qa-chevron">›</div>
+      <div class="qa-text">
+
+        <h4>
+          Pro Ads
+        </h4>
+
+        <p>
+          Watch Pro ads and earn rewards
+        </p>
+
+        <div class="qa-rate">
+          100 Ads = $1.00
+        </div>
+
+      </div>
+
+      <div class="qa-chevron">
+        ›
+      </div>
+
     </div>
 
-    <div class="qa-card" onclick="openTier('premium')">
-      <div class="qa-icon">💎</div>
 
-      <div class="qa-text">
-        <h4>Premium Membership</h4>
-        <p>35 ads/day · $0.10 – $0.20 per ad · $30/month</p>
+    <!-- EXTRA ADS -->
+
+    <div class="qa-card" onclick="openTier('extra')">
+
+      <div class="qa-icon">
+        ⚡
       </div>
 
-      <div class="qa-chevron">›</div>
+      <div class="qa-text">
+
+        <h4>
+          Extra Ads
+        </h4>
+
+        <p>
+          Extra daily ads for more earning
+        </p>
+
+        <div class="qa-rate">
+          100 Ads = $1.00
+        </div>
+
+      </div>
+
+      <div class="qa-chevron">
+        ›
+      </div>
+
+    </div>
+
+
+    <!-- PREMIUM -->
+
+    <div class="qa-card" onclick="openTier('premium')">
+
+      <div class="qa-icon">
+        💎
+      </div>
+
+      <div class="qa-text">
+
+        <h4>
+          Premium Membership
+        </h4>
+
+        <p>
+          Premium membership · $30/month
+        </p>
+
+      </div>
+
+      <div class="qa-chevron">
+        ›
+      </div>
+
     </div>
 
   </div>
 
+
   <div id="tierPanel" style="display:none;">
 
-    <div class="back-row" onclick="closeTier()">
-      <span class="arrow">‹</span>
-      <span class="label">Back to Home</span>
+    <div class="back-row" onclick="closeTier">
+
+      <span class="arrow">
+        ‹
+      </span>
+
+      <span class="label">
+        Back to Home
+      </span>
+
     </div>
 
     <div id="tierContent"></div>
@@ -1189,15 +1157,20 @@ nav.bottom-nav{
 
 <section class="section" id="sec-task">
 
-  <h2 class="page-title display">Task</h2>
+  <h2 class="page-title display">
+    Task
+  </h2>
 
   <p class="page-sub">
     Complete these to earn extra rewards
   </p>
 
+
   <div class="task-card">
 
-    <h4>Daily Check-in Streak</h4>
+    <h4>
+      Daily Check-in Streak
+    </h4>
 
     <p>
       Check in every day — reward grows each day,
@@ -1206,37 +1179,47 @@ nav.bottom-nav{
 
     <div class="streak-grid" id="streakGrid"></div>
 
-    <button class="watch-btn" id="checkinBtn"
+    <button
+      class="watch-btn"
+      id="checkinBtn"
       onclick="watchAdForCheckin()">
       Claim
     </button>
 
   </div>
 
+
   <div class="task-card">
 
-    <h4>Watch 3 Ads</h4>
+    <h4>
+      Watch 3 Ads
+    </h4>
 
     <p>
       Complete 3 ads in one day — bonus $0.05
     </p>
 
-    <button class="watch-btn"
+    <button
+      class="watch-btn"
       onclick="claimTask('ads3',0.05)">
       Claim
     </button>
 
   </div>
 
+
   <div class="task-card">
 
-    <h4>Telegram Channel Join</h4>
+    <h4>
+      Telegram Channel Join
+    </h4>
 
     <p>
       Join our official channel to get $0.03
     </p>
 
-    <button class="watch-btn"
+    <button
+      class="watch-btn"
       onclick="claimTask('joinchannel',0.03)">
       Claim
     </button>
@@ -1250,21 +1233,30 @@ nav.bottom-nav{
 
 <section class="section" id="sec-refer">
 
-  <h2 class="page-title display">Refer & Earn</h2>
+  <h2 class="page-title display">
+    Refer & Earn
+  </h2>
 
   <p class="page-sub">
     Invite friends and both of you earn rewards
   </p>
 
+
   <div class="list-card">
 
-    <h4>Apna Refer Code</h4>
+    <h4>
+      Apna Refer Code
+    </h4>
 
     <div class="refer-code">
 
-      <b id="referCode">EB-7X92K</b>
+      <b id="referCode">
+        EB-7X92K
+      </b>
 
-      <button class="copy-btn" onclick="copyRefer()">
+      <button
+        class="copy-btn"
+        onclick="copyRefer()">
         Copy
       </button>
 
@@ -1272,16 +1264,25 @@ nav.bottom-nav{
 
   </div>
 
+
   <div class="list-card">
 
     <div class="row-between">
 
       <div>
-        <h4>Total Referrals</h4>
-        <p>Friends invited so far</p>
+
+        <h4>
+          Total Referrals
+        </h4>
+
+        <p>
+          Friends invited so far
+        </p>
+
       </div>
 
-      <div class="display"
+      <div
+        class="display"
         style="font-size:22px;color:var(--gold);"
         id="referCount">
         0
@@ -1291,9 +1292,12 @@ nav.bottom-nav{
 
   </div>
 
+
   <div class="list-card">
 
-    <h4>Reward per Referral</h4>
+    <h4>
+      Reward per Referral
+    </h4>
 
     <p>
       You get $0.10 for every new friend who joins,
@@ -1309,227 +1313,101 @@ nav.bottom-nav{
 
 <section class="section" id="sec-wallet">
 
-  <h2 class="wallet-page-title display">Wallet</h2>
+  <h2 class="page-title display">
+    Wallet
+  </h2>
 
   <div class="wallet-balance">
 
-    <div class="num display" id="walletMain">
-      $0.00
+    <div class="num display">
+      <span id="walletMain">$0.00</span>
     </div>
 
-    <div class="balance-label">
+    <p class="page-sub">
       Available Balance
-    </div>
+    </p>
 
   </div>
 
 
   <div class="wallet-actions">
 
-    <button class="withdraw-main"
-      onclick="scrollToWithdraw()">
-      💳 &nbsp; Withdraw
+    <button onclick="requestWithdraw()">
+      Withdraw
     </button>
 
     <button onclick="switchSection('task')">
-      📈 &nbsp; Earn More
+      Earn More
     </button>
 
   </div>
 
 
   <div class="withdraw-limit">
-    Minimum: <b>$15.00</b>
-    &nbsp; • &nbsp;
-    Maximum: <b>$100.00</b>
+    Minimum withdraw <b>$15.00</b>
+    &nbsp;•&nbsp;
+    Maximum withdraw <b>$100.00</b>
   </div>
 
 
-  <!-- OLD WALLET CURRENCY DESIGN -->
-
-  <div class="wallet-box">
-
-    <div class="wallet-box-title">
-      Withdraw Currency
-    </div>
+  <h4 style="margin-top:24px;font-size:14px;color:var(--text-dim);font-weight:800;">
+    Withdraw Currency
+  </h4>
 
 
-    <button
-      class="currency-option usdt active"
+  <div class="currency-row">
+
+    <div
+      class="currency-chip active"
       data-currency="USDT"
       onclick="selectCurrency(this)">
 
-      <div class="currency-logo usdt">
+      <div class="sym">
         ₮
       </div>
 
-      <div class="currency-info">
-        <div class="currency-name">
-          USDT
-        </div>
-
-        <div class="currency-sub">
-          Tether USD
-        </div>
-      </div>
-
-      <div class="currency-check">
-        ✓
-      </div>
-
-    </button>
-
-
-    <button
-      class="currency-option usdc"
-      data-currency="USDC"
-      onclick="selectCurrency(this)">
-
-      <div class="currency-logo usdc">
-        $
-      </div>
-
-      <div class="currency-info">
-        <div class="currency-name">
-          USDC
-        </div>
-
-        <div class="currency-sub">
-          USD Coin
-        </div>
-      </div>
-
-      <div class="currency-check"></div>
-
-    </button>
-
-
-    <button
-      class="currency-option btc"
-      data-currency="BTC"
-      onclick="selectCurrency(this)">
-
-      <div class="currency-logo btc">
-        ₿
-      </div>
-
-      <div class="currency-info">
-        <div class="currency-name">
-          BTC
-        </div>
-
-        <div class="currency-sub">
-          Bitcoin
-        </div>
-      </div>
-
-      <div class="currency-check"></div>
-
-    </button>
-
-  </div>
-
-
-  <!-- OLD REQUEST WITHDRAWAL DESIGN -->
-
-  <div class="withdraw-form" id="withdrawForm">
-
-    <h3>
-      Request Withdrawal
-    </h3>
-
-    <div class="form-sub">
-      Enter your payout details carefully.
-    </div>
-
-
-    <label class="field-label">
-      Withdrawal Amount
-    </label>
-
-    <div class="amount-wrap">
-
-      <span class="currency-symbol">$</span>
-
-      <input
-        class="wallet-input"
-        id="withdrawAmount"
-        type="number"
-        min="15"
-        max="100"
-        step="0.01"
-        placeholder="Minimum $15.00"
-      >
-
-    </div>
-
-
-    <div style="height:18px;"></div>
-
-
-    <label class="field-label">
-      Wallet Address
-    </label>
-
-    <div class="address-wrap">
-
-      <input
-        class="wallet-input"
-        id="walletAddress"
-        type="text"
-        placeholder="Enter your crypto wallet address"
-        autocomplete="off"
-      >
-
-      <span class="address-icon">
-        ▣
-      </span>
-
-    </div>
-
-
-    <div class="warning-box">
-
-      <div class="warning-icon">
-        ⚠️
-      </div>
-
-      <div>
-        Make sure the wallet address matches the
-        selected currency/network.<br>
-
-        Incorrect addresses may result in loss of funds.<br>
-
-        Withdrawal requests will require backend/admin
-        verification before any real payout.
+      <div class="name">
+        USDT
       </div>
 
     </div>
-
-
-    <button
-      class="withdraw-submit"
-      onclick="submitWithdrawal()">
-
-      ✈️ &nbsp; Submit Withdrawal Request
-
-    </button>
 
 
     <div
-      class="withdraw-status"
-      id="withdrawStatus">
+      class="currency-chip"
+      data-currency="USDC"
+      onclick="selectCurrency(this)">
+
+      <div class="sym">
+        Ⓒ
+      </div>
+
+      <div class="name">
+        USDC
+      </div>
+
+    </div>
+
+
+    <div
+      class="currency-chip"
+      data-currency="BTC"
+      onclick="selectCurrency(this)">
+
+      <div class="sym">
+        ₿
+      </div>
+
+      <div class="name">
+        Bitcoin
+      </div>
+
     </div>
 
   </div>
 
 
-  <h4 style="
-    margin-top:24px;
-    font-size:14px;
-    color:var(--text-dim);
-    font-weight:800;
-  ">
+  <h4 style="margin-top:24px;font-size:14px;color:var(--text-dim);font-weight:800;">
     Recent Transactions
   </h4>
 
@@ -1538,9 +1416,11 @@ nav.bottom-nav{
     class="list-card"
     id="txList"
     style="margin-top:10px;">
+
     <p style="color:var(--text-dim);">
       No transactions yet
     </p>
+
   </div>
 
 </section>
@@ -1554,11 +1434,14 @@ nav.bottom-nav{
     Profile
   </h2>
 
+
   <div class="profile-header">
 
     <div class="profile-avatar-box">
 
-      <div class="profile-avatar" id="avatarInit">
+      <div
+        class="profile-avatar"
+        id="avatarInit">
         U
       </div>
 
@@ -1566,17 +1449,24 @@ nav.bottom-nav{
 
     </div>
 
+
     <div class="profile-info">
 
-      <div class="profile-name" id="profName">
+      <div
+        class="profile-name"
+        id="profName">
         User
       </div>
 
-      <div class="profile-username" id="profUsername">
+      <div
+        class="profile-username"
+        id="profUsername">
         @username
       </div>
 
-      <div class="profile-id" id="profId">
+      <div
+        class="profile-id"
+        id="profId">
         Telegram ID: —
       </div>
 
@@ -1585,7 +1475,8 @@ nav.bottom-nav{
   </div>
 
 
-  <div class="profile-rank"
+  <div
+    class="profile-rank"
     onclick="openProfileOption('rank')">
 
     <div class="rank-badge">
@@ -1598,25 +1489,32 @@ nav.bottom-nav{
         Your Rank
       </div>
 
-      <div class="rank-value" id="userRank">
+      <div
+        class="rank-value"
+        id="userRank">
         Bronze
       </div>
 
     </div>
 
-    <div class="rank-arrow">›</div>
+    <div class="rank-arrow">
+      ›
+    </div>
 
   </div>
 
 
   <div class="profile-menu">
 
-    <div class="profile-menu-item"
+    <div
+      class="profile-menu-item"
       onclick="openProfileOption('account')">
 
       <div class="profile-menu-left">
 
-        <div class="menu-icon">👤</div>
+        <div class="menu-icon">
+          👤
+        </div>
 
         <div class="menu-text">
           Account
@@ -1624,17 +1522,22 @@ nav.bottom-nav{
 
       </div>
 
-      <div class="menu-arrow">›</div>
+      <div class="menu-arrow">
+        ›
+      </div>
 
     </div>
 
 
-    <div class="profile-menu-item"
+    <div
+      class="profile-menu-item"
       onclick="openProfileOption('referrals')">
 
       <div class="profile-menu-left">
 
-        <div class="menu-icon">🔗</div>
+        <div class="menu-icon">
+          🔗
+        </div>
 
         <div class="menu-text">
           Referrals
@@ -1642,17 +1545,22 @@ nav.bottom-nav{
 
       </div>
 
-      <div class="menu-arrow">›</div>
+      <div class="menu-arrow">
+        ›
+      </div>
 
     </div>
 
 
-    <div class="profile-menu-item"
+    <div
+      class="profile-menu-item"
       onclick="openProfileOption('security')">
 
       <div class="profile-menu-left">
 
-        <div class="menu-icon">🔒</div>
+        <div class="menu-icon">
+          🔒
+        </div>
 
         <div class="menu-text">
           Security
@@ -1660,7 +1568,9 @@ nav.bottom-nav{
 
       </div>
 
-      <div class="menu-arrow">›</div>
+      <div class="menu-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1669,12 +1579,15 @@ nav.bottom-nav{
 
   <div class="profile-menu">
 
-    <div class="profile-menu-item"
+    <div
+      class="profile-menu-item"
       onclick="openProfileOption('terms')">
 
       <div class="profile-menu-left">
 
-        <div class="menu-icon">📄</div>
+        <div class="menu-icon">
+          📄
+        </div>
 
         <div class="menu-text">
           Terms & Conditions
@@ -1682,17 +1595,22 @@ nav.bottom-nav{
 
       </div>
 
-      <div class="menu-arrow">›</div>
+      <div class="menu-arrow">
+        ›
+      </div>
 
     </div>
 
 
-    <div class="profile-menu-item"
+    <div
+      class="profile-menu-item"
       onclick="openProfileOption('privacy')">
 
       <div class="profile-menu-left">
 
-        <div class="menu-icon">🛡️</div>
+        <div class="menu-icon">
+          🛡️
+        </div>
 
         <div class="menu-text">
           Privacy Policy
@@ -1700,17 +1618,22 @@ nav.bottom-nav{
 
       </div>
 
-      <div class="menu-arrow">›</div>
+      <div class="menu-arrow">
+        ›
+      </div>
 
     </div>
 
 
-    <div class="profile-menu-item"
+    <div
+      class="profile-menu-item"
       onclick="openProfileOption('support')">
 
       <div class="profile-menu-left">
 
-        <div class="menu-icon">💬</div>
+        <div class="menu-icon">
+          💬
+        </div>
 
         <div class="menu-text">
           Help & Support
@@ -1718,7 +1641,9 @@ nav.bottom-nav{
 
       </div>
 
-      <div class="menu-arrow">›</div>
+      <div class="menu-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1727,12 +1652,15 @@ nav.bottom-nav{
 
   <div class="profile-menu logout-menu">
 
-    <div class="profile-menu-item logout-item"
+    <div
+      class="profile-menu-item logout-item"
       onclick="logoutUser()">
 
       <div class="profile-menu-left">
 
-        <div class="menu-icon">🚪</div>
+        <div class="menu-icon">
+          🚪
+        </div>
 
         <div class="menu-text">
           Log Out
@@ -1740,18 +1668,24 @@ nav.bottom-nav{
 
       </div>
 
-      <div class="menu-arrow">›</div>
+      <div class="menu-arrow">
+        ›
+      </div>
 
     </div>
 
   </div>
 
 
-  <div class="profile-popup" id="profilePopup">
+  <div
+    class="profile-popup"
+    id="profilePopup">
 
-    <div class="popup-backdrop"
+    <div
+      class="popup-backdrop"
       onclick="closeProfilePopup()">
     </div>
+
 
     <div class="popup-card">
 
@@ -1761,14 +1695,17 @@ nav.bottom-nav{
           Account
         </h3>
 
-        <button class="popup-close"
+        <button
+          class="popup-close"
           onclick="closeProfilePopup()">
           ✕
         </button>
 
       </div>
 
-      <div class="popup-body"
+
+      <div
+        class="popup-body"
         id="popupContent">
       </div>
 
@@ -1779,46 +1716,70 @@ nav.bottom-nav{
 </section>
 
 
-<!-- ================= NAV ================= -->
+<!-- ================= BOTTOM NAV ================= -->
 
 <nav class="bottom-nav">
 
-  <button class="nav-btn active"
+  <button
+    class="nav-btn active"
     data-target="home">
 
-    <span class="icon">🏠</span>
+    <span class="icon">
+      🏠
+    </span>
+
     Home
 
   </button>
 
-  <button class="nav-btn"
+
+  <button
+    class="nav-btn"
     data-target="task">
 
-    <span class="icon">✅</span>
+    <span class="icon">
+      ✅
+    </span>
+
     Task
 
   </button>
 
-  <button class="nav-btn"
+
+  <button
+    class="nav-btn"
     data-target="refer">
 
-    <span class="icon">🔗</span>
+    <span class="icon">
+      🔗
+    </span>
+
     Refer
 
   </button>
 
-  <button class="nav-btn"
+
+  <button
+    class="nav-btn"
     data-target="wallet">
 
-    <span class="icon">💳</span>
+    <span class="icon">
+      💳
+    </span>
+
     Wallet
 
   </button>
 
-  <button class="nav-btn"
+
+  <button
+    class="nav-btn"
     data-target="profile">
 
-    <span class="icon">👤</span>
+    <span class="icon">
+      👤
+    </span>
+
     Profile
 
   </button>
@@ -1836,24 +1797,30 @@ let tg =
     : null;
 
 if(tg){
+
   tg.ready();
   tg.expand();
+
 }
 
 
 /* ================= STATE ================= */
 
-const STORAGE_KEY = 'earnboard_state_v1';
+const STORAGE_KEY =
+  'earnboard_state_v2';
+
 
 function loadState(){
 
   const defaults = {
+
     balance:0,
     todayEarned:0,
     totalEarned:0,
 
     lightWatched:0,
     proWatched:0,
+    extraWatched:0,
     premiumWatched:0,
 
     premium:false,
@@ -1867,25 +1834,24 @@ function loadState(){
 
     transactions:[],
 
-    withdrawals:[],
-
     joinDate:
       new Date().toLocaleDateString('en-IN')
+
   };
+
 
   const raw =
     localStorage.getItem(STORAGE_KEY);
+
 
   if(raw){
 
     try{
 
-      const saved = JSON.parse(raw);
-
       return Object.assign(
         {},
         defaults,
-        saved
+        JSON.parse(raw)
       );
 
     }catch(e){
@@ -1896,10 +1862,15 @@ function loadState(){
 
   }
 
+
   return defaults;
+
 }
 
-let state = loadState();
+
+let state =
+  loadState();
+
 
 function saveState(){
 
@@ -1913,48 +1884,58 @@ function saveState(){
 
 /* ================= CONSTANTS ================= */
 
-const LIGHT_MAX=35;
-const PRO_MAX=35;
-const PREMIUM_MAX=35;
+const LIGHT_MAX = 100;
+const PRO_MAX = 100;
+const EXTRA_MAX = 100;
+const PREMIUM_MAX = 100;
 
-const LIGHT_MIN_R=.01;
-const LIGHT_MAX_R=.05;
+const LIGHT_REWARD = 0.01;
+const PRO_REWARD = 0.01;
+const EXTRA_REWARD = 0.01;
+const PREMIUM_REWARD = 0.01;
 
-const PRO_MIN_R=.05;
-const PRO_MAX_R=.10;
-
-const PREMIUM_MIN_R=.10;
-const PREMIUM_MAX_R=.20;
-
-const STREAK_REWARDS=[
-  .02,.03,.04,.05,.06,.08,.10
+const STREAK_REWARDS = [
+  .02,
+  .03,
+  .04,
+  .05,
+  .06,
+  .08,
+  .10
 ];
 
 
 /* ================= FORMAT ================= */
 
 function fmt(n){
-  return '$'+Number(n).toFixed(2);
+
+  return '$' + Number(n).toFixed(2);
+
 }
 
 
-/* ================= TOP RENDER ================= */
+/* ================= RENDER ================= */
 
 function renderTop(){
 
   document.getElementById('topBalance')
-    .textContent=fmt(state.balance);
+    .textContent =
+    fmt(state.balance);
+
 
   document.getElementById('walletMain')
-    .textContent=fmt(state.balance);
+    .textContent =
+    fmt(state.balance);
+
 
   document.getElementById('referCount')
-    .textContent=state.referCount;
+    .textContent =
+    state.referCount;
 
 }
 
 
-/* ================= HOME ADS ================= */
+/* ================= TIERS ================= */
 
 function openTier(tier){
 
@@ -1968,6 +1949,7 @@ function openTier(tier){
 
 }
 
+
 function closeTier(){
 
   document.getElementById('tierPanel')
@@ -1978,13 +1960,16 @@ function closeTier(){
 
 }
 
+
 function renderTierContent(tier){
 
-  const el=document.getElementById('tierContent');
+  const el =
+    document.getElementById('tierContent');
 
-  if(tier==='light'){
 
-    el.innerHTML=`
+  if(tier === 'light'){
+
+    el.innerHTML = `
 
       <div class="ad-card">
 
@@ -1997,19 +1982,17 @@ function renderTierContent(tier){
           <div>
 
             <div class="ad-title">
-              Light Ad
+              Light Ads
             </div>
 
             <div class="ad-reward">
-              $${LIGHT_MIN_R.toFixed(2)}
-              –
-              $${LIGHT_MAX_R.toFixed(2)}
-              per ad
+              100 Ads = $1.00
             </div>
 
           </div>
 
         </div>
+
 
         <button
           class="watch-btn"
@@ -2019,27 +2002,34 @@ function renderTierContent(tier){
           ${
             state.lightWatched>=LIGHT_MAX
             ? 'Done'
-            : 'Watch'
+            : 'Watch Ad'
           }
 
         </button>
 
       </div>
 
+
       <div class="count-row">
 
-        <span>Watched today</span>
+        <span>
+          Watched today
+        </span>
 
         <span>
           ${state.lightWatched} / ${LIGHT_MAX}
         </span>
 
       </div>
+
     `;
 
-  }else if(tier==='pro'){
+  }
 
-    el.innerHTML=`
+
+  else if(tier === 'pro'){
+
+    el.innerHTML = `
 
       <div class="ad-card">
 
@@ -2052,19 +2042,17 @@ function renderTierContent(tier){
           <div>
 
             <div class="ad-title">
-              Pro Ad
+              Pro Ads
             </div>
 
             <div class="ad-reward">
-              $${PRO_MIN_R.toFixed(2)}
-              –
-              $${PRO_MAX_R.toFixed(2)}
-              per ad
+              100 Ads = $1.00
             </div>
 
           </div>
 
         </div>
+
 
         <button
           class="watch-btn pro"
@@ -2074,27 +2062,94 @@ function renderTierContent(tier){
           ${
             state.proWatched>=PRO_MAX
             ? 'Done'
-            : 'Watch'
+            : 'Watch Ad'
           }
 
         </button>
 
       </div>
 
+
       <div class="count-row">
 
-        <span>Watched today</span>
+        <span>
+          Watched today
+        </span>
 
         <span>
           ${state.proWatched} / ${PRO_MAX}
         </span>
 
       </div>
+
     `;
 
-  }else{
+  }
 
-    el.innerHTML=`
+
+  else if(tier === 'extra'){
+
+    el.innerHTML = `
+
+      <div class="ad-card">
+
+        <div class="left">
+
+          <div class="ad-icon extra">
+            ⚡
+          </div>
+
+          <div>
+
+            <div class="ad-title">
+              Extra Ads
+            </div>
+
+            <div class="ad-reward">
+              100 Ads = $1.00
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="watch-btn extra"
+          onclick="watchAd('extra')"
+          ${state.extraWatched>=EXTRA_MAX?'disabled':''}>
+
+          ${
+            state.extraWatched>=EXTRA_MAX
+            ? 'Done'
+            : 'Watch Ad'
+          }
+
+        </button>
+
+      </div>
+
+
+      <div class="count-row">
+
+        <span>
+          Watched today
+        </span>
+
+        <span>
+          ${state.extraWatched} / ${EXTRA_MAX}
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
+
+  else{
+
+    el.innerHTML = `
 
       <div class="premium-card">
 
@@ -2104,10 +2159,8 @@ function renderTierContent(tier){
 
         <p>
           Subscribe for $30/month to unlock
-          35 premium ads per day, each paying
-          $${PREMIUM_MIN_R.toFixed(2)}
-          –
-          $${PREMIUM_MAX_R.toFixed(2)}.
+          premium ads.
+          Each 100 ads equals $1.00.
         </p>
 
         <button
@@ -2123,6 +2176,7 @@ function renderTierContent(tier){
         </button>
 
       </div>
+
 
       ${
         state.premium
@@ -2143,15 +2197,13 @@ function renderTierContent(tier){
                 </div>
 
                 <div class="ad-reward">
-                  $${PREMIUM_MIN_R.toFixed(2)}
-                  –
-                  $${PREMIUM_MAX_R.toFixed(2)}
-                  per ad
+                  100 Ads = $1.00
                 </div>
 
               </div>
 
             </div>
+
 
             <button
               class="watch-btn pro"
@@ -2161,28 +2213,36 @@ function renderTierContent(tier){
               ${
                 state.premiumWatched>=PREMIUM_MAX
                 ? 'Done'
-                : 'Watch'
+                : 'Watch Ad'
               }
 
             </button>
 
           </div>
 
+
           <div class="count-row">
 
-            <span>Watched today</span>
+            <span>
+              Watched today
+            </span>
 
             <span>
-              ${state.premiumWatched}/${PREMIUM_MAX}
+              ${state.premiumWatched}
+              /
+              ${PREMIUM_MAX}
             </span>
 
           </div>
+
         `
         : ''
       }
 
     `;
+
   }
+
 }
 
 
@@ -2190,17 +2250,21 @@ function renderTierContent(tier){
 
 function renderTx(){
 
-  const list=document.getElementById('txList');
+  const list =
+    document.getElementById('txList');
+
 
   if(state.transactions.length===0){
 
-    list.innerHTML=
+    list.innerHTML =
       '<p style="color:var(--text-dim);">No transactions yet</p>';
 
     return;
+
   }
 
-  list.innerHTML=
+
+  list.innerHTML =
     state.transactions
       .slice(0,10)
       .map(tx=>`
@@ -2208,11 +2272,15 @@ function renderTx(){
         <div class="tx-item">
 
           <div>
-            <div>${tx.label}</div>
+
+            <div>
+              ${tx.label}
+            </div>
 
             <div class="meta">
               ${tx.date}
             </div>
+
           </div>
 
           <div class="tx-amount plus">
@@ -2223,6 +2291,7 @@ function renderTx(){
 
       `)
       .join('');
+
 }
 
 
@@ -2230,19 +2299,30 @@ function renderTx(){
 
 function addEarning(amount,label){
 
-  state.balance+=amount;
-  state.todayEarned+=amount;
-  state.totalEarned+=amount;
+  state.balance += amount;
+
+  state.todayEarned += amount;
+
+  state.totalEarned += amount;
 
   state.transactions.unshift({
+
     label:label,
+
     amount:amount,
-    date:new Date().toLocaleString('en-IN')
+
+    date:
+      new Date().toLocaleString('en-IN')
+
   });
 
+
   saveState();
+
   renderTop();
+
   renderTx();
+
 }
 
 
@@ -2251,66 +2331,79 @@ function addEarning(amount,label){
 function watchAd(tier){
 
   let reward;
+  let watchedKey;
+  let maxAds;
+
 
   if(tier==='light'){
 
-    if(state.lightWatched>=LIGHT_MAX)
-      return;
+    watchedKey='lightWatched';
+    maxAds=LIGHT_MAX;
+    reward=LIGHT_REWARD;
 
-    reward=
-      Math.random()*
-      (LIGHT_MAX_R-LIGHT_MIN_R)+
-      LIGHT_MIN_R;
+  }
 
-    state.lightWatched++;
 
-  }else if(tier==='pro'){
+  else if(tier==='pro'){
 
-    if(state.proWatched>=PRO_MAX)
-      return;
+    watchedKey='proWatched';
+    maxAds=PRO_MAX;
+    reward=PRO_REWARD;
 
-    reward=
-      Math.random()*
-      (PRO_MAX_R-PRO_MIN_R)+
-      PRO_MIN_R;
+  }
 
-    state.proWatched++;
 
-  }else{
+  else if(tier==='extra'){
+
+    watchedKey='extraWatched';
+    maxAds=EXTRA_MAX;
+    reward=EXTRA_REWARD;
+
+  }
+
+
+  else{
 
     if(!state.premium)
       return;
 
-    if(state.premiumWatched>=PREMIUM_MAX)
-      return;
+    watchedKey='premiumWatched';
+    maxAds=PREMIUM_MAX;
+    reward=PREMIUM_REWARD;
 
-    reward=
-      Math.random()*
-      (PREMIUM_MAX_R-PREMIUM_MIN_R)+
-      PREMIUM_MIN_R;
-
-    state.premiumWatched++;
   }
 
-  reward=Math.round(reward*100)/100;
 
-  const label=
+  if(state[watchedKey]>=maxAds)
+    return;
+
+
+  state[watchedKey]++;
+
+
+  const label =
     tier==='light'
     ? 'Light Ad'
     : tier==='pro'
     ? 'Pro Ad'
+    : tier==='extra'
+    ? 'Extra Ad'
     : 'Premium Ad';
+
 
   addEarning(
     reward,
-    label+' Reward'
+    label + ' Reward'
   );
+
 
   showToast(
-    '+'+fmt(reward)+' earned!'
+    '+' + fmt(reward) + ' earned!'
   );
 
+
   renderTierContent(tier);
+
 }
 
 
@@ -2325,7 +2418,9 @@ function activatePremium(){
     );
 
     return;
+
   }
+
 
   state.premium=true;
 
@@ -2336,6 +2431,7 @@ function activatePremium(){
   showToast(
     'Premium activated!'
   );
+
 }
 
 
@@ -2343,63 +2439,92 @@ function activatePremium(){
 
 function getPendingCheckinDay(){
 
-  const today=
+  const today =
     new Date().toDateString();
 
-  const yesterday=
+
+  const yesterday =
     new Date(
       Date.now()-86400000
     ).toDateString();
 
-  if(state.lastCheckinDate===today)
+
+  if(
+    state.lastCheckinDate===today
+  )
     return state.checkinDay;
 
-  if(state.lastCheckinDate===yesterday){
+
+  if(
+    state.lastCheckinDate===yesterday
+  ){
 
     return state.checkinDay>=7
       ? 1
       : state.checkinDay+1;
+
   }
 
+
   return 1;
+
 }
 
 
 function renderStreak(){
 
-  const today=
+  const today =
     new Date().toDateString();
 
-  const grid=
-    document.getElementById('streakGrid');
 
-  const btn=
-    document.getElementById('checkinBtn');
+  const grid =
+    document.getElementById(
+      'streakGrid'
+    );
 
-  const claimedToday=
+
+  const btn =
+    document.getElementById(
+      'checkinBtn'
+    );
+
+
+  const claimedToday =
     state.lastCheckinDate===today;
 
-  const pending=
+
+  const pending =
     getPendingCheckinDay();
 
-  const doneCount=
+
+  const doneCount =
     claimedToday
     ? state.checkinDay
     : pending-1;
 
+
   let html='';
 
-  for(let i=1;i<=7;i++){
 
-    const isDone=i<=doneCount;
+  for(
+    let i=1;
+    i<=7;
+    i++
+  ){
 
-    const isCurrent=
+    const isDone =
+      i<=doneCount;
+
+
+    const isCurrent =
       i===pending &&
       !claimedToday;
 
-    html+=`
 
-      <div class="streak-day
+    html += `
+
+      <div
+        class="streak-day
         ${isDone?'done':''}
         ${isCurrent?'current':''}">
 
@@ -2416,10 +2541,14 @@ function renderStreak(){
         </div>
 
       </div>
+
     `;
+
   }
 
+
   grid.innerHTML=html;
+
 
   if(claimedToday){
 
@@ -2428,7 +2557,9 @@ function renderStreak(){
     btn.textContent=
       'Claimed for today — come back tomorrow';
 
-  }else{
+  }
+
+  else{
 
     btn.disabled=false;
 
@@ -2437,54 +2568,88 @@ function renderStreak(){
       pending+
       ' – $'+
       STREAK_REWARDS[pending-1].toFixed(2);
+
   }
+
 }
 
 
 function watchAdForCheckin(){
 
-  const today=
+  const today =
     new Date().toDateString();
 
-  if(state.lastCheckinDate===today)
+
+  if(
+    state.lastCheckinDate===today
+  )
     return;
 
-  const btn=
-    document.getElementById('checkinBtn');
+
+  const btn =
+    document.getElementById(
+      'checkinBtn'
+    );
+
 
   btn.disabled=true;
-  btn.textContent='Watching Ad…';
 
-  showToast('Ad playing…');
+  btn.textContent=
+    'Watching Ad…';
+
+
+  showToast(
+    'Ad playing…'
+  );
+
 
   setTimeout(
-    ()=>claimCheckin(),
+    ()=>{
+      claimCheckin();
+    },
     2000
   );
+
 }
 
 
 function claimCheckin(){
 
-  const today=
+  const today =
     new Date().toDateString();
 
-  if(state.lastCheckinDate===today)
+
+  if(
+    state.lastCheckinDate===today
+  )
     return;
 
-  const dayToClaim=
+
+  const dayToClaim =
     getPendingCheckinDay();
 
-  const reward=
-    STREAK_REWARDS[dayToClaim-1];
 
-  state.checkinDay=dayToClaim;
-  state.lastCheckinDate=today;
+  const reward =
+    STREAK_REWARDS[
+      dayToClaim-1
+    ];
+
+
+  state.checkinDay =
+    dayToClaim;
+
+
+  state.lastCheckinDate =
+    today;
+
 
   addEarning(
     reward,
-    'Day '+dayToClaim+' Check-in'
+    'Day '+
+    dayToClaim+
+    ' Check-in'
   );
+
 
   showToast(
     '+'+
@@ -2494,7 +2659,9 @@ function claimCheckin(){
     ' streak'
   );
 
+
   renderStreak();
+
 }
 
 
@@ -2509,26 +2676,29 @@ function claimTask(id,amount){
     );
 
     return;
+
   }
 
+
   state.tasksClaimed[id]=true;
+
 
   addEarning(
     amount,
     'Task Reward'
   );
 
+
   showToast(
     '+'+
     fmt(amount)+
     ' earned from task!'
   );
+
 }
 
 
-/* =========================================================
-   WALLET
-   ========================================================= */
+/* ================= WALLET ================= */
 
 let selectedCurrency='USDT';
 
@@ -2536,223 +2706,67 @@ let selectedCurrency='USDT';
 function selectCurrency(el){
 
   document
-    .querySelectorAll('.currency-option')
+    .querySelectorAll('.currency-chip')
     .forEach(
-      c=>{
-        c.classList.remove('active');
-      }
+      c=>c.classList.remove('active')
     );
+
 
   el.classList.add('active');
 
-  selectedCurrency=
+
+  selectedCurrency =
     el.dataset.currency;
 
-  updateWalletPlaceholders();
 }
 
 
-function updateWalletPlaceholders(){
+function requestWithdraw(){
 
-  const input=
-    document.getElementById('walletAddress');
-
-  if(!input)
-    return;
-
-  if(selectedCurrency==='USDT'){
-    input.placeholder=
-      'Enter your USDT wallet address';
-  }
-
-  else if(selectedCurrency==='USDC'){
-    input.placeholder=
-      'Enter your USDC wallet address';
-  }
-
-  else{
-    input.placeholder=
-      'Enter your BTC wallet address';
-  }
-}
-
-
-function scrollToWithdraw(){
-
-  const form=
-    document.getElementById('withdrawForm');
-
-  if(form){
-
-    form.scrollIntoView({
-      behavior:'smooth',
-      block:'start'
-    });
-
-  }
-}
-
-
-function submitWithdrawal(){
-
-  const amountInput=
-    document.getElementById('withdrawAmount');
-
-  const addressInput=
-    document.getElementById('walletAddress');
-
-  const status=
-    document.getElementById('withdrawStatus');
-
-  const amount=
-    Number(amountInput.value);
-
-  const address=
-    addressInput.value.trim();
-
-
-  if(!amount){
+  if(state.balance<15){
 
     showToast(
-      'Enter withdrawal amount'
-    );
-
-    amountInput.focus();
-    return;
-  }
-
-
-  if(amount<15){
-
-    showToast(
-      'Minimum withdrawal is $15.00'
-    );
-
-    amountInput.focus();
-    return;
-  }
-
-
-  if(amount>100){
-
-    showToast(
-      'Maximum withdrawal is $100.00'
-    );
-
-    amountInput.focus();
-    return;
-  }
-
-
-  if(amount>state.balance){
-
-    showToast(
-      'Insufficient balance'
+      'Minimum withdraw is $15.00, your balance is too low'
     );
 
     return;
+
   }
-
-
-  if(!address){
-
-    showToast(
-      'Enter your wallet address'
-    );
-
-    addressInput.focus();
-    return;
-  }
-
-
-  if(address.length<10){
-
-    showToast(
-      'Please enter a valid wallet address'
-    );
-
-    addressInput.focus();
-    return;
-  }
-
-
-  const request={
-    id:
-      'WD-'+
-      Date.now(),
-
-    currency:
-      selectedCurrency,
-
-    amount:
-      amount,
-
-    address:
-      address,
-
-    status:
-      'Pending Verification',
-
-    date:
-      new Date().toLocaleString('en-IN')
-  };
-
-
-  state.withdrawals.unshift(request);
-
-
-  /*
-    IMPORTANT:
-    Balance is NOT deducted here because this frontend
-    does not have a backend/admin payout system.
-    The request is stored locally as pending.
-  */
-
-
-  saveState();
-
-
-  status.style.display='block';
-
-  status.innerHTML=
-    '✓ Withdrawal request submitted — '+
-    selectedCurrency+
-    ' '+amount.toFixed(2)+
-    '<br><small>Pending backend/admin verification.</small>';
-
-
-  amountInput.value='';
-  addressInput.value='';
 
 
   showToast(
-    'Withdrawal request submitted'
+    'Withdraw request sent ('+
+    selectedCurrency+
+    ')'
   );
 
 }
 
 
-/* ================= REFERRAL ================= */
+/* ================= REFER ================= */
 
 function copyRefer(){
 
-  const code=
-    document
-      .getElementById('referCode')
-      .textContent
-      .trim();
+  const code =
+    document.getElementById(
+      'referCode'
+    ).textContent;
 
-  if(navigator.clipboard){
+
+  if(
+    navigator.clipboard
+  ){
 
     navigator.clipboard
-      .writeText(code)
-      .catch(()=>{});
+      .writeText(code);
 
   }
+
 
   showToast(
     'Referral code copied'
   );
+
 }
 
 
@@ -2760,24 +2774,24 @@ function copyRefer(){
 
 function showToast(msg){
 
-  const t=
-    document.getElementById('toast');
+  const t =
+    document.getElementById(
+      'toast'
+    );
+
 
   t.textContent=msg;
 
   t.classList.add('show');
 
-  clearTimeout(
-    window.toastTimer
+
+  setTimeout(
+    ()=>{
+      t.classList.remove('show');
+    },
+    1800
   );
 
-  window.toastTimer=
-    setTimeout(
-      ()=>{
-        t.classList.remove('show');
-      },
-      1800
-    );
 }
 
 
@@ -2788,18 +2802,19 @@ function switchSection(target){
   document
     .querySelectorAll('.section')
     .forEach(
-      s=>{
-        s.classList.remove('active');
-      }
+      s=>s.classList.remove('active')
     );
 
-  const section=
+
+  const section =
     document.getElementById(
       'sec-'+target
     );
 
+
   if(section)
     section.classList.add('active');
+
 
   document
     .querySelectorAll('.nav-btn')
@@ -2812,10 +2827,6 @@ function switchSection(target){
       }
     );
 
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
 }
 
 
@@ -2841,27 +2852,32 @@ document
 
 function openProfileOption(type){
 
-  const popup=
+  const popup =
     document.getElementById(
       'profilePopup'
     );
 
-  const title=
+
+  const title =
     document.getElementById(
       'popupTitle'
     );
 
-  const content=
+
+  const content =
     document.getElementById(
       'popupContent'
     );
+
 
   let html='';
 
 
   if(type==='rank'){
 
-    title.textContent='Your Rank';
+    title.textContent=
+      'Your Rank';
+
 
     html=`
 
@@ -2870,7 +2886,9 @@ function openProfileOption(type){
         padding:10px 0 20px;
       ">
 
-        <div style="font-size:58px;">
+        <div style="
+          font-size:58px;
+        ">
           🏆
         </div>
 
@@ -2883,13 +2901,16 @@ function openProfileOption(type){
           ${document.getElementById('userRank').textContent}
         </div>
 
-        <p style="margin-top:8px;">
+        <p style="
+          margin-top:8px;
+        ">
           Keep completing tasks,
           watching ads and earning rewards
           to improve your rank.
         </p>
 
       </div>
+
     `;
 
   }
@@ -2897,38 +2918,47 @@ function openProfileOption(type){
 
   else if(type==='account'){
 
-    title.textContent='Account';
+    title.textContent=
+      'Account';
+
 
     html=`
 
       <div class="popup-row">
         <span>Name</span>
-        <b>${document.getElementById('profName').textContent}</b>
+        <b>
+          ${document.getElementById('profName').textContent}
+        </b>
       </div>
 
       <div class="popup-row">
         <span>Username</span>
-        <b>${document.getElementById('profUsername').textContent}</b>
+        <b>
+          ${document.getElementById('profUsername').textContent}
+        </b>
       </div>
 
       <div class="popup-row">
         <span>Telegram ID</span>
         <b>
-          ${document.getElementById('profId')
-            .textContent
-            .replace('Telegram ID: ','')}
+          ${document.getElementById('profId').textContent.replace('Telegram ID: ','')}
         </b>
       </div>
 
       <div class="popup-row">
         <span>Balance</span>
-        <b>${fmt(state.balance)}</b>
+        <b>
+          ${fmt(state.balance)}
+        </b>
       </div>
 
       <div class="popup-row">
         <span>Total Earned</span>
-        <b>${fmt(state.totalEarned)}</b>
+        <b>
+          ${fmt(state.totalEarned)}
+        </b>
       </div>
+
     `;
 
   }
@@ -2936,7 +2966,9 @@ function openProfileOption(type){
 
   else if(type==='referrals'){
 
-    title.textContent='Referrals';
+    title.textContent=
+      'Referrals';
+
 
     html=`
 
@@ -2949,13 +2981,18 @@ function openProfileOption(type){
 
       <div class="popup-row">
         <span>Total Referrals</span>
-        <b>${state.referCount}</b>
+        <b>
+          ${state.referCount}
+        </b>
       </div>
 
       <div class="popup-row">
         <span>Reward Per Referral</span>
-        <b>$0.10</b>
+        <b>
+          $0.10
+        </b>
       </div>
+
     `;
 
   }
@@ -2963,7 +3000,9 @@ function openProfileOption(type){
 
   else if(type==='security'){
 
-    title.textContent='Security';
+    title.textContent=
+      'Security';
+
 
     html=`
 
@@ -2976,13 +3015,16 @@ function openProfileOption(type){
 
       <div class="popup-row">
         <span>Account Protection</span>
-        <b>Active</b>
+        <b>
+          Active
+        </b>
       </div>
 
       <p style="margin-top:15px;">
         Your EarnBoard account is connected
         with Telegram WebApp.
       </p>
+
     `;
 
   }
@@ -2990,7 +3032,9 @@ function openProfileOption(type){
 
   else if(type==='terms'){
 
-    title.textContent='Terms & Conditions';
+    title.textContent=
+      'Terms & Conditions';
+
 
     html=`
 
@@ -3005,6 +3049,7 @@ function openProfileOption(type){
         Fraudulent or abusive activity may
         result in account restrictions.
       </p>
+
     `;
 
   }
@@ -3012,7 +3057,9 @@ function openProfileOption(type){
 
   else if(type==='privacy'){
 
-    title.textContent='Privacy Policy';
+    title.textContent=
+      'Privacy Policy';
+
 
     html=`
 
@@ -3028,6 +3075,7 @@ function openProfileOption(type){
         protected and only use information
         required for the service.
       </p>
+
     `;
 
   }
@@ -3035,7 +3083,9 @@ function openProfileOption(type){
 
   else if(type==='support'){
 
-    title.textContent='Help & Support';
+    title.textContent=
+      'Help & Support';
+
 
     html=`
 
@@ -3062,14 +3112,18 @@ function openProfileOption(type){
         Contact Support
 
       </button>
+
     `;
 
   }
 
 
-  content.innerHTML=html;
+  content.innerHTML=
+    html;
+
 
   popup.classList.add('show');
+
 }
 
 
@@ -3078,6 +3132,7 @@ function closeProfilePopup(){
   document
     .getElementById('profilePopup')
     .classList.remove('show');
+
 }
 
 
@@ -3085,21 +3140,25 @@ function closeProfilePopup(){
 
 function logoutUser(){
 
-  const confirmed=
+  const confirmed =
     confirm(
       'Are you sure you want to log out?'
     );
 
+
   if(!confirmed)
     return;
+
 
   localStorage.removeItem(
     STORAGE_KEY
   );
 
+
   showToast(
     'Logged out'
   );
+
 
   setTimeout(
     ()=>{
@@ -3107,6 +3166,7 @@ function logoutUser(){
     },
     700
   );
+
 }
 
 
@@ -3114,64 +3174,94 @@ function logoutUser(){
 
 function initProfile(){
 
-  let user=
+  let user =
     tg &&
     tg.initDataUnsafe &&
     tg.initDataUnsafe.user;
 
+
   if(user){
 
-    const fullName=
+    const fullName =
       (
-        (user.first_name||'')+
+        (user.first_name || '')+
         ' '+
-        (user.last_name||'')
+        (user.last_name || '')
       ).trim();
+
 
     document.getElementById(
       'profName'
-    ).textContent=
-      fullName||'User';
+    ).textContent =
+      fullName || 'User';
+
 
     document.getElementById(
       'profUsername'
-    ).textContent=
+    ).textContent =
       user.username
       ? '@'+user.username
       : '@username';
 
+
     document.getElementById(
       'profId'
-    ).textContent=
+    ).textContent =
       'Telegram ID: '+user.id;
+
 
     document.getElementById(
       'referCode'
-    ).textContent=
+    ).textContent =
       'EB-'+
       user.id.toString().slice(-6);
 
-    const avatar=
+
+    const avatar =
       document.getElementById(
         'avatarInit'
       );
 
+
     if(user.photo_url){
 
-      avatar.innerHTML=
+      avatar.innerHTML =
         `<img src="${user.photo_url}" alt="Profile">`;
 
-    }else{
+    }
 
-      avatar.textContent=
+    else{
+
+      avatar.textContent =
         (
-          user.first_name||
+          user.first_name ||
           'U'
         )
         .charAt(0)
         .toUpperCase();
 
     }
+
+  }
+
+  else{
+
+    document.getElementById(
+      'profName'
+    ).textContent =
+      'User';
+
+
+    document.getElementById(
+      'profUsername'
+    ).textContent =
+      '@username';
+
+
+    document.getElementById(
+      'profId'
+    ).textContent =
+      'Telegram ID: —';
 
   }
 
@@ -3187,8 +3277,6 @@ renderTop();
 renderTx();
 
 renderStreak();
-
-updateWalletPlaceholders();
 
 </script>
 
