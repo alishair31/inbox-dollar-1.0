@@ -210,7 +210,6 @@ header.topbar .balance-pill b{
 
 .qa-text{
   flex:1;
-  min-width:0;
 }
 
 .qa-text h4{
@@ -224,11 +223,11 @@ header.topbar .balance-pill b{
   margin-top:2px;
 }
 
-.qa-rate{
-  font-size:11px;
+.qa-text .rate{
+  font-size:12px;
   color:var(--gold);
-  margin-top:4px;
   font-weight:800;
+  margin-top:5px;
 }
 
 .qa-chevron{
@@ -295,11 +294,6 @@ header.topbar .balance-pill b{
   color:var(--gold);
 }
 
-.ad-icon.extra{
-  background:rgba(130,100,255,.15);
-  color:#B49CFF;
-}
-
 .ad-title{
   font-size:16px;
   font-weight:800;
@@ -329,11 +323,6 @@ header.topbar .balance-pill b{
   color:#221800;
 }
 
-.watch-btn.extra{
-  background:#B49CFF;
-  color:#160E30;
-}
-
 .watch-btn:disabled{
   background:#2A2A2E;
   color:var(--text-dim);
@@ -345,6 +334,18 @@ header.topbar .balance-pill b{
   font-size:12px;
   color:var(--text-dim);
   margin-top:16px;
+}
+
+.limit-complete{
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,199,44,.10);
+  border:1px solid rgba(255,199,44,.28);
+  color:var(--gold);
+  text-align:center;
+  font-size:12px;
+  font-weight:900;
 }
 
 .premium-card{
@@ -383,7 +384,8 @@ header.topbar .balance-pill b{
 
 .page-title{
   font-size:30px;
-  margin:20px 0 5px;
+  margin:20px 0 6px;
+  font-weight:900;
 }
 
 .page-sub{
@@ -620,11 +622,7 @@ header.topbar .balance-pill b{
   display:flex;
   align-items:center;
   gap:15px;
-  background:linear-gradient(
-    135deg,
-    #19191e,
-    #121216
-  );
+  background:linear-gradient(135deg,#19191e,#121216);
   border:1px solid #2A2A2E;
   border-radius:20px;
   padding:18px;
@@ -1028,7 +1026,7 @@ nav.bottom-nav .nav-btn.active{
           Watch ads and earn rewards
         </p>
 
-        <div class="qa-rate">
+        <div class="rate">
           100 Ads = $1.00
         </div>
 
@@ -1059,7 +1057,7 @@ nav.bottom-nav .nav-btn.active{
           Watch Pro ads and earn rewards
         </p>
 
-        <div class="qa-rate">
+        <div class="rate">
           100 Ads = $1.00
         </div>
 
@@ -1090,7 +1088,7 @@ nav.bottom-nav .nav-btn.active{
           Extra daily ads for more earning
         </p>
 
-        <div class="qa-rate">
+        <div class="rate">
           100 Ads = $1.00
         </div>
 
@@ -1136,9 +1134,7 @@ nav.bottom-nav .nav-btn.active{
 
     <div class="back-row" onclick="closeTier">
 
-      <span class="arrow">
-        ‹
-      </span>
+      <span class="arrow">‹</span>
 
       <span class="label">
         Back to Home
@@ -1183,7 +1179,9 @@ nav.bottom-nav .nav-btn.active{
       class="watch-btn"
       id="checkinBtn"
       onclick="watchAdForCheckin()">
+
       Claim
+
     </button>
 
   </div>
@@ -1202,7 +1200,9 @@ nav.bottom-nav .nav-btn.active{
     <button
       class="watch-btn"
       onclick="claimTask('ads3',0.05)">
+
       Claim
+
     </button>
 
   </div>
@@ -1221,7 +1221,9 @@ nav.bottom-nav .nav-btn.active{
     <button
       class="watch-btn"
       onclick="claimTask('joinchannel',0.03)">
+
       Claim
+
     </button>
 
   </div>
@@ -1257,7 +1259,9 @@ nav.bottom-nav .nav-btn.active{
       <button
         class="copy-btn"
         onclick="copyRefer()">
+
         Copy
+
       </button>
 
     </div>
@@ -1285,7 +1289,9 @@ nav.bottom-nav .nav-btn.active{
         class="display"
         style="font-size:22px;color:var(--gold);"
         id="referCount">
+
         0
+
       </div>
 
     </div>
@@ -1442,7 +1448,9 @@ nav.bottom-nav .nav-btn.active{
       <div
         class="profile-avatar"
         id="avatarInit">
+
         U
+
       </div>
 
       <div class="online-dot"></div>
@@ -1455,19 +1463,25 @@ nav.bottom-nav .nav-btn.active{
       <div
         class="profile-name"
         id="profName">
+
         User
+
       </div>
 
       <div
         class="profile-username"
         id="profUsername">
+
         @username
+
       </div>
 
       <div
         class="profile-id"
         id="profId">
+
         Telegram ID: —
+
       </div>
 
     </div>
@@ -1492,7 +1506,9 @@ nav.bottom-nav .nav-btn.active{
       <div
         class="rank-value"
         id="userRank">
+
         Bronze
+
       </div>
 
     </div>
@@ -1686,7 +1702,6 @@ nav.bottom-nav .nav-btn.active{
       onclick="closeProfilePopup()">
     </div>
 
-
     <div class="popup-card">
 
       <div class="popup-top">
@@ -1698,11 +1713,12 @@ nav.bottom-nav .nav-btn.active{
         <button
           class="popup-close"
           onclick="closeProfilePopup()">
+
           ✕
+
         </button>
 
       </div>
-
 
       <div
         class="popup-body"
@@ -1716,7 +1732,7 @@ nav.bottom-nav .nav-btn.active{
 </section>
 
 
-<!-- ================= BOTTOM NAV ================= -->
+<!-- ================= NAV ================= -->
 
 <nav class="bottom-nav">
 
@@ -1797,18 +1813,20 @@ let tg =
     : null;
 
 if(tg){
-
   tg.ready();
   tg.expand();
-
 }
 
 
 /* ================= STATE ================= */
 
 const STORAGE_KEY =
-  'earnboard_state_v2';
+  'earnboard_state_v1';
 
+const AD_LIMIT = 50;
+
+/* 100 ADS = $1.00 */
+const AD_REWARD = 0.01;
 
 function loadState(){
 
@@ -1827,6 +1845,7 @@ function loadState(){
 
     checkinDay:1,
     lastCheckinDate:null,
+    lastAdResetDate:null,
 
     tasksClaimed:{},
 
@@ -1839,19 +1858,20 @@ function loadState(){
 
   };
 
-
   const raw =
     localStorage.getItem(STORAGE_KEY);
-
 
   if(raw){
 
     try{
 
+      const saved =
+        JSON.parse(raw);
+
       return Object.assign(
         {},
         defaults,
-        JSON.parse(raw)
+        saved
       );
 
     }catch(e){
@@ -1861,7 +1881,6 @@ function loadState(){
     }
 
   }
-
 
   return defaults;
 
@@ -1882,34 +1901,37 @@ function saveState(){
 }
 
 
-/* ================= CONSTANTS ================= */
+/* ================= DAILY RESET ================= */
 
-const LIGHT_MAX = 100;
-const PRO_MAX = 100;
-const EXTRA_MAX = 100;
-const PREMIUM_MAX = 100;
+function resetDailyAdsIfNeeded(){
 
-const LIGHT_REWARD = 0.01;
-const PRO_REWARD = 0.01;
-const EXTRA_REWARD = 0.01;
-const PREMIUM_REWARD = 0.01;
+  const today =
+    new Date().toDateString();
 
-const STREAK_REWARDS = [
-  .02,
-  .03,
-  .04,
-  .05,
-  .06,
-  .08,
-  .10
-];
+  if(state.lastAdResetDate !== today){
+
+    state.lightWatched = 0;
+    state.proWatched = 0;
+    state.extraWatched = 0;
+    state.premiumWatched = 0;
+
+    state.todayEarned = 0;
+
+    state.lastAdResetDate = today;
+
+    saveState();
+
+  }
+
+}
 
 
 /* ================= FORMAT ================= */
 
 function fmt(n){
 
-  return '$' + Number(n).toFixed(2);
+  return '$' +
+    Number(n).toFixed(2);
 
 }
 
@@ -1918,32 +1940,56 @@ function fmt(n){
 
 function renderTop(){
 
-  document.getElementById('topBalance')
-    .textContent =
+  document.getElementById(
+    'topBalance'
+  ).textContent =
     fmt(state.balance);
 
-
-  document.getElementById('walletMain')
-    .textContent =
+  document.getElementById(
+    'walletMain'
+  ).textContent =
     fmt(state.balance);
 
-
-  document.getElementById('referCount')
-    .textContent =
+  document.getElementById(
+    'referCount'
+  ).textContent =
     state.referCount;
 
 }
 
 
-/* ================= TIERS ================= */
+/* ================= LIMIT MESSAGE ================= */
+
+function limitMessage(watched){
+
+  if(watched >= AD_LIMIT){
+
+    return `
+      <div class="limit-complete">
+        Ads limit completed — come tomorrow
+      </div>
+    `;
+
+  }
+
+  return '';
+
+}
+
+
+/* ================= TIER ================= */
 
 function openTier(tier){
 
-  document.getElementById('quickActions')
-    .style.display='none';
+  resetDailyAdsIfNeeded();
 
-  document.getElementById('tierPanel')
-    .style.display='block';
+  document.getElementById(
+    'quickActions'
+  ).style.display='none';
+
+  document.getElementById(
+    'tierPanel'
+  ).style.display='block';
 
   renderTierContent(tier);
 
@@ -1952,20 +1998,28 @@ function openTier(tier){
 
 function closeTier(){
 
-  document.getElementById('tierPanel')
-    .style.display='none';
+  document.getElementById(
+    'tierPanel'
+  ).style.display='none';
 
-  document.getElementById('quickActions')
-    .style.display='block';
+  document.getElementById(
+    'quickActions'
+  ).style.display='block';
 
 }
 
 
 function renderTierContent(tier){
 
-  const el =
-    document.getElementById('tierContent');
+  resetDailyAdsIfNeeded();
 
+  const el =
+    document.getElementById(
+      'tierContent'
+    );
+
+
+  /* LIGHT */
 
   if(tier === 'light'){
 
@@ -1997,11 +2051,11 @@ function renderTierContent(tier){
         <button
           class="watch-btn"
           onclick="watchAd('light')"
-          ${state.lightWatched>=LIGHT_MAX?'disabled':''}>
+          ${state.lightWatched>=AD_LIMIT?'disabled':''}>
 
           ${
-            state.lightWatched>=LIGHT_MAX
-            ? 'Done'
+            state.lightWatched>=AD_LIMIT
+            ? 'Limit Completed'
             : 'Watch Ad'
           }
 
@@ -2013,19 +2067,23 @@ function renderTierContent(tier){
       <div class="count-row">
 
         <span>
-          Watched today
+          Ads today
         </span>
 
         <span>
-          ${state.lightWatched} / ${LIGHT_MAX}
+          ${state.lightWatched} / ${AD_LIMIT}
         </span>
 
       </div>
+
+      ${limitMessage(state.lightWatched)}
 
     `;
 
   }
 
+
+  /* PRO */
 
   else if(tier === 'pro'){
 
@@ -2057,11 +2115,11 @@ function renderTierContent(tier){
         <button
           class="watch-btn pro"
           onclick="watchAd('pro')"
-          ${state.proWatched>=PRO_MAX?'disabled':''}>
+          ${state.proWatched>=AD_LIMIT?'disabled':''}>
 
           ${
-            state.proWatched>=PRO_MAX
-            ? 'Done'
+            state.proWatched>=AD_LIMIT
+            ? 'Limit Completed'
             : 'Watch Ad'
           }
 
@@ -2073,19 +2131,23 @@ function renderTierContent(tier){
       <div class="count-row">
 
         <span>
-          Watched today
+          Ads today
         </span>
 
         <span>
-          ${state.proWatched} / ${PRO_MAX}
+          ${state.proWatched} / ${AD_LIMIT}
         </span>
 
       </div>
+
+      ${limitMessage(state.proWatched)}
 
     `;
 
   }
 
+
+  /* EXTRA */
 
   else if(tier === 'extra'){
 
@@ -2095,7 +2157,7 @@ function renderTierContent(tier){
 
         <div class="left">
 
-          <div class="ad-icon extra">
+          <div class="ad-icon pro">
             ⚡
           </div>
 
@@ -2115,13 +2177,13 @@ function renderTierContent(tier){
 
 
         <button
-          class="watch-btn extra"
+          class="watch-btn pro"
           onclick="watchAd('extra')"
-          ${state.extraWatched>=EXTRA_MAX?'disabled':''}>
+          ${state.extraWatched>=AD_LIMIT?'disabled':''}>
 
           ${
-            state.extraWatched>=EXTRA_MAX
-            ? 'Done'
+            state.extraWatched>=AD_LIMIT
+            ? 'Limit Completed'
             : 'Watch Ad'
           }
 
@@ -2133,19 +2195,23 @@ function renderTierContent(tier){
       <div class="count-row">
 
         <span>
-          Watched today
+          Ads today
         </span>
 
         <span>
-          ${state.extraWatched} / ${EXTRA_MAX}
+          ${state.extraWatched} / ${AD_LIMIT}
         </span>
 
       </div>
+
+      ${limitMessage(state.extraWatched)}
 
     `;
 
   }
 
+
+  /* PREMIUM */
 
   else{
 
@@ -2160,7 +2226,6 @@ function renderTierContent(tier){
         <p>
           Subscribe for $30/month to unlock
           premium ads.
-          Each 100 ads equals $1.00.
         </p>
 
         <button
@@ -2197,7 +2262,7 @@ function renderTierContent(tier){
                 </div>
 
                 <div class="ad-reward">
-                  100 Ads = $1.00
+                  $0.10 – $0.20 per ad
                 </div>
 
               </div>
@@ -2208,12 +2273,12 @@ function renderTierContent(tier){
             <button
               class="watch-btn pro"
               onclick="watchAd('premium')"
-              ${state.premiumWatched>=PREMIUM_MAX?'disabled':''}>
+              ${state.premiumWatched>=35?'disabled':''}>
 
               ${
-                state.premiumWatched>=PREMIUM_MAX
+                state.premiumWatched>=35
                 ? 'Done'
-                : 'Watch Ad'
+                : 'Watch'
               }
 
             </button>
@@ -2228,9 +2293,7 @@ function renderTierContent(tier){
             </span>
 
             <span>
-              ${state.premiumWatched}
-              /
-              ${PREMIUM_MAX}
+              ${state.premiumWatched} / 35
             </span>
 
           </div>
@@ -2251,10 +2314,14 @@ function renderTierContent(tier){
 function renderTx(){
 
   const list =
-    document.getElementById('txList');
+    document.getElementById(
+      'txList'
+    );
 
 
-  if(state.transactions.length===0){
+  if(
+    state.transactions.length===0
+  ){
 
     list.innerHTML =
       '<p style="color:var(--text-dim);">No transactions yet</p>';
@@ -2316,7 +2383,6 @@ function addEarning(amount,label){
 
   });
 
-
   saveState();
 
   renderTop();
@@ -2330,55 +2396,99 @@ function addEarning(amount,label){
 
 function watchAd(tier){
 
-  let reward;
+  resetDailyAdsIfNeeded();
+
   let watchedKey;
-  let maxAds;
 
 
   if(tier==='light'){
 
-    watchedKey='lightWatched';
-    maxAds=LIGHT_MAX;
-    reward=LIGHT_REWARD;
+    watchedKey =
+      'lightWatched';
 
   }
-
 
   else if(tier==='pro'){
 
-    watchedKey='proWatched';
-    maxAds=PRO_MAX;
-    reward=PRO_REWARD;
+    watchedKey =
+      'proWatched';
 
   }
-
 
   else if(tier==='extra'){
 
-    watchedKey='extraWatched';
-    maxAds=EXTRA_MAX;
-    reward=EXTRA_REWARD;
+    watchedKey =
+      'extraWatched';
 
   }
-
 
   else{
 
-    if(!state.premium)
-      return;
-
-    watchedKey='premiumWatched';
-    maxAds=PREMIUM_MAX;
-    reward=PREMIUM_REWARD;
+    watchedKey =
+      'premiumWatched';
 
   }
 
 
-  if(state[watchedKey]>=maxAds)
+  const limit =
+    tier==='premium'
+    ? 35
+    : AD_LIMIT;
+
+
+  if(
+    tier==='premium' &&
+    !state.premium
+  ){
+
+    showToast(
+      'Premium is not active'
+    );
+
     return;
+
+  }
+
+
+  if(
+    state[watchedKey] >= limit
+  ){
+
+    showToast(
+      'Ads limit completed — come tomorrow'
+    );
+
+    renderTierContent(tier);
+
+    return;
+
+  }
 
 
   state[watchedKey]++;
+
+
+  let reward;
+
+
+  if(tier==='premium'){
+
+    reward =
+      Math.random() *
+      (.20-.10)
+      +.10;
+
+    reward =
+      Math.round(reward*100)/100;
+
+  }
+
+  else{
+
+    reward =
+      AD_REWARD;
+
+  }
 
 
   const label =
@@ -2398,7 +2508,9 @@ function watchAd(tier){
 
 
   showToast(
-    '+' + fmt(reward) + ' earned!'
+    '+'+
+    fmt(reward)+
+    ' earned!'
   );
 
 
@@ -2437,11 +2549,21 @@ function activatePremium(){
 
 /* ================= CHECKIN ================= */
 
+const STREAK_REWARDS = [
+  .02,
+  .03,
+  .04,
+  .05,
+  .06,
+  .08,
+  .10
+];
+
+
 function getPendingCheckinDay(){
 
   const today =
     new Date().toDateString();
-
 
   const yesterday =
     new Date(
@@ -2533,11 +2655,15 @@ function renderStreak(){
         </div>
 
         <div class="r">
+
           ${
             isDone
             ? '✓'
-            : '$'+STREAK_REWARDS[i-1].toFixed(2)
+            : '$'+
+              STREAK_REWARDS[i-1]
+              .toFixed(2)
           }
+
         </div>
 
       </div>
@@ -2547,14 +2673,15 @@ function renderStreak(){
   }
 
 
-  grid.innerHTML=html;
+  grid.innerHTML =
+    html;
 
 
   if(claimedToday){
 
     btn.disabled=true;
 
-    btn.textContent=
+    btn.textContent =
       'Claimed for today — come back tomorrow';
 
   }
@@ -2563,11 +2690,12 @@ function renderStreak(){
 
     btn.disabled=false;
 
-    btn.textContent=
+    btn.textContent =
       'Watch Ad to Claim Day '+
       pending+
       ' – $'+
-      STREAK_REWARDS[pending-1].toFixed(2);
+      STREAK_REWARDS[pending-1]
+      .toFixed(2);
 
   }
 
@@ -2594,7 +2722,7 @@ function watchAdForCheckin(){
 
   btn.disabled=true;
 
-  btn.textContent=
+  btn.textContent =
     'Watching Ad…';
 
 
@@ -2669,7 +2797,9 @@ function claimCheckin(){
 
 function claimTask(id,amount){
 
-  if(state.tasksClaimed[id]){
+  if(
+    state.tasksClaimed[id]
+  ){
 
     showToast(
       'This task has already been claimed'
@@ -2700,7 +2830,8 @@ function claimTask(id,amount){
 
 /* ================= WALLET ================= */
 
-let selectedCurrency='USDT';
+let selectedCurrency =
+  'USDT';
 
 
 function selectCurrency(el){
@@ -2723,7 +2854,9 @@ function selectCurrency(el){
 
 function requestWithdraw(){
 
-  if(state.balance<15){
+  if(
+    state.balance<15
+  ){
 
     showToast(
       'Minimum withdraw is $15.00, your balance is too low'
@@ -2780,14 +2913,19 @@ function showToast(msg){
     );
 
 
-  t.textContent=msg;
+  t.textContent =
+    msg;
 
-  t.classList.add('show');
+  t.classList.add(
+    'show'
+  );
 
 
   setTimeout(
     ()=>{
-      t.classList.remove('show');
+      t.classList.remove(
+        'show'
+      );
     },
     1800
   );
@@ -2875,7 +3013,7 @@ function openProfileOption(type){
 
   if(type==='rank'){
 
-    title.textContent=
+    title.textContent =
       'Your Rank';
 
 
@@ -2898,7 +3036,11 @@ function openProfileOption(type){
           font-weight:900;
           margin-top:5px;
         ">
-          ${document.getElementById('userRank').textContent}
+          ${
+            document
+              .getElementById('userRank')
+              .textContent
+          }
         </div>
 
         <p style="
@@ -2918,7 +3060,7 @@ function openProfileOption(type){
 
   else if(type==='account'){
 
-    title.textContent=
+    title.textContent =
       'Account';
 
 
@@ -2927,21 +3069,37 @@ function openProfileOption(type){
       <div class="popup-row">
         <span>Name</span>
         <b>
-          ${document.getElementById('profName').textContent}
+          ${
+            document
+              .getElementById('profName')
+              .textContent
+          }
         </b>
       </div>
 
       <div class="popup-row">
         <span>Username</span>
         <b>
-          ${document.getElementById('profUsername').textContent}
+          ${
+            document
+              .getElementById('profUsername')
+              .textContent
+          }
         </b>
       </div>
 
       <div class="popup-row">
         <span>Telegram ID</span>
         <b>
-          ${document.getElementById('profId').textContent.replace('Telegram ID: ','')}
+          ${
+            document
+              .getElementById('profId')
+              .textContent
+              .replace(
+                'Telegram ID: ',
+                ''
+              )
+          }
         </b>
       </div>
 
@@ -2966,7 +3124,7 @@ function openProfileOption(type){
 
   else if(type==='referrals'){
 
-    title.textContent=
+    title.textContent =
       'Referrals';
 
 
@@ -2975,7 +3133,11 @@ function openProfileOption(type){
       <div class="popup-row">
         <span>Referral Code</span>
         <b>
-          ${document.getElementById('referCode').textContent}
+          ${
+            document
+              .getElementById('referCode')
+              .textContent
+          }
         </b>
       </div>
 
@@ -3000,7 +3162,7 @@ function openProfileOption(type){
 
   else if(type==='security'){
 
-    title.textContent=
+    title.textContent =
       'Security';
 
 
@@ -3032,7 +3194,7 @@ function openProfileOption(type){
 
   else if(type==='terms'){
 
-    title.textContent=
+    title.textContent =
       'Terms & Conditions';
 
 
@@ -3057,7 +3219,7 @@ function openProfileOption(type){
 
   else if(type==='privacy'){
 
-    title.textContent=
+    title.textContent =
       'Privacy Policy';
 
 
@@ -3083,7 +3245,7 @@ function openProfileOption(type){
 
   else if(type==='support'){
 
-    title.textContent=
+    title.textContent =
       'Help & Support';
 
 
@@ -3118,11 +3280,13 @@ function openProfileOption(type){
   }
 
 
-  content.innerHTML=
+  content.innerHTML =
     html;
 
 
-  popup.classList.add('show');
+  popup.classList.add(
+    'show'
+  );
 
 }
 
@@ -3251,12 +3415,10 @@ function initProfile(){
     ).textContent =
       'User';
 
-
     document.getElementById(
       'profUsername'
     ).textContent =
       '@username';
-
 
     document.getElementById(
       'profId'
@@ -3269,6 +3431,8 @@ function initProfile(){
 
 
 /* ================= BOOT ================= */
+
+resetDailyAdsIfNeeded();
 
 initProfile();
 
