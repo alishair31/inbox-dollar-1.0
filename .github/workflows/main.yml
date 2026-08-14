@@ -28,4 +28,4 @@ jobs:
       - name: Deploy to Firebase
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-service-account.json
-        run: firebase deploy --project inbox-dollars-41161
+        run: firebase deploy --config "${{ github.workspace }}/firebase.json" --project inbox-dollars-41161
