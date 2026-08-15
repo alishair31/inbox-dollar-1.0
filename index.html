@@ -389,7 +389,6 @@ nav button.active{color:var(--gold)}
     Maximum withdraw <b>$100.00</b>
   </div>
 
-  <!-- TRUST SECTION IS INSIDE WALLET ONLY -->
   <div class="trust-grid">
 
     <div class="trust-card">
@@ -561,7 +560,9 @@ const defaults = {
   referCount:0,
 
   transactions:[],
-  adDate:new Date().toDateString()
+  adDate:new Date().toDateString(),
+
+  rewardedAdIds:[]
 };
 
 function loadState(){
@@ -574,9 +575,14 @@ function loadState(){
       return {...defaults};
     }
 
+    const parsed = JSON.parse(raw);
+
     return {
       ...defaults,
-      ...JSON.parse(raw)
+      ...parsed,
+      tasksClaimed:parsed.tasksClaimed || {},
+      transactions:parsed.transactions || [],
+      rewardedAdIds:parsed.rewardedAdIds || []
     };
 
   }catch(e){
@@ -721,45 +727,63 @@ function renderTop(){
 
 /* ================= MONETAG ================= */
 
-function monetagSuccess(result){
+/*
+  Monetag Rewarded Interstitial:
+  show_11580974(ymid) returns a Promise.
 
-  if(result === true){
-    return true;
+  The resolved event contains:
+  {
+    reward_event_type: "valued" | "non_valued"
   }
+
+  We only credit a reward when the event is "valued".
+*/
+
+function monetagRewarded(result){
 
   if(!result){
-    return false;
+    return {
+      rewarded:false,
+      eventId:null
+    };
   }
 
-  if(typeof result === "string"){
-
-    const value =
-      result.toLowerCase();
-
-    return [
-      "success",
-      "completed",
-      "complete",
-      "rewarded",
-      "shown"
-    ].includes(value);
-
+  if(typeof result !== "object"){
+    return {
+      rewarded:false,
+      eventId:null
+    };
   }
 
-  if(typeof result === "object"){
+  const eventType =
+    String(
+      result.reward_event_type || ""
+    ).toLowerCase();
 
-    return (
-      result.success === true ||
-      result.completed === true ||
-      result.rewarded === true ||
-      result.status === "success" ||
-      result.status === "completed" ||
-      result.status === "rewarded"
-    );
+  const eventId =
+    result.event_id ||
+    result.eventId ||
+    result.ymid ||
+    null;
 
-  }
+  return {
+    rewarded:eventType === "valued",
+    eventId:eventId
+  };
 
-  return false;
+}
+
+function createAdId(){
+
+  return (
+    "eb_" +
+    Date.now().toString(36) +
+    "_" +
+    Math.random()
+      .toString(36)
+      .slice(2,10)
+  );
+
 }
 
 async function showMonetagAd(){
@@ -771,15 +795,55 @@ async function showMonetagAd(){
 
     toast("Ad system is loading. Try again.");
 
-    return false;
+    return {
+      rewarded:false,
+      eventId:null
+    };
   }
+
+  const ymid =
+    createAdId();
 
   try{
 
+    /*
+      Monetag recommends passing a unique ymid
+      to identify the ad event.
+    */
     const result =
-      await Promise.resolve(fn());
+      await Promise.resolve(
+        fn(ymid)
+      );
 
-    return monetagSuccess(result);
+    const parsed =
+      monetagRewarded(result);
+
+    if(
+      parsed.eventId &&
+      state.rewardedAdIds.includes(
+        String(parsed.eventId)
+      )
+    ){
+
+      console.warn(
+        "Duplicate Monetag reward event:",
+        parsed.eventId
+      );
+
+      return {
+        rewarded:false,
+        eventId:parsed.eventId
+      };
+
+    }
+
+    return {
+      rewarded:parsed.rewarded,
+      eventId:
+        parsed.eventId
+        ? String(parsed.eventId)
+        : ymid
+    };
 
   }catch(error){
 
@@ -790,14 +854,57 @@ async function showMonetagAd(){
 
     toast("Ad could not be completed.");
 
-    return false;
+    return {
+      rewarded:false,
+      eventId:null
+    };
+
   }
 
 }
 
 /* ================= EARNING ================= */
 
-function addEarning(amount,label){
+function addEarning(amount,label,eventId=null){
+
+  /*
+    Frontend duplicate protection.
+    Server-side postback should still be used
+    as the final source of truth for real payouts.
+  */
+
+  if(eventId){
+
+    const id =
+      String(eventId);
+
+    if(
+      state.rewardedAdIds.includes(id)
+    ){
+
+      console.warn(
+        "Reward already credited:",
+        id
+      );
+
+      return false;
+    }
+
+    state.rewardedAdIds.push(id);
+
+    /*
+      Keep localStorage reasonably small.
+    */
+    if(
+      state.rewardedAdIds.length > 500
+    ){
+
+      state.rewardedAdIds =
+        state.rewardedAdIds.slice(-500);
+
+    }
+
+  }
 
   state.balance =
     Number(state.balance) + Number(amount);
@@ -814,7 +921,11 @@ function addEarning(amount,label){
 
     amount:Number(amount),
 
-    date:new Date().toLocaleString("en-IN")
+    date:new Date().toLocaleString("en-IN"),
+
+    eventId:eventId
+      ? String(eventId)
+      : null
 
   });
 
@@ -822,6 +933,8 @@ function addEarning(amount,label){
 
   renderTop();
   renderTransactions();
+
+  return true;
 
 }
 
@@ -1099,12 +1212,12 @@ async function watchAd(tier){
 
   toast("Opening ad...");
 
-  const completed =
+  const result =
     await showMonetagAd();
 
   adInProgress = false;
 
-  if(!completed){
+  if(!result.rewarded){
 
     toast(
       "Ad was not verified — no reward added."
@@ -1115,14 +1228,36 @@ async function watchAd(tier){
     return;
   }
 
+  /*
+    Count only a verified "valued" Monetag event.
+  */
   state[counter]++;
 
-  addEarning(
-    reward,
-    tier.charAt(0).toUpperCase() +
-    tier.slice(1) +
-    " Verified Ad Reward"
-  );
+  const credited =
+    addEarning(
+      reward,
+      tier.charAt(0).toUpperCase() +
+      tier.slice(1) +
+      " Verified Ad Reward",
+      result.eventId
+    );
+
+  if(!credited){
+
+    /*
+      Duplicate event: undo the counter increment.
+    */
+    state[counter]--;
+    saveState();
+
+    toast(
+      "This ad reward was already credited."
+    );
+
+    renderTier(tier);
+
+    return;
+  }
 
   toast(
     "+" + money(reward) +
@@ -1310,12 +1445,12 @@ async function watchCheckin(){
 
   toast("Opening ad...");
 
-  const completed =
+  const result =
     await showMonetagAd();
 
   adInProgress = false;
 
-  if(!completed){
+  if(!result.rewarded){
 
     toast(
       "Ad was not verified."
@@ -1332,15 +1467,35 @@ async function watchCheckin(){
   const reward =
     STREAK_REWARDS[day-1];
 
+  /*
+    Check-in also requires a verified
+    "valued" Monetag event.
+  */
+
+  const credited =
+    addEarning(
+      reward,
+      "Day " + day +
+      " Verified Ad Check-in",
+      result.eventId
+    );
+
+  if(!credited){
+
+    toast(
+      "This ad reward was already credited."
+    );
+
+    renderStreak();
+
+    return;
+  }
+
   state.checkinDay = day;
 
   state.lastCheckinDate = today;
 
-  addEarning(
-    reward,
-    "Day " + day +
-    " Verified Ad Check-in"
-  );
+  saveState();
 
   toast(
     "+" + money(reward) +
