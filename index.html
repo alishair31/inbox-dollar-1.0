@@ -191,6 +191,9 @@ button{cursor:pointer}
 .tx-date{font-size:10px;color:var(--muted);margin-top:3px}
 .plus{color:#3ddc97;font-weight:900}
 .minus{color:var(--danger);font-weight:900}
+
+/* ================= PROFILE ================= */
+
 .profile{
   margin-top:20px;padding:18px;background:var(--card);
   border:1px solid #2b2b30;border-radius:19px;
@@ -205,19 +208,65 @@ button{cursor:pointer}
 .profile-name{font-size:19px;font-weight:900}
 .profile-user{font-size:12px;color:var(--muted);margin-top:4px}
 .profile-id{font-size:10px;color:#6f6f78;margin-top:3px}
-.menu{
-  margin-top:16px;background:var(--card);
-  border:1px solid #2b2b30;border-radius:17px;overflow:hidden
+
+.profile-menu{
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-.menu-item{
-  min-height:58px;padding:0 15px;display:flex;
-  align-items:center;justify-content:space-between;
-  border-bottom:1px solid #29292e
+
+.profile-item{
+  min-height:58px;
+  padding:0 15px;
+  background:var(--card);
+  border:1px solid #2b2b30;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
-.menu-item:last-child{border-bottom:0}
-.menu-left{display:flex;align-items:center;gap:12px}
-.menu-icon{font-size:18px}
-.menu-arrow{color:#777;font-size:22px}
+
+.profile-item:active{
+  transform:scale(.99);
+}
+
+.profile-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.profile-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--card2);
+  font-size:18px;
+}
+
+.profile-label{
+  font-size:14px;
+  font-weight:800;
+}
+
+.profile-arrow{
+  color:#777;
+  font-size:23px;
+}
+
+.profile-item.logout{
+  border-color:rgba(255,103,103,.35);
+}
+
+.profile-item.logout .profile-label,
+.profile-item.logout .profile-arrow{
+  color:var(--danger);
+}
+
 .toast{
   position:fixed;top:15px;left:50%;z-index:999;
   transform:translateX(-50%) translateY(-20px);
@@ -474,31 +523,62 @@ nav button.active{color:var(--gold)}
     </div>
   </div>
 
-  <div class="menu">
+  <div class="profile-menu">
 
-    <div class="menu-item" onclick="showProfile('Account')">
-      <div class="menu-left"><span class="menu-icon">👤</span>Account</div>
-      <span class="menu-arrow">›</span>
+    <div class="profile-item" onclick="showProfile('Account')">
+      <div class="profile-left">
+        <div class="profile-icon">👤</div>
+        <div class="profile-label">Account</div>
+      </div>
+      <div class="profile-arrow">›</div>
     </div>
 
-    <div class="menu-item" onclick="showProfile('Referrals')">
-      <div class="menu-left"><span class="menu-icon">🔗</span>Referrals</div>
-      <span class="menu-arrow">›</span>
+    <div class="profile-item" onclick="showProfile('Referrals')">
+      <div class="profile-left">
+        <div class="profile-icon">🔗</div>
+        <div class="profile-label">Referrals</div>
+      </div>
+      <div class="profile-arrow">›</div>
     </div>
 
-    <div class="menu-item" onclick="showProfile('Security')">
-      <div class="menu-left"><span class="menu-icon">🔒</span>Security</div>
-      <span class="menu-arrow">›</span>
+    <div class="profile-item" onclick="showProfile('Security')">
+      <div class="profile-left">
+        <div class="profile-icon">🔒</div>
+        <div class="profile-label">Security</div>
+      </div>
+      <div class="profile-arrow">›</div>
     </div>
 
-    <div class="menu-item" onclick="showProfile('Terms & Conditions')">
-      <div class="menu-left"><span class="menu-icon">📄</span>Terms & Conditions</div>
-      <span class="menu-arrow">›</span>
+    <div class="profile-item" onclick="showProfile('Terms & Conditions')">
+      <div class="profile-left">
+        <div class="profile-icon">📄</div>
+        <div class="profile-label">Terms & Conditions</div>
+      </div>
+      <div class="profile-arrow">›</div>
     </div>
 
-    <div class="menu-item" onclick="showProfile('Privacy Policy')">
-      <div class="menu-left"><span class="menu-icon">🛡️</span>Privacy Policy</div>
-      <span class="menu-arrow">›</span>
+    <div class="profile-item" onclick="showProfile('Privacy Policy')">
+      <div class="profile-left">
+        <div class="profile-icon">🛡️</div>
+        <div class="profile-label">Privacy Policy</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Help & Support')">
+      <div class="profile-left">
+        <div class="profile-icon">❓</div>
+        <div class="profile-label">Help & Support</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item logout" onclick="logoutUser()">
+      <div class="profile-left">
+        <div class="profile-icon">🚪</div>
+        <div class="profile-label">Logout</div>
+      </div>
+      <div class="profile-arrow">›</div>
     </div>
 
   </div>
@@ -727,18 +807,6 @@ function renderTop(){
 
 /* ================= MONETAG ================= */
 
-/*
-  Monetag Rewarded Interstitial:
-  show_11580974(ymid) returns a Promise.
-
-  The resolved event contains:
-  {
-    reward_event_type: "valued" | "non_valued"
-  }
-
-  We only credit a reward when the event is "valued".
-*/
-
 function monetagRewarded(result){
 
   if(!result){
@@ -806,10 +874,6 @@ async function showMonetagAd(){
 
   try{
 
-    /*
-      Monetag recommends passing a unique ymid
-      to identify the ad event.
-    */
     const result =
       await Promise.resolve(
         fn(ymid)
@@ -867,12 +931,6 @@ async function showMonetagAd(){
 
 function addEarning(amount,label,eventId=null){
 
-  /*
-    Frontend duplicate protection.
-    Server-side postback should still be used
-    as the final source of truth for real payouts.
-  */
-
   if(eventId){
 
     const id =
@@ -892,9 +950,6 @@ function addEarning(amount,label,eventId=null){
 
     state.rewardedAdIds.push(id);
 
-    /*
-      Keep localStorage reasonably small.
-    */
     if(
       state.rewardedAdIds.length > 500
     ){
@@ -1228,9 +1283,6 @@ async function watchAd(tier){
     return;
   }
 
-  /*
-    Count only a verified "valued" Monetag event.
-  */
   state[counter]++;
 
   const credited =
@@ -1244,9 +1296,6 @@ async function watchAd(tier){
 
   if(!credited){
 
-    /*
-      Duplicate event: undo the counter increment.
-    */
     state[counter]--;
     saveState();
 
@@ -1466,11 +1515,6 @@ async function watchCheckin(){
 
   const reward =
     STREAK_REWARDS[day-1];
-
-  /*
-    Check-in also requires a verified
-    "valued" Monetag event.
-  */
 
   const credited =
     addEarning(
@@ -1755,7 +1799,66 @@ function showProfile(type){
     return;
   }
 
-  toast(type);
+  if(type === "Terms & Conditions"){
+
+    toast(
+      "Terms & Conditions"
+    );
+
+    return;
+  }
+
+  if(type === "Privacy Policy"){
+
+    toast(
+      "Privacy Policy"
+    );
+
+    return;
+  }
+
+  if(type === "Help & Support"){
+
+    toast(
+      "Help & Support"
+    );
+
+    return;
+  }
+
+}
+
+/* ================= LOGOUT ================= */
+
+function logoutUser(){
+
+  if(
+    tg &&
+    typeof tg.showConfirm === "function"
+  ){
+
+    tg.showConfirm(
+      "Are you sure you want to logout?",
+      confirmed=>{
+
+        if(confirmed){
+
+          toast(
+            "Logout is handled by Telegram."
+          );
+
+        }
+
+      }
+    );
+
+  }else{
+
+    toast(
+      "Logout is handled by Telegram."
+    );
+
+  }
 
 }
 
