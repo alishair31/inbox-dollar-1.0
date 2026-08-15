@@ -1956,6 +1956,13 @@ const STREAK_REWARDS =
 let adInProgress = false;
 
 /* =========================================================
+   CURRENT OPEN AD TIER
+   TIMER FIX
+========================================================= */
+
+let currentTier = null;
+
+/* =========================================================
    10 SECOND AD COOLDOWN
 ========================================================= */
 
@@ -2082,6 +2089,27 @@ function updateAdCooldownUI(){
   ){
 
     renderStreak();
+
+  }
+
+  /*
+   * TIMER FIX:
+   * When countdown reaches 0,
+   * immediately render the currently
+   * opened tier so the Watch Ad
+   * button becomes active.
+   */
+
+  if(
+    seconds === 0 &&
+    !isAdCooldownActive() &&
+    currentTier &&
+    !adInProgress
+  ){
+
+    renderTier(
+      currentTier
+    );
 
   }
 
@@ -2578,6 +2606,14 @@ function addEarning(
 
 function openTier(tier){
 
+  /*
+   * TIMER FIX:
+   * Remember which tier is currently open.
+   */
+
+  currentTier =
+    tier;
+
   document.getElementById(
     "quickActions"
   ).style.display =
@@ -2595,6 +2631,14 @@ function openTier(tier){
 }
 
 function closeTier(){
+
+  /*
+   * Clear current tier when leaving
+   * the ad screen.
+   */
+
+  currentTier =
+    null;
 
   document.getElementById(
     "tierPanel"
@@ -3035,6 +3079,14 @@ async function watchAd(tier){
     return;
 
   }
+
+  /*
+   * Keep the current tier synchronized
+   * in case watchAd is called directly.
+   */
+
+  currentTier =
+    tier;
 
   adInProgress =
     true;
