@@ -6,26 +6,23 @@
 <title>EarnBoard</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<!-- MONETAG: EXISTING AD SYSTEM - DO NOT MODIFY -->
 <script src="https://libtl.com/sdk.js" data-zone="11580974" data-sdk="show_11580974"></script>
 
 <style>
 :root{
-  --bg:#07080b;
-  --bg2:#0d0f13;
-  --card:#13161b;
-  --card2:#191d23;
-  --card3:#20252d;
+  --bg:#08090b;
+  --card:#141519;
+  --card2:#1c1e23;
+  --card3:#23262d;
   --gold:#ffc72c;
-  --gold2:#a77a19;
-  --gold3:#ffe08a;
-  --text:#f7f8fa;
-  --muted:#9299a5;
-  --muted2:#656c77;
-  --green:#35d59a;
-  --danger:#ff6868;
-  --blue:#4c8dff;
-  --nav:70px;
-  --radius:20px;
+  --gold2:#8a6a24;
+  --text:#f5f5f7;
+  --muted:#9699a3;
+  --danger:#ff6767;
+  --success:#3ddc97;
+  --nav:68px;
 }
 
 *{
@@ -39,27 +36,23 @@ html{
 }
 
 body{
-  font-family:Inter,Segoe UI,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  font-family:Segoe UI,system-ui,-apple-system,sans-serif;
   background:
-    radial-gradient(circle at 50% -10%,rgba(255,199,44,.08),transparent 32%),
+    radial-gradient(circle at 50% -10%,rgba(255,199,44,.08),transparent 35%),
     var(--bg);
   color:var(--text);
   min-height:100vh;
-  padding-bottom:92px;
-  overflow-x:hidden;
+  padding-bottom:88px;
 }
 
-button,input{
+button,
+input{
   font:inherit;
 }
 
 button{
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
-}
-
-button:active{
-  transform:scale(.98);
 }
 
 .display{
@@ -70,18 +63,17 @@ button:active{
 /* ================= TOP BAR ================= */
 
 .topbar{
-  height:62px;
+  height:60px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 17px;
+  padding:0 18px;
+  border-bottom:1px solid #202228;
+  background:rgba(8,9,11,.94);
+  backdrop-filter:blur(14px);
   position:sticky;
   top:0;
-  z-index:50;
-  background:rgba(7,8,11,.90);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(255,255,255,.06);
+  z-index:90;
 }
 
 .brand{
@@ -95,102 +87,95 @@ button:active{
   height:10px;
   border-radius:50%;
   background:var(--gold);
-  box-shadow:
-    0 0 8px rgba(255,199,44,.8),
-    0 0 18px rgba(255,199,44,.25);
+  box-shadow:0 0 14px rgba(255,199,44,.75);
 }
 
 .brand-name{
   font-size:15px;
-  letter-spacing:.14em;
-  color:#d7d9df;
+  letter-spacing:.13em;
+  color:#c9cbd1;
   text-transform:uppercase;
   font-weight:900;
 }
 
 .balance{
-  background:linear-gradient(135deg,#171a20,#101217);
-  border:1px solid rgba(255,199,44,.22);
+  background:linear-gradient(135deg,#191b20,#111216);
+  border:1px solid #30333b;
   border-radius:30px;
-  padding:8px 13px;
-  font-size:12px;
+  padding:8px 14px;
+  font-size:13px;
   box-shadow:0 5px 20px rgba(0,0,0,.18);
 }
 
 .balance b{
   color:var(--gold);
+  font-weight:900;
 }
 
 /* ================= SECTIONS ================= */
 
 .section{
   display:none;
-  padding:0 17px;
+  padding:0 18px;
   max-width:680px;
-  margin:auto;
+  margin:0 auto;
 }
 
 .section.active{
   display:block;
 }
 
-/* ================= HOME HERO ================= */
+/* ================= HERO ================= */
 
 .hero{
   margin-top:16px;
-  padding:25px 21px 21px;
+  padding:25px 21px 22px;
   background:
-    radial-gradient(circle at 100% 0%,rgba(255,199,44,.13),transparent 35%),
-    linear-gradient(145deg,#181b21,#101217);
-  border:1px solid rgba(255,199,44,.16);
-  border-radius:25px;
+    radial-gradient(circle at 100% 0%,rgba(255,199,44,.13),transparent 34%),
+    linear-gradient(145deg,#191b20,#111216);
+  border:1px solid #30333a;
+  border-radius:24px;
   position:relative;
   overflow:hidden;
-  box-shadow:
-    0 15px 45px rgba(0,0,0,.28),
-    inset 0 1px 0 rgba(255,255,255,.035);
+  box-shadow:0 12px 35px rgba(0,0,0,.24);
 }
 
 .hero:before{
   content:"";
   position:absolute;
-  width:180px;
-  height:180px;
+  width:190px;
+  height:190px;
   right:-85px;
-  bottom:-90px;
-  border-radius:50%;
-  background:rgba(255,199,44,.08);
-  filter:blur(5px);
+  bottom:-105px;
+  background:radial-gradient(circle,rgba(255,199,44,.12),transparent 70%);
+  pointer-events:none;
 }
 
 .hero:after{
   content:"";
   position:absolute;
-  width:120px;
-  height:120px;
-  left:-70px;
-  top:-65px;
-  border-radius:50%;
-  background:rgba(76,141,255,.05);
+  width:100px;
+  height:100px;
+  left:-60px;
+  top:-60px;
+  background:radial-gradient(circle,rgba(255,199,44,.08),transparent 70%);
+  pointer-events:none;
 }
 
 .eyebrow{
-  position:relative;
-  z-index:2;
   font-size:10px;
   color:var(--gold);
-  letter-spacing:.17em;
+  letter-spacing:.16em;
   text-transform:uppercase;
   font-weight:900;
 }
 
 .headline{
-  position:relative;
-  z-index:2;
-  font-size:34px;
+  font-size:32px;
   line-height:1.08;
   margin-top:10px;
-  letter-spacing:-.5px;
+  position:relative;
+  z-index:1;
 }
 
 .gold{
@@ -198,65 +183,59 @@ button:active{
 }
 
 .sub{
-  position:relative;
-  z-index:2;
   font-size:13px;
   color:var(--muted);
   line-height:1.55;
-  margin-top:12px;
-  max-width:500px;
-}
-
-.hero-stats{
+  margin-top:13px;
   position:relative;
-  z-index:2;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:18px;
+  z-index:1;
 }
 
-.hero-stat{
-  padding:11px 7px;
-  text-align:center;
-  background:rgba(255,255,255,.035);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:14px;
-}
+/* ================= BUTTONS ================= */
 
-.hero-stat b{
-  display:block;
-  font-size:14px;
-  color:var(--gold);
-}
-
-.hero-stat span{
-  display:block;
-  font-size:9px;
-  color:var(--muted);
-  margin-top:3px;
+.main-btn,
+.watch{
+  border:0;
+  background:linear-gradient(135deg,#ffd54f,#ffc72c);
+  color:#171200;
+  font-weight:900;
+  box-shadow:0 7px 20px rgba(255,199,44,.14);
 }
 
 .main-btn{
-  position:relative;
-  z-index:2;
   width:100%;
-  border:0;
   border-radius:15px;
-  background:linear-gradient(135deg,#ffd84e,#ffc72c);
-  color:#171200;
-  font-weight:900;
   padding:15px;
-  margin-top:18px;
-  box-shadow:0 8px 24px rgba(255,199,44,.15);
+  margin-top:19px;
+  position:relative;
+  z-index:1;
+}
+
+.main-btn:active,
+.watch:active{
+  transform:scale(.985);
+}
+
+.watch{
+  width:100%;
+  border-radius:13px;
+  padding:13px;
+  margin-top:14px;
+}
+
+.watch:disabled{
+  background:#30333a;
+  color:#858992;
+  box-shadow:none;
+  cursor:not-allowed;
 }
 
 /* ================= TITLES ================= */
 
 .title{
-  font-size:29px;
-  margin:22px 0 5px;
-  letter-spacing:-.4px;
+  font-size:28px;
+  margin:21px 0 5px;
+  letter-spacing:-.02em;
 }
 
 .subtitle{
@@ -265,62 +244,51 @@ button:active{
   line-height:1.55;
 }
 
+/* ================= QUICK ACTIONS ================= */
+
 .qa-title{
   font-size:14px;
   font-weight:900;
-  margin:23px 0 11px;
+  margin:23px 0 12px;
 }
-
-/* ================= QUICK ACTIONS ================= */
 
 .qa{
-  position:relative;
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:14px;
+  gap:13px;
+  padding:15px;
   margin-bottom:10px;
   background:
-    linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.015));
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:19px;
-  transition:.2s;
-  overflow:hidden;
-}
-
-.qa:after{
-  content:"";
-  position:absolute;
-  right:-35px;
-  top:-45px;
-  width:100px;
-  height:100px;
-  border-radius:50%;
-  background:rgba(255,199,44,.04);
+    linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2c2f36;
+  border-radius:18px;
+  box-shadow:0 7px 20px rgba(0,0,0,.14);
+  transition:.18s ease;
 }
 
 .qa:active{
-  border-color:rgba(255,199,44,.28);
+  transform:scale(.985);
+  border-color:var(--gold2);
 }
 
 .qa-icon{
-  width:51px;
-  height:51px;
-  min-width:51px;
-  border-radius:16px;
+  width:50px;
+  height:50px;
+  border-radius:15px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:22px;
-  background:linear-gradient(145deg,#242932,#181b21);
-  border:1px solid rgba(255,255,255,.07);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,199,44,.16),transparent 60%),
+    #23252b;
+  border:1px solid #343740;
+  flex-shrink:0;
 }
 
 .qa-body{
   flex:1;
-  position:relative;
-  z-index:2;
+  min-width:0;
 }
 
 .qa-body h4{
@@ -336,8 +304,6 @@ button:active{
 }
 
 .arrow{
-  position:relative;
-  z-index:2;
   font-size:26px;
   color:var(--gold);
 }
@@ -349,35 +315,35 @@ button:active{
   gap:8px;
   align-items:center;
   margin-top:8px;
-  padding:10px 2px;
+  padding:10px 0;
   color:var(--gold);
   font-weight:900;
   font-size:13px;
 }
 
-/* ================= AD CARDS ================= */
+/* ================= AD CARD ================= */
 
 .ad{
   margin-top:13px;
-  padding:19px;
+  padding:18px;
   background:
-    radial-gradient(circle at 50% 0%,rgba(255,199,44,.07),transparent 40%),
-    linear-gradient(145deg,#171a20,#101217);
-  border:1px solid rgba(255,199,44,.14);
-  border-radius:20px;
+    radial-gradient(circle at 50% 0%,rgba(255,199,44,.08),transparent 38%),
+    linear-gradient(145deg,#181a1f,#111216);
+  border:1px solid #30333a;
+  border-radius:19px;
   text-align:center;
-  box-shadow:0 12px 35px rgba(0,0,0,.18);
+  box-shadow:0 9px 25px rgba(0,0,0,.18);
 }
 
 .ad-icon{
-  width:55px;
-  height:55px;
+  width:54px;
+  height:54px;
   margin:auto;
-  border-radius:17px;
+  border-radius:16px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(145deg,rgba(255,199,44,.18),rgba(255,199,44,.06));
+  background:rgba(255,199,44,.11);
   border:1px solid rgba(255,199,44,.18);
   font-size:23px;
 }
@@ -392,31 +358,12 @@ button:active{
   font-size:12px;
   color:var(--muted);
   margin-top:5px;
-  line-height:1.45;
-}
-
-.watch{
-  width:100%;
-  border:0;
-  border-radius:13px;
-  background:linear-gradient(135deg,#ffd84e,#ffc72c);
-  color:#171200;
-  font-weight:900;
-  padding:13px;
-  margin-top:14px;
-  box-shadow:0 6px 20px rgba(255,199,44,.10);
-}
-
-.watch:disabled{
-  background:#2c3036;
-  color:#7e858f;
-  box-shadow:none;
-  cursor:not-allowed;
 }
 
 .count{
   display:flex;
   justify-content:space-between;
+  gap:10px;
   margin-top:12px;
   color:var(--muted);
   font-size:11px;
@@ -427,19 +374,39 @@ button:active{
   font-weight:900;
 }
 
+/* ================= LIMIT ================= */
+
 .limit{
   margin-top:12px;
   padding:11px;
   border-radius:12px;
   text-align:center;
   color:var(--gold);
-  background:rgba(255,199,44,.07);
-  border:1px solid rgba(255,199,44,.17);
-  font-size:11px;
-  font-weight:800;
+  background:rgba(255,199,44,.08);
+  border:1px solid rgba(255,199,44,.22);
+  font-size:12px;
+  font-weight:900;
 }
 
-/* ================= BONUS ================= */
+/* ================= COOLDOWN ================= */
+
+.cooldown-box{
+  margin-top:12px;
+  padding:11px 12px;
+  border-radius:12px;
+  background:rgba(255,199,44,.07);
+  border:1px solid rgba(255,199,44,.18);
+  color:var(--gold);
+  font-size:11px;
+  font-weight:900;
+  text-align:center;
+}
+
+.cooldown-box strong{
+  font-size:14px;
+}
+
+/* ================= BONUS PROGRESS ================= */
 
 .bonus-progress-wrap{
   margin-top:15px;
@@ -460,8 +427,8 @@ button:active{
 
 .bonus-progress{
   width:100%;
-  height:9px;
-  background:#292d34;
+  height:8px;
+  background:#292c32;
   border-radius:20px;
   overflow:hidden;
 }
@@ -472,7 +439,6 @@ button:active{
   background:linear-gradient(90deg,#ffc72c,#ffe08a);
   border-radius:20px;
   transition:width .35s ease;
-  box-shadow:0 0 12px rgba(255,199,44,.25);
 }
 
 .bonus-complete{
@@ -480,11 +446,11 @@ button:active{
   padding:11px;
   border-radius:12px;
   text-align:center;
-  color:var(--green);
-  background:rgba(53,213,154,.07);
-  border:1px solid rgba(53,213,154,.18);
+  color:var(--success);
+  background:rgba(61,220,151,.08);
+  border:1px solid rgba(61,220,151,.22);
   font-size:12px;
-  font-weight:800;
+  font-weight:900;
   line-height:1.5;
 }
 
@@ -492,13 +458,13 @@ button:active{
 
 .premium{
   margin-top:13px;
-  padding:20px;
+  padding:19px;
   border-radius:20px;
   background:
     radial-gradient(circle at 100% 0%,rgba(255,199,44,.18),transparent 35%),
-    linear-gradient(135deg,#2a2108,#141519);
-  border:1px solid rgba(255,199,44,.32);
-  box-shadow:0 15px 40px rgba(0,0,0,.25);
+    linear-gradient(135deg,#2a2108,#16171b);
+  border:1px solid var(--gold2);
+  box-shadow:0 10px 30px rgba(0,0,0,.22);
 }
 
 .premium h3{
@@ -509,7 +475,7 @@ button:active{
   font-size:12px;
   color:var(--muted);
   margin-top:7px;
-  line-height:1.5;
+  line-height:1.55;
 }
 
 .fee{
@@ -521,25 +487,25 @@ button:active{
 
 .fee-box{
   margin-top:13px;
-  padding:13px;
+  padding:12px;
   text-align:center;
   border-radius:13px;
   color:var(--gold);
   font-weight:900;
   background:rgba(255,199,44,.08);
-  border:1px solid rgba(255,199,44,.20);
+  border:1px solid rgba(255,199,44,.22);
 }
 
-/* ================= GENERAL CARDS ================= */
+/* ================= GENERAL CARD ================= */
 
 .card{
   background:
-    linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:19px;
+    linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2d3037;
+  border-radius:18px;
   padding:16px;
-  margin-top:12px;
-  box-shadow:0 9px 28px rgba(0,0,0,.13);
+  margin-top:13px;
+  box-shadow:0 7px 22px rgba(0,0,0,.14);
 }
 
 .card h4{
@@ -554,7 +520,7 @@ button:active{
   margin-top:5px;
 }
 
-/* ================= TASK STREAK ================= */
+/* ================= STREAK ================= */
 
 .streak{
   display:grid;
@@ -565,7 +531,7 @@ button:active{
 
 .day{
   background:var(--card2);
-  border:1px solid #2b3037;
+  border:1px solid #2d3037;
   border-radius:10px;
   padding:8px 2px;
   text-align:center;
@@ -584,8 +550,7 @@ button:active{
 
 .day.done,
 .day.current{
-  border-color:rgba(255,199,44,.6);
-  background:rgba(255,199,44,.06);
+  border-color:var(--gold);
 }
 
 .day.done b,
@@ -593,163 +558,50 @@ button:active{
   color:var(--gold);
 }
 
-/* ================= REFER ================= */
-
-.refer-hero{
-  margin-top:15px;
-  padding:19px;
-  border-radius:20px;
-  background:
-    radial-gradient(circle at 100% 0%,rgba(76,141,255,.13),transparent 40%),
-    linear-gradient(145deg,#171b23,#111318);
-  border:1px solid rgba(76,141,255,.15);
-}
-
-.refer-hero-icon{
-  width:48px;
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:15px;
-  background:rgba(76,141,255,.10);
-  border:1px solid rgba(76,141,255,.18);
-  font-size:22px;
-}
-
-.refer-hero h3{
-  font-size:17px;
-  margin-top:11px;
-}
-
-.refer-hero p{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.5;
-  margin-top:5px;
-}
+/* ================= REFERRAL ================= */
 
 .refer-code{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:10px;
-  margin-top:10px;
+  margin-top:11px;
   padding:12px;
-  border:1px dashed rgba(255,199,44,.45);
+  border:1px dashed var(--gold2);
   border-radius:13px;
   background:var(--card2);
 }
 
 .refer-code b{
   color:var(--gold);
-  font-size:15px;
-  letter-spacing:.05em;
+  font-weight:900;
+  letter-spacing:.04em;
 }
 
 .copy{
-  background:rgba(255,199,44,.08);
-  border:1px solid rgba(255,199,44,.55);
+  background:rgba(255,199,44,.07);
+  border:1px solid var(--gold);
   color:var(--gold);
   padding:7px 11px;
   border-radius:9px;
-  font-size:11px;
   font-weight:900;
-}
-
-.refer-stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
-}
-
-.refer-stat{
-  padding:15px;
-  border-radius:16px;
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.07);
-}
-
-.refer-stat-icon{
-  font-size:18px;
-}
-
-.refer-stat b{
-  display:block;
-  font-size:20px;
-  color:var(--gold);
-  margin-top:6px;
-}
-
-.refer-stat span{
-  font-size:10px;
-  color:var(--muted);
-}
-
-.referral-steps{
-  margin-top:12px;
-  display:grid;
-  gap:8px;
-}
-
-.ref-step{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:12px;
-  border-radius:15px;
-  background:var(--card2);
-  border:1px solid rgba(255,255,255,.06);
-}
-
-.ref-step-num{
-  width:31px;
-  height:31px;
-  min-width:31px;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(255,199,44,.10);
-  color:var(--gold);
-  font-weight:900;
-  font-size:12px;
-}
-
-.ref-step b{
-  font-size:12px;
-}
-
-.ref-step p{
-  font-size:10px;
-  margin-top:2px;
 }
 
 /* ================= WALLET ================= */
 
 .wallet-balance{
-  margin-top:16px;
-  padding:23px 16px;
   text-align:center;
-  border-radius:22px;
+  margin-top:18px;
+  padding:22px 15px;
+  border-radius:20px;
   background:
-    radial-gradient(circle at 50% 0%,rgba(255,199,44,.12),transparent 45%),
-    linear-gradient(145deg,#171a20,#101217);
-  border:1px solid rgba(255,199,44,.16);
-}
-
-.wallet-label{
-  font-size:10px;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  font-weight:900;
+    radial-gradient(circle at 50% 0%,rgba(255,199,44,.1),transparent 45%),
+    linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #30333a;
 }
 
 .wallet-number{
-  font-size:42px;
-  margin-top:5px;
+  font-size:43px;
 }
 
 .wallet-number span{
@@ -759,30 +611,30 @@ button:active{
 .wallet-actions{
   display:flex;
   gap:10px;
-  margin-top:13px;
+  margin-top:15px;
 }
 
 .wallet-actions button{
   flex:1;
   padding:13px;
   border-radius:13px;
-  border:1px solid rgba(255,255,255,.08);
+  border:1px solid #30333a;
   background:var(--card);
   color:var(--text);
   font-weight:900;
 }
 
 .wallet-actions button:first-child{
-  background:linear-gradient(135deg,#ffd84e,#ffc72c);
+  background:var(--gold);
   color:#171200;
-  border:0;
+  border-color:var(--gold);
 }
 
 .withdraw-limit{
   text-align:center;
   color:var(--muted);
   font-size:11px;
-  margin-top:11px;
+  margin-top:10px;
 }
 
 .withdraw-limit b{
@@ -794,15 +646,15 @@ button:active{
 .trust-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:9px;
-  margin-top:17px;
+  gap:10px;
+  margin-top:18px;
 }
 
 .trust-card{
-  min-height:82px;
+  min-height:84px;
   padding:12px;
-  background:linear-gradient(135deg,#181b21,#111318);
-  border:1px solid rgba(255,255,255,.07);
+  background:linear-gradient(135deg,#181a1f,#111216);
+  border:1px solid #2d3037;
   border-radius:16px;
   display:flex;
   align-items:center;
@@ -812,13 +664,12 @@ button:active{
 .trust-icon{
   width:35px;
   height:35px;
-  border-radius:11px;
+  border-radius:10px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:rgba(255,199,44,.09);
-  color:var(--gold);
-  font-size:16px;
+  background:rgba(255,199,44,.1);
+  font-size:17px;
   flex-shrink:0;
 }
 
@@ -838,39 +689,32 @@ button:active{
 
 .currency{
   margin-top:14px;
-  padding:20px 16px;
+  padding:18px;
   background:
-    radial-gradient(circle at 50% 0%,rgba(38,161,123,.13),transparent 55%),
+    radial-gradient(circle at 50% 0%,rgba(38,161,123,.12),transparent 50%),
     var(--card2);
-  border:1px solid rgba(38,161,123,.35);
-  border-radius:18px;
+  border:1px solid rgba(38,161,123,.5);
+  border-radius:17px;
   text-align:center;
 }
 
 .usdt-logo{
-  position:relative;
-  width:63px;
-  height:63px;
+  width:62px;
+  height:62px;
   margin:0 auto 10px;
   border-radius:50%;
-  background:linear-gradient(145deg,#35c99b,#15916e);
+  background:
+    radial-gradient(circle at 30% 25%,#49c79f,#26a17b 60%,#18785d);
   color:white;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:30px;
   font-weight:900;
+  border:2px solid rgba(255,255,255,.18);
   box-shadow:
-    0 7px 25px rgba(38,161,123,.25),
-    inset 0 1px 0 rgba(255,255,255,.35);
-}
-
-.usdt-logo:after{
-  content:"";
-  position:absolute;
-  inset:5px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.22);
+    0 0 0 5px rgba(38,161,123,.08),
+    0 8px 22px rgba(38,161,123,.18);
 }
 
 .currency strong{
@@ -889,12 +733,11 @@ button:active{
 /* ================= FORM ================= */
 
 .form{
-  margin-top:14px;
+  margin-top:18px;
   padding:17px;
-  background:
-    linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:19px;
+  background:linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2d3037;
+  border-radius:18px;
 }
 
 .form h4{
@@ -904,7 +747,7 @@ button:active{
 
 .form label{
   display:block;
-  font-size:10px;
+  font-size:11px;
   color:var(--muted);
   font-weight:900;
   margin-top:14px;
@@ -915,25 +758,24 @@ button:active{
   width:100%;
   padding:13px;
   border-radius:12px;
-  border:1px solid #2b3037;
-  background:#101318;
+  border:1px solid #30333a;
+  background:var(--card2);
   color:var(--text);
   outline:none;
 }
 
 .form input:focus{
-  border-color:rgba(255,199,44,.55);
-  box-shadow:0 0 0 3px rgba(255,199,44,.06);
+  border-color:var(--gold);
 }
 
 .warning{
   margin-top:13px;
   padding:11px;
   border-radius:12px;
-  background:rgba(255,199,44,.07);
-  border:1px solid rgba(255,199,44,.18);
+  background:rgba(255,199,44,.08);
+  border:1px solid rgba(255,199,44,.22);
   color:var(--gold);
-  font-size:10.5px;
+  font-size:11px;
   line-height:1.5;
 }
 
@@ -948,83 +790,57 @@ button:active{
   justify-content:space-between;
   gap:10px;
   padding:12px 0;
-  border-bottom:1px solid rgba(255,255,255,.06);
-  font-size:11px;
+  border-bottom:1px solid #282b31;
+  font-size:12px;
 }
 
 .tx-date{
-  font-size:9px;
+  font-size:10px;
   color:var(--muted);
   margin-top:3px;
 }
 
 .plus{
-  color:var(--green);
+  color:var(--success);
   font-weight:900;
-  white-space:nowrap;
 }
 
 .minus{
   color:var(--danger);
   font-weight:900;
-  white-space:nowrap;
 }
 
 /* ================= PROFILE ================= */
 
-.profile-cover{
-  margin-top:15px;
-  height:115px;
-  border-radius:23px 23px 0 0;
-  background:
-    radial-gradient(circle at 20% 30%,rgba(255,199,44,.18),transparent 28%),
-    radial-gradient(circle at 85% 20%,rgba(76,141,255,.12),transparent 28%),
-    linear-gradient(135deg,#1c2028,#101217);
-  border:1px solid rgba(255,255,255,.07);
-  position:relative;
-  overflow:hidden;
-}
-
-.profile-cover:after{
-  content:"EARNBOARD";
-  position:absolute;
-  right:15px;
-  bottom:12px;
-  font-size:9px;
-  letter-spacing:.2em;
-  color:rgba(255,255,255,.13);
-  font-weight:900;
-}
-
 .profile{
-  margin-top:-1px;
-  padding:0 17px 18px;
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.07);
-  border-top:0;
-  border-radius:0 0 21px 21px;
+  margin-top:18px;
+  padding:18px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(255,199,44,.1),transparent 38%),
+    linear-gradient(145deg,#181a1f,#111216);
+  border:1px solid #30333a;
+  border-radius:21px;
   display:flex;
   gap:14px;
   align-items:center;
-  position:relative;
+  box-shadow:0 9px 28px rgba(0,0,0,.2);
 }
 
 .avatar{
-  width:72px;
-  height:72px;
-  min-width:72px;
-  margin-top:-29px;
+  width:68px;
+  height:68px;
   border-radius:50%;
-  background:linear-gradient(145deg,#ffd84e,#ffc72c);
+  background:linear-gradient(135deg,#ffd54f,#ffc72c);
   color:#171200;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:27px;
+  font-size:26px;
   font-weight:900;
   overflow:hidden;
-  border:4px solid var(--card);
-  box-shadow:0 8px 25px rgba(0,0,0,.35);
+  flex-shrink:0;
+  border:3px solid rgba(255,199,44,.22);
+  box-shadow:0 0 0 4px rgba(255,199,44,.06);
 }
 
 .avatar img{
@@ -1036,73 +852,42 @@ button:active{
 .profile-name{
   font-size:19px;
   font-weight:900;
-  padding-top:11px;
 }
 
 .profile-user{
-  font-size:11px;
-  color:var(--gold);
-  margin-top:3px;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
 }
 
 .profile-id{
-  font-size:9px;
-  color:var(--muted2);
-  margin-top:3px;
-}
-
-.profile-badges{
-  display:flex;
-  gap:7px;
-  margin-top:13px;
-  padding:0 2px;
-}
-
-.profile-badge{
-  flex:1;
-  padding:10px;
-  border-radius:13px;
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.06);
-  text-align:center;
-}
-
-.profile-badge b{
-  display:block;
-  color:var(--gold);
-  font-size:13px;
-}
-
-.profile-badge span{
-  display:block;
-  font-size:8px;
-  color:var(--muted);
+  font-size:10px;
+  color:#70747e;
   margin-top:3px;
 }
 
 .profile-menu{
-  margin-top:14px;
+  margin-top:16px;
   display:flex;
   flex-direction:column;
-  gap:9px;
+  gap:10px;
 }
 
 .profile-item{
   min-height:60px;
-  padding:0 14px;
-  background:
-    linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.012));
-  border:1px solid rgba(255,255,255,.07);
+  padding:0 15px;
+  background:linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2d3037;
   border-radius:17px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  transition:.2s;
+  transition:.15s ease;
 }
 
 .profile-item:active{
-  transform:scale(.985);
-  border-color:rgba(255,199,44,.25);
+  transform:scale(.99);
+  border-color:var(--gold2);
 }
 
 .profile-left{
@@ -1114,28 +899,27 @@ button:active{
 .profile-icon{
   width:39px;
   height:39px;
-  border-radius:12px;
+  border-radius:11px;
   display:flex;
   align-items:center;
   justify-content:center;
   background:var(--card2);
-  border:1px solid rgba(255,255,255,.05);
+  border:1px solid #30333a;
   font-size:18px;
 }
 
 .profile-label{
-  font-size:13px;
+  font-size:14px;
   font-weight:900;
 }
 
 .profile-arrow{
-  color:#777e88;
+  color:#777b84;
   font-size:23px;
 }
 
 .profile-item.logout{
-  border-color:rgba(255,103,103,.25);
-  margin-top:3px;
+  border-color:rgba(255,103,103,.35);
 }
 
 .profile-item.logout .profile-label,
@@ -1143,48 +927,27 @@ button:active{
   color:var(--danger);
 }
 
-/* ================= PROFILE DETAIL ================= */
-
-.profile-detail{
-  margin-top:13px;
-  padding:16px;
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:18px;
-}
-
-.profile-detail h4{
-  font-size:14px;
-  font-weight:900;
-}
-
-.profile-detail p{
-  font-size:11px;
-  color:var(--muted);
-  line-height:1.6;
-  margin-top:6px;
-}
-
 /* ================= TOAST ================= */
 
 .toast{
   position:fixed;
-  top:15px;
+  top:14px;
   left:50%;
   z-index:999;
   transform:translateX(-50%) translateY(-20px);
   opacity:0;
-  background:linear-gradient(135deg,#ffd84e,#ffc72c);
+  background:var(--gold);
   color:#171200;
   padding:10px 17px;
-  border-radius:13px;
-  font-size:11px;
+  border-radius:12px;
+  font-size:12px;
   font-weight:900;
   transition:.25s;
   pointer-events:none;
-  box-shadow:0 8px 25px rgba(0,0,0,.3);
+  white-space:nowrap;
   max-width:90%;
-  text-align:center;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .toast.show{
@@ -1192,68 +955,66 @@ button:active{
   transform:translateX(-50%) translateY(0);
 }
 
-/* ================= NAV ================= */
+/* ================= BOTTOM NAV ================= */
 
 nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  height:70px;
-  background:rgba(14,16,20,.94);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border-top:1px solid rgba(255,255,255,.07);
+  height:68px;
+  background:rgba(15,16,19,.97);
+  border-top:1px solid #282b31;
   display:flex;
   z-index:100;
-  padding-bottom:env(safe-area-inset-bottom);
+  backdrop-filter:blur(16px);
+  padding-bottom:2px;
 }
 
 nav button{
   flex:1;
   border:0;
   background:none;
-  color:var(--muted2);
+  color:var(--muted);
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   gap:3px;
-  font-size:9px;
+  font-size:10px;
   font-weight:800;
 }
 
 nav button span{
   font-size:19px;
-  line-height:1;
 }
 
 nav button.active{
   color:var(--gold);
 }
 
-nav button.active span{
-  filter:drop-shadow(0 0 6px rgba(255,199,44,.25));
-}
+@media(max-width:360px){
 
-/* ================= MOBILE ================= */
-
-@media(max-width:380px){
   .section{
-    padding:0 13px;
+    padding:0 14px;
   }
 
   .headline{
-    font-size:30px;
+    font-size:29px;
   }
 
   .wallet-number{
-    font-size:37px;
+    font-size:39px;
   }
 
-  .profile-name{
-    font-size:17px;
+  .trust-card{
+    padding:10px;
   }
+
+  .trust-title{
+    font-size:10px;
+  }
+
 }
 </style>
 </head>
@@ -1279,7 +1040,9 @@ nav button.active span{
 
   <div class="hero">
 
-    <div class="eyebrow">Welcome to EarnBoard</div>
+    <div class="eyebrow">
+      Welcome to EarnBoard
+    </div>
 
     <div class="headline display">
       Earn <span class="gold">More.</span><br>
@@ -1288,95 +1051,111 @@ nav button.active span{
 
     <div class="sub">
       Watch verified ads, complete tasks, invite friends,
-      and grow your rewards balance.
+      and build your rewards balance.
     </div>
 
-    <div class="hero-stats">
-
-      <div class="hero-stat">
-        <b>24/7</b>
-        <span>Access</span>
-      </div>
-
-      <div class="hero-stat">
-        <b>USDT</b>
-        <span>Withdrawals</span>
-      </div>
-
-      <div class="hero-stat">
-        <b>Earn</b>
-        <span>Rewards</span>
-      </div>
-
-    </div>
-
-    <button class="main-btn" onclick="switchSection('task')">
-      📋 View Available Tasks
+    <button
+      class="main-btn"
+      onclick="switchSection('task')"
+    >
+      📋 View Tasks
     </button>
 
   </div>
 
   <div id="quickActions">
 
-    <div class="qa-title">⚡ Quick Earning</div>
+    <div class="qa-title">
+      Quick Earning Options
+    </div>
 
     <div class="qa" onclick="openTier('light')">
 
-      <div class="qa-icon">▶️</div>
+      <div class="qa-icon">
+        ▶️
+      </div>
 
       <div class="qa-body">
         <h4>Light Ads</h4>
-        <p>20 ads/day · $0.01 per verified ad</p>
+        <p>
+          20 ads/day · $0.01 per verified ad
+        </p>
       </div>
 
-      <div class="arrow">›</div>
+      <div class="arrow">
+        ›
+      </div>
 
     </div>
 
     <div class="qa" onclick="openTier('pro')">
 
-      <div class="qa-icon">⭐</div>
+      <div class="qa-icon">
+        ⭐
+      </div>
 
       <div class="qa-body">
         <h4>Pro Ads</h4>
-        <p>20 ads/day · $0.01 per verified ad</p>
+        <p>
+          20 ads/day · $0.01 per verified ad
+        </p>
       </div>
 
-      <div class="arrow">›</div>
+      <div class="arrow">
+        ›
+      </div>
 
     </div>
 
     <div class="qa" onclick="openTier('extra')">
 
-      <div class="qa-icon">⚡</div>
+      <div class="qa-icon">
+        ⚡
+      </div>
 
       <div class="qa-body">
         <h4>Extra Ads</h4>
-        <p>20 ads/day · $0.01 per verified ad</p>
+        <p>
+          20 ads/day · $0.01 per verified ad
+        </p>
       </div>
 
-      <div class="arrow">›</div>
+      <div class="arrow">
+        ›
+      </div>
 
     </div>
 
     <div class="qa" onclick="openTier('premium')">
 
-      <div class="qa-icon">💎</div>
+      <div class="qa-icon">
+        💎
+      </div>
 
       <div class="qa-body">
         <h4>Premium Membership</h4>
-        <p>$30 activation · 30 days · 35 ads/day</p>
+        <p>
+          $30 activation · 30 days · 35 ads/day
+        </p>
       </div>
 
-      <div class="arrow">›</div>
+      <div class="arrow">
+        ›
+      </div>
 
     </div>
 
   </div>
 
-  <div id="tierPanel" style="display:none">
+  <div
+    id="tierPanel"
+    style="display:none"
+  >
 
-    <div class="back" onclick="closeTier()">
+    <div
+      class="back"
+      onclick="closeTier()"
+    >
       ‹ <span>Back to Home</span>
     </div>
 
@@ -1390,21 +1169,28 @@ nav button.active span{
 
 <section class="section" id="sec-task">
 
-  <h2 class="title display">Tasks</h2>
+  <h2 class="title display">
+    Tasks
+  </h2>
 
   <p class="subtitle">
-    Complete verified tasks and unlock extra rewards.
+    Complete tasks and earn extra rewards.
   </p>
 
   <div class="card">
 
-    <h4>🔥 Daily Check-in Streak</h4>
+    <h4>
+      Daily Check-in Streak
+    </h4>
 
     <p>
       Watch one verified ad every day to continue your streak.
     </p>
 
-    <div class="streak" id="streakGrid"></div>
+    <div
+      class="streak"
+      id="streakGrid"
+    ></div>
 
     <button
       class="watch"
@@ -1416,26 +1202,39 @@ nav button.active span{
 
   </div>
 
+  <!-- BONUS AD -->
+
   <div class="card">
 
-    <h4>🎁 Bonus Ad</h4>
+    <h4>
+      Bonus Ad
+    </h4>
 
     <p>
-      Watch 10 verified ads and unlock a $0.20 bonus reward.
+      Watch 10 verified ads and earn $0.20 bonus.
     </p>
 
     <div class="bonus-progress-wrap">
 
       <div class="bonus-progress-top">
-        <span>Bonus Ads Progress</span>
-        <b id="bonusAdCount">0 / 10</b>
+
+        <span>
+          Bonus Ads Progress
+        </span>
+
+        <b id="bonusAdCount">
+          0 / 10
+        </b>
+
       </div>
 
       <div class="bonus-progress">
+
         <div
           class="bonus-progress-fill"
           id="bonusProgressFill"
         ></div>
+
       </div>
 
     </div>
@@ -1454,7 +1253,9 @@ nav button.active span{
 
   <div class="card">
 
-    <h4>📢 Telegram Channel</h4>
+    <h4>
+      Telegram Channel Join
+    </h4>
 
     <p>
       Join the official channel and claim your task reward.
@@ -1475,33 +1276,30 @@ nav button.active span{
 
 <section class="section" id="sec-refer">
 
-  <h2 class="title display">Refer & Earn</h2>
+  <h2 class="title display">
+    Refer & Earn
+  </h2>
 
   <p class="subtitle">
-    Invite friends and earn rewards when they complete their first verified ad.
+    Invite friends and earn referral rewards.
   </p>
-
-  <div class="refer-hero">
-
-    <div class="refer-hero-icon">🔗</div>
-
-    <h3>Build Your Network</h3>
-
-    <p>
-      Share your referral code with friends and grow your earning potential.
-    </p>
-
-  </div>
 
   <div class="card">
 
-    <h4>🎟️ Your Referral Code</h4>
+    <h4>
+      Your Referral Code
+    </h4>
 
     <div class="refer-code">
 
-      <b id="referCode">EB-000000</b>
+      <b id="referCode">
+        EB-000000
+      </b>
 
-      <button class="copy" onclick="copyRefer()">
+      <button
+        class="copy"
+        onclick="copyRefer()"
+      >
         Copy
       </button>
 
@@ -1509,62 +1307,41 @@ nav button.active span{
 
   </div>
 
-  <div class="refer-stats">
+  <div class="card">
 
-    <div class="refer-stat">
-      <div class="refer-stat-icon">👥</div>
-      <b id="referCount">0</b>
-      <span>Total Referrals</span>
-    </div>
+    <h4>
+      Total Referrals
+    </h4>
 
-    <div class="refer-stat">
-      <div class="refer-stat-icon">💰</div>
-      <b>$0.10</b>
-      <span>Per Referral</span>
-    </div>
+    <p id="referCount">
+      0
+    </p>
 
   </div>
 
   <div class="card">
 
-    <h4>🎯 How Referral Rewards Work</h4>
+    <h4>
+      Reward Per Referral
+    </h4>
 
-    <div class="referral-steps">
+    <p>
+      $0.10 after the invited user completes
+      their first verified ad.
+    </p>
 
-      <div class="ref-step">
+  </div>
 
-        <div class="ref-step-num">1</div>
+  <div class="card">
 
-        <div>
-          <b>Share your code</b>
-          <p>Send your referral code to a friend.</p>
-        </div>
+    <h4>
+      Referral Benefits
+    </h4>
 
-      </div>
-
-      <div class="ref-step">
-
-        <div class="ref-step-num">2</div>
-
-        <div>
-          <b>Your friend joins</b>
-          <p>Your friend starts using EarnBoard.</p>
-        </div>
-
-      </div>
-
-      <div class="ref-step">
-
-        <div class="ref-step-num">3</div>
-
-        <div>
-          <b>First verified ad</b>
-          <p>Receive your referral reward after verification.</p>
-        </div>
-
-      </div>
-
-    </div>
+    <p>
+      Invite friends, grow your network,
+      and unlock more earning opportunities.
+    </p>
 
   </div>
 
@@ -1574,70 +1351,90 @@ nav button.active span{
 
 <section class="section" id="sec-wallet">
 
-  <h2 class="title display">Wallet</h2>
-
-  <p class="subtitle">
-    Manage your balance and withdrawal details.
-  </p>
+  <h2 class="title display">
+    Wallet
+  </h2>
 
   <div class="wallet-balance">
 
-    <div class="wallet-label">
-      Available Balance
-    </div>
-
     <div class="wallet-number display">
-      <span id="walletBalance">$0.00</span>
+      <span id="walletBalance">
+        $0.00
+      </span>
     </div>
 
     <p class="subtitle">
-      Your current EarnBoard balance
+      Available Balance
     </p>
 
   </div>
 
   <div class="wallet-actions">
 
-    <button onclick="scrollToWithdraw()">
+    <button
+      onclick="scrollToWithdraw()"
+    >
       Withdraw
     </button>
 
-    <button onclick="switchSection('task')">
+    <button
+      onclick="switchSection('task')"
+    >
       Earn More
     </button>
 
   </div>
 
   <div class="withdraw-limit">
-    Minimum <b>$15.00</b>
+
+    Minimum withdraw
+    <b>$15.00</b>
+
     &nbsp;•&nbsp;
-    Maximum <b>$100.00</b>
+
+    Maximum withdraw
+    <b>$100.00</b>
+
   </div>
 
   <div class="trust-grid">
 
     <div class="trust-card">
 
-      <div class="trust-icon">✓</div>
+      <div class="trust-icon">
+        ✓
+      </div>
 
       <div>
-        <div class="trust-title">Verified Rewards</div>
-        <div class="trust-sub">
-          Rewards are credited after ad verification.
+
+        <div class="trust-title">
+          Trusted Experience
         </div>
+
+        <div class="trust-sub">
+          Simple and transparent earning experience
+        </div>
+
       </div>
 
     </div>
 
     <div class="trust-card">
 
-      <div class="trust-icon">🔒</div>
+      <div class="trust-icon">
+        🔒
+      </div>
 
       <div>
-        <div class="trust-title">Secure Details</div>
-        <div class="trust-sub">
-          Keep your payout information accurate.
+
+        <div class="trust-title">
+          Secure Transactions
         </div>
+
+        <div class="trust-sub">
+          Your payout details are handled securely
+        </div>
+
       </div>
 
     </div>
@@ -1646,13 +1443,19 @@ nav button.active span{
 
   <div class="card">
 
-    <h4>💵 Withdrawal Currency</h4>
+    <h4>
+      Withdraw Currency
+    </h4>
 
     <div class="currency">
 
-      <div class="usdt-logo">₮</div>
+      <div class="usdt-logo">
+        ₮
+      </div>
 
-      <strong>USDT</strong>
+      <strong>
+        USDT
+      </strong>
 
       <small>
         Tether USD · BEP20 (BNB Smart Chain)
@@ -1662,24 +1465,32 @@ nav button.active span{
 
   </div>
 
-  <div class="form" id="withdrawForm">
+  <div
+    class="form"
+    id="withdrawForm"
+  >
 
-    <h4>📤 Request Withdrawal</h4>
+    <h4>
+      Request Withdrawal
+    </h4>
 
     <p class="subtitle">
       Enter your payout details carefully.
     </p>
 
-    <label>USDT Wallet Address</label>
+    <label>
+      USDT Wallet Address
+    </label>
 
     <input
       type="text"
       id="withdrawAddress"
       placeholder="Enter USDT BEP20 wallet address"
-      autocomplete="off"
     >
 
-    <label>Withdrawal Amount</label>
+    <label>
+      Withdrawal Amount
+    </label>
 
     <input
       type="number"
@@ -1687,7 +1498,6 @@ nav button.active span{
       placeholder="Enter amount (Minimum $15.00)"
       min="15"
       max="100"
-      step="0.01"
     >
 
     <div class="warning">
@@ -1706,10 +1516,17 @@ nav button.active span{
 
   <div class="card">
 
-    <h4>🧾 Recent Transactions</h4>
+    <h4>
+      Recent Transactions
+    </h4>
 
-    <div class="tx" id="txList">
-      <p>No transactions yet</p>
+    <div
+      class="tx"
+      id="txList"
+    >
+      <p>
+        No transactions yet
+      </p>
     </div>
 
   </div>
@@ -1720,53 +1537,42 @@ nav button.active span{
 
 <section class="section" id="sec-profile">
 
-  <h2 class="title display">Profile</h2>
-
-  <p class="subtitle">
-    Your EarnBoard account and Telegram profile.
-  </p>
-
-  <div class="profile-cover"></div>
+  <h2 class="title display">
+    Profile
+  </h2>
 
   <div class="profile">
 
-    <div class="avatar" id="avatar">
+    <div
+      class="avatar"
+      id="avatar"
+    >
       U
     </div>
 
     <div>
 
-      <div class="profile-name" id="profileName">
+      <div
+        class="profile-name"
+        id="profileName"
+      >
         User
       </div>
 
-      <div class="profile-user" id="profileUsername">
+      <div
+        class="profile-user"
+        id="profileUsername"
+      >
         @username
       </div>
 
-      <div class="profile-id" id="profileId">
+      <div
+        class="profile-id"
+        id="profileId"
+      >
         Telegram ID: —
       </div>
 
-    </div>
-
-  </div>
-
-  <div class="profile-badges">
-
-    <div class="profile-badge">
-      <b id="profileBalanceBadge">$0.00</b>
-      <span>Balance</span>
-    </div>
-
-    <div class="profile-badge">
-      <b id="profileReferralBadge">0</b>
-      <span>Referrals</span>
-    </div>
-
-    <div class="profile-badge">
-      <b>✓</b>
-      <span>Connected</span>
     </div>
 
   </div>
@@ -1780,7 +1586,9 @@ nav button.active span{
 
       <div class="profile-left">
 
-        <div class="profile-icon">👤</div>
+        <div class="profile-icon">
+          👤
+        </div>
 
         <div class="profile-label">
           Account
@@ -1788,7 +1596,9 @@ nav button.active span{
 
       </div>
 
-      <div class="profile-arrow">›</div>
+      <div class="profile-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1799,7 +1609,9 @@ nav button.active span{
 
       <div class="profile-left">
 
-        <div class="profile-icon">🔗</div>
+        <div class="profile-icon">
+          🔗
+        </div>
 
         <div class="profile-label">
           Referrals
@@ -1807,7 +1619,9 @@ nav button.active span{
 
       </div>
 
-      <div class="profile-arrow">›</div>
+      <div class="profile-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1818,7 +1632,9 @@ nav button.active span{
 
       <div class="profile-left">
 
-        <div class="profile-icon">🔒</div>
+        <div class="profile-icon">
+          🔒
+        </div>
 
         <div class="profile-label">
           Security
@@ -1826,7 +1642,9 @@ nav button.active span{
 
       </div>
 
-      <div class="profile-arrow">›</div>
+      <div class="profile-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1837,7 +1655,9 @@ nav button.active span{
 
       <div class="profile-left">
 
-        <div class="profile-icon">📄</div>
+        <div class="profile-icon">
+          📄
+        </div>
 
         <div class="profile-label">
           Terms & Conditions
@@ -1845,7 +1665,9 @@ nav button.active span{
 
       </div>
 
-      <div class="profile-arrow">›</div>
+      <div class="profile-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1856,7 +1678,9 @@ nav button.active span{
 
       <div class="profile-left">
 
-        <div class="profile-icon">🛡️</div>
+        <div class="profile-icon">
+          🛡️
+        </div>
 
         <div class="profile-label">
           Privacy Policy
@@ -1864,7 +1688,9 @@ nav button.active span{
 
       </div>
 
-      <div class="profile-arrow">›</div>
+      <div class="profile-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1875,7 +1701,9 @@ nav button.active span{
 
       <div class="profile-left">
 
-        <div class="profile-icon">❓</div>
+        <div class="profile-icon">
+          ❓
+        </div>
 
         <div class="profile-label">
           Help & Support
@@ -1883,7 +1711,9 @@ nav button.active span{
 
       </div>
 
-      <div class="profile-arrow">›</div>
+      <div class="profile-arrow">
+        ›
+      </div>
 
     </div>
 
@@ -1894,7 +1724,9 @@ nav button.active span{
 
       <div class="profile-left">
 
-        <div class="profile-icon">🚪</div>
+        <div class="profile-icon">
+          🚪
+        </div>
 
         <div class="profile-label">
           Logout
@@ -1902,13 +1734,13 @@ nav button.active span{
 
       </div>
 
-      <div class="profile-arrow">›</div>
+      <div class="profile-arrow">
+        ›
+      </div>
 
     </div>
 
   </div>
-
-  <div id="profileDetail"></div>
 
 </section>
 
@@ -1916,7 +1748,10 @@ nav button.active span{
 
 <nav>
 
-  <button class="active" data-target="home">
+  <button
+    class="active"
+    data-target="home"
+  >
     <span>🏠</span>
     Home
   </button>
@@ -1947,49 +1782,62 @@ nav button.active span{
 
 /* =========================================================
    TELEGRAM
-   ========================================================= */
+========================================================= */
 
 const tg =
-  window.Telegram && window.Telegram.WebApp
+  window.Telegram &&
+  window.Telegram.WebApp
     ? window.Telegram.WebApp
     : null;
 
 if(tg){
+
   tg.ready();
   tg.expand();
+
 }
 
 /* =========================================================
    STORAGE
-   ========================================================= */
+========================================================= */
 
-const STORAGE_KEY = "earnboard_state_v3";
+const STORAGE_KEY =
+  "earnboard_state_v3";
 
 const defaults = {
 
   balance:0,
+
   todayEarned:0,
+
   totalEarned:0,
 
   lightWatched:0,
+
   proWatched:0,
+
   extraWatched:0,
+
   premiumWatched:0,
 
   premium:false,
+
   premiumActivatedAt:null,
 
   checkinDay:1,
+
   lastCheckinDate:null,
 
   tasksClaimed:{},
 
   bonusAdWatched:0,
+
   bonusAdDate:new Date().toDateString(),
 
   referCount:0,
 
   transactions:[],
+
   adDate:new Date().toDateString(),
 
   rewardedAdIds:[]
@@ -2001,10 +1849,16 @@ function loadState(){
   try{
 
     const raw =
-      localStorage.getItem(STORAGE_KEY);
+      localStorage.getItem(
+        STORAGE_KEY
+      );
 
     if(!raw){
-      return {...defaults};
+
+      return {
+        ...defaults
+      };
+
     }
 
     const parsed =
@@ -2013,58 +1867,87 @@ function loadState(){
     return {
 
       ...defaults,
+
       ...parsed,
 
       tasksClaimed:
         parsed.tasksClaimed || {},
 
       transactions:
-        parsed.transactions || {},
+        parsed.transactions || [],
 
       rewardedAdIds:
         parsed.rewardedAdIds || [],
 
       bonusAdWatched:
-        Number(parsed.bonusAdWatched || 0)
+        Number(
+          parsed.bonusAdWatched || 0
+        )
 
     };
 
-  }catch(e){
+  }catch(error){
 
-    return {...defaults};
+    console.error(
+      "Storage load error:",
+      error
+    );
+
+    return {
+      ...defaults
+    };
 
   }
 
 }
 
-let state = loadState();
+let state =
+  loadState();
 
 function saveState(){
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(state)
-  );
+  try{
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state)
+    );
+
+  }catch(error){
+
+    console.error(
+      "Storage save error:",
+      error
+    );
+
+  }
 
 }
 
 /* =========================================================
    CONSTANTS
-   ========================================================= */
+========================================================= */
 
 const LIGHT_MAX = 20;
+
 const PRO_MAX = 20;
+
 const EXTRA_MAX = 20;
+
 const PREMIUM_MAX = 35;
 
 const LIGHT_REWARD = 0.01;
+
 const PRO_REWARD = 0.01;
+
 const EXTRA_REWARD = 0.01;
+
 const PREMIUM_REWARD = 0.01;
 
 const PREMIUM_FEE = 30;
 
 const BONUS_AD_MAX = 10;
+
 const BONUS_AD_REWARD = 0.20;
 
 const STREAK_REWARDS =
@@ -2073,8 +1956,140 @@ const STREAK_REWARDS =
 let adInProgress = false;
 
 /* =========================================================
+   10 SECOND AD COOLDOWN
+========================================================= */
+
+const AD_COOLDOWN_SECONDS = 10;
+
+let adCooldownUntil = 0;
+
+let adCooldownTimer = null;
+
+function isAdCooldownActive(){
+
+  return (
+    Date.now() <
+    adCooldownUntil
+  );
+
+}
+
+function remainingCooldownSeconds(){
+
+  return Math.max(
+    0,
+    Math.ceil(
+      (
+        adCooldownUntil -
+        Date.now()
+      ) / 1000
+    )
+  );
+
+}
+
+function startAdCooldown(){
+
+  adCooldownUntil =
+    Date.now() +
+    (
+      AD_COOLDOWN_SECONDS *
+      1000
+    );
+
+  clearInterval(
+    adCooldownTimer
+  );
+
+  updateAdCooldownUI();
+
+  adCooldownTimer =
+    setInterval(()=>{
+
+      updateAdCooldownUI();
+
+      if(
+        !isAdCooldownActive()
+      ){
+
+        clearInterval(
+          adCooldownTimer
+        );
+
+        adCooldownTimer =
+          null;
+
+        updateAdCooldownUI();
+
+        toast(
+          "10-second break completed. Next ad is ready."
+        );
+
+      }
+
+    },250);
+
+}
+
+function cooldownText(){
+
+  const seconds =
+    remainingCooldownSeconds();
+
+  return seconds > 0
+    ? "⏳ Next ad in " + seconds + "s"
+    : "▶ Watch Ad";
+
+}
+
+function updateAdCooldownUI(){
+
+  const seconds =
+    remainingCooldownSeconds();
+
+  const adButtons =
+    document.querySelectorAll(
+      '[data-ad-button="true"]'
+    );
+
+  adButtons.forEach(button=>{
+
+    if(
+      isAdCooldownActive()
+    ){
+
+      button.disabled = true;
+
+      button.textContent =
+        cooldownText();
+
+    }
+
+  });
+
+  if(
+    typeof renderBonusAd ===
+    "function"
+  ){
+
+    renderBonusAd();
+
+  }
+
+  if(
+    typeof renderStreak ===
+    "function"
+  ){
+
+    renderStreak();
+
+  }
+
+}
+
+/* =========================================================
    PREMIUM
-   ========================================================= */
+========================================================= */
 
 function premiumIsActive(){
 
@@ -2082,28 +2097,42 @@ function premiumIsActive(){
     !state.premium ||
     !state.premiumActivatedAt
   ){
+
     return false;
+
   }
 
   const age =
     Date.now() -
-    Number(state.premiumActivatedAt);
+    Number(
+      state.premiumActivatedAt
+    );
 
-  return age <
-    30 * 24 * 60 * 60 * 1000;
+  return (
+    age <
+    30 *
+    24 *
+    60 *
+    60 *
+    1000
+  );
 
 }
 
 function syncPremium(){
 
   if(!state.premium){
+
     return false;
+
   }
 
   if(!premiumIsActive()){
 
     state.premium = false;
-    state.premiumActivatedAt = null;
+
+    state.premiumActivatedAt =
+      null;
 
     saveState();
 
@@ -2117,20 +2146,26 @@ function syncPremium(){
 
 /* =========================================================
    DAILY RESET
-   ========================================================= */
+========================================================= */
 
 function resetDaily(){
 
   const today =
     new Date().toDateString();
 
-  if(state.adDate !== today){
+  if(
+    state.adDate !== today
+  ){
 
-    state.adDate = today;
+    state.adDate =
+      today;
 
     state.lightWatched = 0;
+
     state.proWatched = 0;
+
     state.extraWatched = 0;
+
     state.premiumWatched = 0;
 
     state.todayEarned = 0;
@@ -2139,14 +2174,22 @@ function resetDaily(){
 
   }
 
-  if(state.bonusAdDate !== today){
+  if(
+    state.bonusAdDate !== today
+  ){
 
-    state.bonusAdDate = today;
+    state.bonusAdDate =
+      today;
 
-    state.bonusAdWatched = 0;
+    state.bonusAdWatched =
+      0;
 
-    if(state.tasksClaimed.bonusAd){
+    if(
+      state.tasksClaimed.bonusAd
+    ){
+
       delete state.tasksClaimed.bonusAd;
+
     }
 
     saveState();
@@ -2157,34 +2200,49 @@ function resetDaily(){
 
 /* =========================================================
    FORMAT
-   ========================================================= */
+========================================================= */
 
 function money(n){
 
-  return "$" +
-    Number(n || 0).toFixed(2);
+  return (
+    "$" +
+    Number(n || 0).toFixed(2)
+  );
 
 }
 
 /* =========================================================
    TOAST
-   ========================================================= */
+========================================================= */
 
 function toast(message){
 
   const el =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
-  el.textContent = message;
+  if(!el){
+    return;
+  }
 
-  el.classList.add("show");
+  el.textContent =
+    message;
 
-  clearTimeout(window.toastTimer);
+  el.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    window.toastTimer
+  );
 
   window.toastTimer =
     setTimeout(
       ()=>{
-        el.classList.remove("show");
+        el.classList.remove(
+          "show"
+        );
       },
       2300
     );
@@ -2193,43 +2251,48 @@ function toast(message){
 
 /* =========================================================
    TOP RENDER
-   ========================================================= */
+========================================================= */
 
 function renderTop(){
 
-  document.getElementById(
-    "topBalance"
-  ).textContent =
-    money(state.balance);
-
-  document.getElementById(
-    "walletBalance"
-  ).textContent =
-    money(state.balance);
-
-  document.getElementById(
-    "referCount"
-  ).textContent =
-    state.referCount;
-
-  const profileBalance =
+  const topBalance =
     document.getElementById(
-      "profileBalanceBadge"
+      "topBalance"
     );
 
-  if(profileBalance){
-    profileBalance.textContent =
-      money(state.balance);
+  const walletBalance =
+    document.getElementById(
+      "walletBalance"
+    );
+
+  const referCount =
+    document.getElementById(
+      "referCount"
+    );
+
+  if(topBalance){
+
+    topBalance.textContent =
+      money(
+        state.balance
+      );
+
   }
 
-  const profileReferral =
-    document.getElementById(
-      "profileReferralBadge"
-    );
+  if(walletBalance){
 
-  if(profileReferral){
-    profileReferral.textContent =
+    walletBalance.textContent =
+      money(
+        state.balance
+      );
+
+  }
+
+  if(referCount){
+
+    referCount.textContent =
       state.referCount;
+
   }
 
   renderBonusAd();
@@ -2238,8 +2301,8 @@ function renderTop(){
 
 /* =========================================================
    MONETAG
-   IMPORTANT: AD SYSTEM PRESERVED
-   ========================================================= */
+   EXISTING SYSTEM PRESERVED
+========================================================= */
 
 function monetagRewarded(result){
 
@@ -2252,7 +2315,10 @@ function monetagRewarded(result){
 
   }
 
-  if(typeof result !== "object"){
+  if(
+    typeof result !==
+    "object"
+  ){
 
     return {
       rewarded:false,
@@ -2263,7 +2329,8 @@ function monetagRewarded(result){
 
   const eventType =
     String(
-      result.reward_event_type || ""
+      result.reward_event_type ||
+      ""
     ).toLowerCase();
 
   const eventId =
@@ -2277,7 +2344,8 @@ function monetagRewarded(result){
     rewarded:
       eventType === "valued",
 
-    eventId:eventId
+    eventId:
+      eventId
 
   };
 
@@ -2301,15 +2369,21 @@ async function showMonetagAd(){
   const fn =
     window.show_11580974;
 
-  if(typeof fn !== "function"){
+  if(
+    typeof fn !==
+    "function"
+  ){
 
     toast(
       "Ad system is loading. Try again."
     );
 
     return {
+
       rewarded:false,
+
       eventId:null
+
     };
 
   }
@@ -2325,12 +2399,16 @@ async function showMonetagAd(){
       );
 
     const parsed =
-      monetagRewarded(result);
+      monetagRewarded(
+        result
+      );
 
     if(
       parsed.eventId &&
       state.rewardedAdIds.includes(
-        String(parsed.eventId)
+        String(
+          parsed.eventId
+        )
       )
     ){
 
@@ -2340,8 +2418,12 @@ async function showMonetagAd(){
       );
 
       return {
+
         rewarded:false,
-        eventId:parsed.eventId
+
+        eventId:
+          parsed.eventId
+
       };
 
     }
@@ -2353,8 +2435,10 @@ async function showMonetagAd(){
 
       eventId:
         parsed.eventId
-          ? String(parsed.eventId)
-          : ymid
+        ? String(
+            parsed.eventId
+          )
+        : ymid
 
     };
 
@@ -2370,8 +2454,11 @@ async function showMonetagAd(){
     );
 
     return {
+
       rewarded:false,
+
       eventId:null
+
     };
 
   }
@@ -2380,7 +2467,7 @@ async function showMonetagAd(){
 
 /* =========================================================
    EARNING
-   ========================================================= */
+========================================================= */
 
 function addEarning(
   amount,
@@ -2391,10 +2478,14 @@ function addEarning(
   if(eventId){
 
     const id =
-      String(eventId);
+      String(
+        eventId
+      );
 
     if(
-      state.rewardedAdIds.includes(id)
+      state.rewardedAdIds.includes(
+        id
+      )
     ){
 
       console.warn(
@@ -2406,51 +2497,75 @@ function addEarning(
 
     }
 
-    state.rewardedAdIds.push(id);
+    state.rewardedAdIds.push(
+      id
+    );
 
     if(
-      state.rewardedAdIds.length > 500
+      state.rewardedAdIds.length >
+      500
     ){
 
       state.rewardedAdIds =
-        state.rewardedAdIds.slice(-500);
+        state.rewardedAdIds.slice(
+          -500
+        );
 
     }
 
   }
 
   state.balance =
-    Number(state.balance) +
-    Number(amount);
+    Number(
+      state.balance
+    ) +
+    Number(
+      amount
+    );
 
   state.todayEarned =
-    Number(state.todayEarned) +
-    Number(amount);
+    Number(
+      state.todayEarned
+    ) +
+    Number(
+      amount
+    );
 
   state.totalEarned =
-    Number(state.totalEarned) +
-    Number(amount);
+    Number(
+      state.totalEarned
+    ) +
+    Number(
+      amount
+    );
 
   state.transactions.unshift({
 
-    label:label,
+    label:
+      label,
 
-    amount:Number(amount),
+    amount:
+      Number(
+        amount
+      ),
 
     date:
       new Date()
-        .toLocaleString("en-IN"),
+        .toLocaleString(
+          "en-IN"
+        ),
 
     eventId:
       eventId
-        ? String(eventId)
-        : null
+      ? String(eventId)
+      : null
 
   });
 
   saveState();
 
   renderTop();
+
   renderTransactions();
 
   return true;
@@ -2459,19 +2574,23 @@ function addEarning(
 
 /* =========================================================
    TIER
-   ========================================================= */
+========================================================= */
 
 function openTier(tier){
 
   document.getElementById(
     "quickActions"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
   document.getElementById(
     "tierPanel"
-  ).style.display = "block";
+  ).style.display =
+    "block";
 
-  renderTier(tier);
+  renderTier(
+    tier
+  );
 
 }
 
@@ -2479,17 +2598,20 @@ function closeTier(){
 
   document.getElementById(
     "tierPanel"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
   document.getElementById(
     "quickActions"
-  ).style.display = "block";
+  ).style.display =
+    "block";
 
 }
 
 function renderTier(tier){
 
   resetDaily();
+
   syncPremium();
 
   const box =
@@ -2497,17 +2619,26 @@ function renderTier(tier){
       "tierContent"
     );
 
-  if(tier === "premium"){
+  if(!box){
+    return;
+  }
+
+  if(
+    tier === "premium"
+  ){
 
     const active =
       premiumIsActive();
+
+    const premiumCooldown =
+      isAdCooldownActive();
 
     box.innerHTML = `
 
       <div class="premium">
 
         <h3 class="display">
-          💎 Premium Membership
+          Premium Membership
         </h3>
 
         <p>
@@ -2526,12 +2657,16 @@ function renderTier(tier){
         <button
           class="watch"
           onclick="activatePremium()"
-          ${active ? "disabled" : ""}
+          ${
+            active
+            ? "disabled"
+            : ""
+          }
         >
           ${
             active
-              ? "Premium Active ✓"
-              : "Activate Premium – $30"
+            ? "Premium Active ✓"
+            : "Activate Premium – $30"
           }
         </button>
 
@@ -2540,11 +2675,16 @@ function renderTier(tier){
       ${
         active
         ? `
+
           <div class="ad">
 
-            <div class="ad-icon">💎</div>
+            <div class="ad-icon">
+              💎
+            </div>
 
-            <h3>Premium Ad</h3>
+            <h3>
+              Premium Ad
+            </h3>
 
             <p>
               Real Monetag rewarded ad · $0.01
@@ -2552,10 +2692,12 @@ function renderTier(tier){
 
             <button
               class="watch"
+              data-ad-button="true"
               onclick="watchAd('premium')"
               ${
                 state.premiumWatched >= PREMIUM_MAX ||
-                adInProgress
+                adInProgress ||
+                premiumCooldown
                 ? "disabled"
                 : ""
               }
@@ -2563,6 +2705,8 @@ function renderTier(tier){
               ${
                 state.premiumWatched >= PREMIUM_MAX
                 ? "Daily Limit Completed"
+                : premiumCooldown
+                ? cooldownText()
                 : adInProgress
                 ? "Ad in progress..."
                 : "▶ Watch Premium Ad"
@@ -2570,13 +2714,35 @@ function renderTier(tier){
             </button>
 
             <div class="count">
-              <span>Premium ads watched today</span>
+
               <span>
-                ${state.premiumWatched} / ${PREMIUM_MAX}
+                Premium ads watched today
               </span>
+
+              <span>
+                ${state.premiumWatched}
+                /
+                ${PREMIUM_MAX}
+              </span>
+
             </div>
 
+            ${
+              premiumCooldown
+              ? `
+                <div class="cooldown-box">
+                  Please wait
+                  <strong>
+                    ${remainingCooldownSeconds()}s
+                  </strong>
+                  before watching another ad.
+                </div>
+              `
+              : ""
+            }
+
           </div>
+
         `
         : ""
       }
@@ -2588,45 +2754,71 @@ function renderTier(tier){
   }
 
   let watched = 0;
+
   let max = 20;
+
   let title = "";
+
   let icon = "▶️";
+
   let reward = 0.01;
 
-  if(tier === "light"){
+  if(
+    tier === "light"
+  ){
 
     watched =
       state.lightWatched;
 
-    title = "Light Ad";
-    reward = LIGHT_REWARD;
+    title =
+      "Light Ad";
+
+    reward =
+      LIGHT_REWARD;
 
   }
 
-  if(tier === "pro"){
+  if(
+    tier === "pro"
+  ){
 
     watched =
       state.proWatched;
 
-    title = "Pro Ad";
-    icon = "⭐";
-    reward = PRO_REWARD;
+    title =
+      "Pro Ad";
+
+    icon =
+      "⭐";
+
+    reward =
+      PRO_REWARD;
 
   }
 
-  if(tier === "extra"){
+  if(
+    tier === "extra"
+  ){
 
     watched =
       state.extraWatched;
 
-    title = "Extra Ad";
-    icon = "⚡";
-    reward = EXTRA_REWARD;
+    title =
+      "Extra Ad";
+
+    icon =
+      "⚡";
+
+    reward =
+      EXTRA_REWARD;
 
   }
 
   const completed =
     watched >= max;
+
+  const cooldown =
+    isAdCooldownActive();
 
   box.innerHTML = `
 
@@ -2636,17 +2828,23 @@ function renderTier(tier){
         ${icon}
       </div>
 
-      <h3>${title}</h3>
+      <h3>
+        ${title}
+      </h3>
 
       <p>
-        Real Monetag rewarded ad · ${money(reward)}
+        Real Monetag rewarded ad ·
+        ${money(reward)}
       </p>
 
       <button
         class="watch"
+        data-ad-button="true"
         onclick="watchAd('${tier}')"
         ${
-          completed || adInProgress
+          completed ||
+          adInProgress ||
+          cooldown
           ? "disabled"
           : ""
         }
@@ -2654,6 +2852,8 @@ function renderTier(tier){
         ${
           completed
           ? "Daily Limit Completed"
+          : cooldown
+          ? cooldownText()
           : adInProgress
           ? "Ad in progress..."
           : "▶ Watch Ad"
@@ -2661,9 +2861,30 @@ function renderTier(tier){
       </button>
 
       <div class="count">
-        <span>Ads watched today</span>
-        <span>${watched} / ${max}</span>
+
+        <span>
+          Ads watched today
+        </span>
+
+        <span>
+          ${watched} / ${max}
+        </span>
+
       </div>
+
+      ${
+        cooldown
+        ? `
+          <div class="cooldown-box">
+            Please wait
+            <strong>
+              ${remainingCooldownSeconds()}s
+            </strong>
+            before watching another ad.
+          </div>
+        `
+        : ""
+      }
 
       ${
         completed
@@ -2684,7 +2905,7 @@ function renderTier(tier){
 
 /* =========================================================
    WATCH AD
-   ========================================================= */
+========================================================= */
 
 async function watchAd(tier){
 
@@ -2692,87 +2913,186 @@ async function watchAd(tier){
     return;
   }
 
+  if(
+    isAdCooldownActive()
+  ){
+
+    toast(
+      "Please wait " +
+      remainingCooldownSeconds() +
+      " seconds."
+    );
+
+    return;
+  }
+
   resetDaily();
+
   syncPremium();
 
   let counter = "";
+
   let reward = 0.01;
+
   let max = 20;
 
-  if(tier === "light"){
+  if(
+    tier === "light"
+  ){
 
-    counter = "lightWatched";
-    reward = LIGHT_REWARD;
-    max = LIGHT_MAX;
+    counter =
+      "lightWatched";
 
-  }
+    reward =
+      LIGHT_REWARD;
 
-  if(tier === "pro"){
-
-    counter = "proWatched";
-    reward = PRO_REWARD;
-    max = PRO_MAX;
-
-  }
-
-  if(tier === "extra"){
-
-    counter = "extraWatched";
-    reward = EXTRA_REWARD;
-    max = EXTRA_MAX;
+    max =
+      LIGHT_MAX;
 
   }
 
-  if(tier === "premium"){
+  if(
+    tier === "pro"
+  ){
 
-    if(!premiumIsActive()){
+    counter =
+      "proWatched";
+
+    reward =
+      PRO_REWARD;
+
+    max =
+      PRO_MAX;
+
+  }
+
+  if(
+    tier === "extra"
+  ){
+
+    counter =
+      "extraWatched";
+
+    reward =
+      EXTRA_REWARD;
+
+    max =
+      EXTRA_MAX;
+
+  }
+
+  if(
+    tier === "premium"
+  ){
+
+    if(
+      !premiumIsActive()
+    ){
 
       toast(
         "Premium membership is not active."
       );
 
-      renderTier("premium");
+      renderTier(
+        "premium"
+      );
 
       return;
 
     }
 
-    counter = "premiumWatched";
-    reward = PREMIUM_REWARD;
-    max = PREMIUM_MAX;
+    counter =
+      "premiumWatched";
+
+    reward =
+      PREMIUM_REWARD;
+
+    max =
+      PREMIUM_MAX;
 
   }
 
-  if(state[counter] >= max){
-
-    toast(
-      "Today's reward is complete."
-    );
-
-    renderTier(tier);
+  if(
+    !counter
+  ){
 
     return;
 
   }
 
-  adInProgress = true;
+  if(
+    state[counter] >= max
+  ){
 
-  renderTier(tier);
+    toast(
+      "Today's reward is complete."
+    );
 
-  toast("Opening ad...");
+    renderTier(
+      tier
+    );
+
+    return;
+
+  }
+
+  adInProgress =
+    true;
+
+  renderTier(
+    tier
+  );
+
+  toast(
+    "Opening ad..."
+  );
 
   const result =
     await showMonetagAd();
 
-  adInProgress = false;
+  adInProgress =
+    false;
 
-  if(!result.rewarded){
+  if(
+    !result.rewarded
+  ){
 
     toast(
       "Ad was not verified — no reward added."
     );
 
-    renderTier(tier);
+    renderTier(
+      tier
+    );
+
+    return;
+
+  }
+
+  const credited =
+    addEarning(
+
+      reward,
+
+      tier
+        .charAt(0)
+        .toUpperCase() +
+      tier.slice(1) +
+      " Verified Ad Reward",
+
+      result.eventId
+
+    );
+
+  if(!credited){
+
+    toast(
+      "This ad reward was already credited."
+    );
+
+    renderTier(
+      tier
+    );
 
     return;
 
@@ -2780,30 +3100,10 @@ async function watchAd(tier){
 
   state[counter]++;
 
-  const credited =
-    addEarning(
-      reward,
-      tier.charAt(0).toUpperCase() +
-      tier.slice(1) +
-      " Verified Ad Reward",
-      result.eventId
-    );
+  saveState();
 
-  if(!credited){
-
-    state[counter]--;
-
-    saveState();
-
-    toast(
-      "This ad reward was already credited."
-    );
-
-    renderTier(tier);
-
-    return;
-
-  }
+  /* 10 SECOND BREAK AFTER VERIFIED AD */
+  startAdCooldown();
 
   toast(
     "+" +
@@ -2811,13 +3111,15 @@ async function watchAd(tier){
     " verified reward!"
   );
 
-  renderTier(tier);
+  renderTier(
+    tier
+  );
 
 }
 
 /* =========================================================
    BONUS AD
-   ========================================================= */
+========================================================= */
 
 function renderBonusAd(){
 
@@ -2825,12 +3127,18 @@ function renderBonusAd(){
 
   const count =
     Math.min(
-      Number(state.bonusAdWatched || 0),
+      Number(
+        state.bonusAdWatched ||
+        0
+      ),
       BONUS_AD_MAX
     );
 
   const percentage =
-    (count / BONUS_AD_MAX) * 100;
+    (
+      count /
+      BONUS_AD_MAX
+    ) * 100;
 
   const countEl =
     document.getElementById(
@@ -2858,7 +3166,9 @@ function renderBonusAd(){
     !btnEl ||
     !messageEl
   ){
+
     return;
+
   }
 
   countEl.textContent =
@@ -2867,37 +3177,69 @@ function renderBonusAd(){
     BONUS_AD_MAX;
 
   fillEl.style.width =
-    percentage + "%";
+    percentage +
+    "%";
 
-  if(count >= BONUS_AD_MAX){
+  const cooldown =
+    isAdCooldownActive();
 
-    btnEl.disabled = true;
+  if(
+    count >= BONUS_AD_MAX
+  ){
+
+    btnEl.disabled =
+      true;
 
     btnEl.textContent =
       "Bonus Reward Completed ✓";
 
     messageEl.innerHTML = `
+
       <div class="bonus-complete">
+
         Rewards claimed successfully.<br>
+
         Come back tomorrow.
+
       </div>
+
     `;
 
   }else{
 
     btnEl.disabled =
-      adInProgress;
+      adInProgress ||
+      cooldown;
 
     btnEl.textContent =
-      adInProgress
+      cooldown
+      ? "⏳ Next ad in " +
+        remainingCooldownSeconds() +
+        "s"
+      : adInProgress
       ? "Ad in progress..."
       : "▶ Watch Bonus Ad";
 
-    messageEl.innerHTML = "";
+    messageEl.innerHTML =
+      cooldown
+      ? `
+        <div class="cooldown-box">
+          Please wait
+          <strong>
+            ${remainingCooldownSeconds()}s
+          </strong>
+          before watching another ad.
+        </div>
+      `
+      : "";
 
   }
 
 }
+
+/* =========================================================
+   WATCH BONUS AD
+========================================================= */
 
 async function watchBonusAd(){
 
@@ -2908,8 +3250,23 @@ async function watchBonusAd(){
   }
 
   if(
-    Number(state.bonusAdWatched) >=
-    BONUS_AD_MAX
+    isAdCooldownActive()
+  ){
+
+    toast(
+      "Please wait " +
+      remainingCooldownSeconds() +
+      " seconds."
+    );
+
+    return;
+
+  }
+
+  if(
+    Number(
+      state.bonusAdWatched
+    ) >= BONUS_AD_MAX
   ){
 
     renderBonusAd();
@@ -2918,18 +3275,24 @@ async function watchBonusAd(){
 
   }
 
-  adInProgress = true;
+  adInProgress =
+    true;
 
   renderBonusAd();
 
-  toast("Opening bonus ad...");
+  toast(
+    "Opening bonus ad..."
+  );
 
   const result =
     await showMonetagAd();
 
-  adInProgress = false;
+  adInProgress =
+    false;
 
-  if(!result.rewarded){
+  if(
+    !result.rewarded
+  ){
 
     toast(
       "Ad was not verified — no bonus progress added."
@@ -2941,30 +3304,28 @@ async function watchBonusAd(){
 
   }
 
-  state.bonusAdWatched =
+  const nextCount =
     Number(
-      state.bonusAdWatched || 0
+      state.bonusAdWatched ||
+      0
     ) + 1;
 
-  const currentCount =
-    state.bonusAdWatched;
-
-  saveState();
-
-  if(currentCount >= BONUS_AD_MAX){
+  if(
+    nextCount >= BONUS_AD_MAX
+  ){
 
     const credited =
       addEarning(
+
         BONUS_AD_REWARD,
+
         "Bonus Ad — 10 Verified Ads Reward",
+
         result.eventId
+
       );
 
     if(!credited){
-
-      state.bonusAdWatched--;
-
-      saveState();
 
       toast(
         "This ad reward was already credited."
@@ -2976,9 +3337,16 @@ async function watchBonusAd(){
 
     }
 
-    state.tasksClaimed.bonusAd = true;
+    state.bonusAdWatched =
+      BONUS_AD_MAX;
+
+    state.tasksClaimed.bonusAd =
+      true;
 
     saveState();
+
+    /* 10 SECOND BREAK */
+    startAdCooldown();
 
     renderBonusAd();
 
@@ -2990,13 +3358,19 @@ async function watchBonusAd(){
 
   }
 
+  state.bonusAdWatched =
+    nextCount;
+
   saveState();
+
+  /* 10 SECOND BREAK AFTER EACH BONUS AD */
+  startAdCooldown();
 
   renderBonusAd();
 
   toast(
     "Bonus Ad " +
-    currentCount +
+    nextCount +
     " / " +
     BONUS_AD_MAX +
     " completed."
@@ -3006,41 +3380,55 @@ async function watchBonusAd(){
 
 /* =========================================================
    PREMIUM ACTIVATION
-   ========================================================= */
+========================================================= */
 
 function activatePremium(){
 
   syncPremium();
 
-  if(premiumIsActive()){
+  if(
+    premiumIsActive()
+  ){
 
     toast(
       "Premium is already active"
     );
 
-    renderTier("premium");
+    renderTier(
+      "premium"
+    );
 
     return;
 
   }
 
-  if(Number(state.balance) < PREMIUM_FEE){
+  if(
+    Number(
+      state.balance
+    ) <
+    PREMIUM_FEE
+  ){
 
     toast(
       "You need $30.00 balance to activate Premium."
     );
 
-    renderTier("premium");
+    renderTier(
+      "premium"
+    );
 
     return;
 
   }
 
   state.balance =
-    Number(state.balance) -
+    Number(
+      state.balance
+    ) -
     PREMIUM_FEE;
 
-  state.premium = true;
+  state.premium =
+    true;
 
   state.premiumActivatedAt =
     Date.now();
@@ -3054,7 +3442,10 @@ function activatePremium(){
       -PREMIUM_FEE,
 
     date:
-      new Date().toLocaleString("en-IN")
+      new Date()
+        .toLocaleString(
+          "en-IN"
+        )
 
   });
 
@@ -3064,7 +3455,9 @@ function activatePremium(){
 
   renderTransactions();
 
-  renderTier("premium");
+  renderTier(
+    "premium"
+  );
 
   toast(
     "Premium activated for 30 days."
@@ -3074,7 +3467,7 @@ function activatePremium(){
 
 /* =========================================================
    CHECK-IN
-   ========================================================= */
+========================================================= */
 
 function pendingDay(){
 
@@ -3087,11 +3480,19 @@ function pendingDay(){
       86400000
     ).toDateString();
 
-  if(state.lastCheckinDate === today){
+  if(
+    state.lastCheckinDate ===
+    today
+  ){
+
     return state.checkinDay;
+
   }
 
-  if(state.lastCheckinDate === yesterday){
+  if(
+    state.lastCheckinDate ===
+    yesterday
+  ){
 
     return state.checkinDay >= 7
       ? 1
@@ -3109,7 +3510,8 @@ function renderStreak(){
     new Date().toDateString();
 
   const claimed =
-    state.lastCheckinDate === today;
+    state.lastCheckinDate ===
+    today;
 
   const day =
     pendingDay();
@@ -3119,13 +3521,27 @@ function renderStreak(){
       "streakGrid"
     );
 
-  if(!grid){
+  const btn =
+    document.getElementById(
+      "checkinBtn"
+    );
+
+  if(
+    !grid ||
+    !btn
+  ){
+
     return;
+
   }
 
   let html = "";
 
-  for(let i=1;i<=7;i++){
+  for(
+    let i=1;
+    i<=7;
+    i++
+  ){
 
     const done =
       claimed
@@ -3138,19 +3554,24 @@ function renderStreak(){
 
     html += `
 
-      <div class="day ${
-        done ? "done" : ""
-      } ${
-        current ? "current" : ""
-      }">
+      <div class="day
+        ${done ? "done" : ""}
+        ${current ? "current" : ""}
+      ">
 
-        <small>Day ${i}</small>
+        <small>
+          Day ${i}
+        </small>
 
         <b>
           ${
             done
             ? "✓"
-            : money(STREAK_REWARDS[i-1])
+            : money(
+                STREAK_REWARDS[
+                  i-1
+                ]
+              )
           }
         </b>
 
@@ -3160,32 +3581,38 @@ function renderStreak(){
 
   }
 
-  grid.innerHTML = html;
+  grid.innerHTML =
+    html;
 
-  const btn =
-    document.getElementById(
-      "checkinBtn"
-    );
-
-  if(!btn){
-    return;
-  }
+  const cooldown =
+    isAdCooldownActive();
 
   btn.disabled =
     claimed ||
-    adInProgress;
+    adInProgress ||
+    cooldown;
 
   btn.textContent =
     claimed
     ? "Claimed for Today"
+    : cooldown
+    ? "⏳ Next ad in " +
+      remainingCooldownSeconds() +
+      "s"
+    : adInProgress
+    ? "Ad in progress..."
     : "Watch Ad to Claim " +
-      money(STREAK_REWARDS[day-1]);
+      money(
+        STREAK_REWARDS[
+          day-1
+        ]
+      );
 
 }
 
 /* =========================================================
    CHECK-IN AD
-   ========================================================= */
+========================================================= */
 
 async function watchCheckin(){
 
@@ -3193,24 +3620,47 @@ async function watchCheckin(){
     new Date().toDateString();
 
   if(
-    state.lastCheckinDate === today ||
+    state.lastCheckinDate ===
+    today ||
     adInProgress
   ){
+
     return;
+
   }
 
-  adInProgress = true;
+  if(
+    isAdCooldownActive()
+  ){
+
+    toast(
+      "Please wait " +
+      remainingCooldownSeconds() +
+      " seconds."
+    );
+
+    return;
+
+  }
+
+  adInProgress =
+    true;
 
   renderStreak();
 
-  toast("Opening ad...");
+  toast(
+    "Opening ad..."
+  );
 
   const result =
     await showMonetagAd();
 
-  adInProgress = false;
+  adInProgress =
+    false;
 
-  if(!result.rewarded){
+  if(
+    !result.rewarded
+  ){
 
     toast(
       "Ad was not verified."
@@ -3226,15 +3676,21 @@ async function watchCheckin(){
     pendingDay();
 
   const reward =
-    STREAK_REWARDS[day-1];
+    STREAK_REWARDS[
+      day-1
+    ];
 
   const credited =
     addEarning(
+
       reward,
+
       "Day " +
       day +
       " Verified Ad Check-in",
+
       result.eventId
+
     );
 
   if(!credited){
@@ -3249,11 +3705,16 @@ async function watchCheckin(){
 
   }
 
-  state.checkinDay = day;
+  state.checkinDay =
+    day;
 
-  state.lastCheckinDate = today;
+  state.lastCheckinDate =
+    today;
 
   saveState();
+
+  /* 10 SECOND BREAK */
+  startAdCooldown();
 
   toast(
     "+" +
@@ -3267,11 +3728,16 @@ async function watchCheckin(){
 
 /* =========================================================
    TASKS
-   ========================================================= */
+========================================================= */
 
-function claimTask(id,amount){
+function claimTask(
+  id,
+  amount
+){
 
-  if(state.tasksClaimed[id]){
+  if(
+    state.tasksClaimed[id]
+  ){
 
     toast(
       "This task has already been claimed."
@@ -3281,7 +3747,8 @@ function claimTask(id,amount){
 
   }
 
-  state.tasksClaimed[id] = true;
+  state.tasksClaimed[id] =
+    true;
 
   addEarning(
     amount,
@@ -3298,11 +3765,13 @@ function claimTask(id,amount){
 
 /* =========================================================
    WALLET
-   ========================================================= */
+========================================================= */
 
 function scrollToWithdraw(){
 
-  switchSection("wallet");
+  switchSection(
+    "wallet"
+  );
 
   setTimeout(()=>{
 
@@ -3338,7 +3807,10 @@ function submitWithdrawal(){
       "withdrawAddress"
     ).value.trim();
 
-  if(state.balance < 15){
+  if(
+    state.balance <
+    15
+  ){
 
     toast(
       "Minimum withdrawal is $15.00."
@@ -3362,7 +3834,10 @@ function submitWithdrawal(){
 
   }
 
-  if(amount > state.balance){
+  if(
+    amount >
+    state.balance
+  ){
 
     toast(
       "Amount exceeds your balance."
@@ -3383,7 +3858,8 @@ function submitWithdrawal(){
   }
 
   if(
-    !/^0x[a-fA-F0-9]{40}$/.test(address)
+    !/^0x[a-fA-F0-9]{40}$/
+      .test(address)
   ){
 
     toast(
@@ -3400,17 +3876,19 @@ function submitWithdrawal(){
 
   document.getElementById(
     "withdrawAmount"
-  ).value = "";
+  ).value =
+    "";
 
   document.getElementById(
     "withdrawAddress"
-  ).value = "";
+  ).value =
+    "";
 
 }
 
 /* =========================================================
    TRANSACTIONS
-   ========================================================= */
+========================================================= */
 
 function renderTransactions(){
 
@@ -3423,11 +3901,9 @@ function renderTransactions(){
     return;
   }
 
-  if(!Array.isArray(state.transactions)){
-    state.transactions = [];
-  }
-
-  if(!state.transactions.length){
+  if(
+    !state.transactions.length
+  ){
 
     box.innerHTML =
       "<p>No transactions yet</p>";
@@ -3439,48 +3915,52 @@ function renderTransactions(){
   box.innerHTML =
     state.transactions
       .slice(0,10)
-      .map(tx=>`
+      .map(
+        tx=>`
 
-        <div class="tx-row">
-
-          <div>
+          <div class="tx-row">
 
             <div>
-              ${tx.label}
+
+              <div>
+                ${tx.label}
+              </div>
+
+              <div class="tx-date">
+                ${tx.date}
+              </div>
+
             </div>
 
-            <div class="tx-date">
-              ${tx.date}
-            </div>
-
-          </div>
-
-          <div class="${
-            tx.amount >= 0
+            <div class="${
+              tx.amount >= 0
               ? "plus"
               : "minus"
-          }">
+            }">
 
-            ${
-              tx.amount >= 0
+              ${
+                tx.amount >= 0
                 ? "+"
                 : ""
-            }
+              }
 
-            ${money(tx.amount)}
+              ${money(
+                tx.amount
+              )}
+
+            </div>
 
           </div>
 
-        </div>
-
-      `)
+        `
+      )
       .join("");
 
 }
 
 /* =========================================================
    REFERRAL
-   ========================================================= */
+========================================================= */
 
 function copyRefer(){
 
@@ -3489,7 +3969,9 @@ function copyRefer(){
       "referCode"
     ).textContent;
 
-  if(navigator.clipboard){
+  if(
+    navigator.clipboard
+  ){
 
     navigator.clipboard
       .writeText(code)
@@ -3522,112 +4004,98 @@ function copyRefer(){
 
 /* =========================================================
    PROFILE
-   ========================================================= */
+========================================================= */
 
 function showProfile(type){
 
-  const detail =
-    document.getElementById(
-      "profileDetail"
+  if(
+    type === "Account"
+  ){
+
+    toast(
+      "Balance: " +
+      money(
+        state.balance
+      )
     );
 
-  if(!detail){
     return;
-  }
-
-  let title = type;
-  let text = "";
-
-  if(type === "Account"){
-
-    title = "👤 Account Overview";
-
-    text =
-      "Your EarnBoard account is connected with your Telegram profile. " +
-      "Your current available balance is " +
-      money(state.balance) +
-      ".";
 
   }
 
-  if(type === "Referrals"){
+  if(
+    type === "Referrals"
+  ){
 
-    title = "🔗 Referral Center";
+    toast(
+      "Referrals: " +
+      state.referCount
+    );
 
-    text =
-      "You currently have " +
-      state.referCount +
-      " referral(s). Your referral reward is $0.10 after the invited user completes their first verified ad.";
-
-  }
-
-  if(type === "Security"){
-
-    title = "🔒 Account Security";
-
-    text =
-      "Your account is connected through Telegram Web App. " +
-      "Never share private wallet information or account credentials with anyone.";
+    return;
 
   }
 
-  if(type === "Terms & Conditions"){
+  if(
+    type === "Security"
+  ){
 
-    title = "📄 Terms & Conditions";
+    toast(
+      "Telegram account connected ✓"
+    );
 
-    text =
-      "Use EarnBoard responsibly. Rewards are subject to verification, task availability and platform rules.";
-
-  }
-
-  if(type === "Privacy Policy"){
-
-    title = "🛡️ Privacy Policy";
-
-    text =
-      "EarnBoard uses Telegram profile information available to the Mini App to personalize your account experience.";
+    return;
 
   }
 
-  if(type === "Help & Support"){
+  if(
+    type === "Terms & Conditions"
+  ){
 
-    title = "❓ Help & Support";
+    toast(
+      "Terms & Conditions"
+    );
 
-    text =
-      "If you experience an issue with a task or verified ad reward, please check your connection and try again.";
+    return;
 
   }
 
-  detail.innerHTML = `
+  if(
+    type === "Privacy Policy"
+  ){
 
-    <div class="profile-detail">
+    toast(
+      "Privacy Policy"
+    );
 
-      <h4>${title}</h4>
+    return;
 
-      <p>
-        ${text}
-      </p>
+  }
 
-    </div>
+  if(
+    type === "Help & Support"
+  ){
 
-  `;
+    toast(
+      "Help & Support"
+    );
 
-  detail.scrollIntoView({
-    behavior:"smooth",
-    block:"center"
-  });
+    return;
+
+  }
 
 }
 
 /* =========================================================
    LOGOUT
-   ========================================================= */
+========================================================= */
 
 function logoutUser(){
 
   if(
     tg &&
-    typeof tg.showConfirm === "function"
+    typeof tg.showConfirm ===
+    "function"
   ){
 
     tg.showConfirm(
@@ -3657,80 +4125,99 @@ function logoutUser(){
 
 /* =========================================================
    NAVIGATION
-   ========================================================= */
+========================================================= */
 
 function switchSection(target){
 
   closeTier();
 
   document
-    .querySelectorAll(".section")
+    .querySelectorAll(
+      ".section"
+    )
     .forEach(
-      section =>
-        section.classList.remove("active")
+      section=>{
+        section.classList.remove(
+          "active"
+        );
+      }
     );
 
   const section =
     document.getElementById(
-      "sec-" + target
+      "sec-" +
+      target
     );
 
   if(section){
 
-    section.classList.add("active");
+    section.classList.add(
+      "active"
+    );
 
   }
 
   document
-    .querySelectorAll("nav button")
-    .forEach(button=>{
+    .querySelectorAll(
+      "nav button"
+    )
+    .forEach(
+      button=>{
 
-      button.classList.toggle(
-        "active",
-        button.dataset.target === target
-      );
+        button.classList.toggle(
+          "active",
+          button.dataset.target ===
+          target
+        );
 
-    });
+      }
+    );
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  window.scrollTo(
+    0,
+    0
+  );
 
-  if(target === "task"){
+  if(
+    target === "task"
+  ){
 
     resetDaily();
+
     renderBonusAd();
+
     renderStreak();
-
-  }
-
-  if(target === "profile"){
-
-    renderTop();
 
   }
 
 }
 
+/* =========================================================
+   NAV BUTTONS
+========================================================= */
+
 document
-  .querySelectorAll("nav button")
-  .forEach(button=>{
+  .querySelectorAll(
+    "nav button"
+  )
+  .forEach(
+    button=>{
 
-    button.addEventListener(
-      "click",
-      ()=>{
-        switchSection(
-          button.dataset.target
-        );
-      }
-    );
+      button.addEventListener(
+        "click",
+        ()=>{
+          switchSection(
+            button.dataset.target
+          );
+        }
+      );
 
-  });
+    }
+  );
 
 /* =========================================================
    TELEGRAM PROFILE
-   ========================================================= */
+========================================================= */
 
 function initTelegramProfile(){
 
@@ -3739,7 +4226,9 @@ function initTelegramProfile(){
     !tg.initDataUnsafe ||
     !tg.initDataUnsafe.user
   ){
+
     return;
+
   }
 
   const user =
@@ -3752,43 +4241,102 @@ function initTelegramProfile(){
       (user.last_name || "")
     ).trim();
 
-  document.getElementById(
-    "profileName"
-  ).textContent =
-    name || "User";
+  const profileName =
+    document.getElementById(
+      "profileName"
+    );
 
-  document.getElementById(
-    "profileUsername"
-  ).textContent =
-    user.username
-      ? "@" + user.username
-      : "@username";
+  const profileUsername =
+    document.getElementById(
+      "profileUsername"
+    );
 
-  document.getElementById(
-    "profileId"
-  ).textContent =
-    "Telegram ID: " +
-    user.id;
+  const profileId =
+    document.getElementById(
+      "profileId"
+    );
 
-  document.getElementById(
-    "referCode"
-  ).textContent =
-    "EB-" +
-    String(user.id).slice(-6);
+  const referCode =
+    document.getElementById(
+      "referCode"
+    );
 
   const avatar =
     document.getElementById(
       "avatar"
     );
 
-  if(user.photo_url){
+  if(profileName){
+
+    profileName.textContent =
+      name ||
+      "User";
+
+  }
+
+  if(profileUsername){
+
+    profileUsername.textContent =
+      user.username
+      ? "@" +
+        user.username
+      : "@username";
+
+  }
+
+  if(profileId){
+
+    profileId.textContent =
+      "Telegram ID: " +
+      user.id;
+
+  }
+
+  if(referCode){
+
+    referCode.textContent =
+      "EB-" +
+      String(
+        user.id
+      ).slice(-6);
+
+  }
+
+  if(
+    avatar &&
+    user.photo_url
+  ){
 
     avatar.innerHTML =
-      '<img src="' +
-      user.photo_url +
-      '" alt="Profile">';
+      "";
 
-  }else{
+    const img =
+      document.createElement(
+        "img"
+      );
+
+    img.src =
+      user.photo_url;
+
+    img.alt =
+      "Profile";
+
+    img.onerror =
+      ()=>{
+        avatar.textContent =
+          (
+            user.first_name ||
+            "U"
+          )
+          .charAt(0)
+          .toUpperCase();
+      };
+
+    avatar.appendChild(
+      img
+    );
+
+  }else if(avatar){
 
     avatar.textContent =
       (
@@ -3804,15 +4352,23 @@ function initTelegramProfile(){
 
 /* =========================================================
    START
-   ========================================================= */
+========================================================= */
 
 resetDaily();
+
 syncPremium();
+
 initTelegramProfile();
+
 renderTop();
+
 renderTransactions();
+
 renderStreak();
+
 renderBonusAd();
+
+updateAdCooldownUI();
 
 </script>
 
