@@ -99,6 +99,57 @@ button{cursor:pointer}
   color:var(--gold);background:rgba(255,199,44,.08);
   border:1px solid rgba(255,199,44,.22);font-size:12px;font-weight:800
 }
+
+/* ================= BONUS AD PROGRESS ================= */
+
+.bonus-progress-wrap{
+  margin-top:15px;
+}
+
+.bonus-progress-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:7px;
+}
+
+.bonus-progress-top b{
+  color:var(--gold);
+}
+
+.bonus-progress{
+  width:100%;
+  height:8px;
+  background:#29292e;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.bonus-progress-fill{
+  width:0%;
+  height:100%;
+  background:var(--gold);
+  border-radius:20px;
+  transition:width .35s ease;
+}
+
+.bonus-complete{
+  margin-top:12px;
+  padding:11px;
+  border-radius:11px;
+  text-align:center;
+  color:#3ddc97;
+  background:rgba(61,220,151,.08);
+  border:1px solid rgba(61,220,151,.22);
+  font-size:12px;
+  font-weight:800;
+  line-height:1.5;
+}
+
+/* ================= OTHER ================= */
+
 .premium{
   margin-top:13px;padding:18px;border-radius:18px;
   background:linear-gradient(135deg,#2a2108,#161619);
@@ -162,12 +213,44 @@ button{cursor:pointer}
 }
 .trust-title{font-size:11.5px;font-weight:900}
 .trust-sub{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.3}
+
+/* ================= USDT WITHDRAWAL ================= */
+
 .currency{
-  margin-top:14px;padding:14px;background:var(--card);
-  border:1px solid var(--gold);border-radius:15px
+  margin-top:14px;
+  padding:16px;
+  background:var(--card2);
+  border:1px solid var(--gold);
+  border-radius:15px;
+  text-align:center;
 }
-.currency strong{font-size:14px}
-.currency small{display:block;color:var(--muted);margin-top:3px}
+
+.usdt-logo{
+  width:58px;
+  height:58px;
+  margin:0 auto 10px;
+  border-radius:50%;
+  background:#26a17b;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:900;
+  box-shadow:0 0 18px rgba(38,161,123,.25);
+}
+
+.currency strong{
+  display:block;
+  font-size:16px;
+}
+
+.currency small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+}
+
 .form{
   margin-top:18px;padding:16px;background:var(--card);
   border:1px solid #2b2b30;border-radius:17px
@@ -208,14 +291,12 @@ button{cursor:pointer}
 .profile-name{font-size:19px;font-weight:900}
 .profile-user{font-size:12px;color:var(--muted);margin-top:4px}
 .profile-id{font-size:10px;color:#6f6f78;margin-top:3px}
-
 .profile-menu{
   margin-top:16px;
   display:flex;
   flex-direction:column;
   gap:10px;
 }
-
 .profile-item{
   min-height:58px;
   padding:0 15px;
@@ -226,47 +307,18 @@ button{cursor:pointer}
   align-items:center;
   justify-content:space-between;
 }
-
-.profile-item:active{
-  transform:scale(.99);
-}
-
-.profile-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
+.profile-item:active{transform:scale(.99)}
+.profile-left{display:flex;align-items:center;gap:12px}
 .profile-icon{
-  width:38px;
-  height:38px;
-  border-radius:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--card2);
-  font-size:18px;
+  width:38px;height:38px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--card2);font-size:18px
 }
-
-.profile-label{
-  font-size:14px;
-  font-weight:800;
-}
-
-.profile-arrow{
-  color:#777;
-  font-size:23px;
-}
-
-.profile-item.logout{
-  border-color:rgba(255,103,103,.35);
-}
-
+.profile-label{font-size:14px;font-weight:800}
+.profile-arrow{color:#777;font-size:23px}
+.profile-item.logout{border-color:rgba(255,103,103,.35)}
 .profile-item.logout .profile-label,
-.profile-item.logout .profile-arrow{
-  color:var(--danger);
-}
-
+.profile-item.logout .profile-arrow{color:var(--danger)}
 .toast{
   position:fixed;top:15px;left:50%;z-index:999;
   transform:translateX(-50%) translateY(-20px);
@@ -377,10 +429,42 @@ nav button.active{color:var(--gold)}
     </button>
   </div>
 
+  <!-- ================= BONUS AD ================= -->
+
   <div class="card">
-    <h4>Watch 3 Ads</h4>
-    <p>Complete the task and claim a $0.05 bonus.</p>
-    <button class="watch" onclick="claimTask('ads3',.05)">Claim $0.05</button>
+
+    <h4>Bonus Ad</h4>
+
+    <p>
+      Watch 10 verified ads and earn $0.20 bonus.
+    </p>
+
+    <div class="bonus-progress-wrap">
+
+      <div class="bonus-progress-top">
+        <span>Bonus Ads Progress</span>
+        <b id="bonusAdCount">0 / 10</b>
+      </div>
+
+      <div class="bonus-progress">
+        <div
+          class="bonus-progress-fill"
+          id="bonusProgressFill"
+        ></div>
+      </div>
+
+    </div>
+
+    <button
+      class="watch"
+      id="bonusAdBtn"
+      onclick="watchBonusAd()"
+    >
+      ▶ Watch Bonus Ad
+    </button>
+
+    <div id="bonusCompleteMessage"></div>
+
   </div>
 
   <div class="card">
@@ -462,32 +546,42 @@ nav button.active{color:var(--gold)}
     <h4>Withdraw Currency</h4>
 
     <div class="currency">
-      <strong>🪙 USDT</strong>
-      <small>Tether USD · BEP20 (BNB Smart Chain)</small>
+
+      <div class="usdt-logo">₮</div>
+
+      <strong>USDT</strong>
+
+      <small>
+        Tether USD · BEP20 (BNB Smart Chain)
+      </small>
+
     </div>
   </div>
 
   <div class="form" id="withdrawForm">
 
     <h4>Request Withdrawal</h4>
+
     <p class="subtitle">
       Enter your payout details carefully.
     </p>
 
-    <label>Withdrawal Amount</label>
-    <input
-      type="number"
-      id="withdrawAmount"
-      placeholder="Minimum $15.00"
-      min="15"
-      max="100"
-    >
+    <label>USDT Wallet Address</label>
 
-    <label>BEP20 Address</label>
     <input
       type="text"
       id="withdrawAddress"
-      placeholder="Enter USDT BEP20 address"
+      placeholder="Enter USDT BEP20 wallet address"
+    >
+
+    <label>Withdrawal Amount</label>
+
+    <input
+      type="number"
+      id="withdrawAmount"
+      placeholder="Enter amount (Minimum $15.00)"
+      min="15"
+      max="100"
     >
 
     <div class="warning">
@@ -637,6 +731,10 @@ const defaults = {
   lastCheckinDate:null,
 
   tasksClaimed:{},
+
+  bonusAdWatched:0,
+  bonusAdDate:new Date().toDateString(),
+
   referCount:0,
 
   transactions:[],
@@ -662,7 +760,8 @@ function loadState(){
       ...parsed,
       tasksClaimed:parsed.tasksClaimed || {},
       transactions:parsed.transactions || [],
-      rewardedAdIds:parsed.rewardedAdIds || []
+      rewardedAdIds:parsed.rewardedAdIds || [],
+      bonusAdWatched:Number(parsed.bonusAdWatched || 0)
     };
 
   }catch(e){
@@ -695,6 +794,9 @@ const EXTRA_REWARD = 0.01;
 const PREMIUM_REWARD = 0.01;
 
 const PREMIUM_FEE = 30;
+
+const BONUS_AD_MAX = 10;
+const BONUS_AD_REWARD = 0.20;
 
 const STREAK_REWARDS =
   [0.02,0.03,0.04,0.05,0.06,0.08,0.10];
@@ -758,6 +860,19 @@ function resetDaily(){
     saveState();
   }
 
+  if(state.bonusAdDate !== today){
+
+    state.bonusAdDate = today;
+
+    state.bonusAdWatched = 0;
+
+    if(state.tasksClaimed.bonusAd){
+      delete state.tasksClaimed.bonusAd;
+    }
+
+    saveState();
+  }
+
 }
 
 /* ================= FORMAT ================= */
@@ -803,6 +918,7 @@ function renderTop(){
     "referCount"
   ).textContent = state.referCount;
 
+  renderBonusAd();
 }
 
 /* ================= MONETAG ================= */
@@ -1317,6 +1433,179 @@ async function watchAd(tier){
 
 }
 
+/* ================= BONUS AD ================= */
+
+function renderBonusAd(){
+
+  resetDaily();
+
+  const count =
+    Math.min(
+      Number(state.bonusAdWatched || 0),
+      BONUS_AD_MAX
+    );
+
+  const percentage =
+    (count / BONUS_AD_MAX) * 100;
+
+  const countEl =
+    document.getElementById(
+      "bonusAdCount"
+    );
+
+  const fillEl =
+    document.getElementById(
+      "bonusProgressFill"
+    );
+
+  const btnEl =
+    document.getElementById(
+      "bonusAdBtn"
+    );
+
+  const messageEl =
+    document.getElementById(
+      "bonusCompleteMessage"
+    );
+
+  if(!countEl || !fillEl || !btnEl || !messageEl){
+    return;
+  }
+
+  countEl.textContent =
+    count + " / " + BONUS_AD_MAX;
+
+  fillEl.style.width =
+    percentage + "%";
+
+  if(count >= BONUS_AD_MAX){
+
+    btnEl.disabled = true;
+
+    btnEl.textContent =
+      "Bonus Reward Completed ✓";
+
+    messageEl.innerHTML = `
+      <div class="bonus-complete">
+        Rewards claimed successfully.<br>
+        Come back tomorrow.
+      </div>
+    `;
+
+  }else{
+
+    btnEl.disabled = adInProgress;
+
+    btnEl.textContent =
+      adInProgress
+      ? "Ad in progress..."
+      : "▶ Watch Bonus Ad";
+
+    messageEl.innerHTML = "";
+
+  }
+
+}
+
+async function watchBonusAd(){
+
+  resetDaily();
+
+  if(adInProgress){
+    return;
+  }
+
+  if(
+    Number(state.bonusAdWatched) >=
+    BONUS_AD_MAX
+  ){
+
+    renderBonusAd();
+
+    return;
+  }
+
+  adInProgress = true;
+
+  renderBonusAd();
+
+  toast("Opening bonus ad...");
+
+  const result =
+    await showMonetagAd();
+
+  adInProgress = false;
+
+  if(!result.rewarded){
+
+    toast(
+      "Ad was not verified — no bonus progress added."
+    );
+
+    renderBonusAd();
+
+    return;
+  }
+
+  state.bonusAdWatched =
+    Number(state.bonusAdWatched || 0) + 1;
+
+  const currentCount =
+    state.bonusAdWatched;
+
+  saveState();
+
+  if(currentCount >= BONUS_AD_MAX){
+
+    const credited =
+      addEarning(
+        BONUS_AD_REWARD,
+        "Bonus Ad — 10 Verified Ads Reward",
+        result.eventId
+      );
+
+    if(!credited){
+
+      state.bonusAdWatched--;
+
+      saveState();
+
+      toast(
+        "This ad reward was already credited."
+      );
+
+      renderBonusAd();
+
+      return;
+    }
+
+    state.tasksClaimed.bonusAd = true;
+
+    saveState();
+
+    renderBonusAd();
+
+    toast(
+      "+$0.20 Bonus Reward Claimed!"
+    );
+
+    return;
+  }
+
+  saveState();
+
+  renderBonusAd();
+
+  toast(
+    "Bonus Ad " +
+    currentCount +
+    " / " +
+    BONUS_AD_MAX +
+    " completed."
+  );
+
+}
+
 /* ================= PREMIUM ACTIVATION ================= */
 
 function activatePremium(){
@@ -1475,6 +1764,8 @@ function renderStreak(){
       money(STREAK_REWARDS[day-1]);
 
 }
+
+/* ================= CHECK-IN AD ================= */
 
 async function watchCheckin(){
 
@@ -1895,6 +2186,12 @@ function switchSection(target){
 
   window.scrollTo(0,0);
 
+  if(target === "task"){
+    resetDaily();
+    renderBonusAd();
+    renderStreak();
+  }
+
 }
 
 document
@@ -1989,6 +2286,7 @@ initTelegramProfile();
 renderTop();
 renderTransactions();
 renderStreak();
+renderBonusAd();
 
 </script>
 
