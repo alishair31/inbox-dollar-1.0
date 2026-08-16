@@ -9,9 +9,10 @@
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-<!-- MONETAG: EXISTING AD SYSTEM - DO NOT MODIFY -->
+<!-- MONETAG: EXISTING WORKING AD SYSTEM -->
 <script src="https://libtl.com/sdk.js" data-zone="11580974" data-sdk="show_11580974"></script>
 
 <style>
@@ -129,12 +130,7 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .wallet-number{font-size:43px}
 .wallet-number span{color:var(--gold)}
 
-.wallet-equivalent{
-  margin-top:8px;
-  color:var(--muted);
-  font-size:12px;
-  font-weight:800;
-}
+.wallet-equivalent{margin-top:8px;color:var(--muted);font-size:12px;font-weight:800}
 
 .wallet-actions{display:flex;gap:10px;margin-top:15px}
 .wallet-actions button{flex:1;padding:13px;border-radius:13px;border:1px solid #30333a;background:var(--card);color:var(--text);font-weight:900}
@@ -203,17 +199,28 @@ nav button.active{color:var(--gold)}
 <div class="toast" id="toast"></div>
 
 <header class="topbar">
-  <div class="brand"><span class="dot"></span><span class="brand-name">EarnBoard</span></div>
-  <div class="balance">💰 <b id="topBalance">0 Points</b></div>
+  <div class="brand">
+    <span class="dot"></span>
+    <span class="brand-name">EarnBoard</span>
+  </div>
+  <div class="balance">
+    💰 <b id="topBalance">0 Points</b>
+  </div>
 </header>
 
-<!-- ================= HOME ================= -->
 <section class="section active" id="sec-home">
   <div class="hero">
     <div class="eyebrow">Welcome to EarnBoard</div>
-    <div class="headline display">Earn <span class="gold">More.</span><br>Get <span class="gold">Paid.</span></div>
-    <div class="sub">Watch verified ads, complete tasks, invite friends, and build your rewards balance.</div>
-    <button class="main-btn" onclick="switchSection('task')">📋 View Tasks</button>
+    <div class="headline display">
+      Earn <span class="gold">More.</span><br>
+      Get <span class="gold">Paid.</span>
+    </div>
+    <div class="sub">
+      Watch verified ads, complete tasks, invite friends, and build your rewards balance.
+    </div>
+    <button class="main-btn" onclick="switchSection('task')">
+      📋 View Tasks
+    </button>
   </div>
 
   <div id="quickActions">
@@ -221,36 +228,49 @@ nav button.active{color:var(--gold)}
 
     <div class="qa" onclick="openTier('light')">
       <div class="qa-icon">▶️</div>
-      <div class="qa-body"><h4>Light Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body">
+        <h4>Light Ads</h4>
+        <p>20 ads/day · 100 points per verified ad</p>
+      </div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('pro')">
       <div class="qa-icon">⭐</div>
-      <div class="qa-body"><h4>Pro Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body">
+        <h4>Pro Ads</h4>
+        <p>20 ads/day · 100 points per verified ad</p>
+      </div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('extra')">
       <div class="qa-icon">⚡</div>
-      <div class="qa-body"><h4>Extra Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body">
+        <h4>Extra Ads</h4>
+        <p>20 ads/day · 100 points per verified ad</p>
+      </div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('premium')">
       <div class="qa-icon">💎</div>
-      <div class="qa-body"><h4>Premium Membership</h4><p>$30 activation · 30 days · 35 ads/day</p></div>
+      <div class="qa-body">
+        <h4>Premium Membership</h4>
+        <p>$30 activation · 30 days · 35 ads/day</p>
+      </div>
       <div class="arrow">›</div>
     </div>
   </div>
 
   <div id="tierPanel" style="display:none">
-    <div class="back" onclick="closeTier()">‹ <span>Back to Home</span></div>
+    <div class="back" onclick="closeTier()">
+      ‹ <span>Back to Home</span>
+    </div>
     <div id="tierContent"></div>
   </div>
 </section>
 
-<!-- ================= TASK ================= -->
 <section class="section" id="sec-task">
   <h2 class="title display">Tasks</h2>
   <p class="subtitle">Complete tasks and earn extra rewards.</p>
@@ -259,49 +279,83 @@ nav button.active{color:var(--gold)}
     <h4>Daily Check-in Streak</h4>
     <p>Watch one verified ad every day to continue your streak.</p>
     <div class="streak" id="streakGrid"></div>
-    <button class="watch" id="checkinBtn" onclick="watchCheckin()">Claim</button>
+    <button class="watch" id="checkinBtn" onclick="watchCheckin()">
+      Claim
+    </button>
   </div>
 
   <div class="card">
     <h4>Bonus Ad</h4>
     <p>Watch 10 verified ads and earn $0.20 bonus.</p>
+
     <div class="bonus-progress-wrap">
-      <div class="bonus-progress-top"><span>Bonus Ads Progress</span><b id="bonusAdCount">0 / 10</b></div>
-      <div class="bonus-progress"><div class="bonus-progress-fill" id="bonusProgressFill"></div></div>
+      <div class="bonus-progress-top">
+        <span>Bonus Ads Progress</span>
+        <b id="bonusAdCount">0 / 10</b>
+      </div>
+
+      <div class="bonus-progress">
+        <div class="bonus-progress-fill" id="bonusProgressFill"></div>
+      </div>
     </div>
-    <button class="watch" id="bonusAdBtn" onclick="watchBonusAd()">▶ Watch Bonus Ad</button>
+
+    <button class="watch" id="bonusAdBtn" onclick="watchBonusAd()">
+      ▶ Watch Bonus Ad
+    </button>
+
     <div id="bonusCompleteMessage"></div>
   </div>
 
   <div class="card">
     <h4>Telegram Channel Join</h4>
     <p>Join the official channel and claim your task reward.</p>
-    <button class="watch" onclick="claimTask('join',.03)">Claim $0.03</button>
+    <button class="watch" onclick="claimTask('join',.03)">
+      Claim $0.03
+    </button>
   </div>
 </section>
 
-<!-- ================= REFER ================= -->
 <section class="section" id="sec-refer">
   <h2 class="title display">Refer & Earn</h2>
   <p class="subtitle">Invite friends and earn referral rewards.</p>
 
   <div class="card">
     <h4>Your Referral Code</h4>
-    <div class="refer-code"><b id="referCode">EB-000000</b><button class="copy" onclick="copyRefer()">Copy</button></div>
+    <div class="refer-code">
+      <b id="referCode">EB-000000</b>
+      <button class="copy" onclick="copyRefer()">Copy</button>
+    </div>
   </div>
-  <div class="card"><h4>Total Referrals</h4><p id="referCount">0</p></div>
-  <div class="card"><h4>Reward Per Referral</h4><p>$0.10 after the invited user completes their first verified ad.</p></div>
-  <div class="card"><h4>Referral Benefits</h4><p>Invite friends, grow your network, and unlock more earning opportunities.</p></div>
+
+  <div class="card">
+    <h4>Total Referrals</h4>
+    <p id="referCount">0</p>
+  </div>
+
+  <div class="card">
+    <h4>Reward Per Referral</h4>
+    <p>$0.10 after the invited user completes their first verified ad.</p>
+  </div>
+
+  <div class="card">
+    <h4>Referral Benefits</h4>
+    <p>Invite friends, grow your network, and unlock more earning opportunities.</p>
+  </div>
 </section>
 
-<!-- ================= WALLET ================= -->
 <section class="section" id="sec-wallet">
   <h2 class="title display">Wallet</h2>
 
   <div class="wallet-balance">
-    <div class="wallet-number display"><span id="walletBalance">0 Points</span></div>
+    <div class="wallet-number display">
+      <span id="walletBalance">0 Points</span>
+    </div>
+
     <p class="subtitle">Available Balance</p>
-    <div class="wallet-equivalent">200,000 Points is equal to $20</div>
+
+    <div class="wallet-equivalent">
+      200,000 Points is equal to $20
+    </div>
   </div>
 
   <div class="wallet-actions">
@@ -310,18 +364,32 @@ nav button.active{color:var(--gold)}
   </div>
 
   <div class="trust-grid">
+
     <div class="trust-card">
       <div class="trust-icon">✓</div>
-      <div><div class="trust-title">Trusted Experience</div><div class="trust-sub">Simple and transparent earning experience</div></div>
+      <div>
+        <div class="trust-title">Trusted Experience</div>
+        <div class="trust-sub">
+          Simple and transparent earning experience
+        </div>
+      </div>
     </div>
+
     <div class="trust-card">
       <div class="trust-icon">🔒</div>
-      <div><div class="trust-title">Secure Transactions</div><div class="trust-sub">Your payout details are handled securely</div></div>
+      <div>
+        <div class="trust-title">Secure Transactions</div>
+        <div class="trust-sub">
+          Your payout details are handled securely
+        </div>
+      </div>
     </div>
+
   </div>
 
   <div class="card">
     <h4>Withdraw Currency</h4>
+
     <div class="currency">
       <div class="usdt-logo">₮</div>
       <strong>USDT</strong>
@@ -331,62 +399,150 @@ nav button.active{color:var(--gold)}
 
   <div class="form" id="withdrawForm">
     <h4>Request Withdrawal</h4>
-    <p class="subtitle">Enter your payout details carefully.</p>
+    <p class="subtitle">
+      Enter your payout details carefully.
+    </p>
 
     <label>USDT Wallet Address</label>
-    <input type="text" id="withdrawAddress" placeholder="Enter USDT BEP20 wallet address">
+
+    <input
+      type="text"
+      id="withdrawAddress"
+      placeholder="Enter USDT BEP20 wallet address"
+    >
 
     <label>Withdrawal Amount</label>
-    <input type="number" id="withdrawAmount" placeholder="Enter amount ($20.00 only)" min="20" max="20" step="0.01">
 
-    <div class="warning">⚠️ Only use a BEP20 / BNB Smart Chain address. Other networks are not supported.</div>
+    <input
+      type="number"
+      id="withdrawAmount"
+      placeholder="Enter amount ($20.00 only)"
+      min="20"
+      max="20"
+      step="0.01"
+    >
 
-    <button class="watch" onclick="submitWithdrawal()">📤 Submit Withdrawal Request</button>
+    <div class="warning">
+      ⚠️ Only use a BEP20 / BNB Smart Chain address.
+      Other networks are not supported.
+    </div>
+
+    <button class="watch" onclick="submitWithdrawal()">
+      📤 Submit Withdrawal Request
+    </button>
   </div>
 
   <div class="card">
     <h4>Recent Transactions</h4>
-    <div class="tx" id="txList"><p>No transactions yet</p></div>
+    <div class="tx" id="txList">
+      <p>No transactions yet</p>
+    </div>
   </div>
 </section>
 
-<!-- ================= PROFILE ================= -->
 <section class="section" id="sec-profile">
+
   <h2 class="title display">Profile</h2>
 
   <div class="profile">
+
     <div class="avatar" id="avatar">U</div>
+
     <div>
       <div class="profile-name" id="profileName">User</div>
       <div class="profile-user" id="profileUsername">@username</div>
       <div class="profile-id" id="profileId">Telegram ID: —</div>
     </div>
+
   </div>
 
   <div class="profile-menu">
-    <div class="profile-item" onclick="showProfile('Account')"><div class="profile-left"><div class="profile-icon">👤</div><div class="profile-label">Account</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Referrals')"><div class="profile-left"><div class="profile-icon">🔗</div><div class="profile-label">Referrals</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Security')"><div class="profile-left"><div class="profile-icon">🔒</div><div class="profile-label">Security</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Terms & Conditions')"><div class="profile-left"><div class="profile-icon">📄</div><div class="profile-label">Terms & Conditions</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Privacy Policy')"><div class="profile-left"><div class="profile-icon">🛡️</div><div class="profile-label">Privacy Policy</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Help & Support')"><div class="profile-left"><div class="profile-icon">❓</div><div class="profile-label">Help & Support</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item logout" onclick="logoutUser()"><div class="profile-left"><div class="profile-icon">🚪</div><div class="profile-label">Logout</div></div><div class="profile-arrow">›</div></div>
+
+    <div class="profile-item" onclick="showProfile('Account')">
+      <div class="profile-left">
+        <div class="profile-icon">👤</div>
+        <div class="profile-label">Account</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Referrals')">
+      <div class="profile-left">
+        <div class="profile-icon">🔗</div>
+        <div class="profile-label">Referrals</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Security')">
+      <div class="profile-left">
+        <div class="profile-icon">🔒</div>
+        <div class="profile-label">Security</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Terms & Conditions')">
+      <div class="profile-left">
+        <div class="profile-icon">📄</div>
+        <div class="profile-label">Terms & Conditions</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Privacy Policy')">
+      <div class="profile-left">
+        <div class="profile-icon">🛡️</div>
+        <div class="profile-label">Privacy Policy</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Help & Support')">
+      <div class="profile-left">
+        <div class="profile-icon">❓</div>
+        <div class="profile-label">Help & Support</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item logout" onclick="logoutUser()">
+      <div class="profile-left">
+        <div class="profile-icon">🚪</div>
+        <div class="profile-label">Logout</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
   </div>
 </section>
 
-<!-- ================= NAVIGATION ================= -->
 <nav>
-  <button class="active" data-target="home"><span>🏠</span>Home</button>
-  <button data-target="task"><span>✅</span>Task</button>
-  <button data-target="refer"><span>🔗</span>Refer</button>
-  <button data-target="wallet"><span>💳</span>Wallet</button>
-  <button data-target="profile"><span>👤</span>Profile</button>
+  <button class="active" data-target="home">
+    <span>🏠</span>Home
+  </button>
+
+  <button data-target="task">
+    <span>✅</span>Task
+  </button>
+
+  <button data-target="refer">
+    <span>🔗</span>Refer
+  </button>
+
+  <button data-target="wallet">
+    <span>💳</span>Wallet
+  </button>
+
+  <button data-target="profile">
+    <span>👤</span>Profile
+  </button>
 </nav>
 
 <script>
 
 /* =========================================================
-   FIREBASE
+   FIREBASE CONFIG
 ========================================================= */
 
 const firebaseConfig = {
@@ -400,37 +556,46 @@ const firebaseConfig = {
 };
 
 let db=null;
+let auth=null;
 let firebaseReady=false;
 let firebaseUserId=null;
+let firebaseAnonymousUser=null;
 
 try{
+
   if(!firebase.apps.length){
     firebase.initializeApp(firebaseConfig);
   }
 
+  auth=firebase.auth();
   db=firebase.firestore();
+
   firebaseReady=true;
 
 }catch(error){
+
   console.error(
     "Firebase initialization error:",
     error
   );
+
 }
 
 /* =========================================================
    TELEGRAM
 ========================================================= */
 
-const tg =
+const tg=
   window.Telegram &&
   window.Telegram.WebApp
-  ? window.Telegram.WebApp
-  : null;
+  ?window.Telegram.WebApp
+  :null;
 
 if(tg){
+
   tg.ready();
   tg.expand();
+
 }
 
 /* =========================================================
@@ -440,34 +605,57 @@ if(tg){
 const STORAGE_KEY="earnboard_state_v3";
 
 const defaults={
+
   balance:0,
+
   todayEarned:0,
+
   totalEarned:0,
+
   lightWatched:0,
+
   proWatched:0,
+
   extraWatched:0,
+
   premiumWatched:0,
+
   premium:false,
+
   premiumActivatedAt:null,
+
   checkinDay:1,
+
   lastCheckinDate:null,
+
   tasksClaimed:{},
+
   bonusAdWatched:0,
+
   bonusAdDate:new Date().toDateString(),
+
   referCount:0,
+
   transactions:[],
+
   adDate:new Date().toDateString(),
+
   rewardedAdIds:[]
+
 };
 
 function cloneDefaults(){
+
   return JSON.parse(
     JSON.stringify(defaults)
   );
+
 }
 
 function loadState(){
+
   try{
+
     const raw=
       localStorage.getItem(
         STORAGE_KEY
@@ -480,19 +668,26 @@ function loadState(){
     const parsed=
       JSON.parse(raw);
 
-    return {
+    return{
+
       ...cloneDefaults(),
+
       ...parsed,
+
       tasksClaimed:
         parsed.tasksClaimed||{},
+
       transactions:
         parsed.transactions||[],
+
       rewardedAdIds:
         parsed.rewardedAdIds||[],
+
       bonusAdWatched:
         Number(
           parsed.bonusAdWatched||0
         )
+
     };
 
   }catch(error){
@@ -503,13 +698,15 @@ function loadState(){
     );
 
     return cloneDefaults();
+
   }
+
 }
 
 let state=loadState();
 
 /* =========================================================
-   FIREBASE USER ID
+   TELEGRAM USER ID
 ========================================================= */
 
 function getTelegramUserId(){
@@ -520,50 +717,89 @@ function getTelegramUserId(){
     tg.initDataUnsafe.user &&
     tg.initDataUnsafe.user.id
   ){
+
     return String(
       tg.initDataUnsafe.user.id
     );
+
   }
 
   return null;
+
 }
 
-function getFirebaseUserId(){
+/* =========================================================
+   FIREBASE ANONYMOUS AUTH
+========================================================= */
 
-  const telegramId=
-    getTelegramUserId();
+async function signInFirebaseAnonymous(){
 
-  if(telegramId){
-    return telegramId;
+  if(
+    !firebaseReady||
+    !auth
+  ){
+    return null;
   }
 
-  /*
-    Browser fallback only.
-    Telegram Mini App normally uses
-    the real Telegram ID above.
-  */
-  let localId=
-    localStorage.getItem(
-      "earnboard_guest_id"
+  try{
+
+    /*
+      If Firebase already has a signed-in
+      anonymous user, reuse it.
+    */
+
+    if(auth.currentUser){
+
+      firebaseAnonymousUser=
+        auth.currentUser;
+
+      firebaseUserId=
+        auth.currentUser.uid;
+
+      return auth.currentUser;
+
+    }
+
+    /*
+      Create a new Firebase Anonymous user.
+    */
+
+    const result=
+      await auth.signInAnonymously();
+
+    firebaseAnonymousUser=
+      result.user;
+
+    firebaseUserId=
+      result.user.uid;
+
+    console.log(
+      "Firebase Anonymous UID:",
+      firebaseUserId
     );
 
-  if(!localId){
-    localId=
-      "guest_"+
-      Date.now().toString(36)+
-      "_"+
-      Math.random()
-        .toString(36)
-        .slice(2,10);
+    return result.user;
 
-    localStorage.setItem(
-      "earnboard_guest_id",
-      localId
+  }catch(error){
+
+    console.error(
+      "Firebase Anonymous Auth error:",
+      error
     );
+
+    toast(
+      "Firebase connection failed."
+    );
+
+    return null;
+
   }
 
-  return localId;
 }
+
+/* =========================================================
+   FIRESTORE USER REF
+========================================================= */
 
 function firebaseUserRef(){
 
@@ -572,7 +808,9 @@ function firebaseUserRef(){
     !db||
     !firebaseUserId
   ){
+
     return null;
+
   }
 
   return db
@@ -580,55 +818,64 @@ function firebaseUserRef(){
     .doc(
       String(firebaseUserId)
     );
+
 }
 
 /* =========================================================
-   FIREBASE SAVE
+   FIRESTORE DATA
 ========================================================= */
-
-let firebaseSaveTimer=null;
 
 function cleanStateForFirestore(){
 
-  return {
-    balance:Number(
-      state.balance||0
-    ),
+  return{
 
-    todayEarned:Number(
-      state.todayEarned||0
-    ),
+    balance:
+      Number(
+        state.balance||0
+      ),
 
-    totalEarned:Number(
-      state.totalEarned||0
-    ),
+    todayEarned:
+      Number(
+        state.todayEarned||0
+      ),
 
-    lightWatched:Number(
-      state.lightWatched||0
-    ),
+    totalEarned:
+      Number(
+        state.totalEarned||0
+      ),
 
-    proWatched:Number(
-      state.proWatched||0
-    ),
+    lightWatched:
+      Number(
+        state.lightWatched||0
+      ),
 
-    extraWatched:Number(
-      state.extraWatched||0
-    ),
+    proWatched:
+      Number(
+        state.proWatched||0
+      ),
 
-    premiumWatched:Number(
-      state.premiumWatched||0
-    ),
+    extraWatched:
+      Number(
+        state.extraWatched||0
+      ),
 
-    premium:Boolean(
-      state.premium||false
-    ),
+    premiumWatched:
+      Number(
+        state.premiumWatched||0
+      ),
+
+    premium:
+      Boolean(
+        state.premium||false
+      ),
 
     premiumActivatedAt:
       state.premiumActivatedAt||null,
 
-    checkinDay:Number(
-      state.checkinDay||1
-    ),
+    checkinDay:
+      Number(
+        state.checkinDay||1
+      ),
 
     lastCheckinDate:
       state.lastCheckinDate||null,
@@ -636,20 +883,24 @@ function cleanStateForFirestore(){
     tasksClaimed:
       state.tasksClaimed||{},
 
-    bonusAdWatched:Number(
-      state.bonusAdWatched||0
-    ),
+    bonusAdWatched:
+      Number(
+        state.bonusAdWatched||0
+      ),
 
     bonusAdDate:
       state.bonusAdDate||
       new Date().toDateString(),
 
-    referCount:Number(
-      state.referCount||0
-    ),
+    referCount:
+      Number(
+        state.referCount||0
+      ),
 
     transactions:
-      Array.isArray(state.transactions)
+      Array.isArray(
+        state.transactions
+      )
       ?state.transactions.slice(0,100)
       :[],
 
@@ -658,17 +909,32 @@ function cleanStateForFirestore(){
       new Date().toDateString(),
 
     rewardedAdIds:
-      Array.isArray(state.rewardedAdIds)
+      Array.isArray(
+        state.rewardedAdIds
+      )
       ?state.rewardedAdIds.slice(-500)
       :[],
 
-    telegramId:
+    firebaseUid:
       firebaseUserId,
 
+    telegramId:
+      getTelegramUserId(),
+
     updatedAt:
-      firebase.firestore.FieldValue.serverTimestamp()
+      firebase.firestore
+        .FieldValue
+        .serverTimestamp()
+
   };
+
 }
+
+/* =========================================================
+   FIREBASE SAVE
+========================================================= */
+
+let firebaseSaveTimer=null;
 
 async function saveStateToFirebase(){
 
@@ -698,7 +964,9 @@ async function saveStateToFirebase(){
     );
 
     return false;
+
   }
+
 }
 
 function queueFirebaseSave(){
@@ -721,6 +989,7 @@ function queueFirebaseSave(){
       },
       300
     );
+
 }
 
 /* =========================================================
@@ -742,9 +1011,11 @@ function saveState(){
       "Storage save error:",
       error
     );
+
   }
 
   queueFirebaseSave();
+
 }
 
 /* =========================================================
@@ -754,16 +1025,6 @@ function saveState(){
 let firebaseLoaded=false;
 
 async function loadStateFromFirebase(){
-
-  if(
-    !firebaseReady||
-    !db
-  ){
-    return;
-  }
-
-  firebaseUserId=
-    getFirebaseUserId();
 
   const ref=
     firebaseUserRef();
@@ -783,7 +1044,9 @@ async function loadStateFromFirebase(){
         snapshot.data();
 
       state={
+
         ...cloneDefaults(),
+
         ...remote,
 
         tasksClaimed:
@@ -807,30 +1070,30 @@ async function loadStateFromFirebase(){
           Number(
             remote.bonusAdWatched||0
           )
+
       };
 
-      /*
-        Keep local storage synchronized
-        with Firestore data.
-      */
       try{
+
         localStorage.setItem(
           STORAGE_KEY,
           JSON.stringify(state)
         );
+
       }catch(error){
+
         console.error(
           "Local sync error:",
           error
         );
+
       }
 
     }else{
 
       /*
-        First-time Telegram user:
-        create the Firestore document
-        from the current local/default state.
+        First login:
+        create user's Firestore document.
       */
 
       await ref.set(
@@ -839,6 +1102,7 @@ async function loadStateFromFirebase(){
           merge:true
         }
       );
+
     }
 
     firebaseLoaded=true;
@@ -859,12 +1123,13 @@ async function loadStateFromFirebase(){
     );
 
     firebaseLoaded=false;
+
   }
+
 }
 
 /* =========================================================
    CONSTANTS
-   100 POINTS = $0.01
 ========================================================= */
 
 const LIGHT_MAX=20;
@@ -880,6 +1145,7 @@ const EXTRA_REWARD=0.01;
 const PREMIUM_REWARD=0.01;
 
 const PREMIUM_FEE=30;
+
 const BONUS_AD_MAX=10;
 const BONUS_AD_REWARD=0.20;
 
@@ -900,7 +1166,7 @@ let adInProgress=false;
 let currentTier=null;
 
 /* =========================================================
-   10 SECOND AD COOLDOWN
+   AD COOLDOWN
 ========================================================= */
 
 const AD_COOLDOWN_SECONDS=10;
@@ -912,6 +1178,7 @@ function isAdCooldownActive(){
 
   return Date.now()<
     adCooldownUntil;
+
 }
 
 function remainingCooldownSeconds(){
@@ -925,16 +1192,14 @@ function remainingCooldownSeconds(){
       )/1000
     )
   );
+
 }
 
 function startAdCooldown(){
 
   adCooldownUntil=
     Date.now()+
-    (
-      AD_COOLDOWN_SECONDS*
-      1000
-    );
+    AD_COOLDOWN_SECONDS*1000;
 
   clearInterval(
     adCooldownTimer
@@ -945,6 +1210,7 @@ function startAdCooldown(){
   adCooldownTimer=
     setInterval(
       ()=>{
+
         updateAdCooldownUI();
 
         if(
@@ -962,11 +1228,13 @@ function startAdCooldown(){
           toast(
             "10-second break completed. Next ad is ready."
           );
+
         }
 
       },
       250
     );
+
 }
 
 function cooldownText(){
@@ -977,6 +1245,7 @@ function cooldownText(){
   return seconds>0
     ?"⏳ Next ad in "+seconds+"s"
     :"▶ Watch Ad";
+
 }
 
 function updateAdCooldownUI(){
@@ -1000,7 +1269,9 @@ function updateAdCooldownUI(){
 
         button.textContent=
           cooldownText();
+
       }
+
     }
   );
 
@@ -1008,14 +1279,18 @@ function updateAdCooldownUI(){
     typeof renderBonusAd===
     "function"
   ){
+
     renderBonusAd();
+
   }
 
   if(
     typeof renderStreak===
     "function"
   ){
+
     renderStreak();
+
   }
 
   if(
@@ -1024,10 +1299,13 @@ function updateAdCooldownUI(){
     currentTier &&
     !adInProgress
   ){
+
     renderTier(
       currentTier
     );
+
   }
+
 }
 
 /* =========================================================
@@ -1040,7 +1318,9 @@ function premiumIsActive(){
     !state.premium||
     !state.premiumActivatedAt
   ){
+
     return false;
+
   }
 
   const age=
@@ -1055,6 +1335,7 @@ function premiumIsActive(){
     60*
     60*
     1000;
+
 }
 
 function syncPremium(){
@@ -1072,9 +1353,11 @@ function syncPremium(){
     saveState();
 
     return false;
+
   }
 
   return true;
+
 }
 
 /* =========================================================
@@ -1099,6 +1382,7 @@ function resetDaily(){
     state.todayEarned=0;
 
     saveState();
+
   }
 
   if(
@@ -1112,11 +1396,15 @@ function resetDaily(){
     if(
       state.tasksClaimed.bonusAd
     ){
+
       delete state.tasksClaimed.bonusAd;
+
     }
 
     saveState();
+
   }
+
 }
 
 /* =========================================================
@@ -1128,33 +1416,25 @@ function money(n){
   return "$"+
     Number(n||0)
       .toFixed(2);
+
 }
 
-/* =========================================================
-   POINTS
-   10,000 POINTS = $1.00
-   200,000 POINTS = $20.00
-========================================================= */
-
-function pointsFromBalance(
-  balance
-){
+function pointsFromBalance(balance){
 
   return Math.round(
-    Number(balance||0)*
-    10000
+    Number(balance||0)*10000
   );
+
 }
 
-function formatPoints(
-  points
-){
+function formatPoints(points){
 
   return Number(
     points||0
   ).toLocaleString(
     "en-US"
   );
+
 }
 
 /* =========================================================
@@ -1172,9 +1452,7 @@ function toast(message){
 
   el.textContent=message;
 
-  el.classList.add(
-    "show"
-  );
+  el.classList.add("show");
 
   clearTimeout(
     window.toastTimer
@@ -1189,10 +1467,11 @@ function toast(message){
       },
       2300
     );
+
 }
 
 /* =========================================================
-   TOP RENDER
+   TOP
 ========================================================= */
 
 function renderTop(){
@@ -1224,6 +1503,7 @@ function renderTop(){
         currentPoints
       )+
       " Points";
+
   }
 
   if(walletBalance){
@@ -1233,15 +1513,18 @@ function renderTop(){
         currentPoints
       )+
       " Points";
+
   }
 
   if(referCount){
 
     referCount.textContent=
       state.referCount;
+
   }
 
   renderBonusAd();
+
 }
 
 /* =========================================================
@@ -1249,26 +1532,26 @@ function renderTop(){
    EXISTING SYSTEM PRESERVED
 ========================================================= */
 
-function monetagRewarded(
-  result
-){
+function monetagRewarded(result){
 
   if(!result){
 
-    return {
+    return{
       rewarded:false,
       eventId:null
     };
+
   }
 
   if(
     typeof result!=="object"
   ){
 
-    return {
+    return{
       rewarded:false,
       eventId:null
     };
+
   }
 
   const eventType=
@@ -1283,13 +1566,15 @@ function monetagRewarded(
     result.ymid||
     null;
 
-  return {
+  return{
 
     rewarded:
       eventType==="valued",
 
     eventId:eventId
+
   };
+
 }
 
 function createAdId(){
@@ -1300,6 +1585,7 @@ function createAdId(){
     Math.random()
       .toString(36)
       .slice(2,10);
+
 }
 
 async function showMonetagAd(){
@@ -1315,10 +1601,11 @@ async function showMonetagAd(){
       "Ad system is loading. Try again."
     );
 
-    return {
+    return{
       rewarded:false,
       eventId:null
     };
+
   }
 
   const ymid=
@@ -1350,14 +1637,14 @@ async function showMonetagAd(){
         parsed.eventId
       );
 
-      return {
+      return{
         rewarded:false,
-        eventId:
-          parsed.eventId
+        eventId:parsed.eventId
       };
+
     }
 
-    return {
+    return{
 
       rewarded:
         parsed.rewarded,
@@ -1368,6 +1655,7 @@ async function showMonetagAd(){
           parsed.eventId
         )
         :ymid
+
     };
 
   }catch(error){
@@ -1381,11 +1669,13 @@ async function showMonetagAd(){
       "Ad could not be completed."
     );
 
-    return {
+    return{
       rewarded:false,
       eventId:null
     };
+
   }
+
 }
 
 /* =========================================================
@@ -1404,9 +1694,7 @@ function addEarning(
       String(eventId);
 
     if(
-      state.rewardedAdIds.includes(
-        id
-      )
+      state.rewardedAdIds.includes(id)
     ){
 
       console.warn(
@@ -1415,21 +1703,20 @@ function addEarning(
       );
 
       return false;
+
     }
 
-    state.rewardedAdIds.push(
-      id
-    );
+    state.rewardedAdIds.push(id);
 
     if(
-      state.rewardedAdIds.length>
-      500
+      state.rewardedAdIds.length>500
     ){
 
       state.rewardedAdIds=
-        state.rewardedAdIds
-          .slice(-500);
+        state.rewardedAdIds.slice(-500);
+
     }
+
   }
 
   state.balance=
@@ -1448,19 +1735,17 @@ function addEarning(
 
     label:label,
 
-    amount:
-      Number(amount),
+    amount:Number(amount),
 
     date:
       new Date()
-        .toLocaleString(
-          "en-IN"
-        ),
+        .toLocaleString("en-IN"),
 
     eventId:
       eventId
       ?String(eventId)
       :null
+
   });
 
   saveState();
@@ -1469,6 +1754,7 @@ function addEarning(
   renderTransactions();
 
   return true;
+
 }
 
 /* =========================================================
@@ -1488,6 +1774,7 @@ function openTier(tier){
   ).style.display="block";
 
   renderTier(tier);
+
 }
 
 function closeTier(){
@@ -1501,6 +1788,7 @@ function closeTier(){
   document.getElementById(
     "quickActions"
   ).style.display="block";
+
 }
 
 function renderTier(tier){
@@ -1581,16 +1869,14 @@ function renderTier(tier){
             data-ad-button="true"
             onclick="watchAd('premium')"
             ${
-              state.premiumWatched>=
-                PREMIUM_MAX||
+              state.premiumWatched>=PREMIUM_MAX||
               adInProgress||
               premiumCooldown
               ?"disabled":""
             }
           >
             ${
-              state.premiumWatched>=
-                PREMIUM_MAX
+              state.premiumWatched>=PREMIUM_MAX
               ?"Daily Limit Completed"
               :premiumCooldown
               ?cooldownText()
@@ -1601,17 +1887,13 @@ function renderTier(tier){
           </button>
 
           <div class="count">
-
             <span>
               Premium ads watched today
             </span>
 
             <span>
-              ${
-                state.premiumWatched
-              }/${PREMIUM_MAX}
+              ${state.premiumWatched}/${PREMIUM_MAX}
             </span>
-
           </div>
 
           ${
@@ -1623,9 +1905,7 @@ function renderTier(tier){
                 Please wait
 
                 <strong>
-                  ${
-                    remainingCooldownSeconds()
-                  }s
+                  ${remainingCooldownSeconds()}s
                 </strong>
 
                 before watching another ad.
@@ -1645,13 +1925,13 @@ function renderTier(tier){
     `;
 
     return;
+
   }
 
   let watched=0;
   let max=20;
   let title="";
   let icon="▶️";
-  let reward=0.01;
 
   if(tier==="light"){
 
@@ -1660,8 +1940,6 @@ function renderTier(tier){
 
     title="Light Ad";
 
-    reward=
-      LIGHT_REWARD;
   }
 
   if(tier==="pro"){
@@ -1673,8 +1951,6 @@ function renderTier(tier){
 
     icon="⭐";
 
-    reward=
-      PRO_REWARD;
   }
 
   if(tier==="extra"){
@@ -1686,8 +1962,6 @@ function renderTier(tier){
 
     icon="⚡";
 
-    reward=
-      EXTRA_REWARD;
   }
 
   const completed=
@@ -1756,9 +2030,7 @@ function renderTier(tier){
             Please wait
 
             <strong>
-              ${
-                remainingCooldownSeconds()
-              }s
+              ${remainingCooldownSeconds()}s
             </strong>
 
             before watching another ad.
@@ -1785,6 +2057,7 @@ function renderTier(tier){
     </div>
 
   `;
+
 }
 
 /* =========================================================
@@ -1808,6 +2081,7 @@ async function watchAd(tier){
     );
 
     return;
+
   }
 
   resetDaily();
@@ -1819,65 +2093,46 @@ async function watchAd(tier){
 
   if(tier==="light"){
 
-    counter=
-      "lightWatched";
+    counter="lightWatched";
+    reward=LIGHT_REWARD;
+    max=LIGHT_MAX;
 
-    reward=
-      LIGHT_REWARD;
-
-    max=
-      LIGHT_MAX;
   }
 
   if(tier==="pro"){
 
-    counter=
-      "proWatched";
+    counter="proWatched";
+    reward=PRO_REWARD;
+    max=PRO_MAX;
 
-    reward=
-      PRO_REWARD;
-
-    max=
-      PRO_MAX;
   }
 
   if(tier==="extra"){
 
-    counter=
-      "extraWatched";
+    counter="extraWatched";
+    reward=EXTRA_REWARD;
+    max=EXTRA_MAX;
 
-    reward=
-      EXTRA_REWARD;
-
-    max=
-      EXTRA_MAX;
   }
 
   if(tier==="premium"){
 
-    if(
-      !premiumIsActive()
-    ){
+    if(!premiumIsActive()){
 
       toast(
         "Premium membership is not active."
       );
 
-      renderTier(
-        "premium"
-      );
+      renderTier("premium");
 
       return;
+
     }
 
-    counter=
-      "premiumWatched";
+    counter="premiumWatched";
+    reward=PREMIUM_REWARD;
+    max=PREMIUM_MAX;
 
-    reward=
-      PREMIUM_REWARD;
-
-    max=
-      PREMIUM_MAX;
   }
 
   if(!counter){
@@ -1892,11 +2147,10 @@ async function watchAd(tier){
       "Today's reward is complete."
     );
 
-    renderTier(
-      tier
-    );
+    renderTier(tier);
 
     return;
+
   }
 
   currentTier=tier;
@@ -1905,9 +2159,7 @@ async function watchAd(tier){
 
   renderTier(tier);
 
-  toast(
-    "Opening ad..."
-  );
+  toast("Opening ad...");
 
   const result=
     await showMonetagAd();
@@ -1920,11 +2172,10 @@ async function watchAd(tier){
       "Ad was not verified — no reward added."
     );
 
-    renderTier(
-      tier
-    );
+    renderTier(tier);
 
     return;
+
   }
 
   const rewardLabel=
@@ -1945,11 +2196,10 @@ async function watchAd(tier){
       "This ad reward was already credited."
     );
 
-    renderTier(
-      tier
-    );
+    renderTier(tier);
 
     return;
+
   }
 
   state[counter]++;
@@ -1975,9 +2225,11 @@ async function watchAd(tier){
       money(reward)+
       " verified reward!"
     );
+
   }
 
   renderTier(tier);
+
 }
 
 /* =========================================================
@@ -2000,8 +2252,7 @@ function renderBonusAd(){
     (
       count/
       BONUS_AD_MAX
-    )*
-    100;
+    )*100;
 
   const countEl=
     document.getElementById(
@@ -2087,9 +2338,7 @@ function renderBonusAd(){
           Please wait
 
           <strong>
-            ${
-              remainingCooldownSeconds()
-            }s
+            ${remainingCooldownSeconds()}s
           </strong>
 
           before watching another ad.
@@ -2098,7 +2347,9 @@ function renderBonusAd(){
 
       `
       :"";
+
   }
+
 }
 
 async function watchBonusAd(){
@@ -2120,18 +2371,19 @@ async function watchBonusAd(){
     );
 
     return;
+
   }
 
   if(
     Number(
       state.bonusAdWatched
-    )>=
-    BONUS_AD_MAX
+    )>=BONUS_AD_MAX
   ){
 
     renderBonusAd();
 
     return;
+
   }
 
   adInProgress=true;
@@ -2156,17 +2408,16 @@ async function watchBonusAd(){
     renderBonusAd();
 
     return;
+
   }
 
   const nextCount=
     Number(
       state.bonusAdWatched||0
-    )+
-    1;
+    )+1;
 
   if(
-    nextCount>=
-    BONUS_AD_MAX
+    nextCount>=BONUS_AD_MAX
   ){
 
     const credited=
@@ -2185,6 +2436,7 @@ async function watchBonusAd(){
       renderBonusAd();
 
       return;
+
     }
 
     state.bonusAdWatched=
@@ -2204,6 +2456,7 @@ async function watchBonusAd(){
     );
 
     return;
+
   }
 
   state.bonusAdWatched=
@@ -2222,6 +2475,7 @@ async function watchBonusAd(){
     BONUS_AD_MAX+
     " completed."
   );
+
 }
 
 /* =========================================================
@@ -2240,11 +2494,10 @@ function activatePremium(){
       "Premium is already active"
     );
 
-    renderTier(
-      "premium"
-    );
+    renderTier("premium");
 
     return;
+
   }
 
   if(
@@ -2256,11 +2509,10 @@ function activatePremium(){
       "You need $30.00 balance to activate Premium."
     );
 
-    renderTier(
-      "premium"
-    );
+    renderTier("premium");
 
     return;
+
   }
 
   state.balance=
@@ -2282,9 +2534,8 @@ function activatePremium(){
 
     date:
       new Date()
-        .toLocaleString(
-          "en-IN"
-        )
+        .toLocaleString("en-IN")
+
   });
 
   saveState();
@@ -2293,13 +2544,12 @@ function activatePremium(){
 
   renderTransactions();
 
-  renderTier(
-    "premium"
-  );
+  renderTier("premium");
 
   toast(
     "Premium activated for 30 days."
   );
+
 }
 
 /* =========================================================
@@ -2313,8 +2563,7 @@ function pendingDay(){
 
   const yesterday=
     new Date(
-      Date.now()-
-      86400000
+      Date.now()-86400000
     ).toDateString();
 
   if(
@@ -2323,6 +2572,7 @@ function pendingDay(){
   ){
 
     return state.checkinDay;
+
   }
 
   if(
@@ -2333,9 +2583,11 @@ function pendingDay(){
     return state.checkinDay>=7
       ?1
       :state.checkinDay+1;
+
   }
 
   return 1;
+
 }
 
 function renderStreak(){
@@ -2398,9 +2650,7 @@ function renderStreak(){
             done
             ?"✓"
             :money(
-              STREAK_REWARDS[
-                i-1
-              ]
+              STREAK_REWARDS[i-1]
             )
           }
         </b>
@@ -2408,10 +2658,10 @@ function renderStreak(){
       </div>
 
     `;
+
   }
 
-  grid.innerHTML=
-    html;
+  grid.innerHTML=html;
 
   const cooldown=
     isAdCooldownActive();
@@ -2432,10 +2682,9 @@ function renderStreak(){
     ?"Ad in progress..."
     :"Watch Ad to Claim "+
      money(
-       STREAK_REWARDS[
-         day-1
-       ]
+       STREAK_REWARDS[day-1]
      );
+
 }
 
 async function watchCheckin(){
@@ -2462,15 +2711,14 @@ async function watchCheckin(){
     );
 
     return;
+
   }
 
   adInProgress=true;
 
   renderStreak();
 
-  toast(
-    "Opening ad..."
-  );
+  toast("Opening ad...");
 
   const result=
     await showMonetagAd();
@@ -2486,15 +2734,14 @@ async function watchCheckin(){
     renderStreak();
 
     return;
+
   }
 
   const day=
     pendingDay();
 
   const reward=
-    STREAK_REWARDS[
-      day-1
-    ];
+    STREAK_REWARDS[day-1];
 
   const credited=
     addEarning(
@@ -2514,13 +2761,12 @@ async function watchCheckin(){
     renderStreak();
 
     return;
+
   }
 
-  state.checkinDay=
-    day;
+  state.checkinDay=day;
 
-  state.lastCheckinDate=
-    today;
+  state.lastCheckinDate=today;
 
   saveState();
 
@@ -2533,16 +2779,14 @@ async function watchCheckin(){
   );
 
   renderStreak();
+
 }
 
 /* =========================================================
    TASKS
 ========================================================= */
 
-function claimTask(
-  id,
-  amount
-){
+function claimTask(id,amount){
 
   if(
     state.tasksClaimed[id]
@@ -2553,10 +2797,10 @@ function claimTask(
     );
 
     return;
+
   }
 
-  state.tasksClaimed[id]=
-    true;
+  state.tasksClaimed[id]=true;
 
   addEarning(
     amount,
@@ -2568,6 +2812,7 @@ function claimTask(
     money(amount)+
     " earned!"
   );
+
 }
 
 /* =========================================================
@@ -2576,9 +2821,7 @@ function claimTask(
 
 function scrollToWithdraw(){
 
-  switchSection(
-    "wallet"
-  );
+  switchSection("wallet");
 
   setTimeout(
     ()=>{
@@ -2594,11 +2837,13 @@ function scrollToWithdraw(){
           behavior:"smooth",
           block:"center"
         });
+
       }
 
     },
     100
   );
+
 }
 
 async function submitWithdrawal(){
@@ -2630,11 +2875,11 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
 
   if(
-    amount!==
-    WITHDRAW_AMOUNT
+    amount!==WITHDRAW_AMOUNT
   ){
 
     toast(
@@ -2642,11 +2887,11 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
 
   if(
-    amount>
-    state.balance
+    amount>state.balance
   ){
 
     toast(
@@ -2654,6 +2899,7 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
 
   if(!address){
@@ -2663,11 +2909,11 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
 
   if(
-    !/^0x[a-fA-F0-9]{40}$/
-      .test(address)
+    !/^0x[a-fA-F0-9]{40}$/.test(address)
   ){
 
     toast(
@@ -2675,17 +2921,12 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
 
-  /*
-    Save withdrawal request to Firestore.
-    Existing wallet UI and balance logic
-    remain unchanged.
-  */
-
   if(
-    firebaseReady &&
-    db &&
+    firebaseReady&&
+    db&&
     firebaseUserId
   ){
 
@@ -2695,10 +2936,13 @@ async function submitWithdrawal(){
         .collection("withdrawals")
         .add({
 
-          telegramId:
+          firebaseUid:
             String(
               firebaseUserId
             ),
+
+          telegramId:
+            getTelegramUserId(),
 
           amount:
             WITHDRAW_AMOUNT,
@@ -2716,6 +2960,7 @@ async function submitWithdrawal(){
             firebase.firestore
               .FieldValue
               .serverTimestamp()
+
         });
 
     }catch(error){
@@ -2730,7 +2975,17 @@ async function submitWithdrawal(){
       );
 
       return;
+
     }
+
+  }else{
+
+    toast(
+      "Firebase is not connected yet."
+    );
+
+    return;
+
   }
 
   toast(
@@ -2744,6 +2999,7 @@ async function submitWithdrawal(){
   document.getElementById(
     "withdrawAddress"
   ).value="";
+
 }
 
 /* =========================================================
@@ -2769,6 +3025,7 @@ function renderTransactions(){
       "<p>No transactions yet</p>";
 
     return;
+
   }
 
   box.innerHTML=
@@ -2810,6 +3067,7 @@ function renderTransactions(){
         `
       )
       .join("");
+
 }
 
 /* =========================================================
@@ -2851,20 +3109,18 @@ function copyRefer(){
       "Referral code: "+
       code
     );
+
   }
+
 }
 
 /* =========================================================
    PROFILE
 ========================================================= */
 
-function showProfile(
-  type
-){
+function showProfile(type){
 
-  if(
-    type==="Account"
-  ){
+  if(type==="Account"){
 
     toast(
       "Balance: "+
@@ -2877,11 +3133,10 @@ function showProfile(
     );
 
     return;
+
   }
 
-  if(
-    type==="Referrals"
-  ){
+  if(type==="Referrals"){
 
     toast(
       "Referrals: "+
@@ -2889,59 +3144,56 @@ function showProfile(
     );
 
     return;
+
   }
 
-  if(
-    type==="Security"
-  ){
+  if(type==="Security"){
 
     toast(
       "Telegram account connected ✓"
     );
 
     return;
+
   }
 
-  if(
-    type==="Terms & Conditions"
-  ){
+  if(type==="Terms & Conditions"){
 
     toast(
       "Terms & Conditions"
     );
 
     return;
+
   }
 
-  if(
-    type==="Privacy Policy"
-  ){
+  if(type==="Privacy Policy"){
 
     toast(
       "Privacy Policy"
     );
 
     return;
+
   }
 
-  if(
-    type==="Help & Support"
-  ){
+  if(type==="Help & Support"){
 
     toast(
       "Help & Support"
     );
 
     return;
+
   }
+
 }
 
 function logoutUser(){
 
   if(
     tg&&
-    typeof tg.showConfirm===
-    "function"
+    typeof tg.showConfirm==="function"
   ){
 
     tg.showConfirm(
@@ -2953,7 +3205,9 @@ function logoutUser(){
           toast(
             "Logout is handled by Telegram."
           );
+
         }
+
       }
     );
 
@@ -2962,28 +3216,24 @@ function logoutUser(){
     toast(
       "Logout is handled by Telegram."
     );
+
   }
+
 }
 
 /* =========================================================
    NAVIGATION
 ========================================================= */
 
-function switchSection(
-  target
-){
+function switchSection(target){
 
   closeTier();
 
   document
-    .querySelectorAll(
-      ".section"
-    )
+    .querySelectorAll(".section")
     .forEach(
       section=>
-        section.classList.remove(
-          "active"
-        )
+        section.classList.remove("active")
     );
 
   const section=
@@ -2993,15 +3243,12 @@ function switchSection(
 
   if(section){
 
-    section.classList.add(
-      "active"
-    );
+    section.classList.add("active");
+
   }
 
   document
-    .querySelectorAll(
-      "nav button"
-    )
+    .querySelectorAll("nav button")
     .forEach(
       button=>{
 
@@ -3014,10 +3261,7 @@ function switchSection(
       }
     );
 
-  window.scrollTo(
-    0,
-    0
-  );
+  window.scrollTo(0,0);
 
   if(
     target==="task"
@@ -3026,13 +3270,13 @@ function switchSection(
     resetDaily();
     renderBonusAd();
     renderStreak();
+
   }
+
 }
 
 document
-  .querySelectorAll(
-    "nav button"
-  )
+  .querySelectorAll("nav button")
   .forEach(
     button=>{
 
@@ -3063,6 +3307,7 @@ function initTelegramProfile(){
   ){
 
     return;
+
   }
 
   const user=
@@ -3103,8 +3348,8 @@ function initTelegramProfile(){
   if(profileName){
 
     profileName.textContent=
-      name||
-      "User";
+      name||"User";
+
   }
 
   if(profileUsername){
@@ -3113,6 +3358,7 @@ function initTelegramProfile(){
       user.username
       ?"@"+user.username
       :"@username";
+
   }
 
   if(profileId){
@@ -3120,15 +3366,16 @@ function initTelegramProfile(){
     profileId.textContent=
       "Telegram ID: "+
       user.id;
+
   }
 
   if(referCode){
 
     referCode.textContent=
       "EB-"+
-      String(
-        user.id
-      ).slice(-6);
+      String(user.id)
+        .slice(-6);
+
   }
 
   if(
@@ -3146,11 +3393,11 @@ function initTelegramProfile(){
     img.src=
       user.photo_url;
 
-    img.alt=
-      "Profile";
+    img.alt="Profile";
 
     img.onerror=
       ()=>{
+
         avatar.textContent=
           (
             user.first_name||
@@ -3158,11 +3405,10 @@ function initTelegramProfile(){
           )
           .charAt(0)
           .toUpperCase();
+
       };
 
-    avatar.appendChild(
-      img
-    );
+    avatar.appendChild(img);
 
   }else if(avatar){
 
@@ -3173,7 +3419,9 @@ function initTelegramProfile(){
       )
       .charAt(0)
       .toUpperCase();
+
   }
+
 }
 
 /* =========================================================
@@ -3189,27 +3437,45 @@ async function initializeFirebaseUser(){
     );
 
     return;
+
   }
 
-  firebaseUserId=
-    getFirebaseUserId();
+  /*
+    First create/login the Firebase
+    Anonymous user.
+  */
+
+  const firebaseUser=
+    await signInFirebaseAnonymous();
+
+  if(!firebaseUser){
+
+    return;
+
+  }
 
   /*
-    Initialize local Telegram profile
-    before loading Firestore.
+    Firebase UID is now the permanent
+    Firestore document identifier.
+  */
+
+  firebaseUserId=
+    firebaseUser.uid;
+
+  /*
+    Initialize Telegram profile.
   */
 
   initTelegramProfile();
 
   /*
-    Load the user's permanent state
-    from Firestore.
+    Load permanent state from Firestore.
   */
 
   await loadStateFromFirebase();
 
   /*
-    Re-render after Firestore data arrives.
+    Render after Firestore data arrives.
   */
 
   resetDaily();
@@ -3219,10 +3485,11 @@ async function initializeFirebaseUser(){
   renderStreak();
   renderBonusAd();
   updateAdCooldownUI();
+
 }
 
 /* =========================================================
-   START
+   INITIAL UI
 ========================================================= */
 
 resetDaily();
@@ -3235,9 +3502,8 @@ renderBonusAd();
 updateAdCooldownUI();
 
 /*
-  Firebase runs after the existing app
-  has loaded, so the current UI does not
-  wait unnecessarily for Firestore.
+  Firebase Anonymous Auth + Firestore
+  starts after the existing UI loads.
 */
 
 initializeFirebaseUser();
