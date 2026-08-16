@@ -124,6 +124,14 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .wallet-balance{text-align:center;margin-top:18px;padding:22px 15px;border-radius:20px;background:radial-gradient(circle at 50% 0%,rgba(255,199,44,.1),transparent 45%),linear-gradient(145deg,#17191e,#111216);border:1px solid #30333a}
 .wallet-number{font-size:43px}
 .wallet-number span{color:var(--gold)}
+
+.wallet-equivalent{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+
 .wallet-actions{display:flex;gap:10px;margin-top:15px}
 .wallet-actions button{flex:1;padding:13px;border-radius:13px;border:1px solid #30333a;background:var(--card);color:var(--text);font-weight:900}
 .wallet-actions button:first-child{background:var(--gold);color:#171200;border-color:var(--gold)}
@@ -192,7 +200,7 @@ nav button.active{color:var(--gold)}
 
 <header class="topbar">
   <div class="brand"><span class="dot"></span><span class="brand-name">EarnBoard</span></div>
-  <div class="balance">💰 <b id="topBalance">$0.00</b></div>
+  <div class="balance">💰 <b id="topBalance">0 Points</b></div>
 </header>
 
 <!-- ================= HOME ================= -->
@@ -287,8 +295,9 @@ nav button.active{color:var(--gold)}
   <h2 class="title display">Wallet</h2>
 
   <div class="wallet-balance">
-    <div class="wallet-number display"><span id="walletBalance">$0.00</span></div>
+    <div class="wallet-number display"><span id="walletBalance">0 Points</span></div>
     <p class="subtitle">Available Balance</p>
+    <div class="wallet-equivalent">200,000 Points is equal to $20</div>
   </div>
 
   <div class="wallet-actions">
@@ -606,9 +615,11 @@ function money(n){
 
 /* =========================================================
    POINTS
+   10,000 POINTS = $1.00
+   200,000 POINTS = $20.00
 ========================================================= */
 function pointsFromBalance(balance){
-  return Math.round(Number(balance||0)*10000000);
+  return Math.round(Number(balance||0)*10000);
 }
 
 function formatPoints(points){
@@ -642,12 +653,19 @@ function renderTop(){
   const walletBalance=document.getElementById("walletBalance");
   const referCount=document.getElementById("referCount");
 
+  const currentPoints=
+    pointsFromBalance(state.balance);
+
   if(topBalance){
-    topBalance.textContent=money(state.balance);
+    topBalance.textContent=
+      formatPoints(currentPoints)+
+      " Points";
   }
 
   if(walletBalance){
-    walletBalance.textContent=money(state.balance);
+    walletBalance.textContent=
+      formatPoints(currentPoints)+
+      " Points";
   }
 
   if(referCount){
@@ -763,7 +781,7 @@ async function showMonetagAd(){
 
 /* =========================================================
    EARNING
-   Existing wallet remains dollar-based.
+   Existing wallet remains dollar-based internally.
    Each Light/Pro/Extra ad gives exactly 100 points = $0.01.
 ========================================================= */
 function addEarning(
@@ -1728,8 +1746,8 @@ function claimTask(
 
 /* =========================================================
    WALLET / WITHDRAW
-   User must reach 200,000 points ($20.00),
-   and every withdrawal is exactly $20.
+   200,000 POINTS = $20.00
+   Every withdrawal is exactly $20.
 ========================================================= */
 function scrollToWithdraw(){
   switchSection("wallet");
@@ -1927,7 +1945,12 @@ function showProfile(type){
   ){
     toast(
       "Balance: "+
-      money(state.balance)
+      formatPoints(
+        pointsFromBalance(
+          state.balance
+        )
+      )+
+      " Points"
     );
 
     return;
