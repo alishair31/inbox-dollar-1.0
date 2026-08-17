@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>EarnBoard Admin Panel</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+<style>
+:root{
+  --bg:#08090b;
+  --card:#141519;
+  --card2:#1c1e23;
+  --gold:#ffc72c;
+  --text:#f5f5f7;
+  --muted:#9699a3;
+  --danger:#ff6767;
+  --success:#3ddc97;
+  --border:#30333a;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Segoe UI,system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* LOGIN */
+
+.login-wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.login-card{
+  width:100%;
+  max-width:420px;
+  padding:25px;
+  background:linear-gradient(145deg,#181a1f,#111216);
+  border:1px solid var(--border);
+  border-radius:22px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:22px;
+}
+
+.logo-dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--gold);
+}
+
+.logo-name{
+  font-size:15px;
+  letter-spacing:.13em;
+  font-weight:900;
+  color:#c9cbd1;
+}
+
+.login-title{
+  font-family:Georgia,serif;
+  font-size:31px;
+  margin-bottom:7px;
+}
+
+.login-sub{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:20px;
+}
+
+.field{
+  margin-top:13px;
+}
+
+.field label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.field input{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card2);
+  color:var(--text);
+  outline:none;
+}
+
+.field input:focus{
+  border-color:var(--gold);
+}
+
+.primary{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:14px;
+  margin-top:18px;
+  background:linear-gradient(135deg,#ffd54f,#ffc72c);
+  color:#171200;
+  font-weight:900;
+}
+
+.error{
+  margin-top:12px;
+  padding:11px;
+  border-radius:11px;
+  background:#ff676712;
+  border:1px solid #ff676750;
+  color:var(--danger);
+  font-size:12px;
+}
+
+/* ADMIN */
+
+.topbar{
+  min-height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:#0d0e11f5;
+  border-bottom:1px solid #282b31;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.brand-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--gold);
+}
+
+.brand-name{
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+.logout{
+  border:1px solid #ff676758;
+  background:#ff676712;
+  color:var(--danger);
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.container{
+  width:100%;
+  max-width:1000px;
+  margin:auto;
+  padding:20px 16px 50px;
+}
+
+.welcome{
+  padding:21px;
+  border-radius:20px;
+  background:linear-gradient(145deg,#191b20,#111216);
+  border:1px solid var(--border);
+}
+
+.eyebrow{
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  font-weight:900;
+}
+
+.welcome h1{
+  font-family:Georgia,serif;
+  font-size:29px;
+  margin-top:7px;
+}
+
+.welcome p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:8px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:13px;
+}
+
+.stat{
+  padding:17px 12px;
+  border-radius:16px;
+  background:#17191e;
+  border:1px solid var(--border);
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.stat-number{
+  color:var(--gold);
+  font-size:24px;
+  font-weight:900;
+  margin-top:5px;
+}
+
+.section-title{
+  font-family:Georgia,serif;
+  font-size:25px;
+  margin-top:25px;
+  margin-bottom:4px;
+}
+
+.section-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:13px;
+}
+
+/* WITHDRAWAL CARD */
+
+.withdrawal{
+  padding:17px;
+  margin-top:12px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#181a1f,#111216);
+  border:1px solid var(--border);
+}
+
+.withdrawal-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.withdrawal-title{
+  font-size:14px;
+  font-weight:900;
+}
+
+.status{
+  padding:6px 9px;
+  border-radius:9px;
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.status.pending{
+  color:var(--gold);
+  background:#ffc72c18;
+  border:1px solid #ffc72c45;
+}
+
+.status.approved{
+  color:var(--success);
+  background:#3ddc9712;
+  border:1px solid #3ddc9745;
+}
+
+.status.rejected{
+  color:var(--danger);
+  background:#ff676712;
+  border:1px solid #ff676745;
+}
+
+.detail{
+  margin-top:12px;
+  padding:11px;
+  border-radius:12px;
+  background:#1c1e23;
+}
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:6px 0;
+  font-size:11px;
+  border-bottom:1px solid #292c32;
+}
+
+.detail-row:last-child{
+  border-bottom:0;
+}
+
+.detail-label{
+  color:var(--muted);
+  flex-shrink:0;
+}
+
+.detail-value{
+  text-align:right;
+  word-break:break-all;
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  margin-top:13px;
+}
+
+.action{
+  flex:1;
+  border-radius:11px;
+  padding:11px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.approve{
+  background:#3ddc9718;
+  color:var(--success);
+  border:1px solid #3ddc9760;
+}
+
+.reject{
+  background:#ff676712;
+  color:var(--danger);
+  border:1px solid #ff676758;
+}
+
+.refresh{
+  border:1px solid var(--border);
+  background:var(--card2);
+  color:var(--text);
+  padding:9px 13px;
+  border-radius:10px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.empty{
+  margin-top:12px;
+  padding:25px;
+  text-align:center;
+  color:var(--muted);
+  background:#141519;
+  border:1px solid var(--border);
+  border-radius:17px;
+  font-size:12px;
+}
+
+.loading{
+  margin-top:12px;
+  padding:25px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.toast{
+  position:fixed;
+  top:14px;
+  left:50%;
+  z-index:999;
+  transform:translateX(-50%) translateY(-20px);
+  opacity:0;
+  background:var(--gold);
+  color:#171200;
+  padding:10px 17px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:900;
+  transition:.25s;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+@media(max-width:600px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .stat-number{
+    font-size:21px;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- LOGIN -->
+
+<div id="loginScreen" class="login-wrap">
+
+  <div class="login-card">
+
+    <div class="logo">
+      <span class="logo-dot"></span>
+      <span class="logo-name">EARNBOARD ADMIN</span>
+    </div>
+
+    <h1 class="login-title">Admin Login</h1>
+
+    <p class="login-sub">
+      Sign in with the Firebase administrator account.
+    </p>
+
+    <div class="field">
+      <label>Email</label>
+      <input
+        type="email"
+        id="adminEmail"
+        placeholder="Admin email"
+        autocomplete="username"
+      >
+    </div>
+
+    <div class="field">
+      <label>Password</label>
+      <input
+        type="password"
+        id="adminPassword"
+        placeholder="Admin password"
+        autocomplete="current-password"
+      >
+    </div>
+
+    <button class="primary" onclick="loginAdmin()">
+      🔐 Login
+    </button>
+
+    <div id="loginError" class="error hidden"></div>
+
+  </div>
+
+</div>
+
+
+<!-- ADMIN PANEL -->
+
+<div id="adminScreen" class="hidden">
+
+  <header class="topbar">
+
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">EARNBOARD ADMIN</span>
+    </div>
+
+    <button class="logout" onclick="logoutAdmin()">
+      Logout
+    </button>
+
+  </header>
+
+
+  <main class="container">
+
+    <div class="welcome">
+
+      <div class="eyebrow">
+        Admin Dashboard
+      </div>
+
+      <h1>Withdrawal Management</h1>
+
+      <p>
+        Manage EarnBoard withdrawal requests from Firestore.
+      </p>
+
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-label">
+          Pending Requests
+        </div>
+        <div class="stat-number" id="pendingCount">
+          0
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">
+          Pending Amount
+        </div>
+        <div class="stat-number" id="pendingAmount">
+          $0
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">
+          Admin Status
+        </div>
+        <div class="stat-number">
+          ✓
+        </div>
+      </div>
+
+    </div>
+
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+
+      <div>
+        <h2 class="section-title">
+          Pending Withdrawals
+        </h2>
+
+        <p class="section-sub">
+          Latest withdrawal requests
+        </p>
+      </div>
+
+      <button class="refresh" onclick="loadWithdrawals()">
+        ↻ Refresh
+      </button>
+
+    </div>
+
+
+    <div id="withdrawalList">
+
+      <div class="loading">
+        Loading withdrawals...
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyAHr8Mf2ff0p_sTqbB2JGP_tcEOgqQI7GM",
+
+  authDomain:
+    "inbox-dollars-41161.firebaseapp.com",
+
+  projectId:
+    "inbox-dollars-41161",
+
+  storageBucket:
+    "inbox-dollars-41161.firebasestorage.app",
+
+  messagingSenderId:
+    "128399226582",
+
+  appId:
+    "1:128399226582:web:ba703d82a8d24f0ff43b77",
+
+  measurementId:
+    "G-V2Q9C6DTLS"
+
+};
+
+
+/* =========================================================
+   FIREBASE INITIALIZATION
+========================================================= */
+
+let auth = null;
+let db = null;
+
+try{
+
+  if(!firebase.apps.length){
+
+    firebase.initializeApp(
+      firebaseConfig
+    );
+
+  }
+
+  auth =
+    firebase.auth();
+
+  db =
+    firebase.firestore();
+
+  console.log(
+    "Firebase initialized."
+  );
+
+}catch(error){
+
+  console.error(
+    "Firebase initialization error:",
+    error
+  );
+
+}
+
+
+/* =========================================================
+   ADMIN EMAIL
+   IMPORTANT:
+   This is NOT a password.
+========================================================= */
+
+const ADMIN_EMAIL =
+  "mananali3407657648@gmail.com";
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+  const el =
+    document.getElementById("toast");
+
+  if(!el)return;
+
+  el.textContent =
+    message;
+
+  el.classList.add("show");
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+  window.toastTimer =
+    setTimeout(()=>{
+
+      el.classList.remove("show");
+
+    },2300);
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function loginAdmin(){
+
+  const email =
+    document
+      .getElementById("adminEmail")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("adminPassword")
+      .value;
+
+  const errorBox =
+    document.getElementById(
+      "loginError"
+    );
+
+  errorBox.classList.add(
+    "hidden"
+  );
+
+  if(!email){
+
+    showLoginError(
+      "Enter admin email."
+    );
+
+    return;
+
+  }
+
+  if(!password){
+
+    showLoginError(
+      "Enter admin password."
+    );
+
+    return;
+
+  }
+
+  /*
+    Optional email restriction.
+    Only the configured admin email
+    can enter this dashboard.
+  */
+
+  if(
+    email.toLowerCase() !==
+    ADMIN_EMAIL.toLowerCase()
+  ){
+
+    showLoginError(
+      "This email is not authorized as admin."
+    );
+
+    return;
+
+  }
+
+  try{
+
+    await auth.signInWithEmailAndPassword(
+      email,
+      password
+    );
+
+    toast(
+      "Admin login successful."
+    );
+
+  }catch(error){
+
+    console.error(
+      "Admin login error:",
+      error
+    );
+
+    showLoginError(
+      getAuthErrorMessage(error)
+    );
+
+  }
+
+}
+
+
+function showLoginError(message){
+
+  const box =
+    document.getElementById(
+      "loginError"
+    );
+
+  box.textContent =
+    message;
+
+  box.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+function getAuthErrorMessage(error){
+
+  const code =
+    error && error.code
+      ? error.code
+      : "";
+
+  if(
+    code ===
+    "auth/invalid-credential"
+  ){
+
+    return "Email or password is incorrect.";
+
+  }
+
+  if(
+    code ===
+    "auth/user-not-found"
+  ){
+
+    return "Admin user was not found.";
+
+  }
+
+  if(
+    code ===
+    "auth/wrong-password"
+  ){
+
+    return "Incorrect password.";
+
+  }
+
+  if(
+    code ===
+    "auth/too-many-requests"
+  ){
+
+    return "Too many attempts. Try again later.";
+
+  }
+
+  return(
+    error.message ||
+    "Login failed."
+  );
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+auth.onAuthStateChanged(
+  async(user)=>{
+
+    if(user){
+
+      /*
+        Extra client-side email check.
+      */
+
+      if(
+        user.email.toLowerCase() !==
+        ADMIN_EMAIL.toLowerCase()
+      ){
+
+        await auth.signOut();
+
+        showLoginError(
+          "This account is not authorized."
+        );
+
+        return;
+
+      }
+
+      document
+        .getElementById(
+          "loginScreen"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+      document
+        .getElementById(
+          "adminScreen"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+      await loadWithdrawals();
+
+    }else{
+
+      document
+        .getElementById(
+          "adminScreen"
+        )
+        .classList.add(
+          "hidden"
+        );
+
+      document
+        .getElementById(
+          "loginScreen"
+        )
+        .classList.remove(
+          "hidden"
+        );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logoutAdmin(){
+
+  try{
+
+    await auth.signOut();
+
+    toast(
+      "Logged out."
+    );
+
+  }catch(error){
+
+    console.error(
+      "Logout error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD WITHDRAWALS
+========================================================= */
+
+async function loadWithdrawals(){
+
+  const list =
+    document.getElementById(
+      "withdrawalList"
+    );
+
+  list.innerHTML = `
+    <div class="loading">
+      Loading withdrawals...
+    </div>
+  `;
+
+  try{
+
+    /*
+      Only pending withdrawals are loaded
+      in Phase 1.
+    */
+
+    const snapshot =
+      await db
+        .collection("withdrawals")
+        .where(
+          "status",
+          "==",
+          "pending"
+        )
+        .get();
+
+    const withdrawals = [];
+
+    snapshot.forEach(
+      doc=>{
+
+        withdrawals.push({
+
+          id:
+            doc.id,
+
+          ...doc.data()
+
+        });
+
+      }
+    );
+
+    /*
+      Sort newest first.
+    */
+
+    withdrawals.sort(
+      (a,b)=>{
+
+        const aTime =
+          a.createdAt &&
+          a.createdAt.toMillis
+            ? a.createdAt.toMillis()
+            : 0;
+
+        const bTime =
+          b.createdAt &&
+          b.createdAt.toMillis
+            ? b.createdAt.toMillis()
+            : 0;
+
+        return bTime-aTime;
+
+      }
+    );
+
+
+    updateStats(
+      withdrawals
+    );
+
+
+    if(!withdrawals.length){
+
+      list.innerHTML = `
+        <div class="empty">
+          No pending withdrawal requests.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    list.innerHTML =
+      withdrawals
+        .map(
+          renderWithdrawal
+        )
+        .join("");
+
+
+  }catch(error){
+
+    console.error(
+      "Withdrawal load error:",
+      error
+    );
+
+    list.innerHTML = `
+      <div class="empty">
+        Could not load withdrawals.<br><br>
+        ${escapeHtml(
+          error.message ||
+          "Firestore permission error."
+        )}
+      </div>
+    `;
+
+    updateStats([]);
+
+  }
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(
+  withdrawals
+){
+
+  const count =
+    withdrawals.length;
+
+  const amount =
+    withdrawals.reduce(
+      (sum,item)=>
+        sum+
+        Number(
+          item.amount||0
+        ),
+      0
+    );
+
+  document
+    .getElementById(
+      "pendingCount"
+    )
+    .textContent =
+      count;
+
+  document
+    .getElementById(
+      "pendingAmount"
+    )
+    .textContent =
+      "$"+
+      amount.toFixed(2);
+
+}
+
+
+/* =========================================================
+   RENDER WITHDRAWAL
+========================================================= */
+
+function renderWithdrawal(
+  item
+){
+
+  const address =
+    item.address ||
+    "—";
+
+  const telegramId =
+    item.telegramId ||
+    "—";
+
+  const amount =
+    Number(
+      item.amount||0
+    );
+
+  const points =
+    Number(
+      item.points||0
+    );
+
+  const date =
+    formatFirestoreDate(
+      item.createdAt
+    );
+
+  return `
+
+    <div class="withdrawal">
+
+      <div class="withdrawal-top">
+
+        <div>
+
+          <div class="withdrawal-title">
+            Withdrawal #${escapeHtml(
+              item.id
+            )}
+          </div>
+
+        </div>
+
+        <div class="status pending">
+          Pending
+        </div>
+
+      </div>
+
+
+      <div class="detail">
+
+        <div class="detail-row">
+          <span class="detail-label">
+            Telegram ID
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              String(
+                telegramId
+              )
+            )}
+          </span>
+        </div>
+
+
+        <div class="detail-row">
+          <span class="detail-label">
+            Amount
+          </span>
+
+          <span class="detail-value">
+            $${amount.toFixed(2)}
+          </span>
+        </div>
+
+
+        <div class="detail-row">
+          <span class="detail-label">
+            Points
+          </span>
+
+          <span class="detail-value">
+            ${points.toLocaleString(
+              "en-US"
+            )}
+          </span>
+        </div>
+
+
+        <div class="detail-row">
+          <span class="detail-label">
+            Network
+          </span>
+
+          <span class="detail-value">
+            USDT BEP20
+          </span>
+        </div>
+
+
+        <div class="detail-row">
+          <span class="detail-label">
+            Wallet Address
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              address
+            )}
+          </span>
+        </div>
+
+
+        <div class="detail-row">
+          <span class="detail-label">
+            Requested
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              date
+            )}
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="action approve"
+          onclick="approveWithdrawal('${escapeJs(item.id)}')"
+        >
+          ✓ Approve
+        </button>
+
+        <button
+          class="action reject"
+          onclick="rejectWithdrawal('${escapeJs(item.id)}')"
+        >
+          ✕ Reject
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   APPROVE
+   =========================================================
+
+   Phase 1 intentionally keeps this protected.
+
+   We first verify that the logged-in account is the
+   configured admin. Then the withdrawal document status
+   is changed to approved.
+
+========================================================= */
+
+async function approveWithdrawal(
+  withdrawalId
+){
+
+  const user =
+    auth.currentUser;
+
+  if(!user){
+
+    toast(
+      "Admin login required."
+    );
+
+    return;
+
+  }
+
+  if(
+    user.email.toLowerCase() !==
+    ADMIN_EMAIL.toLowerCase()
+  ){
+
+    toast(
+      "Unauthorized admin."
+    );
+
+    return;
+
+  }
+
+  const confirmed =
+    confirm(
+      "Approve this withdrawal request?"
+    );
+
+  if(!confirmed)return;
+
+  try{
+
+    await db
+      .collection("withdrawals")
+      .doc(withdrawalId)
+      .update({
+
+        status:
+          "approved",
+
+        processedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp(),
+
+        processedBy:
+          user.email
+
+      });
+
+    toast(
+      "Withdrawal approved."
+    );
+
+    await loadWithdrawals();
+
+  }catch(error){
+
+    console.error(
+      "Approve error:",
+      error
+    );
+
+    toast(
+      "Approve failed. Check Firestore Rules."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   REJECT
+========================================================= */
+
+async function rejectWithdrawal(
+  withdrawalId
+){
+
+  const user =
+    auth.currentUser;
+
+  if(!user){
+
+    toast(
+      "Admin login required."
+    );
+
+    return;
+
+  }
+
+  if(
+    user.email.toLowerCase() !==
+    ADMIN_EMAIL.toLowerCase()
+  ){
+
+    toast(
+      "Unauthorized admin."
+    );
+
+    return;
+
+  }
+
+  const confirmed =
+    confirm(
+      "Reject this withdrawal request?"
+    );
+
+  if(!confirmed)return;
+
+  try{
+
+    await db
+      .collection("withdrawals")
+      .doc(withdrawalId)
+      .update({
+
+        status:
+          "rejected",
+
+        processedAt:
+          firebase.firestore
+            .FieldValue
+            .serverTimestamp(),
+
+        processedBy:
+          user.email
+
+      });
+
+    toast(
+      "Withdrawal rejected."
+    );
+
+    await loadWithdrawals();
+
+  }catch(error){
+
+    console.error(
+      "Reject error:",
+      error
+    );
+
+    toast(
+      "Reject failed. Check Firestore Rules."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatFirestoreDate(
+  timestamp
+){
+
+  if(
+    timestamp &&
+    typeof timestamp.toDate ===
+      "function"
+  ){
+
+    return timestamp
+      .toDate()
+      .toLocaleString(
+        "en-PK"
+      );
+
+  }
+
+  return "—";
+
+}
+
+
+/* =========================================================
+   SECURITY HELPERS
+========================================================= */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+function escapeJs(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /\\/g,
+    "\\\\"
+  )
+  .replace(
+    /'/g,
+    "\\'"
+  )
+  .replace(
+    /\r/g,
+    "\\r"
+  )
+  .replace(
+    /\n/g,
+    "\\n"
+  );
+
+}
+
+</script>
+
+</body>
+</html>
