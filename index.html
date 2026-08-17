@@ -7,13 +7,11 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <!-- MONETAG: EXISTING AD SYSTEM - DO NOT MODIFY -->
 <script src="https://libtl.com/sdk.js" data-zone="11580974" data-sdk="show_11580974"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
 <style>
 :root{
@@ -32,155 +30,825 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+
 body{
   font-family:Segoe UI,system-ui,-apple-system,sans-serif;
   background:radial-gradient(circle at 50% -10%,rgba(255,199,44,.08),transparent 35%),var(--bg);
-  color:var(--text);min-height:100vh;padding-bottom:88px
+  color:var(--text);
+  min-height:100vh;
+  padding-bottom:88px
 }
+
 button,input{font:inherit}
 button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .display{font-family:Georgia,serif;font-weight:900}
 
 .topbar{
-  height:60px;display:flex;align-items:center;justify-content:space-between;
-  padding:0 18px;border-bottom:1px solid #202228;background:rgba(8,9,11,.94);
-  backdrop-filter:blur(14px);position:sticky;top:0;z-index:90
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid #202228;
+  background:rgba(8,9,11,.94);
+  backdrop-filter:blur(14px);
+  position:sticky;
+  top:0;
+  z-index:90
 }
-.brand{display:flex;align-items:center;gap:9px}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px rgba(255,199,44,.75)}
-.brand-name{font-size:15px;letter-spacing:.13em;color:#c9cbd1;text-transform:uppercase;font-weight:900}
-.balance{background:linear-gradient(135deg,#191b20,#111216);border:1px solid #30333b;border-radius:30px;padding:8px 14px;font-size:13px;box-shadow:0 5px 20px rgba(0,0,0,.18)}
-.balance b{color:var(--gold);font-weight:900}
 
-.section{display:none;padding:0 18px;max-width:680px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:9px}
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 14px rgba(255,199,44,.75)
+}
+
+.brand-name{
+  font-size:15px;
+  letter-spacing:.13em;
+  color:#c9cbd1;
+  text-transform:uppercase;
+  font-weight:900
+}
+
+.balance{
+  background:linear-gradient(135deg,#191b20,#111216);
+  border:1px solid #30333b;
+  border-radius:30px;
+  padding:8px 14px;
+  font-size:13px;
+  box-shadow:0 5px 20px rgba(0,0,0,.18)
+}
+
+.balance b{
+  color:var(--gold);
+  font-weight:900
+}
+
+.section{
+  display:none;
+  padding:0 18px;
+  max-width:680px;
+  margin:0 auto
+}
+
 .section.active{display:block}
 
 .hero{
-  margin-top:16px;padding:25px 21px 22px;
+  margin-top:16px;
+  padding:25px 21px 22px;
   background:radial-gradient(circle at 100% 0%,rgba(255,199,44,.13),transparent 34%),linear-gradient(145deg,#191b20,#111216);
-  border:1px solid #30333a;border-radius:24px;position:relative;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.24)
+  border:1px solid #30333a;
+  border-radius:24px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 12px 35px rgba(0,0,0,.24)
 }
-.hero:before{content:"";position:absolute;width:190px;height:190px;right:-85px;bottom:-105px;background:radial-gradient(circle,rgba(255,199,44,.12),transparent 70%);pointer-events:none}
-.hero:after{content:"";position:absolute;width:100px;height:100px;left:-60px;top:-60px;background:radial-gradient(circle,rgba(255,199,44,.08),transparent 70%);pointer-events:none}
-.eyebrow{font-size:10px;color:var(--gold);letter-spacing:.16em;text-transform:uppercase;font-weight:900}
-.headline{font-size:32px;line-height:1.08;margin-top:10px;position:relative;z-index:1}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:190px;
+  height:190px;
+  right:-85px;
+  bottom:-105px;
+  background:radial-gradient(circle,rgba(255,199,44,.12),transparent 70%);
+  pointer-events:none
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:100px;
+  height:100px;
+  left:-60px;
+  top:-60px;
+  background:radial-gradient(circle,rgba(255,199,44,.08),transparent 70%);
+  pointer-events:none
+}
+
+.eyebrow{
+  font-size:10px;
+  color:var(--gold);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-weight:900
+}
+
+.headline{
+  font-size:32px;
+  line-height:1.08;
+  margin-top:10px;
+  position:relative;
+  z-index:1
+}
+
 .gold{color:var(--gold)}
-.sub{font-size:13px;color:var(--muted);line-height:1.55;margin-top:13px;position:relative;z-index:1}
 
-.main-btn,.watch{border:0;background:linear-gradient(135deg,#ffd54f,#ffc72c);color:#171200;font-weight:900;box-shadow:0 7px 20px rgba(255,199,44,.14)}
-.main-btn{width:100%;border-radius:15px;padding:15px;margin-top:19px;position:relative;z-index:1}
+.sub{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.55;
+  margin-top:13px;
+  position:relative;
+  z-index:1
+}
+
+.main-btn,.watch{
+  border:0;
+  background:linear-gradient(135deg,#ffd54f,#ffc72c);
+  color:#171200;
+  font-weight:900;
+  box-shadow:0 7px 20px rgba(255,199,44,.14)
+}
+
+.main-btn{
+  width:100%;
+  border-radius:15px;
+  padding:15px;
+  margin-top:19px;
+  position:relative;
+  z-index:1
+}
+
 .main-btn:active,.watch:active{transform:scale(.985)}
-.watch{width:100%;border-radius:13px;padding:13px;margin-top:14px}
-.watch:disabled{background:#30333a;color:#858992;box-shadow:none;cursor:not-allowed}
 
-.title{font-size:28px;margin:21px 0 5px;letter-spacing:-.02em}
-.subtitle{font-size:12px;color:var(--muted);line-height:1.55}
+.watch{
+  width:100%;
+  border-radius:13px;
+  padding:13px;
+  margin-top:14px
+}
 
-.qa-title{font-size:14px;font-weight:900;margin:23px 0 12px}
-.qa{display:flex;align-items:center;gap:13px;padding:15px;margin-bottom:10px;background:linear-gradient(145deg,#17191e,#111216);border:1px solid #2c2f36;border-radius:18px;box-shadow:0 7px 20px rgba(0,0,0,.14);transition:.18s ease}
-.qa:active{transform:scale(.985);border-color:var(--gold2)}
-.qa-icon{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:22px;background:radial-gradient(circle at 30% 20%,rgba(255,199,44,.16),transparent 60%),#23252b;border:1px solid #343740;flex-shrink:0}
-.qa-body{flex:1;min-width:0}
-.qa-body h4{font-size:15px;font-weight:900}
-.qa-body p{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
-.arrow{font-size:26px;color:var(--gold)}
+.watch:disabled{
+  background:#30333a;
+  color:#858992;
+  box-shadow:none;
+  cursor:not-allowed
+}
 
-.back{display:flex;gap:8px;align-items:center;margin-top:8px;padding:10px 0;color:var(--gold);font-weight:900;font-size:13px}
+.title{
+  font-size:28px;
+  margin:21px 0 5px;
+  letter-spacing:-.02em
+}
 
-.ad{margin-top:13px;padding:18px;background:radial-gradient(circle at 50% 0%,rgba(255,199,44,.08),transparent 38%),linear-gradient(145deg,#181a1f,#111216);border:1px solid #30333a;border-radius:19px;text-align:center;box-shadow:0 9px 25px rgba(0,0,0,.18)}
-.ad-icon{width:54px;height:54px;margin:auto;border-radius:16px;display:flex;align-items:center;justify-content:center;background:rgba(255,199,44,.11);border:1px solid rgba(255,199,44,.18);font-size:23px}
-.ad h3{font-size:17px;margin-top:10px;font-weight:900}
-.ad p{font-size:12px;color:var(--muted);margin-top:5px}
-.count{display:flex;justify-content:space-between;gap:10px;margin-top:12px;color:var(--muted);font-size:11px}
-.count span:last-child{color:var(--gold);font-weight:900}
+.subtitle{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.55
+}
 
-.limit{margin-top:12px;padding:11px;border-radius:12px;text-align:center;color:var(--gold);background:rgba(255,199,44,.08);border:1px solid rgba(255,199,44,.22);font-size:12px;font-weight:900}
-.cooldown-box{margin-top:12px;padding:11px 12px;border-radius:12px;background:rgba(255,199,44,.07);border:1px solid rgba(255,199,44,.18);color:var(--gold);font-size:11px;font-weight:900;text-align:center}
+.qa-title{
+  font-size:14px;
+  font-weight:900;
+  margin:23px 0 12px
+}
+
+.qa{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:15px;
+  margin-bottom:10px;
+  background:linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2c2f36;
+  border-radius:18px;
+  box-shadow:0 7px 20px rgba(0,0,0,.14);
+  transition:.18s ease
+}
+
+.qa:active{
+  transform:scale(.985);
+  border-color:var(--gold2)
+}
+
+.qa-icon{
+  width:50px;
+  height:50px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  background:radial-gradient(circle at 30% 20%,rgba(255,199,44,.16),transparent 60%),#23252b;
+  border:1px solid #343740;
+  flex-shrink:0
+}
+
+.qa-body{
+  flex:1;
+  min-width:0
+}
+
+.qa-body h4{
+  font-size:15px;
+  font-weight:900
+}
+
+.qa-body p{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+  line-height:1.4
+}
+
+.arrow{
+  font-size:26px;
+  color:var(--gold)
+}
+
+.back{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-top:8px;
+  padding:10px 0;
+  color:var(--gold);
+  font-weight:900;
+  font-size:13px
+}
+
+.ad{
+  margin-top:13px;
+  padding:18px;
+  background:radial-gradient(circle at 50% 0%,rgba(255,199,44,.08),transparent 38%),linear-gradient(145deg,#181a1f,#111216);
+  border:1px solid #30333a;
+  border-radius:19px;
+  text-align:center;
+  box-shadow:0 9px 25px rgba(0,0,0,.18)
+}
+
+.ad-icon{
+  width:54px;
+  height:54px;
+  margin:auto;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,199,44,.11);
+  border:1px solid rgba(255,199,44,.18);
+  font-size:23px
+}
+
+.ad h3{
+  font-size:17px;
+  margin-top:10px;
+  font-weight:900
+}
+
+.ad p{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:5px
+}
+
+.count{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:11px
+}
+
+.count span:last-child{
+  color:var(--gold);
+  font-weight:900
+}
+
+.limit{
+  margin-top:12px;
+  padding:11px;
+  border-radius:12px;
+  text-align:center;
+  color:var(--gold);
+  background:rgba(255,199,44,.08);
+  border:1px solid rgba(255,199,44,.22);
+  font-size:12px;
+  font-weight:900
+}
+
+.cooldown-box{
+  margin-top:12px;
+  padding:11px 12px;
+  border-radius:12px;
+  background:rgba(255,199,44,.07);
+  border:1px solid rgba(255,199,44,.18);
+  color:var(--gold);
+  font-size:11px;
+  font-weight:900;
+  text-align:center
+}
+
 .cooldown-box strong{font-size:14px}
 
 .bonus-progress-wrap{margin-top:15px}
-.bonus-progress-top{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);margin-bottom:7px}
+
+.bonus-progress-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:7px
+}
+
 .bonus-progress-top b{color:var(--gold)}
-.bonus-progress{width:100%;height:8px;background:#292c32;border-radius:20px;overflow:hidden}
-.bonus-progress-fill{width:0%;height:100%;background:linear-gradient(90deg,#ffc72c,#ffe08a);border-radius:20px;transition:width .35s ease}
-.bonus-complete{margin-top:12px;padding:11px;border-radius:12px;text-align:center;color:var(--success);background:rgba(61,220,151,.08);border:1px solid rgba(61,220,151,.22);font-size:12px;font-weight:900;line-height:1.5}
 
-.premium{margin-top:13px;padding:19px;border-radius:20px;background:radial-gradient(circle at 100% 0%,rgba(255,199,44,.18),transparent 35%),linear-gradient(135deg,#2a2108,#16171b);border:1px solid var(--gold2);box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.bonus-progress{
+  width:100%;
+  height:8px;
+  background:#292c32;
+  border-radius:20px;
+  overflow:hidden
+}
+
+.bonus-progress-fill{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#ffc72c,#ffe08a);
+  border-radius:20px;
+  transition:width .35s ease
+}
+
+.bonus-complete{
+  margin-top:12px;
+  padding:11px;
+  border-radius:12px;
+  text-align:center;
+  color:var(--success);
+  background:rgba(61,220,151,.08);
+  border:1px solid rgba(61,220,151,.22);
+  font-size:12px;
+  font-weight:900;
+  line-height:1.5
+}
+
+.premium{
+  margin-top:13px;
+  padding:19px;
+  border-radius:20px;
+  background:radial-gradient(circle at 100% 0%,rgba(255,199,44,.18),transparent 35%),linear-gradient(135deg,#2a2108,#16171b);
+  border:1px solid var(--gold2);
+  box-shadow:0 10px 30px rgba(0,0,0,.22)
+}
+
 .premium h3{font-size:19px}
-.premium p{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.55}
-.fee{color:var(--gold);font-weight:900;margin-top:9px;font-size:12px}
-.fee-box{margin-top:13px;padding:12px;text-align:center;border-radius:13px;color:var(--gold);font-weight:900;background:rgba(255,199,44,.08);border:1px solid rgba(255,199,44,.22)}
 
-.card{background:linear-gradient(145deg,#17191e,#111216);border:1px solid #2d3037;border-radius:18px;padding:16px;margin-top:13px;box-shadow:0 7px 22px rgba(0,0,0,.14)}
-.card h4{font-size:14px;font-weight:900}
-.card p{font-size:12px;color:var(--muted);line-height:1.5;margin-top:5px}
+.premium p{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:7px;
+  line-height:1.55
+}
 
-.streak{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:13px}
-.day{background:var(--card2);border:1px solid #2d3037;border-radius:10px;padding:8px 2px;text-align:center}
-.day small{font-size:8px;color:var(--muted)}
-.day b{display:block;font-size:10px;margin-top:3px}
+.fee{
+  color:var(--gold);
+  font-weight:900;
+  margin-top:9px;
+  font-size:12px
+}
+
+.fee-box{
+  margin-top:13px;
+  padding:12px;
+  text-align:center;
+  border-radius:13px;
+  color:var(--gold);
+  font-weight:900;
+  background:rgba(255,199,44,.08);
+  border:1px solid rgba(255,199,44,.22)
+}
+
+.card{
+  background:linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2d3037;
+  border-radius:18px;
+  padding:16px;
+  margin-top:13px;
+  box-shadow:0 7px 22px rgba(0,0,0,.14)
+}
+
+.card h4{
+  font-size:14px;
+  font-weight:900
+}
+
+.card p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+  margin-top:5px
+}
+
+.streak{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:5px;
+  margin-top:13px
+}
+
+.day{
+  background:var(--card2);
+  border:1px solid #2d3037;
+  border-radius:10px;
+  padding:8px 2px;
+  text-align:center
+}
+
+.day small{
+  font-size:8px;
+  color:var(--muted)
+}
+
+.day b{
+  display:block;
+  font-size:10px;
+  margin-top:3px
+}
+
 .day.done,.day.current{border-color:var(--gold)}
+
 .day.done b,.day.current b{color:var(--gold)}
 
-.refer-code{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:11px;padding:12px;border:1px dashed var(--gold2);border-radius:13px;background:var(--card2)}
-.refer-code b{color:var(--gold);font-weight:900;letter-spacing:.04em}
-.copy{background:rgba(255,199,44,.07);border:1px solid var(--gold);color:var(--gold);padding:7px 11px;border-radius:9px;font-weight:900}
+.refer-code{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:11px;
+  padding:12px;
+  border:1px dashed var(--gold2);
+  border-radius:13px;
+  background:var(--card2)
+}
 
-.wallet-balance{text-align:center;margin-top:18px;padding:22px 15px;border-radius:20px;background:radial-gradient(circle at 50% 0%,rgba(255,199,44,.1),transparent 45%),linear-gradient(145deg,#17191e,#111216);border:1px solid #30333a}
+.refer-code b{
+  color:var(--gold);
+  font-weight:900;
+  letter-spacing:.04em
+}
+
+.copy{
+  background:rgba(255,199,44,.07);
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:7px 11px;
+  border-radius:9px;
+  font-weight:900
+}
+
+.wallet-balance{
+  text-align:center;
+  margin-top:18px;
+  padding:22px 15px;
+  border-radius:20px;
+  background:radial-gradient(circle at 50% 0%,rgba(255,199,44,.1),transparent 45%),linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #30333a
+}
+
 .wallet-number{font-size:43px}
+
 .wallet-number span{color:var(--gold)}
 
-.wallet-equivalent{margin-top:8px;color:var(--muted);font-size:12px;font-weight:800}
+.wallet-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px
+}
 
-.wallet-actions{display:flex;gap:10px;margin-top:15px}
-.wallet-actions button{flex:1;padding:13px;border-radius:13px;border:1px solid #30333a;background:var(--card);color:var(--text);font-weight:900}
-.wallet-actions button:first-child{background:var(--gold);color:#171200;border-color:var(--gold)}
+.wallet-actions button{
+  flex:1;
+  padding:13px;
+  border-radius:13px;
+  border:1px solid #30333a;
+  background:var(--card);
+  color:var(--text);
+  font-weight:900
+}
 
-.trust-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
-.trust-card{min-height:84px;padding:12px;background:linear-gradient(135deg,#181a1f,#111216);border:1px solid #2d3037;border-radius:16px;display:flex;align-items:center;gap:9px}
-.trust-icon{width:35px;height:35px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,199,44,.1);font-size:17px;flex-shrink:0}
-.trust-title{font-size:11px;font-weight:900}
-.trust-sub{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.3}
+.wallet-actions button:first-child{
+  background:var(--gold);
+  color:#171200;
+  border-color:var(--gold)
+}
 
-.currency{margin-top:14px;padding:18px;background:radial-gradient(circle at 50% 0%,rgba(38,161,123,.12),transparent 50%),var(--card2);border:1px solid rgba(38,161,123,.5);border-radius:17px;text-align:center}
-.usdt-logo{width:62px;height:62px;margin:0 auto 10px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#49c79f,#26a17b 60%,#18785d);color:white;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;border:2px solid rgba(255,255,255,.18);box-shadow:0 0 0 5px rgba(38,161,123,.08),0 8px 22px rgba(38,161,123,.18)}
-.currency strong{display:block;font-size:17px;font-weight:900}
-.currency small{display:block;color:var(--muted);margin-top:4px;font-size:10px}
+.trust-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:18px
+}
 
-.form{margin-top:18px;padding:17px;background:linear-gradient(145deg,#17191e,#111216);border:1px solid #2d3037;border-radius:18px}
-.form h4{font-size:15px;font-weight:900}
-.form label{display:block;font-size:11px;color:var(--muted);font-weight:900;margin-top:14px;margin-bottom:6px}
-.form input{width:100%;padding:13px;border-radius:12px;border:1px solid #30333a;background:var(--card2);color:var(--text);outline:none}
+.trust-card{
+  min-height:84px;
+  padding:12px;
+  background:linear-gradient(135deg,#181a1f,#111216);
+  border:1px solid #2d3037;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  gap:9px
+}
+
+.trust-icon{
+  width:35px;
+  height:35px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,199,44,.1);
+  font-size:17px;
+  flex-shrink:0
+}
+
+.trust-title{
+  font-size:11px;
+  font-weight:900
+}
+
+.trust-sub{
+  font-size:9px;
+  color:var(--muted);
+  margin-top:3px;
+  line-height:1.3
+}
+
+.currency{
+  margin-top:14px;
+  padding:18px;
+  background:radial-gradient(circle at 50% 0%,rgba(38,161,123,.12),transparent 50%),var(--card2);
+  border:1px solid rgba(38,161,123,.5);
+  border-radius:17px;
+  text-align:center
+}
+
+.usdt-logo{
+  width:62px;
+  height:62px;
+  margin:0 auto 10px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,#49c79f,#26a17b 60%,#18785d);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:900;
+  border:2px solid rgba(255,255,255,.18);
+  box-shadow:0 0 0 5px rgba(38,161,123,.08),0 8px 22px rgba(38,161,123,.18)
+}
+
+.currency strong{
+  display:block;
+  font-size:17px;
+  font-weight:900
+}
+
+.currency small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+  font-size:10px
+}
+
+.form{
+  margin-top:18px;
+  padding:17px;
+  background:linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2d3037;
+  border-radius:18px
+}
+
+.form h4{
+  font-size:15px;
+  font-weight:900
+}
+
+.form label{
+  display:block;
+  font-size:11px;
+  color:var(--muted);
+  font-weight:900;
+  margin-top:14px;
+  margin-bottom:6px
+}
+
+.form input{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid #30333a;
+  background:var(--card2);
+  color:var(--text);
+  outline:none
+}
+
 .form input:focus{border-color:var(--gold)}
-.warning{margin-top:13px;padding:11px;border-radius:12px;background:rgba(255,199,44,.08);border:1px solid rgba(255,199,44,.22);color:var(--gold);font-size:11px;line-height:1.5}
+
+.warning{
+  margin-top:13px;
+  padding:11px;
+  border-radius:12px;
+  background:rgba(255,199,44,.08);
+  border:1px solid rgba(255,199,44,.22);
+  color:var(--gold);
+  font-size:11px;
+  line-height:1.5
+}
 
 .tx{margin-top:12px}
-.tx-row{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #282b31;font-size:12px}
-.tx-date{font-size:10px;color:var(--muted);margin-top:3px}
-.plus{color:var(--success);font-weight:900}
-.minus{color:var(--danger);font-weight:900}
 
-.profile{margin-top:18px;padding:18px;background:radial-gradient(circle at 100% 0%,rgba(255,199,44,.1),transparent 38%),linear-gradient(145deg,#181a1f,#111216);border:1px solid #30333a;border-radius:21px;display:flex;gap:14px;align-items:center;box-shadow:0 9px 28px rgba(0,0,0,.2)}
-.avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#ffd54f,#ffc72c);color:#171200;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;overflow:hidden;flex-shrink:0;border:3px solid rgba(255,199,44,.22);box-shadow:0 0 0 4px rgba(255,199,44,.06)}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.profile-name{font-size:19px;font-weight:900}
-.profile-user{font-size:12px;color:var(--muted);margin-top:4px}
-.profile-id{font-size:10px;color:#70747e;margin-top:3px}
-.profile-menu{margin-top:16px;display:flex;flex-direction:column;gap:10px}
-.profile-item{min-height:60px;padding:0 15px;background:linear-gradient(145deg,#17191e,#111216);border:1px solid #2d3037;border-radius:17px;display:flex;align-items:center;justify-content:space-between;transition:.15s ease}
-.profile-item:active{transform:scale(.99);border-color:var(--gold2)}
-.profile-left{display:flex;align-items:center;gap:12px}
-.profile-icon{width:39px;height:39px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--card2);border:1px solid #30333a;font-size:18px}
-.profile-label{font-size:14px;font-weight:900}
-.profile-arrow{color:#777b84;font-size:23px}
-.profile-item.logout{border-color:rgba(255,103,103,.35)}
-.profile-item.logout .profile-label,.profile-item.logout .profile-arrow{color:var(--danger)}
+.tx-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #282b31;
+  font-size:12px
+}
 
-.toast{position:fixed;top:14px;left:50%;z-index:999;transform:translateX(-50%) translateY(-20px);opacity:0;background:var(--gold);color:#171200;padding:10px 17px;border-radius:12px;font-size:12px;font-weight:900;transition:.25s;pointer-events:none;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.tx-date{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:3px
+}
 
-nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:rgba(15,16,19,.97);border-top:1px solid #282b31;display:flex;z-index:100;backdrop-filter:blur(16px);padding-bottom:2px}
-nav button{flex:1;border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:800}
+.plus{
+  color:var(--success);
+  font-weight:900
+}
+
+.minus{
+  color:var(--danger);
+  font-weight:900
+}
+
+.profile{
+  margin-top:18px;
+  padding:18px;
+  background:radial-gradient(circle at 100% 0%,rgba(255,199,44,.1),transparent 38%),linear-gradient(145deg,#181a1f,#111216);
+  border:1px solid #30333a;
+  border-radius:21px;
+  display:flex;
+  gap:14px;
+  align-items:center;
+  box-shadow:0 9px 28px rgba(0,0,0,.2)
+}
+
+.avatar{
+  width:68px;
+  height:68px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffd54f,#ffc72c);
+  color:#171200;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:900;
+  overflow:hidden;
+  flex-shrink:0;
+  border:3px solid rgba(255,199,44,.22)
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.profile-name{
+  font-size:19px;
+  font-weight:900
+}
+
+.profile-user{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px
+}
+
+.profile-id{
+  font-size:10px;
+  color:#70747e;
+  margin-top:3px
+}
+
+.profile-menu{
+  margin-top:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px
+}
+
+.profile-item{
+  min-height:60px;
+  padding:0 15px;
+  background:linear-gradient(145deg,#17191e,#111216);
+  border:1px solid #2d3037;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between
+}
+
+.profile-left{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+
+.profile-icon{
+  width:39px;
+  height:39px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--card2);
+  border:1px solid #30333a;
+  font-size:18px
+}
+
+.profile-label{
+  font-size:14px;
+  font-weight:900
+}
+
+.profile-arrow{
+  color:#777b84;
+  font-size:23px
+}
+
+.profile-item.logout{
+  border-color:rgba(255,103,103,.35)
+}
+
+.profile-item.logout .profile-label,
+.profile-item.logout .profile-arrow{
+  color:var(--danger)
+}
+
+.toast{
+  position:fixed;
+  top:14px;
+  left:50%;
+  z-index:999;
+  transform:translateX(-50%) translateY(-20px);
+  opacity:0;
+  background:var(--gold);
+  color:#171200;
+  padding:10px 17px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:900;
+  transition:.25s;
+  pointer-events:none;
+  white-space:nowrap;
+  max-width:90%;
+  overflow:hidden;
+  text-overflow:ellipsis
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0)
+}
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:68px;
+  background:rgba(15,16,19,.97);
+  border-top:1px solid #282b31;
+  display:flex;
+  z-index:100;
+  backdrop-filter:blur(16px)
+}
+
+nav button{
+  flex:1;
+  border:0;
+  background:none;
+  color:var(--muted);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  font-size:10px;
+  font-weight:800
+}
+
 nav button span{font-size:19px}
 nav button.active{color:var(--gold)}
 
@@ -199,220 +867,424 @@ nav button.active{color:var(--gold)}
 <div class="toast" id="toast"></div>
 
 <header class="topbar">
-  <div class="brand"><span class="dot"></span><span class="brand-name">EarnBoard</span></div>
-  <div class="balance">💰 <b id="topBalance">0 Points</b></div>
+  <div class="brand">
+    <span class="dot"></span>
+    <span class="brand-name">EarnBoard</span>
+  </div>
+
+  <div class="balance">
+    💰 <b id="topBalance">0 Points</b>
+  </div>
 </header>
 
 <section class="section active" id="sec-home">
+
   <div class="hero">
     <div class="eyebrow">Welcome to EarnBoard</div>
-    <div class="headline display">Earn <span class="gold">More.</span><br>Get <span class="gold">Paid.</span></div>
-    <div class="sub">Watch verified ads, complete tasks, invite friends, and build your rewards balance.</div>
-    <button class="main-btn" onclick="switchSection('task')">📋 View Tasks</button>
+
+    <div class="headline display">
+      Earn <span class="gold">More.</span><br>
+      Get <span class="gold">Paid.</span>
+    </div>
+
+    <div class="sub">
+      Watch verified ads, complete tasks, invite friends, and build your rewards balance.
+    </div>
+
+    <button class="main-btn" onclick="switchSection('task')">
+      📋 View Tasks
+    </button>
   </div>
 
   <div id="quickActions">
+
     <div class="qa-title">Quick Earning Options</div>
 
     <div class="qa" onclick="openTier('light')">
       <div class="qa-icon">▶️</div>
-      <div class="qa-body"><h4>Light Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body">
+        <h4>Light Ads</h4>
+        <p>20 ads/day · 100 points</p>
+      </div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('pro')">
       <div class="qa-icon">⭐</div>
-      <div class="qa-body"><h4>Pro Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body">
+        <h4>Pro Ads</h4>
+        <p>20 ads/day · 100 points</p>
+      </div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('extra')">
       <div class="qa-icon">⚡</div>
-      <div class="qa-body"><h4>Extra Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body">
+        <h4>Extra Ads</h4>
+        <p>20 ads/day · 100 points</p>
+      </div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('premium')">
       <div class="qa-icon">💎</div>
-      <div class="qa-body"><h4>Premium Membership</h4><p>$30 activation · 30 days · 35 ads/day</p></div>
+      <div class="qa-body">
+        <h4>Premium Membership</h4>
+        <p>$30 activation · 30 days · 35 ads/day</p>
+      </div>
       <div class="arrow">›</div>
     </div>
+
   </div>
 
   <div id="tierPanel" style="display:none">
     <div class="back" onclick="closeTier()">‹ <span>Back to Home</span></div>
     <div id="tierContent"></div>
   </div>
+
 </section>
 
 <section class="section" id="sec-task">
+
   <h2 class="title display">Tasks</h2>
   <p class="subtitle">Complete tasks and earn extra rewards.</p>
 
   <div class="card">
+
     <h4>Daily Check-in Streak</h4>
-    <p>Watch one verified ad every day to continue your streak.</p>
+
+    <p>
+      Watch one verified ad every day to continue your streak.
+    </p>
+
     <div class="streak" id="streakGrid"></div>
-    <button class="watch" id="checkinBtn" onclick="watchCheckin()">Claim</button>
+
+    <button class="watch" id="checkinBtn" onclick="watchCheckin()">
+      Claim
+    </button>
+
   </div>
 
   <div class="card">
+
     <h4>Bonus Ad</h4>
-    <p>Watch 10 verified ads and earn $0.20 bonus.</p>
+
+    <p>
+      Watch 10 verified ads and earn $0.20 bonus.
+    </p>
+
     <div class="bonus-progress-wrap">
-      <div class="bonus-progress-top"><span>Bonus Ads Progress</span><b id="bonusAdCount">0 / 10</b></div>
-      <div class="bonus-progress"><div class="bonus-progress-fill" id="bonusProgressFill"></div></div>
+
+      <div class="bonus-progress-top">
+        <span>Bonus Ads Progress</span>
+        <b id="bonusAdCount">0 / 10</b>
+      </div>
+
+      <div class="bonus-progress">
+        <div class="bonus-progress-fill" id="bonusProgressFill"></div>
+      </div>
+
     </div>
-    <button class="watch" id="bonusAdBtn" onclick="watchBonusAd()">▶ Watch Bonus Ad</button>
+
+    <button class="watch" id="bonusAdBtn" onclick="watchBonusAd()">
+      ▶ Watch Bonus Ad
+    </button>
+
     <div id="bonusCompleteMessage"></div>
+
   </div>
 
   <div class="card">
+
     <h4>Telegram Channel Join</h4>
-    <p>Join the official channel and claim your task reward.</p>
-    <button class="watch" onclick="claimTask('join',.03)">Claim $0.03</button>
+
+    <p>
+      Join the official channel and claim your task reward.
+    </p>
+
+    <button class="watch" onclick="claimTask('join',.03)">
+      Claim $0.03
+    </button>
+
   </div>
+
 </section>
 
 <section class="section" id="sec-refer">
+
   <h2 class="title display">Refer & Earn</h2>
   <p class="subtitle">Invite friends and earn referral rewards.</p>
 
   <div class="card">
     <h4>Your Referral Code</h4>
-    <div class="refer-code"><b id="referCode">EB-000000</b><button class="copy" onclick="copyRefer()">Copy</button></div>
+
+    <div class="refer-code">
+      <b id="referCode">EB-000000</b>
+      <button class="copy" onclick="copyRefer()">Copy</button>
+    </div>
   </div>
-  <div class="card"><h4>Total Referrals</h4><p id="referCount">0</p></div>
-  <div class="card"><h4>Reward Per Referral</h4><p>$0.10 after the invited user completes their first verified ad.</p></div>
-  <div class="card"><h4>Referral Benefits</h4><p>Invite friends, grow your network, and unlock more earning opportunities.</p></div>
+
+  <div class="card">
+    <h4>Total Referrals</h4>
+    <p id="referCount">0</p>
+  </div>
+
+  <div class="card">
+    <h4>Reward Per Referral</h4>
+    <p>
+      $0.10 after the invited user completes their first verified ad.
+    </p>
+  </div>
+
+  <div class="card">
+    <h4>Referral Benefits</h4>
+    <p>
+      Invite friends, grow your network, and unlock more earning opportunities.
+    </p>
+  </div>
+
 </section>
 
 <section class="section" id="sec-wallet">
+
   <h2 class="title display">Wallet</h2>
 
   <div class="wallet-balance">
-    <div class="wallet-number display"><span id="walletBalance">0 Points</span></div>
-    <p class="subtitle">Available Balance</p>
-    <div class="wallet-equivalent">200,000 Points is equal to $20</div>
+
+    <div class="wallet-number display">
+      <span id="walletBalance">0 Points</span>
+    </div>
+
+    <p class="subtitle">
+      Available Points
+    </p>
+
   </div>
 
   <div class="wallet-actions">
-    <button onclick="scrollToWithdraw()">Withdraw</button>
-    <button onclick="switchSection('task')">Earn More</button>
+
+    <button onclick="scrollToWithdraw()">
+      Withdraw
+    </button>
+
+    <button onclick="switchSection('task')">
+      Earn More
+    </button>
+
   </div>
 
   <div class="trust-grid">
+
     <div class="trust-card">
+
       <div class="trust-icon">✓</div>
-      <div><div class="trust-title">Trusted Experience</div><div class="trust-sub">Simple and transparent earning experience</div></div>
+
+      <div>
+        <div class="trust-title">Trusted Experience</div>
+        <div class="trust-sub">
+          Simple and transparent earning experience
+        </div>
+      </div>
+
     </div>
+
     <div class="trust-card">
+
       <div class="trust-icon">🔒</div>
-      <div><div class="trust-title">Secure Transactions</div><div class="trust-sub">Your payout details are handled securely</div></div>
+
+      <div>
+        <div class="trust-title">Secure Transactions</div>
+        <div class="trust-sub">
+          Your payout details are handled securely
+        </div>
+      </div>
+
     </div>
+
   </div>
 
   <div class="card">
+
     <h4>Withdraw Currency</h4>
+
     <div class="currency">
+
       <div class="usdt-logo">₮</div>
+
       <strong>USDT</strong>
-      <small>Tether USD · BEP20 (BNB Smart Chain)</small>
+
+      <small>
+        Tether USD · BEP20 (BNB Smart Chain)
+      </small>
+
     </div>
+
   </div>
 
   <div class="form" id="withdrawForm">
+
     <h4>Request Withdrawal</h4>
-    <p class="subtitle">Enter your payout details carefully.</p>
+
+    <p class="subtitle">
+      Enter your payout details carefully.
+    </p>
 
     <label>USDT Wallet Address</label>
-    <input type="text" id="withdrawAddress" placeholder="Enter USDT BEP20 wallet address">
+
+    <input
+      type="text"
+      id="withdrawAddress"
+      placeholder="Enter USDT BEP20 wallet address"
+    >
 
     <label>Withdrawal Amount</label>
-    <input type="number" id="withdrawAmount" placeholder="Enter amount ($20.00 only)" min="20" max="20" step="0.01">
 
-    <div class="warning">⚠️ Only use a BEP20 / BNB Smart Chain address. Other networks are not supported.</div>
+    <input
+      type="number"
+      id="withdrawAmount"
+      placeholder="Enter amount ($20.00 only)"
+      min="20"
+      max="20"
+      step="0.01"
+    >
 
-    <button class="watch" onclick="submitWithdrawal()">📤 Submit Withdrawal Request</button>
+    <div class="warning">
+      ⚠️ Only use a BEP20 / BNB Smart Chain address.
+      Other networks are not supported.
+    </div>
+
+    <button class="watch" onclick="submitWithdrawal()">
+      📤 Submit Withdrawal Request
+    </button>
+
   </div>
 
   <div class="card">
+
     <h4>Recent Transactions</h4>
-    <div class="tx" id="txList"><p>No transactions yet</p></div>
+
+    <div class="tx" id="txList">
+      <p>No transactions yet</p>
+    </div>
+
   </div>
+
 </section>
 
 <section class="section" id="sec-profile">
+
   <h2 class="title display">Profile</h2>
 
   <div class="profile">
+
     <div class="avatar" id="avatar">U</div>
+
     <div>
-      <div class="profile-name" id="profileName">User</div>
-      <div class="profile-user" id="profileUsername">@username</div>
-      <div class="profile-id" id="profileId">Telegram ID: —</div>
+
+      <div class="profile-name" id="profileName">
+        User
+      </div>
+
+      <div class="profile-user" id="profileUsername">
+        @username
+      </div>
+
+      <div class="profile-id" id="profileId">
+        Telegram ID: —
+      </div>
+
     </div>
+
   </div>
 
   <div class="profile-menu">
-    <div class="profile-item" onclick="showProfile('Account')"><div class="profile-left"><div class="profile-icon">👤</div><div class="profile-label">Account</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Referrals')"><div class="profile-left"><div class="profile-icon">🔗</div><div class="profile-label">Referrals</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Security')"><div class="profile-left"><div class="profile-icon">🔒</div><div class="profile-label">Security</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Terms & Conditions')"><div class="profile-left"><div class="profile-icon">📄</div><div class="profile-label">Terms & Conditions</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Privacy Policy')"><div class="profile-left"><div class="profile-icon">🛡️</div><div class="profile-label">Privacy Policy</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item" onclick="showProfile('Help & Support')"><div class="profile-left"><div class="profile-icon">❓</div><div class="profile-label">Help & Support</div></div><div class="profile-arrow">›</div></div>
-    <div class="profile-item logout" onclick="logoutUser()"><div class="profile-left"><div class="profile-icon">🚪</div><div class="profile-label">Logout</div></div><div class="profile-arrow">›</div></div>
+
+    <div class="profile-item" onclick="showProfile('Account')">
+      <div class="profile-left">
+        <div class="profile-icon">👤</div>
+        <div class="profile-label">Account</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Referrals')">
+      <div class="profile-left">
+        <div class="profile-icon">🔗</div>
+        <div class="profile-label">Referrals</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Security')">
+      <div class="profile-left">
+        <div class="profile-icon">🔒</div>
+        <div class="profile-label">Security</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Terms & Conditions')">
+      <div class="profile-left">
+        <div class="profile-icon">📄</div>
+        <div class="profile-label">Terms & Conditions</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Privacy Policy')">
+      <div class="profile-left">
+        <div class="profile-icon">🛡️</div>
+        <div class="profile-label">Privacy Policy</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item" onclick="showProfile('Help & Support')">
+      <div class="profile-left">
+        <div class="profile-icon">❓</div>
+        <div class="profile-label">Help & Support</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
+    <div class="profile-item logout" onclick="logoutUser()">
+      <div class="profile-left">
+        <div class="profile-icon">🚪</div>
+        <div class="profile-label">Logout</div>
+      </div>
+      <div class="profile-arrow">›</div>
+    </div>
+
   </div>
+
 </section>
 
 <nav>
-  <button class="active" data-target="home"><span>🏠</span>Home</button>
-  <button data-target="task"><span>✅</span>Task</button>
-  <button data-target="refer"><span>🔗</span>Refer</button>
-  <button data-target="wallet"><span>💳</span>Wallet</button>
-  <button data-target="profile"><span>👤</span>Profile</button>
+
+  <button class="active" data-target="home">
+    <span>🏠</span>Home
+  </button>
+
+  <button data-target="task">
+    <span>✅</span>Task
+  </button>
+
+  <button data-target="refer">
+    <span>🔗</span>Refer
+  </button>
+
+  <button data-target="wallet">
+    <span>💳</span>Wallet
+  </button>
+
+  <button data-target="profile">
+    <span>👤</span>Profile
+  </button>
+
 </nav>
 
 <script>
-
-/* =========================================================
-   FIREBASE
-========================================================= */
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAHr8Mf2ff0p_sTqbB2JGP_tcEOgqQI7GM",
-  authDomain: "inbox-dollars-41161.firebaseapp.com",
-  projectId: "inbox-dollars-41161",
-  storageBucket: "inbox-dollars-41161.firebasestorage.app",
-  messagingSenderId: "128399226582",
-  appId: "1:128399226582:web:ba703d82a8d24f0ff43b77",
-  measurementId: "G-V2Q9C6DTLS"
-};
-
-let db=null;
-let firebaseAuth=null;
-let firebaseReady=false;
-let firebaseUserId=null;
-let firebaseAuthReady=false;
-
-try{
-
-  if(!firebase.apps.length){
-    firebase.initializeApp(firebaseConfig);
-  }
-
-  db=firebase.firestore();
-  firebaseAuth=firebase.auth();
-
-  firebaseReady=true;
-
-}catch(error){
-
-  console.error(
-    "Firebase initialization error:",
-    error
-  );
-}
 
 /* =========================================================
    TELEGRAM
@@ -429,330 +1301,284 @@ if(tg){
   tg.expand();
 }
 
+
 /* =========================================================
-   STORAGE
+   FIREBASE
 ========================================================= */
 
-const STORAGE_KEY="earnboard_state_v3";
+const firebaseConfig = {
 
-const defaults={
-  balance:0,
-  todayEarned:0,
-  totalEarned:0,
-  lightWatched:0,
-  proWatched:0,
-  extraWatched:0,
-  premiumWatched:0,
-  premium:false,
-  premiumActivatedAt:null,
-  checkinDay:1,
-  lastCheckinDate:null,
-  tasksClaimed:{},
-  bonusAdWatched:0,
-  bonusAdDate:new Date().toDateString(),
-  referCount:0,
-  transactions:[],
-  adDate:new Date().toDateString(),
-  rewardedAdIds:[]
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+
+  authDomain:
+    "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+
+  projectId:
+    "PASTE_YOUR_PROJECT_ID",
+
+  storageBucket:
+    "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
+
+  messagingSenderId:
+    "PASTE_YOUR_MESSAGING_SENDER_ID",
+
+  appId:
+    "PASTE_YOUR_FIREBASE_APP_ID"
+
 };
 
-function cloneDefaults(){
-  return JSON.parse(
-    JSON.stringify(defaults)
-  );
-}
+let firebaseReady=false;
+let db=null;
+let firebaseUserId=null;
 
-function loadState(){
-
-  try{
-
-    const raw=
-      localStorage.getItem(
-        STORAGE_KEY
-      );
-
-    if(!raw){
-      return cloneDefaults();
-    }
-
-    const parsed=
-      JSON.parse(raw);
-
-    return {
-      ...cloneDefaults(),
-      ...parsed,
-      tasksClaimed:
-        parsed.tasksClaimed||{},
-      transactions:
-        parsed.transactions||[],
-      rewardedAdIds:
-        parsed.rewardedAdIds||[],
-      bonusAdWatched:
-        Number(
-          parsed.bonusAdWatched||0
-        )
-    };
-
-  }catch(error){
-
-    console.error(
-      "Storage load error:",
-      error
-    );
-
-    return cloneDefaults();
-  }
-}
-
-let state=loadState();
 
 /* =========================================================
-   FIREBASE USER ID
+   TELEGRAM ID
 ========================================================= */
 
 function getTelegramUserId(){
 
-  if(
-    tg &&
-    tg.initDataUnsafe &&
-    tg.initDataUnsafe.user &&
-    tg.initDataUnsafe.user.id
-  ){
+  try{
 
-    return String(
-      tg.initDataUnsafe.user.id
-    );
+    const user =
+      tg &&
+      tg.initDataUnsafe &&
+      tg.initDataUnsafe.user;
+
+    if(user && user.id){
+
+      return String(user.id);
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
   }
 
   return null;
+
 }
 
-function getFirebaseUserId(){
-
-  const telegramId=
-    getTelegramUserId();
-
-  if(telegramId){
-    return telegramId;
-  }
-
-  let localId=
-    localStorage.getItem(
-      "earnboard_guest_id"
-    );
-
-  if(!localId){
-
-    localId=
-      "guest_"+
-      Date.now().toString(36)+
-      "_"+
-      Math.random()
-        .toString(36)
-        .slice(2,10);
-
-    localStorage.setItem(
-      "earnboard_guest_id",
-      localId
-    );
-  }
-
-  return localId;
-}
-
-function firebaseUserRef(){
-
-  if(
-    !firebaseReady||
-    !db||
-    !firebaseUserId
-  ){
-    return null;
-  }
-
-  return db
-    .collection("users")
-    .doc(
-      String(firebaseUserId)
-    );
-}
 
 /* =========================================================
-   FIREBASE AUTH
+   FIREBASE INIT
 ========================================================= */
 
-async function initializeFirebaseAuth(){
+function firebaseConfigIsReady(){
 
-  if(
-    !firebaseReady||
-    !firebaseAuth
-  ){
+  return firebaseConfig.apiKey &&
+    !firebaseConfig.apiKey.startsWith("PASTE_") &&
+
+    firebaseConfig.projectId &&
+    !firebaseConfig.projectId.startsWith("PASTE_") &&
+
+    firebaseConfig.appId &&
+    !firebaseConfig.appId.startsWith("PASTE_");
+
+}
+
+
+function initFirebase(){
+
+  if(!firebaseConfigIsReady()){
+
+    console.warn(
+      "Firebase config is not filled."
+    );
+
     return false;
+
   }
 
   try{
 
-    if(firebaseAuth.currentUser){
+    if(!window.firebase){
 
-      firebaseAuthReady=true;
+      console.error(
+        "Firebase SDK did not load."
+      );
 
-      return true;
+      return false;
+
     }
 
-    await firebaseAuth.signInAnonymously();
+    if(!firebase.apps.length){
 
-    firebaseAuthReady=
-      !!firebaseAuth.currentUser;
+      firebase.initializeApp(
+        firebaseConfig
+      );
+
+    }
+
+    db=firebase.firestore();
+
+    firebaseReady=true;
 
     console.log(
-      "Firebase Anonymous Auth ready:",
-      firebaseAuthReady
+      "Firebase connected."
     );
 
-    return firebaseAuthReady;
+    return true;
 
   }catch(error){
 
     console.error(
-      "Firebase Anonymous Auth error:",
+      "Firebase initialization error:",
       error
     );
 
-    toast(
-      "Firebase login failed."
-    );
+    firebaseReady=false;
 
     return false;
+
   }
+
 }
+
 
 /* =========================================================
-   FIREBASE SAVE
+   FIRESTORE DOCUMENT
+   DOCUMENT ID = TELEGRAM ID
 ========================================================= */
 
-let firebaseSaveTimer=null;
+function firebaseDocRef(){
 
-function cleanStateForFirestore(){
+  const id =
+    firebaseUserId ||
+    getTelegramUserId();
 
-  return {
+  if(
+    !firebaseReady ||
+    !db ||
+    !id
+  ){
 
-    balance:Number(
-      state.balance||0
-    ),
+    return null;
 
-    todayEarned:Number(
-      state.todayEarned||0
-    ),
+  }
 
-    totalEarned:Number(
-      state.totalEarned||0
-    ),
+  return db
+    .collection("users")
+    .doc(String(id));
 
-    lightWatched:Number(
-      state.lightWatched||0
-    ),
-
-    proWatched:Number(
-      state.proWatched||0
-    ),
-
-    extraWatched:Number(
-      state.extraWatched||0
-    ),
-
-    premiumWatched:Number(
-      state.premiumWatched||0
-    ),
-
-    premium:Boolean(
-      state.premium||false
-    ),
-
-    premiumActivatedAt:
-      state.premiumActivatedAt||null,
-
-    checkinDay:Number(
-      state.checkinDay||1
-    ),
-
-    lastCheckinDate:
-      state.lastCheckinDate||null,
-
-    tasksClaimed:
-      state.tasksClaimed||{},
-
-    bonusAdWatched:Number(
-      state.bonusAdWatched||0
-    ),
-
-    bonusAdDate:
-      state.bonusAdDate||
-      new Date().toDateString(),
-
-    referCount:Number(
-      state.referCount||0
-    ),
-
-    transactions:
-      Array.isArray(state.transactions)
-      ?state.transactions.slice(0,100)
-      :[],
-
-    adDate:
-      state.adDate||
-      new Date().toDateString(),
-
-    rewardedAdIds:
-      Array.isArray(state.rewardedAdIds)
-      ?state.rewardedAdIds.slice(-500)
-      :[],
-
-    telegramId:
-      String(firebaseUserId),
-
-    updatedAt:
-      firebase.firestore.FieldValue.serverTimestamp()
-  };
 }
 
-async function saveStateToFirebase(){
 
-  const ref=
-    firebaseUserRef();
+/* =========================================================
+   FIRESTORE SAVE
+   DIRECT SAVE - NO DELAY
+========================================================= */
+
+async function saveStateToFirestore(){
+
+  const ref=firebaseDocRef();
 
   if(!ref){
 
     console.warn(
-      "Firebase user reference missing."
+      "Firestore ref not available."
     );
 
     return false;
-  }
 
-  if(
-    !firebaseAuthReady||
-    !firebaseAuth.currentUser
-  ){
-
-    console.warn(
-      "Firebase Auth is not ready."
-    );
-
-    return false;
   }
 
   try{
 
+    const telegramId=
+      String(firebaseUserId);
+
+    const data={
+
+      telegramId:telegramId,
+
+      balance:Number(state.balance||0),
+
+      points:pointsFromBalance(
+        state.balance
+      ),
+
+      todayEarned:Number(
+        state.todayEarned||0
+      ),
+
+      totalEarned:Number(
+        state.totalEarned||0
+      ),
+
+      lightWatched:Number(
+        state.lightWatched||0
+      ),
+
+      proWatched:Number(
+        state.proWatched||0
+      ),
+
+      extraWatched:Number(
+        state.extraWatched||0
+      ),
+
+      premiumWatched:Number(
+        state.premiumWatched||0
+      ),
+
+      premium:Boolean(
+        state.premium
+      ),
+
+      premiumActivatedAt:
+        state.premiumActivatedAt || null,
+
+      checkinDay:Number(
+        state.checkinDay||1
+      ),
+
+      lastCheckinDate:
+        state.lastCheckinDate || null,
+
+      bonusAdWatched:Number(
+        state.bonusAdWatched||0
+      ),
+
+      bonusAdDate:
+        state.bonusAdDate || null,
+
+      referCount:Number(
+        state.referCount||0
+      ),
+
+      tasksClaimed:
+        state.tasksClaimed || {},
+
+      transactions:
+        Array.isArray(state.transactions)
+        ? state.transactions
+        : [],
+
+      rewardedAdIds:
+        Array.isArray(state.rewardedAdIds)
+        ? state.rewardedAdIds
+        : [],
+
+      adDate:
+        state.adDate || null,
+
+      updatedAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+
+    };
+
     await ref.set(
-      cleanStateForFirestore(),
-      {
-        merge:true
-      }
+      data,
+      {merge:true}
     );
 
     console.log(
-      "Firestore updated successfully:",
-      firebaseUserId
+      "Firestore saved:",
+      telegramId,
+      data
     );
 
     return true;
@@ -765,34 +1591,242 @@ async function saveStateToFirebase(){
     );
 
     return false;
-  }
-}
 
-function queueFirebaseSave(){
-
-  if(
-    !firebaseReady||
-    !firebaseUserId||
-    !firebaseAuthReady
-  ){
-    return;
   }
 
-  clearTimeout(
-    firebaseSaveTimer
-  );
-
-  firebaseSaveTimer=
-    setTimeout(
-      async ()=>{
-        await saveStateToFirebase();
-      },
-      300
-    );
 }
+
 
 /* =========================================================
-   LOCAL + FIREBASE SAVE
+   FIRESTORE LOAD
+========================================================= */
+
+async function loadStateFromFirestore(){
+
+  const ref=firebaseDocRef();
+
+  if(!ref)return;
+
+  try{
+
+    const snap=
+      await ref.get();
+
+    if(snap.exists){
+
+      const remote=
+        snap.data() || {};
+
+      state={
+
+        ...defaults,
+
+        ...remote,
+
+        tasksClaimed:
+          remote.tasksClaimed || {},
+
+        transactions:
+          Array.isArray(remote.transactions)
+          ? remote.transactions
+          : [],
+
+        rewardedAdIds:
+          Array.isArray(remote.rewardedAdIds)
+          ? remote.rewardedAdIds
+          : [],
+
+        bonusAdWatched:
+          Number(
+            remote.bonusAdWatched || 0
+          )
+
+      };
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+      );
+
+      console.log(
+        "Firestore data loaded."
+      );
+
+    }else{
+
+      await saveStateToFirestore();
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Firestore load error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   INITIALIZE FIREBASE USER
+========================================================= */
+
+async function initializeFirebaseUser(){
+
+  if(!initFirebase())return;
+
+  firebaseUserId=
+    getTelegramUserId();
+
+  if(!firebaseUserId){
+
+    console.warn(
+      "Telegram ID not found."
+    );
+
+    return;
+
+  }
+
+  console.log(
+    "Telegram Firebase User:",
+    firebaseUserId
+  );
+
+  await loadStateFromFirestore();
+
+  resetDaily();
+  syncPremium();
+
+  renderTop();
+  renderTransactions();
+  renderStreak();
+  renderBonusAd();
+  updateAdCooldownUI();
+
+  await saveStateToFirestore();
+
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE_KEY=
+  "earnboard_state_v3";
+
+
+const defaults={
+
+  balance:0,
+
+  todayEarned:0,
+
+  totalEarned:0,
+
+  lightWatched:0,
+
+  proWatched:0,
+
+  extraWatched:0,
+
+  premiumWatched:0,
+
+  premium:false,
+
+  premiumActivatedAt:null,
+
+  checkinDay:1,
+
+  lastCheckinDate:null,
+
+  tasksClaimed:{},
+
+  bonusAdWatched:0,
+
+  bonusAdDate:
+    new Date().toDateString(),
+
+  referCount:0,
+
+  transactions:[],
+
+  adDate:
+    new Date().toDateString(),
+
+  rewardedAdIds:[]
+
+};
+
+
+function loadState(){
+
+  try{
+
+    const raw=
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+    if(!raw){
+
+      return {
+        ...defaults
+      };
+
+    }
+
+    const parsed=
+      JSON.parse(raw);
+
+    return {
+
+      ...defaults,
+
+      ...parsed,
+
+      tasksClaimed:
+        parsed.tasksClaimed || {},
+
+      transactions:
+        parsed.transactions || [],
+
+      rewardedAdIds:
+        parsed.rewardedAdIds || [],
+
+      bonusAdWatched:
+        Number(
+          parsed.bonusAdWatched || 0
+        )
+
+    };
+
+  }catch(error){
+
+    console.error(
+      "Storage load error:",
+      error
+    );
+
+    return {
+      ...defaults
+    };
+
+  }
+
+}
+
+
+let state=
+  loadState();
+
+
+/* =========================================================
+   SAVE LOCAL + FIRESTORE
 ========================================================= */
 
 function saveState(){
@@ -807,127 +1841,23 @@ function saveState(){
   }catch(error){
 
     console.error(
-      "Storage save error:",
+      "Local save error:",
       error
     );
+
   }
-
-  queueFirebaseSave();
-}
-
-/* =========================================================
-   FIREBASE LOAD
-========================================================= */
-
-let firebaseLoaded=false;
-
-async function loadStateFromFirebase(){
 
   if(
-    !firebaseReady||
-    !db||
-    !firebaseAuthReady
+    firebaseReady &&
+    firebaseUserId
   ){
-    return;
+
+    saveStateToFirestore();
+
   }
 
-  firebaseUserId=
-    getFirebaseUserId();
-
-  const ref=
-    firebaseUserRef();
-
-  if(!ref){
-    return;
-  }
-
-  try{
-
-    const snapshot=
-      await ref.get();
-
-    if(snapshot.exists){
-
-      const remote=
-        snapshot.data();
-
-      state={
-        ...cloneDefaults(),
-        ...remote,
-
-        tasksClaimed:
-          remote.tasksClaimed||{},
-
-        transactions:
-          Array.isArray(
-            remote.transactions
-          )
-          ?remote.transactions
-          :[],
-
-        rewardedAdIds:
-          Array.isArray(
-            remote.rewardedAdIds
-          )
-          ?remote.rewardedAdIds
-          :[],
-
-        bonusAdWatched:
-          Number(
-            remote.bonusAdWatched||0
-          )
-      };
-
-      try{
-
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(state)
-        );
-
-      }catch(error){
-
-        console.error(
-          "Local sync error:",
-          error
-        );
-      }
-
-    }else{
-
-      await ref.set(
-        cleanStateForFirestore(),
-        {
-          merge:true
-        }
-      );
-
-      console.log(
-        "New Firebase user document created:",
-        firebaseUserId
-      );
-    }
-
-    firebaseLoaded=true;
-
-    resetDaily();
-    syncPremium();
-    renderTop();
-    renderTransactions();
-    renderStreak();
-    renderBonusAd();
-    updateAdCooldownUI();
-
-  }catch(error){
-
-    console.error(
-      "Firestore load error:",
-      error
-    );
-
-    firebaseLoaded=false;
-  }
 }
+
 
 /* =========================================================
    CONSTANTS
@@ -946,6 +1876,7 @@ const EXTRA_REWARD=0.01;
 const PREMIUM_REWARD=0.01;
 
 const PREMIUM_FEE=30;
+
 const BONUS_AD_MAX=10;
 const BONUS_AD_REWARD=0.20;
 
@@ -965,226 +1896,44 @@ const WITHDRAW_AMOUNT=20;
 let adInProgress=false;
 let currentTier=null;
 
-/* =========================================================
-   10 SECOND AD COOLDOWN
-========================================================= */
-
-const AD_COOLDOWN_SECONDS=10;
-
-let adCooldownUntil=0;
-let adCooldownTimer=null;
-
-function isAdCooldownActive(){
-
-  return Date.now()<
-    adCooldownUntil;
-}
-
-function remainingCooldownSeconds(){
-
-  return Math.max(
-    0,
-    Math.ceil(
-      (
-        adCooldownUntil-
-        Date.now()
-      )/1000
-    )
-  );
-}
-
-function startAdCooldown(){
-
-  adCooldownUntil=
-    Date.now()+
-    (
-      AD_COOLDOWN_SECONDS*
-      1000
-    );
-
-  clearInterval(
-    adCooldownTimer
-  );
-
-  updateAdCooldownUI();
-
-  adCooldownTimer=
-    setInterval(
-      ()=>{
-        updateAdCooldownUI();
-
-        if(
-          !isAdCooldownActive()
-        ){
-
-          clearInterval(
-            adCooldownTimer
-          );
-
-          adCooldownTimer=null;
-
-          updateAdCooldownUI();
-
-          toast(
-            "10-second break completed. Next ad is ready."
-          );
-        }
-
-      },
-      250
-    );
-}
-
-function cooldownText(){
-
-  const seconds=
-    remainingCooldownSeconds();
-
-  return seconds>0
-    ?"⏳ Next ad in "+seconds+"s"
-    :"▶ Watch Ad";
-}
-
-function updateAdCooldownUI(){
-
-  const seconds=
-    remainingCooldownSeconds();
-
-  const adButtons=
-    document.querySelectorAll(
-      '[data-ad-button="true"]'
-    );
-
-  adButtons.forEach(
-    button=>{
-
-      if(
-        isAdCooldownActive()
-      ){
-
-        button.disabled=true;
-
-        button.textContent=
-          cooldownText();
-      }
-    }
-  );
-
-  if(
-    typeof renderBonusAd===
-    "function"
-  ){
-    renderBonusAd();
-  }
-
-  if(
-    typeof renderStreak===
-    "function"
-  ){
-    renderStreak();
-  }
-
-  if(
-    seconds===0 &&
-    !isAdCooldownActive() &&
-    currentTier &&
-    !adInProgress
-  ){
-
-    renderTier(
-      currentTier
-    );
-  }
-}
 
 /* =========================================================
-   PREMIUM
+   POINTS SYSTEM
+   100 POINTS = $0.01
 ========================================================= */
 
-function premiumIsActive(){
+function pointsFromBalance(balance){
 
-  if(
-    !state.premium||
-    !state.premiumActivatedAt
-  ){
-    return false;
-  }
+  return Math.round(
+    Number(balance||0)*10000000
+  );
 
-  const age=
-    Date.now()-
-    Number(
-      state.premiumActivatedAt
-    );
-
-  return age<
-    30*
-    24*
-    60*
-    60*
-    1000;
 }
 
-function syncPremium(){
 
-  if(!state.premium){
-    return false;
-  }
+function pointsToMoney(points){
 
-  if(!premiumIsActive()){
+  return Number(points||0)/10000000;
 
-    state.premium=false;
-
-    state.premiumActivatedAt=null;
-
-    saveState();
-
-    return false;
-  }
-
-  return true;
 }
 
-/* =========================================================
-   DAILY RESET
-========================================================= */
 
-function resetDaily(){
+function formatPoints(points){
 
-  const today=
-    new Date().toDateString();
+  return Number(points||0)
+    .toLocaleString("en-US");
 
-  if(
-    state.adDate!==today
-  ){
-
-    state.adDate=today;
-
-    state.lightWatched=0;
-    state.proWatched=0;
-    state.extraWatched=0;
-    state.premiumWatched=0;
-    state.todayEarned=0;
-
-    saveState();
-  }
-
-  if(
-    state.bonusAdDate!==today
-  ){
-
-    state.bonusAdDate=today;
-
-    state.bonusAdWatched=0;
-
-    if(
-      state.tasksClaimed.bonusAd
-    ){
-      delete state.tasksClaimed.bonusAd;
-    }
-
-    saveState();
-  }
 }
+
+
+function getCurrentPoints(){
+
+  return pointsFromBalance(
+    state.balance
+  );
+
+}
+
 
 /* =========================================================
    FORMAT
@@ -1193,26 +1942,10 @@ function resetDaily(){
 function money(n){
 
   return "$"+
-    Number(n||0)
-      .toFixed(2);
+    Number(n||0).toFixed(2);
+
 }
 
-function pointsFromBalance(balance){
-
-  return Math.round(
-    Number(balance||0)*
-    10000
-  );
-}
-
-function formatPoints(points){
-
-  return Number(
-    points||0
-  ).toLocaleString(
-    "en-US"
-  );
-}
 
 /* =========================================================
    TOAST
@@ -1229,9 +1962,7 @@ function toast(message){
 
   el.textContent=message;
 
-  el.classList.add(
-    "show"
-  );
+  el.classList.add("show");
 
   clearTimeout(
     window.toastTimer
@@ -1240,19 +1971,22 @@ function toast(message){
   window.toastTimer=
     setTimeout(
       ()=>{
-        el.classList.remove(
-          "show"
-        );
+        el.classList.remove("show");
       },
       2300
     );
+
 }
+
 
 /* =========================================================
    TOP RENDER
 ========================================================= */
 
 function renderTop(){
+
+  const points=
+    getCurrentPoints();
 
   const topBalance=
     document.getElementById(
@@ -1269,37 +2003,33 @@ function renderTop(){
       "referCount"
     );
 
-  const currentPoints=
-    pointsFromBalance(
-      state.balance
-    );
-
   if(topBalance){
 
     topBalance.textContent=
-      formatPoints(
-        currentPoints
-      )+
+      formatPoints(points)+
       " Points";
+
   }
 
   if(walletBalance){
 
     walletBalance.textContent=
-      formatPoints(
-        currentPoints
-      )+
+      formatPoints(points)+
       " Points";
+
   }
 
   if(referCount){
 
     referCount.textContent=
       state.referCount;
+
   }
 
   renderBonusAd();
+
 }
+
 
 /* =========================================================
    MONETAG
@@ -1314,28 +2044,27 @@ function monetagRewarded(result){
       rewarded:false,
       eventId:null
     };
+
   }
 
-  if(
-    typeof result!=="object"
-  ){
+  if(typeof result!=="object"){
 
     return {
       rewarded:false,
       eventId:null
     };
+
   }
 
   const eventType=
     String(
-      result.reward_event_type||
-      ""
+      result.reward_event_type||""
     ).toLowerCase();
 
   const eventId=
-    result.event_id||
-    result.eventId||
-    result.ymid||
+    result.event_id ||
+    result.eventId ||
+    result.ymid ||
     null;
 
   return {
@@ -1344,8 +2073,11 @@ function monetagRewarded(result){
       eventType==="valued",
 
     eventId:eventId
+
   };
+
 }
+
 
 function createAdId(){
 
@@ -1355,16 +2087,16 @@ function createAdId(){
     Math.random()
       .toString(36)
       .slice(2,10);
+
 }
+
 
 async function showMonetagAd(){
 
   const fn=
     window.show_11580974;
 
-  if(
-    typeof fn!=="function"
-  ){
+  if(typeof fn!=="function"){
 
     toast(
       "Ad system is loading. Try again."
@@ -1374,6 +2106,7 @@ async function showMonetagAd(){
       rewarded:false,
       eventId:null
     };
+
   }
 
   const ymid=
@@ -1394,22 +2127,20 @@ async function showMonetagAd(){
     if(
       parsed.eventId &&
       state.rewardedAdIds.includes(
-        String(
-          parsed.eventId
-        )
+        String(parsed.eventId)
       )
     ){
 
       console.warn(
-        "Duplicate Monetag reward event:",
+        "Duplicate reward:",
         parsed.eventId
       );
 
       return {
         rewarded:false,
-        eventId:
-          parsed.eventId
+        eventId:parsed.eventId
       };
+
     }
 
     return {
@@ -1419,10 +2150,9 @@ async function showMonetagAd(){
 
       eventId:
         parsed.eventId
-        ?String(
-          parsed.eventId
-        )
-        :ymid
+        ? String(parsed.eventId)
+        : ymid
+
     };
 
   }catch(error){
@@ -1440,11 +2170,14 @@ async function showMonetagAd(){
       rewarded:false,
       eventId:null
     };
+
   }
+
 }
 
+
 /* =========================================================
-   EARNING
+   ADD EARNING
 ========================================================= */
 
 function addEarning(
@@ -1459,9 +2192,8 @@ function addEarning(
       String(eventId);
 
     if(
-      state.rewardedAdIds.includes(
-        id
-      )
+      state.rewardedAdIds
+        .includes(id)
     ){
 
       console.warn(
@@ -1470,61 +2202,313 @@ function addEarning(
       );
 
       return false;
+
     }
 
-    state.rewardedAdIds.push(
-      id
-    );
+    state.rewardedAdIds.push(id);
 
     if(
-      state.rewardedAdIds.length>
-      500
+      state.rewardedAdIds.length>500
     ){
 
       state.rewardedAdIds=
         state.rewardedAdIds
           .slice(-500);
+
     }
+
   }
+
 
   state.balance=
     Number(state.balance)+
     Number(amount);
 
+
   state.todayEarned=
     Number(state.todayEarned)+
     Number(amount);
+
 
   state.totalEarned=
     Number(state.totalEarned)+
     Number(amount);
 
+
   state.transactions.unshift({
 
     label:label,
 
-    amount:
-      Number(amount),
+    amount:Number(amount),
+
+    points:
+      Math.round(
+        Number(amount)*10000000
+      ),
 
     date:
-      new Date()
-        .toLocaleString(
-          "en-IN"
-        ),
+      new Date().toLocaleString(
+        "en-IN"
+      ),
 
     eventId:
       eventId
-      ?String(eventId)
-      :null
+      ? String(eventId)
+      : null
+
   });
+
 
   saveState();
 
   renderTop();
+
   renderTransactions();
 
   return true;
+
 }
+
+
+/* =========================================================
+   10 SECOND COOLDOWN
+========================================================= */
+
+const AD_COOLDOWN_SECONDS=10;
+
+let adCooldownUntil=0;
+let adCooldownTimer=null;
+
+
+function isAdCooldownActive(){
+
+  return Date.now()<
+    adCooldownUntil;
+
+}
+
+
+function remainingCooldownSeconds(){
+
+  return Math.max(
+    0,
+    Math.ceil(
+      (
+        adCooldownUntil-
+        Date.now()
+      )/1000
+    )
+  );
+
+}
+
+
+function startAdCooldown(){
+
+  adCooldownUntil=
+    Date.now()+
+    (
+      AD_COOLDOWN_SECONDS*
+      1000
+    );
+
+  clearInterval(
+    adCooldownTimer
+  );
+
+  updateAdCooldownUI();
+
+  adCooldownTimer=
+    setInterval(
+      ()=>{
+
+        updateAdCooldownUI();
+
+        if(
+          !isAdCooldownActive()
+        ){
+
+          clearInterval(
+            adCooldownTimer
+          );
+
+          adCooldownTimer=null;
+
+          updateAdCooldownUI();
+
+          toast(
+            "10-second break completed. Next ad is ready."
+          );
+
+        }
+
+      },
+      250
+    );
+
+}
+
+
+function cooldownText(){
+
+  const seconds=
+    remainingCooldownSeconds();
+
+  return seconds>0
+    ?"⏳ Next ad in "+seconds+"s"
+    :"▶ Watch Ad";
+
+}
+
+
+function updateAdCooldownUI(){
+
+  const seconds=
+    remainingCooldownSeconds();
+
+  const buttons=
+    document.querySelectorAll(
+      '[data-ad-button="true"]'
+    );
+
+  buttons.forEach(button=>{
+
+    if(
+      isAdCooldownActive()
+    ){
+
+      button.disabled=true;
+
+      button.textContent=
+        cooldownText();
+
+    }
+
+  });
+
+  renderBonusAd();
+  renderStreak();
+
+  if(
+    seconds===0 &&
+    !isAdCooldownActive() &&
+    currentTier &&
+    !adInProgress
+  ){
+
+    renderTier(
+      currentTier
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PREMIUM
+========================================================= */
+
+function premiumIsActive(){
+
+  if(
+    !state.premium ||
+    !state.premiumActivatedAt
+  ){
+
+    return false;
+
+  }
+
+  const age=
+    Date.now()-
+    Number(
+      state.premiumActivatedAt
+    );
+
+  return age<
+    30*
+    24*
+    60*
+    60*
+    1000;
+
+}
+
+
+function syncPremium(){
+
+  if(!state.premium)return false;
+
+  if(!premiumIsActive()){
+
+    state.premium=false;
+
+    state.premiumActivatedAt=null;
+
+    saveState();
+
+    return false;
+
+  }
+
+  return true;
+
+}
+
+
+/* =========================================================
+   DAILY RESET
+========================================================= */
+
+function resetDaily(){
+
+  const today=
+    new Date().toDateString();
+
+  if(
+    state.adDate!==today
+  ){
+
+    state.adDate=today;
+
+    state.lightWatched=0;
+
+    state.proWatched=0;
+
+    state.extraWatched=0;
+
+    state.premiumWatched=0;
+
+    state.todayEarned=0;
+
+    saveState();
+
+  }
+
+
+  if(
+    state.bonusAdDate!==today
+  ){
+
+    state.bonusAdDate=today;
+
+    state.bonusAdWatched=0;
+
+    if(
+      state.tasksClaimed.bonusAd
+    ){
+
+      delete state.tasksClaimed.bonusAd;
+
+    }
+
+    saveState();
+
+  }
+
+}
+
 
 /* =========================================================
    TIER
@@ -1543,7 +2527,9 @@ function openTier(tier){
   ).style.display="block";
 
   renderTier(tier);
+
 }
+
 
 function closeTier(){
 
@@ -1556,11 +2542,14 @@ function closeTier(){
   document.getElementById(
     "quickActions"
   ).style.display="block";
+
 }
+
 
 function renderTier(tier){
 
   resetDaily();
+
   syncPremium();
 
   const box=
@@ -1570,12 +2559,13 @@ function renderTier(tier){
 
   if(!box)return;
 
+
   if(tier==="premium"){
 
     const active=
       premiumIsActive();
 
-    const premiumCooldown=
+    const cooldown=
       isAdCooldownActive();
 
     box.innerHTML=`
@@ -1592,7 +2582,8 @@ function renderTier(tier){
         </p>
 
         <div class="fee">
-          $30 activation fee · Premium access for 30 days
+          $30 activation fee ·
+          Premium access for 30 days
         </div>
 
         <div class="fee-box">
@@ -1617,81 +2608,57 @@ function renderTier(tier){
         active
         ?`
 
-        <div class="ad">
+          <div class="ad">
 
-          <div class="ad-icon">
-            💎
-          </div>
+            <div class="ad-icon">💎</div>
 
-          <h3>
-            Premium Ad
-          </h3>
+            <h3>Premium Ad</h3>
 
-          <p>
-            Real Monetag rewarded ad · $0.01
-          </p>
+            <p>
+              Real Monetag rewarded ad
+            </p>
 
-          <button
-            class="watch"
-            data-ad-button="true"
-            onclick="watchAd('premium')"
-            ${
-              state.premiumWatched>=
-                PREMIUM_MAX||
-              adInProgress||
-              premiumCooldown
-              ?"disabled":""
-            }
-          >
-            ${
-              state.premiumWatched>=
-                PREMIUM_MAX
-              ?"Daily Limit Completed"
-              :premiumCooldown
-              ?cooldownText()
-              :adInProgress
-              ?"Ad in progress..."
-              :"▶ Watch Premium Ad"
-            }
-          </button>
-
-          <div class="count">
-
-            <span>
-              Premium ads watched today
-            </span>
-
-            <span>
+            <button
+              class="watch"
+              data-ad-button="true"
+              onclick="watchAd('premium')"
               ${
-                state.premiumWatched
-              }/${PREMIUM_MAX}
-            </span>
+                state.premiumWatched>=PREMIUM_MAX ||
+                adInProgress ||
+                cooldown
+                ?"disabled":""
+              }
+            >
+
+              ${
+                state.premiumWatched>=PREMIUM_MAX
+                ?"Daily Limit Completed"
+                :
+                cooldown
+                ?cooldownText()
+                :
+                adInProgress
+                ?"Ad in progress..."
+                :"▶ Watch Premium Ad"
+              }
+
+            </button>
+
+            <div class="count">
+
+              <span>
+                Premium ads watched today
+              </span>
+
+              <span>
+                ${
+                  state.premiumWatched
+                }/${PREMIUM_MAX}
+              </span>
+
+            </div>
 
           </div>
-
-          ${
-            premiumCooldown
-            ?`
-
-              <div class="cooldown-box">
-
-                Please wait
-
-                <strong>
-                  ${
-                    remainingCooldownSeconds()
-                  }s
-                </strong>
-
-                before watching another ad.
-
-              </div>
-
-            `
-            :""
-          }
-
-        </div>
 
         `
         :""
@@ -1700,13 +2667,16 @@ function renderTier(tier){
     `;
 
     return;
+
   }
+
 
   let watched=0;
   let max=20;
   let title="";
   let icon="▶️";
-  let reward=0.01;
+  let reward=.01;
+
 
   if(tier==="light"){
 
@@ -1717,7 +2687,9 @@ function renderTier(tier){
 
     reward=
       LIGHT_REWARD;
+
   }
+
 
   if(tier==="pro"){
 
@@ -1730,7 +2702,9 @@ function renderTier(tier){
 
     reward=
       PRO_REWARD;
+
   }
+
 
   if(tier==="extra"){
 
@@ -1743,13 +2717,16 @@ function renderTier(tier){
 
     reward=
       EXTRA_REWARD;
+
   }
+
 
   const completed=
     watched>=max;
 
   const cooldown=
     isAdCooldownActive();
+
 
   box.innerHTML=`
 
@@ -1765,7 +2742,7 @@ function renderTier(tier){
 
       <p>
         Real Monetag rewarded ad ·
-        ${POINTS_PER_AD} points ($0.01)
+        ${POINTS_PER_AD} points
       </p>
 
       <button
@@ -1773,21 +2750,25 @@ function renderTier(tier){
         data-ad-button="true"
         onclick="watchAd('${tier}')"
         ${
-          completed||
-          adInProgress||
+          completed ||
+          adInProgress ||
           cooldown
           ?"disabled":""
         }
       >
+
         ${
           completed
           ?"Daily Limit Completed"
-          :cooldown
+          :
+          cooldown
           ?cooldownText()
-          :adInProgress
+          :
+          adInProgress
           ?"Ad in progress..."
           :"▶ Watch Ad"
         }
+
       </button>
 
       <div class="count">
@@ -1805,21 +2786,13 @@ function renderTier(tier){
       ${
         cooldown
         ?`
-
           <div class="cooldown-box">
-
             Please wait
-
             <strong>
-              ${
-                remainingCooldownSeconds()
-              }s
+              ${remainingCooldownSeconds()}s
             </strong>
-
             before watching another ad.
-
           </div>
-
         `
         :""
       }
@@ -1827,12 +2800,10 @@ function renderTier(tier){
       ${
         completed
         ?`
-
           <div class="limit">
             Today's reward is complete.
             Come back tomorrow.
           </div>
-
         `
         :""
       }
@@ -1840,7 +2811,9 @@ function renderTier(tier){
     </div>
 
   `;
+
 }
+
 
 /* =========================================================
    WATCH AD
@@ -1848,9 +2821,8 @@ function renderTier(tier){
 
 async function watchAd(tier){
 
-  if(adInProgress){
-    return;
-  }
+  if(adInProgress)return;
+
 
   if(
     isAdCooldownActive()
@@ -1863,41 +2835,49 @@ async function watchAd(tier){
     );
 
     return;
+
   }
+
 
   resetDaily();
   syncPremium();
 
+
   let counter="";
-  let reward=0.01;
+  let reward=.01;
   let max=20;
+
 
   if(tier==="light"){
 
     counter="lightWatched";
     reward=LIGHT_REWARD;
     max=LIGHT_MAX;
+
   }
+
 
   if(tier==="pro"){
 
     counter="proWatched";
     reward=PRO_REWARD;
     max=PRO_MAX;
+
   }
+
 
   if(tier==="extra"){
 
     counter="extraWatched";
     reward=EXTRA_REWARD;
     max=EXTRA_MAX;
+
   }
+
 
   if(tier==="premium"){
 
-    if(
-      !premiumIsActive()
-    ){
+    if(!premiumIsActive()){
 
       toast(
         "Premium membership is not active."
@@ -1906,16 +2886,22 @@ async function watchAd(tier){
       renderTier("premium");
 
       return;
+
     }
 
     counter="premiumWatched";
-    reward=PREMIUM_REWARD;
-    max=PREMIUM_MAX;
+
+    reward=
+      PREMIUM_REWARD;
+
+    max=
+      PREMIUM_MAX;
+
   }
 
-  if(!counter){
-    return;
-  }
+
+  if(!counter)return;
+
 
   if(
     state[counter]>=max
@@ -1928,7 +2914,9 @@ async function watchAd(tier){
     renderTier(tier);
 
     return;
+
   }
+
 
   currentTier=tier;
 
@@ -1936,14 +2924,15 @@ async function watchAd(tier){
 
   renderTier(tier);
 
-  toast(
-    "Opening ad..."
-  );
+  toast("Opening ad...");
+
 
   const result=
     await showMonetagAd();
 
+
   adInProgress=false;
+
 
   if(!result.rewarded){
 
@@ -1954,20 +2943,15 @@ async function watchAd(tier){
     renderTier(tier);
 
     return;
+
   }
+
 
   const rewardLabel=
     tier.charAt(0).toUpperCase()+
     tier.slice(1)+
     " Verified Ad Reward";
 
-  /*
-    IMPORTANT:
-    Counter is increased BEFORE
-    the final Firebase save.
-  */
-
-  state[counter]++;
 
   const credited=
     addEarning(
@@ -1976,11 +2960,8 @@ async function watchAd(tier){
       result.eventId
     );
 
+
   if(!credited){
-
-    state[counter]--;
-
-    saveState();
 
     toast(
       "This ad reward was already credited."
@@ -1989,53 +2970,37 @@ async function watchAd(tier){
     renderTier(tier);
 
     return;
+
   }
 
-  /*
-    Force final complete state to Firestore.
-  */
 
-  const firebaseSaved=
-    await saveStateToFirebase();
+  state[counter]++;
 
-  if(!firebaseSaved){
+  saveState();
 
-    console.warn(
-      "Final ad state could not be saved to Firestore."
-    );
 
-  }else{
+  if(
+    firebaseReady &&
+    firebaseUserId
+  ){
 
-    console.log(
-      "Ad count saved:",
-      counter,
-      state[counter]
-    );
+    await saveStateToFirestore();
+
   }
+
 
   startAdCooldown();
 
-  if(
-    tier==="light"||
-    tier==="pro"||
-    tier==="extra"
-  ){
 
-    toast(
-      "+100 points verified reward!"
-    );
+  toast(
+    "+100 points verified reward!"
+  );
 
-  }else{
-
-    toast(
-      "+"+
-      money(reward)+
-      " verified reward!"
-    );
-  }
 
   renderTier(tier);
+
 }
+
 
 /* =========================================================
    BONUS AD
@@ -2054,11 +3019,8 @@ function renderBonusAd(){
     );
 
   const percentage=
-    (
-      count/
-      BONUS_AD_MAX
-    )*
-    100;
+    (count/BONUS_AD_MAX)*100;
+
 
   const countEl=
     document.getElementById(
@@ -2080,25 +3042,28 @@ function renderBonusAd(){
       "bonusCompleteMessage"
     );
 
+
   if(
-    !countEl||
-    !fillEl||
-    !btnEl||
+    !countEl ||
+    !fillEl ||
+    !btnEl ||
     !messageEl
-  ){
-    return;
-  }
+  )return;
+
 
   countEl.textContent=
     count+
     " / "+
     BONUS_AD_MAX;
 
+
   fillEl.style.width=
     percentage+"%";
 
+
   const cooldown=
     isAdCooldownActive();
+
 
   if(
     count>=BONUS_AD_MAX
@@ -2110,61 +3075,55 @@ function renderBonusAd(){
       "Bonus Reward Completed ✓";
 
     messageEl.innerHTML=`
-
       <div class="bonus-complete">
-
         Rewards claimed successfully.<br>
         Come back tomorrow.
-
       </div>
-
     `;
 
   }else{
 
     btnEl.disabled=
-      adInProgress||
+      adInProgress ||
       cooldown;
 
     btnEl.textContent=
       cooldown
       ?"⏳ Next ad in "+
-       remainingCooldownSeconds()+
-       "s"
-      :adInProgress
+        remainingCooldownSeconds()+
+        "s"
+      :
+      adInProgress
       ?"Ad in progress..."
-      :"▶ Watch Bonus Ad";
+      :
+      "▶ Watch Bonus Ad";
+
 
     messageEl.innerHTML=
       cooldown
       ?`
-
         <div class="cooldown-box">
-
           Please wait
-
           <strong>
-            ${
-              remainingCooldownSeconds()
-            }s
+            ${remainingCooldownSeconds()}s
           </strong>
-
           before watching another ad.
-
         </div>
-
       `
       :"";
+
   }
+
 }
+
 
 async function watchBonusAd(){
 
   resetDaily();
 
-  if(adInProgress){
-    return;
-  }
+
+  if(adInProgress)return;
+
 
   if(
     isAdCooldownActive()
@@ -2177,18 +3136,21 @@ async function watchBonusAd(){
     );
 
     return;
+
   }
 
+
   if(
-    Number(
-      state.bonusAdWatched
-    )>=BONUS_AD_MAX
+    Number(state.bonusAdWatched)
+    >=BONUS_AD_MAX
   ){
 
     renderBonusAd();
 
     return;
+
   }
+
 
   adInProgress=true;
 
@@ -2198,10 +3160,13 @@ async function watchBonusAd(){
     "Opening bonus ad..."
   );
 
+
   const result=
     await showMonetagAd();
 
+
   adInProgress=false;
+
 
   if(!result.rewarded){
 
@@ -2212,13 +3177,15 @@ async function watchBonusAd(){
     renderBonusAd();
 
     return;
+
   }
+
 
   const nextCount=
     Number(
       state.bonusAdWatched||0
-    )+
-    1;
+    )+1;
+
 
   if(
     nextCount>=BONUS_AD_MAX
@@ -2231,6 +3198,7 @@ async function watchBonusAd(){
         result.eventId
       );
 
+
     if(!credited){
 
       toast(
@@ -2240,7 +3208,9 @@ async function watchBonusAd(){
       renderBonusAd();
 
       return;
+
     }
+
 
     state.bonusAdWatched=
       BONUS_AD_MAX;
@@ -2250,7 +3220,16 @@ async function watchBonusAd(){
 
     saveState();
 
-    await saveStateToFirebase();
+
+    if(
+      firebaseReady &&
+      firebaseUserId
+    ){
+
+      await saveStateToFirestore();
+
+    }
+
 
     startAdCooldown();
 
@@ -2261,18 +3240,30 @@ async function watchBonusAd(){
     );
 
     return;
+
   }
+
 
   state.bonusAdWatched=
     nextCount;
 
   saveState();
 
-  await saveStateToFirebase();
+
+  if(
+    firebaseReady &&
+    firebaseUserId
+  ){
+
+    await saveStateToFirestore();
+
+  }
+
 
   startAdCooldown();
 
   renderBonusAd();
+
 
   toast(
     "Bonus Ad "+
@@ -2281,19 +3272,20 @@ async function watchBonusAd(){
     BONUS_AD_MAX+
     " completed."
   );
+
 }
 
+
 /* =========================================================
-   PREMIUM ACTIVATION
+   PREMIUM
 ========================================================= */
 
 function activatePremium(){
 
   syncPremium();
 
-  if(
-    premiumIsActive()
-  ){
+
+  if(premiumIsActive()){
 
     toast(
       "Premium is already active"
@@ -2302,7 +3294,9 @@ function activatePremium(){
     renderTier("premium");
 
     return;
+
   }
+
 
   if(
     Number(state.balance)<
@@ -2316,16 +3310,20 @@ function activatePremium(){
     renderTier("premium");
 
     return;
+
   }
+
 
   state.balance=
     Number(state.balance)-
     PREMIUM_FEE;
 
+
   state.premium=true;
 
   state.premiumActivatedAt=
     Date.now();
+
 
   state.transactions.unshift({
 
@@ -2335,12 +3333,16 @@ function activatePremium(){
     amount:
       -PREMIUM_FEE,
 
+    points:
+      -300000000,
+
     date:
-      new Date()
-        .toLocaleString(
-          "en-IN"
-        )
+      new Date().toLocaleString(
+        "en-IN"
+      )
+
   });
+
 
   saveState();
 
@@ -2353,7 +3355,9 @@ function activatePremium(){
   toast(
     "Premium activated for 30 days."
   );
+
 }
+
 
 /* =========================================================
    CHECK-IN
@@ -2366,9 +3370,9 @@ function pendingDay(){
 
   const yesterday=
     new Date(
-      Date.now()-
-      86400000
+      Date.now()-86400000
     ).toDateString();
+
 
   if(
     state.lastCheckinDate===
@@ -2376,7 +3380,9 @@ function pendingDay(){
   ){
 
     return state.checkinDay;
+
   }
+
 
   if(
     state.lastCheckinDate===
@@ -2386,10 +3392,14 @@ function pendingDay(){
     return state.checkinDay>=7
       ?1
       :state.checkinDay+1;
+
   }
 
+
   return 1;
+
 }
+
 
 function renderStreak(){
 
@@ -2403,6 +3413,7 @@ function renderStreak(){
   const day=
     pendingDay();
 
+
   const grid=
     document.getElementById(
       "streakGrid"
@@ -2413,11 +3424,12 @@ function renderStreak(){
       "checkinBtn"
     );
 
-  if(!grid||!btn){
-    return;
-  }
+
+  if(!grid||!btn)return;
+
 
   let html="";
+
 
   for(
     let i=1;
@@ -2431,16 +3443,16 @@ function renderStreak(){
       :i<day;
 
     const current=
-      !claimed&&
+      !claimed &&
       i===day;
+
 
     html+=`
 
-      <div class="day ${
-        done?"done":""
-      } ${
-        current?"current":""
-      }">
+      <div class="day
+        ${done?"done":""}
+        ${current?"current":""}
+      ">
 
         <small>
           Day ${i}
@@ -2451,9 +3463,7 @@ function renderStreak(){
             done
             ?"✓"
             :money(
-              STREAK_REWARDS[
-                i-1
-              ]
+              STREAK_REWARDS[i-1]
             )
           }
         </b>
@@ -2461,48 +3471,55 @@ function renderStreak(){
       </div>
 
     `;
+
   }
 
-  grid.innerHTML=
-    html;
+
+  grid.innerHTML=html;
+
 
   const cooldown=
     isAdCooldownActive();
 
+
   btn.disabled=
-    claimed||
-    adInProgress||
+    claimed ||
+    adInProgress ||
     cooldown;
+
 
   btn.textContent=
     claimed
     ?"Claimed for Today"
-    :cooldown
+    :
+    cooldown
     ?"⏳ Next ad in "+
-     remainingCooldownSeconds()+
-     "s"
-    :adInProgress
+      remainingCooldownSeconds()+
+      "s"
+    :
+    adInProgress
     ?"Ad in progress..."
-    :"Watch Ad to Claim "+
-     money(
-       STREAK_REWARDS[
-         day-1
-       ]
-     );
+    :
+    "Watch Ad to Claim "+
+      money(
+        STREAK_REWARDS[day-1]
+      );
+
 }
+
 
 async function watchCheckin(){
 
   const today=
     new Date().toDateString();
 
+
   if(
     state.lastCheckinDate===
-    today||
+    today ||
     adInProgress
-  ){
-    return;
-  }
+  )return;
+
 
   if(
     isAdCooldownActive()
@@ -2515,7 +3532,9 @@ async function watchCheckin(){
     );
 
     return;
+
   }
+
 
   adInProgress=true;
 
@@ -2525,10 +3544,13 @@ async function watchCheckin(){
     "Opening ad..."
   );
 
+
   const result=
     await showMonetagAd();
 
+
   adInProgress=false;
+
 
   if(!result.rewarded){
 
@@ -2539,15 +3561,16 @@ async function watchCheckin(){
     renderStreak();
 
     return;
+
   }
+
 
   const day=
     pendingDay();
 
   const reward=
-    STREAK_REWARDS[
-      day-1
-    ];
+    STREAK_REWARDS[day-1];
+
 
   const credited=
     addEarning(
@@ -2558,6 +3581,7 @@ async function watchCheckin(){
       result.eventId
     );
 
+
   if(!credited){
 
     toast(
@@ -2567,19 +3591,31 @@ async function watchCheckin(){
     renderStreak();
 
     return;
+
   }
 
-  state.checkinDay=
-    day;
+
+  state.checkinDay=day;
 
   state.lastCheckinDate=
     today;
 
+
   saveState();
 
-  await saveStateToFirebase();
+
+  if(
+    firebaseReady &&
+    firebaseUserId
+  ){
+
+    await saveStateToFirestore();
+
+  }
+
 
   startAdCooldown();
+
 
   toast(
     "+"+
@@ -2587,14 +3623,20 @@ async function watchCheckin(){
     " check-in reward!"
   );
 
+
   renderStreak();
+
 }
+
 
 /* =========================================================
    TASKS
 ========================================================= */
 
-function claimTask(id,amount){
+function claimTask(
+  id,
+  amount
+){
 
   if(
     state.tasksClaimed[id]
@@ -2605,53 +3647,58 @@ function claimTask(id,amount){
     );
 
     return;
+
   }
 
-  state.tasksClaimed[id]=
-    true;
+
+  state.tasksClaimed[id]=true;
+
 
   addEarning(
     amount,
     "Task Reward"
   );
 
+
   toast(
     "+"+
     money(amount)+
     " earned!"
   );
+
 }
 
+
 /* =========================================================
-   WALLET / WITHDRAW
+   WALLET
 ========================================================= */
 
 function scrollToWithdraw(){
 
   switchSection("wallet");
 
-  setTimeout(
-    ()=>{
+  setTimeout(()=>{
 
-      const form=
-        document.getElementById(
-          "withdrawForm"
-        );
+    const form=
+      document.getElementById(
+        "withdrawForm"
+      );
 
-      if(form){
+    if(form){
 
-        form.scrollIntoView({
-          behavior:"smooth",
-          block:"center"
-        });
-      }
+      form.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
 
-    },
-    100
-  );
+    }
+
+  },100);
+
 }
 
-async function submitWithdrawal(){
+
+function submitWithdrawal(){
 
   const amount=
     Number(
@@ -2660,15 +3707,16 @@ async function submitWithdrawal(){
       ).value
     );
 
+
   const address=
     document.getElementById(
       "withdrawAddress"
     ).value.trim();
 
+
   const balancePoints=
-    pointsFromBalance(
-      state.balance
-    );
+    getCurrentPoints();
+
 
   if(
     balancePoints<
@@ -2680,11 +3728,12 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
 
+
   if(
-    amount!==
-    WITHDRAW_AMOUNT
+    amount!==WITHDRAW_AMOUNT
   ){
 
     toast(
@@ -2692,11 +3741,12 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
 
+
   if(
-    amount>
-    state.balance
+    amount>state.balance
   ){
 
     toast(
@@ -2704,7 +3754,9 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
+
 
   if(!address){
 
@@ -2713,7 +3765,9 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
+
 
   if(
     !/^0x[a-fA-F0-9]{40}$/
@@ -2725,71 +3779,61 @@ async function submitWithdrawal(){
     );
 
     return;
+
   }
+
+
+  state.transactions.unshift({
+
+    label:
+      "Withdrawal Request",
+
+    amount:
+      -amount,
+
+    points:
+      -200000000,
+
+    date:
+      new Date().toLocaleString(
+        "en-IN"
+      ),
+
+    address:
+      address
+
+  });
+
+
+  saveState();
+
 
   if(
     firebaseReady &&
-    db &&
-    firebaseUserId &&
-    firebaseAuthReady
+    firebaseUserId
   ){
 
-    try{
+    saveStateToFirestore();
 
-      await db
-        .collection("withdrawals")
-        .add({
-
-          telegramId:
-            String(
-              firebaseUserId
-            ),
-
-          amount:
-            WITHDRAW_AMOUNT,
-
-          points:
-            WITHDRAW_POINTS_THRESHOLD,
-
-          address:
-            address,
-
-          status:
-            "pending",
-
-          createdAt:
-            firebase.firestore
-              .FieldValue
-              .serverTimestamp()
-        });
-
-    }catch(error){
-
-      console.error(
-        "Withdrawal Firestore error:",
-        error
-      );
-
-      toast(
-        "Could not submit withdrawal request."
-      );
-
-      return;
-    }
   }
+
 
   toast(
     "Withdrawal request submitted."
   );
 
+
   document.getElementById(
     "withdrawAmount"
   ).value="";
 
+
   document.getElementById(
     "withdrawAddress"
   ).value="";
+
 }
+
 
 /* =========================================================
    TRANSACTIONS
@@ -2802,9 +3846,8 @@ function renderTransactions(){
       "txList"
     );
 
-  if(!box){
-    return;
-  }
+  if(!box)return;
+
 
   if(
     !state.transactions.length
@@ -2814,48 +3857,63 @@ function renderTransactions(){
       "<p>No transactions yet</p>";
 
     return;
+
   }
+
 
   box.innerHTML=
     state.transactions
       .slice(0,10)
-      .map(
-        tx=>`
+      .map(tx=>`
 
-          <div class="tx-row">
+        <div class="tx-row">
+
+          <div>
 
             <div>
-
-              <div>
-                ${tx.label}
-              </div>
-
-              <div class="tx-date">
-                ${tx.date}
-              </div>
-
+              ${tx.label}
             </div>
 
-            <div class="${
-              tx.amount>=0
-              ?"plus"
-              :"minus"
-            }">
-
-              ${
-                tx.amount>=0
-                ?"+"
-                :""
-              }${money(tx.amount)}
-
+            <div class="tx-date">
+              ${tx.date}
             </div>
 
           </div>
 
-        `
-      )
+          <div class="${
+            tx.amount>=0
+            ?"plus"
+            :"minus"
+          }">
+
+            ${
+              tx.amount>=0
+              ?"+"
+              :""
+            }
+
+            ${
+              tx.points
+              ?formatPoints(
+                  Math.abs(
+                    tx.points
+                  )
+                )+
+                " Points"
+              :money(
+                  tx.amount
+                )
+            }
+
+          </div>
+
+        </div>
+
+      `)
       .join("");
+
 }
+
 
 /* =========================================================
    REFERRAL
@@ -2867,6 +3925,7 @@ function copyRefer(){
     document.getElementById(
       "referCode"
     ).textContent;
+
 
   if(
     navigator.clipboard
@@ -2896,8 +3955,11 @@ function copyRefer(){
       "Referral code: "+
       code
     );
+
   }
+
 }
+
 
 /* =========================================================
    PROFILE
@@ -2910,15 +3972,15 @@ function showProfile(type){
     toast(
       "Balance: "+
       formatPoints(
-        pointsFromBalance(
-          state.balance
-        )
+        getCurrentPoints()
       )+
       " Points"
     );
 
     return;
+
   }
+
 
   if(type==="Referrals"){
 
@@ -2928,7 +3990,9 @@ function showProfile(type){
     );
 
     return;
+
   }
+
 
   if(type==="Security"){
 
@@ -2937,40 +4001,19 @@ function showProfile(type){
     );
 
     return;
+
   }
 
-  if(type==="Terms & Conditions"){
 
-    toast(
-      "Terms & Conditions"
-    );
+  toast(type);
 
-    return;
-  }
-
-  if(type==="Privacy Policy"){
-
-    toast(
-      "Privacy Policy"
-    );
-
-    return;
-  }
-
-  if(type==="Help & Support"){
-
-    toast(
-      "Help & Support"
-    );
-
-    return;
-  }
 }
+
 
 function logoutUser(){
 
   if(
-    tg&&
+    tg &&
     typeof tg.showConfirm===
     "function"
   ){
@@ -2984,7 +4027,9 @@ function logoutUser(){
           toast(
             "Logout is handled by Telegram."
           );
+
         }
+
       }
     );
 
@@ -2993,8 +4038,11 @@ function logoutUser(){
     toast(
       "Logout is handled by Telegram."
     );
+
   }
+
 }
+
 
 /* =========================================================
    NAVIGATION
@@ -3004,33 +4052,35 @@ function switchSection(target){
 
   closeTier();
 
+
   document
-    .querySelectorAll(
-      ".section"
-    )
+    .querySelectorAll(".section")
     .forEach(
-      section=>
+      section=>{
         section.classList.remove(
           "active"
-        )
+        );
+      }
     );
+
 
   const section=
     document.getElementById(
       "sec-"+target
     );
 
+
   if(section){
 
     section.classList.add(
       "active"
     );
+
   }
 
+
   document
-    .querySelectorAll(
-      "nav button"
-    )
+    .querySelectorAll("nav button")
     .forEach(
       button=>{
 
@@ -3043,41 +4093,43 @@ function switchSection(target){
       }
     );
 
+
   window.scrollTo(
     0,
     0
   );
 
-  if(
-    target==="task"
-  ){
+
+  if(target==="task"){
 
     resetDaily();
+
     renderBonusAd();
+
     renderStreak();
+
   }
+
 }
 
+
 document
-  .querySelectorAll(
-    "nav button"
-  )
+  .querySelectorAll("nav button")
   .forEach(
     button=>{
 
       button.addEventListener(
         "click",
         ()=>{
-
           switchSection(
             button.dataset.target
           );
-
         }
       );
 
     }
   );
+
 
 /* =========================================================
    TELEGRAM PROFILE
@@ -3086,16 +4138,19 @@ document
 function initTelegramProfile(){
 
   if(
-    !tg||
-    !tg.initDataUnsafe||
+    !tg ||
+    !tg.initDataUnsafe ||
     !tg.initDataUnsafe.user
   ){
 
     return;
+
   }
+
 
   const user=
     tg.initDataUnsafe.user;
+
 
   const name=
     (
@@ -3103,6 +4158,7 @@ function initTelegramProfile(){
       " "+
       (user.last_name||"")
     ).trim();
+
 
   const profileName=
     document.getElementById(
@@ -3129,12 +4185,14 @@ function initTelegramProfile(){
       "avatar"
     );
 
+
   if(profileName){
 
     profileName.textContent=
-      name||
-      "User";
+      name||"User";
+
   }
+
 
   if(profileUsername){
 
@@ -3142,26 +4200,31 @@ function initTelegramProfile(){
       user.username
       ?"@"+user.username
       :"@username";
+
   }
+
 
   if(profileId){
 
     profileId.textContent=
       "Telegram ID: "+
       user.id;
+
   }
+
 
   if(referCode){
 
     referCode.textContent=
       "EB-"+
-      String(
-        user.id
-      ).slice(-6);
+      String(user.id)
+        .slice(-6);
+
   }
 
+
   if(
-    avatar&&
+    avatar &&
     user.photo_url
   ){
 
@@ -3202,79 +4265,30 @@ function initTelegramProfile(){
       )
       .charAt(0)
       .toUpperCase();
+
   }
+
 }
 
-/* =========================================================
-   FIREBASE STARTUP
-========================================================= */
-
-async function initializeFirebaseUser(){
-
-  if(!firebaseReady){
-
-    console.warn(
-      "Firebase is not available."
-    );
-
-    return;
-  }
-
-  /*
-    Get Telegram ID first.
-  */
-
-  firebaseUserId=
-    getFirebaseUserId();
-
-  initTelegramProfile();
-
-  /*
-    Firebase Anonymous Login.
-  */
-
-  const authOK=
-    await initializeFirebaseAuth();
-
-  if(!authOK){
-
-    console.warn(
-      "Firebase Auth failed."
-    );
-
-    return;
-  }
-
-  /*
-    Load permanent user data.
-  */
-
-  await loadStateFromFirebase();
-
-  /*
-    Final render.
-  */
-
-  resetDaily();
-  syncPremium();
-  renderTop();
-  renderTransactions();
-  renderStreak();
-  renderBonusAd();
-  updateAdCooldownUI();
-}
 
 /* =========================================================
    START
 ========================================================= */
 
 resetDaily();
+
 syncPremium();
+
 initTelegramProfile();
+
 renderTop();
+
 renderTransactions();
+
 renderStreak();
+
 renderBonusAd();
+
 updateAdCooldownUI();
 
 initializeFirebaseUser();
