@@ -531,26 +531,39 @@ return Math.max(0,Math.ceil((adCooldownUntil-Date.now())/1000));
 }
 
 function startAdCooldown(){
-adCooldownUntil=Date.now()+AD_COOLDOWN_SECONDS*1000;
+
+adCooldownUntil=Date.now()+(AD_COOLDOWN_SECONDS*1000);
 
 clearInterval(adCooldownTimer);
 
 updateAdCooldownUI();
 
 adCooldownTimer=setInterval(()=>{
+
+const seconds=remainingCooldownSeconds();
+
 updateAdCooldownUI();
 
-if(!isAdCooldownActive()){
+if(seconds<=0){
+
 clearInterval(adCooldownTimer);
 adCooldownTimer=null;
+
+adCooldownUntil=0;
+
 updateAdCooldownUI();
+
 }
-},250);
+
+},100);
 }
 
 function cooldownText(){
 const seconds=remainingCooldownSeconds();
-return seconds>0?"⏳ Next ad in "+seconds+"s":"▶ Watch Ad";
+
+return seconds>0
+?"⏳ Next ad in "+seconds+"s"
+:"▶ Watch Ad";
 }
 
 function premiumIsActive(){
@@ -830,16 +843,114 @@ ${completed?`<div class="limit">Today's reward is complete.</div>`:""}
 `;
 }
 
-function updateAdCooldownUI(){
-if(typeof renderBonusAd==="function")renderBonusAd();
-if(typeof renderStreak==="function")renderStreak();
+/* =========================================================
+   FIXED COUNTDOWN UI
+   10 → 9 → 8 → 7 → 6 → 5 → 4 → 3 → 2 → 1
+   THEN WATCH AD OPENS
+========================================================= */
 
-if(remainingCooldownSeconds()===0&&currentTier&&!adInProgress){
-renderTier(currentTier);
+function updateAdCooldownUI(){
+
+const seconds=remainingCooldownSeconds();
+
+/* Update Bonus Ad */
+if(typeof renderBonusAd==="function"){
+renderBonusAd();
 }
+
+/* Update Daily Check-in */
+if(typeof renderStreak==="function"){
+renderStreak();
+}
+
+/* IMPORTANT:
+   Do NOT rebuild the whole Tier every 100ms.
+   Only update the existing Watch Ad button.
+   This prevents the countdown from getting stuck at 10.
+*/
+
+if(currentTier&&!adInProgress){
+
+const button=document.querySelector(
+'#tierContent button[data-ad-button="true"]'
+);
+
+if(button){
+
+const completed=
+currentTier==="premium"
+?state.premiumWatched>=PREMIUM_MAX
+:(
+currentTier==="light"
+?state.lightWatched>=LIGHT_MAX
+:currentTier==="pro"
+?state.proWatched>=PRO_MAX
+:state.extraWatched>=EXTRA_MAX
+);
+
+if(seconds>0){
+
+button.disabled=true;
+button.textContent="⏳ Next ad in "+seconds+"s";
+
+}else if(!completed){
+
+button.disabled=false;
+
+button.textContent=
+currentTier==="premium"
+?"▶ Watch Premium Ad"
+:"▶ Watch Ad";
+
+}else{
+
+button.disabled=true;
+button.textContent="Daily Limit Completed";
+
+}
+
+}
+
+}
+
+if(seconds<=0&&currentTier&&!adInProgress){
+
+const button=document.querySelector(
+'#tierContent button[data-ad-button="true"]'
+);
+
+if(button){
+
+const completed=
+currentTier==="premium"
+?state.premiumWatched>=PREMIUM_MAX
+:(
+currentTier==="light"
+?state.lightWatched>=LIGHT_MAX
+:currentTier==="pro"
+?state.proWatched>=PRO_MAX
+:state.extraWatched>=EXTRA_MAX
+);
+
+if(!completed){
+
+button.disabled=false;
+
+button.textContent=
+currentTier==="premium"
+?"▶ Watch Premium Ad"
+:"▶ Watch Ad";
+
+}
+
+}
+
+}
+
 }
 
 async function watchAd(tier){
+
 if(adInProgress)return;
 
 if(isAdCooldownActive()){
@@ -907,9 +1018,16 @@ renderTier(tier);
 return;
 }
 
-const label=tier.charAt(0).toUpperCase()+tier.slice(1)+" Verified Ad Reward";
+const label=
+tier.charAt(0).toUpperCase()+tier.slice(1)
++" Verified Ad Reward";
 
-const credited=addEarning(reward,label,result.eventId);
+const credited=
+addEarning(
+reward,
+label,
+result.eventId
+);
 
 if(!credited){
 toast("This ad was already credited.");
@@ -918,7 +1036,9 @@ return;
 }
 
 state[counter]++;
+
 saveState();
+
 startAdCooldown();
 
 toast("+100 points verified reward!");
@@ -927,35 +1047,72 @@ renderTier(tier);
 }
 
 function renderBonusAd(){
+
 resetDaily();
 
-const count=Math.min(Number(state.bonusAdWatched||0),BONUS_AD_MAX);
-const fill=(count/BONUS_AD_MAX)*100;
+const count=
+Math.min(
+Number(state.bonusAdWatched||0),
+BONUS_AD_MAX
+);
 
-const countEl=document.getElementById("bonusAdCount");
-const fillEl=document.getElementById("bonusProgressFill");
-const btn=document.getElementById("bonusAdBtn");
-const msg=document.getElementById("bonusCompleteMessage");
+const fill=
+(count/BONUS_AD_MAX)*100;
+
+const countEl=
+document.getElementById("bonusAdCount");
+
+const fillEl=
+document.getElementById("bonusProgressFill");
+
+const btn=
+document.getElementById("bonusAdBtn");
+
+const msg=
+document.getElementById("bonusCompleteMessage");
 
 if(!countEl||!fillEl||!btn||!msg)return;
 
-countEl.textContent=count+" / "+BONUS_AD_MAX;
-fillEl.style.width=fill+"%";
+countEl.textContent=
+count+" / "+BONUS_AD_MAX;
 
-const cooldown=isAdCooldownActive();
+fillEl.style.width=
+fill+"%";
+
+const cooldown=
+isAdCooldownActive();
 
 if(count>=BONUS_AD_MAX){
+
 btn.disabled=true;
-btn.textContent="Bonus Reward Completed ✓";
-msg.innerHTML=`<div class="bonus-complete">Bonus completed ✓</div>`;
+
+btn.textContent=
+"Bonus Reward Completed ✓";
+
+msg.innerHTML=
+`<div class="bonus-complete">
+Bonus completed ✓
+</div>`;
+
 }else{
-btn.disabled=adInProgress||cooldown;
-btn.textContent=cooldown?"⏳ Next ad in "+remainingCooldownSeconds()+"s":adInProgress?"Ad in progress...":"▶ Watch Bonus Ad";
+
+btn.disabled=
+adInProgress||cooldown;
+
+btn.textContent=
+cooldown
+?"⏳ Next ad in "+remainingCooldownSeconds()+"s"
+:adInProgress
+?"Ad in progress..."
+:"▶ Watch Bonus Ad";
+
 msg.innerHTML="";
+
 }
 }
 
 async function watchBonusAd(){
+
 resetDaily();
 
 if(adInProgress)return;
@@ -968,45 +1125,76 @@ return;
 if(Number(state.bonusAdWatched)>=BONUS_AD_MAX)return;
 
 adInProgress=true;
+
 renderBonusAd();
 
 toast("Opening bonus ad...");
 
-const result=await showMonetagAd();
+const result=
+await showMonetagAd();
 
 adInProgress=false;
 
 if(!result.rewarded){
+
 toast("Ad was not verified.");
+
 renderBonusAd();
+
 return;
 }
 
-const next=Number(state.bonusAdWatched||0)+1;
+const next=
+Number(state.bonusAdWatched||0)+1;
 
 if(next>=BONUS_AD_MAX){
-const credited=addEarning(BONUS_AD_REWARD,"Bonus Ad — 10 Verified Ads Reward",result.eventId);
+
+const credited=
+addEarning(
+BONUS_AD_REWARD,
+"Bonus Ad — 10 Verified Ads Reward",
+result.eventId
+);
 
 if(!credited)return;
 
-state.bonusAdWatched=BONUS_AD_MAX;
-state.tasksClaimed.bonusAd=true;
+state.bonusAdWatched=
+BONUS_AD_MAX;
+
+state.tasksClaimed.bonusAd=
+true;
+
 saveState();
+
 startAdCooldown();
+
 renderBonusAd();
+
 toast("+0.20 bonus reward!");
+
 return;
 }
 
-state.bonusAdWatched=next;
+state.bonusAdWatched=
+next;
+
 saveState();
+
 startAdCooldown();
+
 renderBonusAd();
 
-toast("Bonus Ad "+next+" / "+BONUS_AD_MAX+" completed.");
+toast(
+"Bonus Ad "
++next
++" / "
++BONUS_AD_MAX
++" completed."
+);
 }
 
 function activatePremium(){
+
 syncPremium();
 
 if(premiumIsActive()){
@@ -1019,53 +1207,93 @@ toast("You need $30 balance.");
 return;
 }
 
-state.balance=Number(state.balance)-PREMIUM_FEE;
+state.balance=
+Number(state.balance)-PREMIUM_FEE;
+
 state.premium=true;
-state.premiumActivatedAt=Date.now();
+
+state.premiumActivatedAt=
+Date.now();
 
 state.transactions.unshift({
-label:"Premium Activation Fee — 30 Days",
-amount:-PREMIUM_FEE,
-points:-PREMIUM_FEE*10000,
-date:new Date().toLocaleString("en-IN")
+
+label:
+"Premium Activation Fee — 30 Days",
+
+amount:
+-PREMIUM_FEE,
+
+points:
+-PREMIUM_FEE*10000,
+
+date:
+new Date().toLocaleString("en-IN")
+
 });
 
 saveState();
+
 renderTop();
+
 renderTransactions();
+
 renderTier("premium");
 
 toast("Premium activated.");
 }
 
 function pendingDay(){
-const today=new Date().toDateString();
-const yesterday=new Date(Date.now()-86400000).toDateString();
 
-if(state.lastCheckinDate===today)return state.checkinDay;
+const today=
+new Date().toDateString();
+
+const yesterday=
+new Date(Date.now()-86400000).toDateString();
+
+if(state.lastCheckinDate===today)
+return state.checkinDay;
 
 if(state.lastCheckinDate===yesterday){
-return state.checkinDay>=7?1:state.checkinDay+1;
+
+return state.checkinDay>=7
+?1
+:state.checkinDay+1;
+
 }
 
 return 1;
 }
 
 function renderStreak(){
-const today=new Date().toDateString();
-const claimed=state.lastCheckinDate===today;
-const day=pendingDay();
 
-const grid=document.getElementById("streakGrid");
-const btn=document.getElementById("checkinBtn");
+const today=
+new Date().toDateString();
+
+const claimed=
+state.lastCheckinDate===today;
+
+const day=
+pendingDay();
+
+const grid=
+document.getElementById("streakGrid");
+
+const btn=
+document.getElementById("checkinBtn");
 
 if(!grid||!btn)return;
 
 let html="";
 
 for(let i=1;i<=7;i++){
-const done=claimed?i<=state.checkinDay:i<day;
-const current=!claimed&&i===day;
+
+const done=
+claimed
+?i<=state.checkinDay
+:i<day;
+
+const current=
+!claimed&&i===day;
 
 html+=`
 <div class="day ${done?"done":""} ${current?"current":""}">
@@ -1073,52 +1301,77 @@ html+=`
 <b>${done?"✓":money(STREAK_REWARDS[i-1])}</b>
 </div>
 `;
+
 }
 
 grid.innerHTML=html;
 
-const cooldown=isAdCooldownActive();
+const cooldown=
+isAdCooldownActive();
 
-btn.disabled=claimed||adInProgress||cooldown;
+btn.disabled=
+claimed||adInProgress||cooldown;
 
-btn.textContent=claimed
+btn.textContent=
+claimed
 ?"Claimed for Today"
 :cooldown
 ?"⏳ Next ad in "+remainingCooldownSeconds()+"s"
 :adInProgress
 ?"Ad in progress..."
-:"Watch Ad to Claim "+money(STREAK_REWARDS[day-1]);
+:"Watch Ad to Claim "
++money(STREAK_REWARDS[day-1]);
 }
 
 async function watchCheckin(){
-const today=new Date().toDateString();
 
-if(state.lastCheckinDate===today||adInProgress)return;
+const today=
+new Date().toDateString();
+
+if(
+state.lastCheckinDate===today
+||adInProgress
+)return;
 
 if(isAdCooldownActive()){
-toast("Please wait "+remainingCooldownSeconds()+" seconds.");
+
+toast(
+"Please wait "
++remainingCooldownSeconds()
++" seconds."
+);
+
 return;
 }
 
 adInProgress=true;
+
 renderStreak();
 
 toast("Opening ad...");
 
-const result=await showMonetagAd();
+const result=
+await showMonetagAd();
 
 adInProgress=false;
 
 if(!result.rewarded){
+
 toast("Ad was not verified.");
+
 renderStreak();
+
 return;
 }
 
-const day=pendingDay();
-const reward=STREAK_REWARDS[day-1];
+const day=
+pendingDay();
 
-const credited=addEarning(
+const reward=
+STREAK_REWARDS[day-1];
+
+const credited=
+addEarning(
 reward,
 "Day "+day+" Verified Ad Check-in",
 result.eventId
@@ -1126,169 +1379,296 @@ result.eventId
 
 if(!credited)return;
 
-state.checkinDay=day;
-state.lastCheckinDate=today;
+state.checkinDay=
+day;
+
+state.lastCheckinDate=
+today;
 
 saveState();
+
 startAdCooldown();
 
 toast("Check-in reward added.");
+
 renderStreak();
 }
 
 function claimTask(id,amount){
+
 if(state.tasksClaimed[id]){
+
 toast("Task already claimed.");
+
 return;
 }
 
 state.tasksClaimed[id]=true;
-addEarning(amount,"Task Reward");
+
+addEarning(
+amount,
+"Task Reward"
+);
 
 toast("Task reward added.");
 }
 
 function scrollToWithdraw(){
+
 switchSection("wallet");
 
 setTimeout(()=>{
-const form=document.getElementById("withdrawForm");
+
+const form=
+document.getElementById("withdrawForm");
 
 if(form){
+
 form.scrollIntoView({
 behavior:"smooth",
 block:"center"
 });
+
 }
+
 },100);
 }
 
 /* =========================================================
    WITHDRAWAL
-   MAXIMUM $10
+   EXACTLY $10
 ========================================================= */
 
 async function submitWithdrawal(){
 
-const amount=Number(
+const amount=
+Number(
 document.getElementById("withdrawAmount").value
 );
 
 const address=
-document.getElementById("withdrawAddress").value.trim();
+document.getElementById("withdrawAddress")
+.value
+.trim();
 
 const points=
 pointsFromBalance(state.balance);
 
 if(points<WITHDRAW_POINTS_THRESHOLD){
-toast("You need 100,000 points.");
+
+toast(
+"You need 100,000 points."
+);
+
 return;
 }
 
 if(amount!==WITHDRAW_AMOUNT){
-toast("Withdrawal must be exactly $10.");
+
+toast(
+"Withdrawal must be exactly $10."
+);
+
 return;
 }
 
 if(!address){
-toast("Enter BEP20 address.");
+
+toast(
+"Enter BEP20 address."
+);
+
 return;
 }
 
 if(!/^0x[a-fA-F0-9]{40}$/.test(address)){
-toast("Enter valid BEP20 address.");
+
+toast(
+"Enter valid BEP20 address."
+);
+
 return;
 }
 
-if(!firebaseReady||!db||!firebaseUserId){
-toast("Firebase is not ready. Try again.");
+if(
+!firebaseReady
+||!db
+||!firebaseUserId
+){
+
+toast(
+"Firebase is not ready. Try again."
+);
+
 return;
 }
 
 try{
 
-await db.collection("withdrawals").add({
+await db
+.collection("withdrawals")
+.add({
 
-telegramId:String(firebaseUserId),
+telegramId:
+String(firebaseUserId),
 
-address:address,
+address:
+address,
 
-amount:10,
+amount:
+10,
 
-points:100000,
+points:
+100000,
 
-status:"pending",
+status:
+"pending",
 
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+createdAt:
+firebase.firestore.FieldValue
+.serverTimestamp()
 
 });
 
-toast("Withdrawal request submitted.");
+toast(
+"Withdrawal request submitted."
+);
 
-document.getElementById("withdrawAmount").value="";
-document.getElementById("withdrawAddress").value="";
+document.getElementById(
+"withdrawAmount"
+).value="";
+
+document.getElementById(
+"withdrawAddress"
+).value="";
 
 }catch(error){
 
-console.error("Withdrawal save error:",error);
+console.error(
+"Withdrawal save error:",
+error
+);
 
-toast("Withdrawal request failed. Try again.");
+toast(
+"Withdrawal request failed. Try again."
+);
 
 }
 }
 
 function renderTransactions(){
-const box=document.getElementById("txList");
+
+const box=
+document.getElementById("txList");
 
 if(!box)return;
 
 if(!state.transactions.length){
-box.innerHTML="<p>No transactions yet</p>";
+
+box.innerHTML=
+"<p>No transactions yet</p>";
+
 return;
 }
 
-box.innerHTML=state.transactions.slice(0,10).map(tx=>`
+box.innerHTML=
+state.transactions
+.slice(0,10)
+.map(tx=>`
+
 <div class="tx-row">
+
 <div>
-<div>${tx.label}</div>
-<div class="tx-date">${tx.date}</div>
+
+<div>
+${tx.label}
 </div>
-<div class="${tx.amount>=0?"plus":"minus"}">
+
+<div class="tx-date">
+${tx.date}
+</div>
+
+</div>
+
+<div class="${
+tx.amount>=0
+?"plus"
+:"minus"
+}">
+
 ${tx.amount>=0?"+":""}
-${Number(tx.points||0).toLocaleString("en-US")} Points
+
+${Number(tx.points||0)
+.toLocaleString("en-US")}
+
+Points
+
 </div>
+
 </div>
-`).join("");
+
+`)
+.join("");
 }
 
 function copyRefer(){
-const code=document.getElementById("referCode").textContent;
+
+const code=
+document.getElementById(
+"referCode"
+).textContent;
 
 if(navigator.clipboard){
-navigator.clipboard.writeText(code).then(()=>{
-toast("Referral code copied.");
-}).catch(()=>{
+
+navigator.clipboard
+.writeText(code)
+.then(()=>{
+toast(
+"Referral code copied."
+);
+})
+.catch(()=>{
 toast(code);
 });
+
 }else{
+
 toast(code);
+
 }
 }
 
 function showProfile(type){
 
 if(type==="Account"){
-toast(formatPoints(pointsFromBalance(state.balance)));
+
+toast(
+formatPoints(
+pointsFromBalance(
+state.balance
+)
+)
+);
+
 return;
 }
 
 if(type==="Referrals"){
-toast("Referrals: "+state.referCount);
+
+toast(
+"Referrals: "
++state.referCount
+);
+
 return;
 }
 
 if(type==="Security"){
-toast("Telegram account connected ✓");
+
+toast(
+"Telegram account connected ✓"
+);
+
 return;
 }
 
@@ -1296,101 +1676,195 @@ toast(type);
 }
 
 function logoutUser(){
-toast("Logout is handled by Telegram.");
+
+toast(
+"Logout is handled by Telegram."
+);
 }
 
 function switchSection(target){
 
 closeTier();
 
-document.querySelectorAll(".section").forEach(section=>{
+document
+.querySelectorAll(".section")
+.forEach(section=>{
 section.classList.remove("active");
 });
 
-const section=document.getElementById("sec-"+target);
+const section=
+document.getElementById(
+"sec-"+target
+);
 
-if(section)section.classList.add("active");
+if(section)
+section.classList.add("active");
 
-document.querySelectorAll("nav button").forEach(button=>{
-button.classList.toggle("active",button.dataset.target===target);
+document
+.querySelectorAll("nav button")
+.forEach(button=>{
+
+button.classList.toggle(
+"active",
+button.dataset.target===target
+);
+
 });
 
 window.scrollTo(0,0);
 
 if(target==="task"){
+
 resetDaily();
+
 renderBonusAd();
+
 renderStreak();
-}
+
 }
 
-document.querySelectorAll("nav button").forEach(button=>{
-button.addEventListener("click",()=>{
-switchSection(button.dataset.target);
-});
+}
+
+document
+.querySelectorAll("nav button")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+()=>{
+switchSection(
+button.dataset.target
+);
+}
+);
+
 });
 
 function initTelegramProfile(){
 
-if(!tg||!tg.initDataUnsafe||!tg.initDataUnsafe.user)return;
+if(
+!tg
+||!tg.initDataUnsafe
+||!tg.initDataUnsafe.user
+)return;
 
-const user=tg.initDataUnsafe.user;
+const user=
+tg.initDataUnsafe.user;
 
 const name=(
 (user.first_name||"")+" "+
 (user.last_name||"")
 ).trim();
 
-const profileName=document.getElementById("profileName");
-const profileUsername=document.getElementById("profileUsername");
-const profileId=document.getElementById("profileId");
-const referCode=document.getElementById("referCode");
-const avatar=document.getElementById("avatar");
+const profileName=
+document.getElementById(
+"profileName"
+);
 
-if(profileName)profileName.textContent=name||"User";
+const profileUsername=
+document.getElementById(
+"profileUsername"
+);
+
+const profileId=
+document.getElementById(
+"profileId"
+);
+
+const referCode=
+document.getElementById(
+"referCode"
+);
+
+const avatar=
+document.getElementById(
+"avatar"
+);
+
+if(profileName)
+profileName.textContent=
+name||"User";
 
 if(profileUsername){
-profileUsername.textContent=user.username?"@"+user.username:"@username";
+
+profileUsername.textContent=
+user.username
+?"@"+user.username
+:"@username";
+
 }
 
 if(profileId){
-profileId.textContent="Telegram ID: "+user.id;
+
+profileId.textContent=
+"Telegram ID: "
++user.id;
+
 }
 
 if(referCode){
-referCode.textContent="EB-"+String(user.id).slice(-6);
+
+referCode.textContent=
+"EB-"
++String(user.id)
+.slice(-6);
+
 }
 
-if(avatar&&user.photo_url){
+if(
+avatar
+&&user.photo_url
+){
 
 avatar.innerHTML="";
 
-const img=document.createElement("img");
+const img=
+document.createElement("img");
 
-img.src=user.photo_url;
-img.alt="Profile";
+img.src=
+user.photo_url;
+
+img.alt=
+"Profile";
 
 img.onerror=()=>{
-avatar.textContent=(user.first_name||"U").charAt(0).toUpperCase();
+
+avatar.textContent=
+(user.first_name||"U")
+.charAt(0)
+.toUpperCase();
+
 };
 
 avatar.appendChild(img);
 
 }else if(avatar){
 
-avatar.textContent=(user.first_name||"U").charAt(0).toUpperCase();
+avatar.textContent=
+(user.first_name||"U")
+.charAt(0)
+.toUpperCase();
 
 }
+
 }
 
 resetDaily();
+
 syncPremium();
+
 initTelegramProfile();
+
 renderTop();
+
 renderTransactions();
+
 renderStreak();
+
 renderBonusAd();
+
 updateAdCooldownUI();
+
 initializeFirebaseUser();
 
 </script>
