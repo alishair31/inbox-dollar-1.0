@@ -7,13 +7,10 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <!-- MONETAG: EXISTING AD SYSTEM - DO NOT MODIFY -->
 <script src="https://libtl.com/sdk.js" data-zone="11580974" data-sdk="show_11580974"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
 <style>
 :root{
@@ -129,9 +126,6 @@ button{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .wallet-balance{text-align:center;margin-top:18px;padding:22px 15px;border-radius:20px;background:radial-gradient(circle at 50% 0%,rgba(255,199,44,.1),transparent 45%),linear-gradient(145deg,#17191e,#111216);border:1px solid #30333a}
 .wallet-number{font-size:43px}
 .wallet-number span{color:var(--gold)}
-
-.wallet-equivalent{margin-top:8px;color:var(--muted);font-size:12px;font-weight:800}
-
 .wallet-actions{display:flex;gap:10px;margin-top:15px}
 .wallet-actions button{flex:1;padding:13px;border-radius:13px;border:1px solid #30333a;background:var(--card);color:var(--text);font-weight:900}
 .wallet-actions button:first-child{background:var(--gold);color:#171200;border-color:var(--gold)}
@@ -200,9 +194,10 @@ nav button.active{color:var(--gold)}
 
 <header class="topbar">
   <div class="brand"><span class="dot"></span><span class="brand-name">EarnBoard</span></div>
-  <div class="balance">💰 <b id="topBalance">0 Points</b></div>
+  <div class="balance">💰 <b id="topBalance">$0.00</b></div>
 </header>
 
+<!-- ================= HOME ================= -->
 <section class="section active" id="sec-home">
   <div class="hero">
     <div class="eyebrow">Welcome to EarnBoard</div>
@@ -216,19 +211,19 @@ nav button.active{color:var(--gold)}
 
     <div class="qa" onclick="openTier('light')">
       <div class="qa-icon">▶️</div>
-      <div class="qa-body"><h4>Light Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body"><h4>Light Ads</h4><p>20 ads/day · 100 points</p></div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('pro')">
       <div class="qa-icon">⭐</div>
-      <div class="qa-body"><h4>Pro Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body"><h4>Pro Ads</h4><p>20 ads/day · 100 points</p></div>
       <div class="arrow">›</div>
     </div>
 
     <div class="qa" onclick="openTier('extra')">
       <div class="qa-icon">⚡</div>
-      <div class="qa-body"><h4>Extra Ads</h4><p>20 ads/day · 100 points per verified ad</p></div>
+      <div class="qa-body"><h4>Extra Ads</h4><p>20 ads/day · 100 points</p></div>
       <div class="arrow">›</div>
     </div>
 
@@ -245,6 +240,7 @@ nav button.active{color:var(--gold)}
   </div>
 </section>
 
+<!-- ================= TASK ================= -->
 <section class="section" id="sec-task">
   <h2 class="title display">Tasks</h2>
   <p class="subtitle">Complete tasks and earn extra rewards.</p>
@@ -274,6 +270,7 @@ nav button.active{color:var(--gold)}
   </div>
 </section>
 
+<!-- ================= REFER ================= -->
 <section class="section" id="sec-refer">
   <h2 class="title display">Refer & Earn</h2>
   <p class="subtitle">Invite friends and earn referral rewards.</p>
@@ -287,13 +284,13 @@ nav button.active{color:var(--gold)}
   <div class="card"><h4>Referral Benefits</h4><p>Invite friends, grow your network, and unlock more earning opportunities.</p></div>
 </section>
 
+<!-- ================= WALLET ================= -->
 <section class="section" id="sec-wallet">
   <h2 class="title display">Wallet</h2>
 
   <div class="wallet-balance">
-    <div class="wallet-number display"><span id="walletBalance">0 Points</span></div>
+    <div class="wallet-number display"><span id="walletBalance">$0.00</span></div>
     <p class="subtitle">Available Balance</p>
-    <div class="wallet-equivalent">200,000 Points is equal to $20</div>
   </div>
 
   <div class="wallet-actions">
@@ -342,6 +339,7 @@ nav button.active{color:var(--gold)}
   </div>
 </section>
 
+<!-- ================= PROFILE ================= -->
 <section class="section" id="sec-profile">
   <h2 class="title display">Profile</h2>
 
@@ -365,6 +363,7 @@ nav button.active{color:var(--gold)}
   </div>
 </section>
 
+<!-- ================= NAVIGATION ================= -->
 <nav>
   <button class="active" data-target="home"><span>🏠</span>Home</button>
   <button data-target="task"><span>✅</span>Task</button>
@@ -374,68 +373,146 @@ nav button.active{color:var(--gold)}
 </nav>
 
 <script>
-
 /* =========================================================
-   FIREBASE
+   FIREBASE / FIRESTORE
+   IMPORTANT: paste your Firebase Web App config below.
 ========================================================= */
-
 const firebaseConfig = {
-  apiKey: "AIzaSyAHr8Mf2ff0p_sTqbB2JGP_tcEOgqQI7GM",
-  authDomain: "inbox-dollars-41161.firebaseapp.com",
-  projectId: "inbox-dollars-41161",
-  storageBucket: "inbox-dollars-41161.firebasestorage.app",
-  messagingSenderId: "128399226582",
-  appId: "1:128399226582:web:ba703d82a8d24f0ff43b77",
-  measurementId: "G-V2Q9C6DTLS"
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "PASTE_YOUR_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
+  appId: "PASTE_YOUR_FIREBASE_APP_ID"
 };
 
-let db=null;
-let firebaseAuth=null;
 let firebaseReady=false;
+let db=null;
 let firebaseUserId=null;
-let firebaseAuthReady=false;
+let firebaseSaveTimer=null;
 
-try{
-
-  if(!firebase.apps.length){
-    firebase.initializeApp(firebaseConfig);
+function getTelegramUserId(){
+  try{
+    const user=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user;
+    return user&&user.id?String(user.id):null;
+  }catch(error){
+    return null;
   }
+}
 
-  db=firebase.firestore();
-  firebaseAuth=firebase.auth();
+function firebaseConfigIsReady(){
+  return firebaseConfig.apiKey &&
+    !firebaseConfig.apiKey.startsWith("PASTE_") &&
+    firebaseConfig.projectId &&
+    !firebaseConfig.projectId.startsWith("PASTE_") &&
+    firebaseConfig.appId &&
+    !firebaseConfig.appId.startsWith("PASTE_");
+}
 
-  firebaseReady=true;
+function initFirebase(){
+  if(!firebaseConfigIsReady()){
+    console.warn("Firebase config is not filled. Local storage will remain active.");
+    return false;
+  }
+  try{
+    if(!window.firebase){
+      console.error("Firebase SDK did not load.");
+      return false;
+    }
+    if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+    db=firebase.firestore();
+    firebaseReady=true;
+    return true;
+  }catch(error){
+    console.error("Firebase initialization error:",error);
+    firebaseReady=false;
+    return false;
+  }
+}
 
-}catch(error){
+function firebaseDocRef(){
+  const id=firebaseUserId||getTelegramUserId();
+  if(!firebaseReady||!db||!id)return null;
+  return db.collection("users").doc(String(id));
+}
 
-  console.error(
-    "Firebase initialization error:",
-    error
-  );
+function serializableState(){
+  return JSON.parse(JSON.stringify(state));
+}
+
+async function saveStateToFirestore(){
+  const ref=firebaseDocRef();
+  if(!ref)return;
+  try{
+    await ref.set({
+      ...serializableState(),
+      telegramId:String(firebaseUserId),
+      updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    },{merge:true});
+  }catch(error){
+    console.error("Firestore save error:",error);
+  }
+}
+
+function queueFirestoreSave(){
+  clearTimeout(firebaseSaveTimer);
+  firebaseSaveTimer=setTimeout(()=>saveStateToFirestore(),250);
+}
+
+async function loadStateFromFirestore(){
+  const ref=firebaseDocRef();
+  if(!ref)return;
+  try{
+    const snap=await ref.get();
+    if(snap.exists){
+      const remote=snap.data()||{};
+      state={
+        ...defaults,
+        ...remote,
+        tasksClaimed:remote.tasksClaimed||{},
+        transactions:Array.isArray(remote.transactions)?remote.transactions:[],
+        rewardedAdIds:Array.isArray(remote.rewardedAdIds)?remote.rewardedAdIds:[],
+        bonusAdWatched:Number(remote.bonusAdWatched||0)
+      };
+      saveState();
+    }else{
+      await saveStateToFirestore();
+    }
+  }catch(error){
+    console.error("Firestore load error:",error);
+    toast("Cloud sync unavailable. Local data is still active.");
+  }
+}
+
+async function initializeFirebaseUser(){
+  if(!initFirebase())return;
+  firebaseUserId=getTelegramUserId();
+  if(!firebaseUserId){
+    console.warn("No Telegram user ID. Firestore user sync skipped.");
+    return;
+  }
+  await loadStateFromFirestore();
+  resetDaily();
+  syncPremium();
+  renderTop();
+  renderTransactions();
+  renderStreak();
+  renderBonusAd();
+  updateAdCooldownUI();
 }
 
 /* =========================================================
    TELEGRAM
 ========================================================= */
-
-const tg =
-  window.Telegram &&
-  window.Telegram.WebApp
-  ? window.Telegram.WebApp
-  : null;
-
-if(tg){
-  tg.ready();
-  tg.expand();
-}
+const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+if(tg){ tg.ready(); tg.expand(); }
 
 /* =========================================================
    STORAGE
 ========================================================= */
+const STORAGE_KEY = "earnboard_state_v3";
 
-const STORAGE_KEY="earnboard_state_v3";
-
-const defaults={
+const defaults = {
   balance:0,
   todayEarned:0,
   totalEarned:0,
@@ -456,483 +533,37 @@ const defaults={
   rewardedAdIds:[]
 };
 
-function cloneDefaults(){
-  return JSON.parse(
-    JSON.stringify(defaults)
-  );
-}
-
 function loadState(){
-
   try{
-
-    const raw=
-      localStorage.getItem(
-        STORAGE_KEY
-      );
-
-    if(!raw){
-      return cloneDefaults();
-    }
-
-    const parsed=
-      JSON.parse(raw);
-
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return {...defaults};
+    const parsed=JSON.parse(raw);
     return {
-      ...cloneDefaults(),
-      ...parsed,
-      tasksClaimed:
-        parsed.tasksClaimed||{},
-      transactions:
-        parsed.transactions||[],
-      rewardedAdIds:
-        parsed.rewardedAdIds||[],
-      bonusAdWatched:
-        Number(
-          parsed.bonusAdWatched||0
-        )
+      ...defaults,...parsed,
+      tasksClaimed:parsed.tasksClaimed||{},
+      transactions:parsed.transactions||[],
+      rewardedAdIds:parsed.rewardedAdIds||[],
+      bonusAdWatched:Number(parsed.bonusAdWatched||0)
     };
-
   }catch(error){
-
-    console.error(
-      "Storage load error:",
-      error
-    );
-
-    return cloneDefaults();
+    console.error("Storage load error:",error);
+    return {...defaults};
   }
 }
 
 let state=loadState();
 
-/* =========================================================
-   FIREBASE USER ID
-========================================================= */
-
-function getTelegramUserId(){
-
-  if(
-    tg &&
-    tg.initDataUnsafe &&
-    tg.initDataUnsafe.user &&
-    tg.initDataUnsafe.user.id
-  ){
-
-    return String(
-      tg.initDataUnsafe.user.id
-    );
-  }
-
-  return null;
-}
-
-function getFirebaseUserId(){
-
-  const telegramId=
-    getTelegramUserId();
-
-  if(telegramId){
-    return telegramId;
-  }
-
-  let localId=
-    localStorage.getItem(
-      "earnboard_guest_id"
-    );
-
-  if(!localId){
-
-    localId=
-      "guest_"+
-      Date.now().toString(36)+
-      "_"+
-      Math.random()
-        .toString(36)
-        .slice(2,10);
-
-    localStorage.setItem(
-      "earnboard_guest_id",
-      localId
-    );
-  }
-
-  return localId;
-}
-
-function firebaseUserRef(){
-
-  if(
-    !firebaseReady||
-    !db||
-    !firebaseUserId
-  ){
-    return null;
-  }
-
-  return db
-    .collection("users")
-    .doc(
-      String(firebaseUserId)
-    );
-}
-
-/* =========================================================
-   FIREBASE AUTH
-========================================================= */
-
-async function initializeFirebaseAuth(){
-
-  if(
-    !firebaseReady||
-    !firebaseAuth
-  ){
-    return false;
-  }
-
-  try{
-
-    if(firebaseAuth.currentUser){
-
-      firebaseAuthReady=true;
-
-      return true;
-    }
-
-    await firebaseAuth.signInAnonymously();
-
-    firebaseAuthReady=
-      !!firebaseAuth.currentUser;
-
-    console.log(
-      "Firebase Anonymous Auth ready:",
-      firebaseAuthReady
-    );
-
-    return firebaseAuthReady;
-
-  }catch(error){
-
-    console.error(
-      "Firebase Anonymous Auth error:",
-      error
-    );
-
-    toast(
-      "Firebase login failed."
-    );
-
-    return false;
-  }
-}
-
-/* =========================================================
-   FIREBASE SAVE
-========================================================= */
-
-let firebaseSaveTimer=null;
-
-function cleanStateForFirestore(){
-
-  return {
-
-    balance:Number(
-      state.balance||0
-    ),
-
-    todayEarned:Number(
-      state.todayEarned||0
-    ),
-
-    totalEarned:Number(
-      state.totalEarned||0
-    ),
-
-    lightWatched:Number(
-      state.lightWatched||0
-    ),
-
-    proWatched:Number(
-      state.proWatched||0
-    ),
-
-    extraWatched:Number(
-      state.extraWatched||0
-    ),
-
-    premiumWatched:Number(
-      state.premiumWatched||0
-    ),
-
-    premium:Boolean(
-      state.premium||false
-    ),
-
-    premiumActivatedAt:
-      state.premiumActivatedAt||null,
-
-    checkinDay:Number(
-      state.checkinDay||1
-    ),
-
-    lastCheckinDate:
-      state.lastCheckinDate||null,
-
-    tasksClaimed:
-      state.tasksClaimed||{},
-
-    bonusAdWatched:Number(
-      state.bonusAdWatched||0
-    ),
-
-    bonusAdDate:
-      state.bonusAdDate||
-      new Date().toDateString(),
-
-    referCount:Number(
-      state.referCount||0
-    ),
-
-    transactions:
-      Array.isArray(state.transactions)
-      ?state.transactions.slice(0,100)
-      :[],
-
-    adDate:
-      state.adDate||
-      new Date().toDateString(),
-
-    rewardedAdIds:
-      Array.isArray(state.rewardedAdIds)
-      ?state.rewardedAdIds.slice(-500)
-      :[],
-
-    telegramId:
-      String(firebaseUserId),
-
-    updatedAt:
-      firebase.firestore.FieldValue.serverTimestamp()
-  };
-}
-
-async function saveStateToFirebase(){
-
-  const ref=
-    firebaseUserRef();
-
-  if(!ref){
-
-    console.warn(
-      "Firebase user reference missing."
-    );
-
-    return false;
-  }
-
-  if(
-    !firebaseAuthReady||
-    !firebaseAuth.currentUser
-  ){
-
-    console.warn(
-      "Firebase Auth is not ready."
-    );
-
-    return false;
-  }
-
-  try{
-
-    await ref.set(
-      cleanStateForFirestore(),
-      {
-        merge:true
-      }
-    );
-
-    console.log(
-      "Firestore updated successfully:",
-      firebaseUserId
-    );
-
-    return true;
-
-  }catch(error){
-
-    console.error(
-      "Firestore save error:",
-      error
-    );
-
-    return false;
-  }
-}
-
-function queueFirebaseSave(){
-
-  if(
-    !firebaseReady||
-    !firebaseUserId||
-    !firebaseAuthReady
-  ){
-    return;
-  }
-
-  clearTimeout(
-    firebaseSaveTimer
-  );
-
-  firebaseSaveTimer=
-    setTimeout(
-      async ()=>{
-        await saveStateToFirebase();
-      },
-      300
-    );
-}
-
-/* =========================================================
-   LOCAL + FIREBASE SAVE
-========================================================= */
-
 function saveState(){
-
   try{
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(state)
-    );
-
-  }catch(error){
-
-    console.error(
-      "Storage save error:",
-      error
-    );
-  }
-
-  queueFirebaseSave();
-}
-
-/* =========================================================
-   FIREBASE LOAD
-========================================================= */
-
-let firebaseLoaded=false;
-
-async function loadStateFromFirebase(){
-
-  if(
-    !firebaseReady||
-    !db||
-    !firebaseAuthReady
-  ){
-    return;
-  }
-
-  firebaseUserId=
-    getFirebaseUserId();
-
-  const ref=
-    firebaseUserRef();
-
-  if(!ref){
-    return;
-  }
-
-  try{
-
-    const snapshot=
-      await ref.get();
-
-    if(snapshot.exists){
-
-      const remote=
-        snapshot.data();
-
-      state={
-        ...cloneDefaults(),
-        ...remote,
-
-        tasksClaimed:
-          remote.tasksClaimed||{},
-
-        transactions:
-          Array.isArray(
-            remote.transactions
-          )
-          ?remote.transactions
-          :[],
-
-        rewardedAdIds:
-          Array.isArray(
-            remote.rewardedAdIds
-          )
-          ?remote.rewardedAdIds
-          :[],
-
-        bonusAdWatched:
-          Number(
-            remote.bonusAdWatched||0
-          )
-      };
-
-      try{
-
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(state)
-        );
-
-      }catch(error){
-
-        console.error(
-          "Local sync error:",
-          error
-        );
-      }
-
-    }else{
-
-      await ref.set(
-        cleanStateForFirestore(),
-        {
-          merge:true
-        }
-      );
-
-      console.log(
-        "New Firebase user document created:",
-        firebaseUserId
-      );
-    }
-
-    firebaseLoaded=true;
-
-    resetDaily();
-    syncPremium();
-    renderTop();
-    renderTransactions();
-    renderStreak();
-    renderBonusAd();
-    updateAdCooldownUI();
-
-  }catch(error){
-
-    console.error(
-      "Firestore load error:",
-      error
-    );
-
-    firebaseLoaded=false;
-  }
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+  }catch(error){ console.error("Storage save error:",error); }
+  if(firebaseReady&&firebaseUserId)queueFirestoreSave();
 }
 
 /* =========================================================
    CONSTANTS
+   100 POINTS = $0.01
 ========================================================= */
-
 const LIGHT_MAX=20;
 const PRO_MAX=20;
 const EXTRA_MAX=20;
@@ -949,15 +580,7 @@ const PREMIUM_FEE=30;
 const BONUS_AD_MAX=10;
 const BONUS_AD_REWARD=0.20;
 
-const STREAK_REWARDS=[
-  0.02,
-  0.03,
-  0.04,
-  0.05,
-  0.06,
-  0.08,
-  0.10
-];
+const STREAK_REWARDS=[0.02,0.03,0.04,0.05,0.06,0.08,0.10];
 
 const WITHDRAW_POINTS_THRESHOLD=200000;
 const WITHDRAW_AMOUNT=20;
@@ -968,220 +591,90 @@ let currentTier=null;
 /* =========================================================
    10 SECOND AD COOLDOWN
 ========================================================= */
-
 const AD_COOLDOWN_SECONDS=10;
-
 let adCooldownUntil=0;
 let adCooldownTimer=null;
 
-function isAdCooldownActive(){
-
-  return Date.now()<
-    adCooldownUntil;
-}
+function isAdCooldownActive(){ return Date.now()<adCooldownUntil; }
 
 function remainingCooldownSeconds(){
-
-  return Math.max(
-    0,
-    Math.ceil(
-      (
-        adCooldownUntil-
-        Date.now()
-      )/1000
-    )
-  );
+  return Math.max(0,Math.ceil((adCooldownUntil-Date.now())/1000));
 }
 
 function startAdCooldown(){
-
-  adCooldownUntil=
-    Date.now()+
-    (
-      AD_COOLDOWN_SECONDS*
-      1000
-    );
-
-  clearInterval(
-    adCooldownTimer
-  );
-
+  adCooldownUntil=Date.now()+(AD_COOLDOWN_SECONDS*1000);
+  clearInterval(adCooldownTimer);
   updateAdCooldownUI();
-
-  adCooldownTimer=
-    setInterval(
-      ()=>{
-        updateAdCooldownUI();
-
-        if(
-          !isAdCooldownActive()
-        ){
-
-          clearInterval(
-            adCooldownTimer
-          );
-
-          adCooldownTimer=null;
-
-          updateAdCooldownUI();
-
-          toast(
-            "10-second break completed. Next ad is ready."
-          );
-        }
-
-      },
-      250
-    );
+  adCooldownTimer=setInterval(()=>{
+    updateAdCooldownUI();
+    if(!isAdCooldownActive()){
+      clearInterval(adCooldownTimer);
+      adCooldownTimer=null;
+      updateAdCooldownUI();
+      toast("10-second break completed. Next ad is ready.");
+    }
+  },250);
 }
 
 function cooldownText(){
-
-  const seconds=
-    remainingCooldownSeconds();
-
-  return seconds>0
-    ?"⏳ Next ad in "+seconds+"s"
-    :"▶ Watch Ad";
+  const seconds=remainingCooldownSeconds();
+  return seconds>0?"⏳ Next ad in "+seconds+"s":"▶ Watch Ad";
 }
 
 function updateAdCooldownUI(){
-
-  const seconds=
-    remainingCooldownSeconds();
-
-  const adButtons=
-    document.querySelectorAll(
-      '[data-ad-button="true"]'
-    );
-
-  adButtons.forEach(
-    button=>{
-
-      if(
-        isAdCooldownActive()
-      ){
-
-        button.disabled=true;
-
-        button.textContent=
-          cooldownText();
-      }
+  const seconds=remainingCooldownSeconds();
+  const adButtons=document.querySelectorAll('[data-ad-button="true"]');
+  adButtons.forEach(button=>{
+    if(isAdCooldownActive()){
+      button.disabled=true;
+      button.textContent=cooldownText();
     }
-  );
-
-  if(
-    typeof renderBonusAd===
-    "function"
-  ){
-    renderBonusAd();
-  }
-
-  if(
-    typeof renderStreak===
-    "function"
-  ){
-    renderStreak();
-  }
-
-  if(
-    seconds===0 &&
-    !isAdCooldownActive() &&
-    currentTier &&
-    !adInProgress
-  ){
-
-    renderTier(
-      currentTier
-    );
-  }
+  });
+  if(typeof renderBonusAd==="function")renderBonusAd();
+  if(typeof renderStreak==="function")renderStreak();
+  if(seconds===0&&!isAdCooldownActive()&&currentTier&&!adInProgress)renderTier(currentTier);
 }
 
 /* =========================================================
    PREMIUM
 ========================================================= */
-
 function premiumIsActive(){
-
-  if(
-    !state.premium||
-    !state.premiumActivatedAt
-  ){
-    return false;
-  }
-
-  const age=
-    Date.now()-
-    Number(
-      state.premiumActivatedAt
-    );
-
-  return age<
-    30*
-    24*
-    60*
-    60*
-    1000;
+  if(!state.premium||!state.premiumActivatedAt)return false;
+  const age=Date.now()-Number(state.premiumActivatedAt);
+  return age<30*24*60*60*1000;
 }
 
 function syncPremium(){
-
-  if(!state.premium){
-    return false;
-  }
-
+  if(!state.premium)return false;
   if(!premiumIsActive()){
-
     state.premium=false;
-
     state.premiumActivatedAt=null;
-
     saveState();
-
     return false;
   }
-
   return true;
 }
 
 /* =========================================================
    DAILY RESET
 ========================================================= */
-
 function resetDaily(){
+  const today=new Date().toDateString();
 
-  const today=
-    new Date().toDateString();
-
-  if(
-    state.adDate!==today
-  ){
-
+  if(state.adDate!==today){
     state.adDate=today;
-
     state.lightWatched=0;
     state.proWatched=0;
     state.extraWatched=0;
     state.premiumWatched=0;
     state.todayEarned=0;
-
     saveState();
   }
 
-  if(
-    state.bonusAdDate!==today
-  ){
-
+  if(state.bonusAdDate!==today){
     state.bonusAdDate=today;
-
     state.bonusAdWatched=0;
-
-    if(
-      state.tasksClaimed.bonusAd
-    ){
-      delete state.tasksClaimed.bonusAd;
-    }
-
+    if(state.tasksClaimed.bonusAd)delete state.tasksClaimed.bonusAd;
     saveState();
   }
 }
@@ -1189,114 +682,42 @@ function resetDaily(){
 /* =========================================================
    FORMAT
 ========================================================= */
+function money(n){ return "$"+Number(n||0).toFixed(2); }
 
-function money(n){
-
-  return "$"+
-    Number(n||0)
-      .toFixed(2);
-}
-
+/* =========================================================
+   POINTS
+========================================================= */
 function pointsFromBalance(balance){
-
-  return Math.round(
-    Number(balance||0)*
-    10000
-  );
+  return Math.round(Number(balance||0)*10000000);
 }
 
 function formatPoints(points){
-
-  return Number(
-    points||0
-  ).toLocaleString(
-    "en-US"
-  );
+  return Number(points||0).toLocaleString("en-US");
 }
 
 /* =========================================================
    TOAST
 ========================================================= */
-
 function toast(message){
-
-  const el=
-    document.getElementById(
-      "toast"
-    );
-
+  const el=document.getElementById("toast");
   if(!el)return;
-
   el.textContent=message;
-
-  el.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    window.toastTimer
-  );
-
-  window.toastTimer=
-    setTimeout(
-      ()=>{
-        el.classList.remove(
-          "show"
-        );
-      },
-      2300
-    );
+  el.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>el.classList.remove("show"),2300);
 }
 
 /* =========================================================
    TOP RENDER
 ========================================================= */
-
 function renderTop(){
+  const topBalance=document.getElementById("topBalance");
+  const walletBalance=document.getElementById("walletBalance");
+  const referCount=document.getElementById("referCount");
 
-  const topBalance=
-    document.getElementById(
-      "topBalance"
-    );
-
-  const walletBalance=
-    document.getElementById(
-      "walletBalance"
-    );
-
-  const referCount=
-    document.getElementById(
-      "referCount"
-    );
-
-  const currentPoints=
-    pointsFromBalance(
-      state.balance
-    );
-
-  if(topBalance){
-
-    topBalance.textContent=
-      formatPoints(
-        currentPoints
-      )+
-      " Points";
-  }
-
-  if(walletBalance){
-
-    walletBalance.textContent=
-      formatPoints(
-        currentPoints
-      )+
-      " Points";
-  }
-
-  if(referCount){
-
-    referCount.textContent=
-      state.referCount;
-  }
+  if(topBalance)topBalance.textContent=money(state.balance);
+  if(walletBalance)walletBalance.textContent=money(state.balance);
+  if(referCount)referCount.textContent=state.referCount;
 
   renderBonusAd();
 }
@@ -1305,733 +726,235 @@ function renderTop(){
    MONETAG
    EXISTING SYSTEM PRESERVED
 ========================================================= */
-
 function monetagRewarded(result){
+  if(!result)return {rewarded:false,eventId:null};
+  if(typeof result!=="object")return {rewarded:false,eventId:null};
 
-  if(!result){
+  const eventType=String(result.reward_event_type||"").toLowerCase();
+  const eventId=result.event_id||result.eventId||result.ymid||null;
 
-    return {
-      rewarded:false,
-      eventId:null
-    };
-  }
-
-  if(
-    typeof result!=="object"
-  ){
-
-    return {
-      rewarded:false,
-      eventId:null
-    };
-  }
-
-  const eventType=
-    String(
-      result.reward_event_type||
-      ""
-    ).toLowerCase();
-
-  const eventId=
-    result.event_id||
-    result.eventId||
-    result.ymid||
-    null;
-
-  return {
-
-    rewarded:
-      eventType==="valued",
-
-    eventId:eventId
-  };
+  return {rewarded:eventType==="valued",eventId:eventId};
 }
 
 function createAdId(){
-
-  return "eb_"+
-    Date.now().toString(36)+
-    "_"+
-    Math.random()
-      .toString(36)
-      .slice(2,10);
+  return "eb_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,10);
 }
 
 async function showMonetagAd(){
+  const fn=window.show_11580974;
 
-  const fn=
-    window.show_11580974;
-
-  if(
-    typeof fn!=="function"
-  ){
-
-    toast(
-      "Ad system is loading. Try again."
-    );
-
-    return {
-      rewarded:false,
-      eventId:null
-    };
+  if(typeof fn!=="function"){
+    toast("Ad system is loading. Try again.");
+    return {rewarded:false,eventId:null};
   }
 
-  const ymid=
-    createAdId();
+  const ymid=createAdId();
 
   try{
+    const result=await Promise.resolve(fn(ymid));
+    const parsed=monetagRewarded(result);
 
-    const result=
-      await Promise.resolve(
-        fn(ymid)
-      );
-
-    const parsed=
-      monetagRewarded(
-        result
-      );
-
-    if(
-      parsed.eventId &&
-      state.rewardedAdIds.includes(
-        String(
-          parsed.eventId
-        )
-      )
-    ){
-
-      console.warn(
-        "Duplicate Monetag reward event:",
-        parsed.eventId
-      );
-
-      return {
-        rewarded:false,
-        eventId:
-          parsed.eventId
-      };
+    if(parsed.eventId&&state.rewardedAdIds.includes(String(parsed.eventId))){
+      console.warn("Duplicate Monetag reward event:",parsed.eventId);
+      return {rewarded:false,eventId:parsed.eventId};
     }
 
     return {
-
-      rewarded:
-        parsed.rewarded,
-
-      eventId:
-        parsed.eventId
-        ?String(
-          parsed.eventId
-        )
-        :ymid
+      rewarded:parsed.rewarded,
+      eventId:parsed.eventId?String(parsed.eventId):ymid
     };
-
   }catch(error){
-
-    console.error(
-      "Monetag error:",
-      error
-    );
-
-    toast(
-      "Ad could not be completed."
-    );
-
-    return {
-      rewarded:false,
-      eventId:null
-    };
+    console.error("Monetag error:",error);
+    toast("Ad could not be completed.");
+    return {rewarded:false,eventId:null};
   }
 }
 
 /* =========================================================
    EARNING
+   Existing wallet remains dollar-based.
+   Each Light/Pro/Extra ad gives exactly 100 points.
 ========================================================= */
-
-function addEarning(
-  amount,
-  label,
-  eventId=null
-){
-
+function addEarning(amount,label,eventId=null){
   if(eventId){
-
-    const id=
-      String(eventId);
-
-    if(
-      state.rewardedAdIds.includes(
-        id
-      )
-    ){
-
-      console.warn(
-        "Reward already credited:",
-        id
-      );
-
+    const id=String(eventId);
+    if(state.rewardedAdIds.includes(id)){
+      console.warn("Reward already credited:",id);
       return false;
     }
-
-    state.rewardedAdIds.push(
-      id
-    );
-
-    if(
-      state.rewardedAdIds.length>
-      500
-    ){
-
-      state.rewardedAdIds=
-        state.rewardedAdIds
-          .slice(-500);
-    }
+    state.rewardedAdIds.push(id);
+    if(state.rewardedAdIds.length>500)state.rewardedAdIds=state.rewardedAdIds.slice(-500);
   }
 
-  state.balance=
-    Number(state.balance)+
-    Number(amount);
-
-  state.todayEarned=
-    Number(state.todayEarned)+
-    Number(amount);
-
-  state.totalEarned=
-    Number(state.totalEarned)+
-    Number(amount);
+  state.balance=Number(state.balance)+Number(amount);
+  state.todayEarned=Number(state.todayEarned)+Number(amount);
+  state.totalEarned=Number(state.totalEarned)+Number(amount);
 
   state.transactions.unshift({
-
     label:label,
-
-    amount:
-      Number(amount),
-
-    date:
-      new Date()
-        .toLocaleString(
-          "en-IN"
-        ),
-
-    eventId:
-      eventId
-      ?String(eventId)
-      :null
+    amount:Number(amount),
+    date:new Date().toLocaleString("en-IN"),
+    eventId:eventId?String(eventId):null
   });
 
   saveState();
-
   renderTop();
   renderTransactions();
-
   return true;
 }
 
 /* =========================================================
    TIER
 ========================================================= */
-
 function openTier(tier){
-
   currentTier=tier;
-
-  document.getElementById(
-    "quickActions"
-  ).style.display="none";
-
-  document.getElementById(
-    "tierPanel"
-  ).style.display="block";
-
+  document.getElementById("quickActions").style.display="none";
+  document.getElementById("tierPanel").style.display="block";
   renderTier(tier);
 }
 
 function closeTier(){
-
   currentTier=null;
-
-  document.getElementById(
-    "tierPanel"
-  ).style.display="none";
-
-  document.getElementById(
-    "quickActions"
-  ).style.display="block";
+  document.getElementById("tierPanel").style.display="none";
+  document.getElementById("quickActions").style.display="block";
 }
 
 function renderTier(tier){
-
   resetDaily();
   syncPremium();
 
-  const box=
-    document.getElementById(
-      "tierContent"
-    );
-
+  const box=document.getElementById("tierContent");
   if(!box)return;
 
   if(tier==="premium"){
-
-    const active=
-      premiumIsActive();
-
-    const premiumCooldown=
-      isAdCooldownActive();
+    const active=premiumIsActive();
+    const premiumCooldown=isAdCooldownActive();
 
     box.innerHTML=`
-
       <div class="premium">
-
-        <h3 class="display">
-          Premium Membership
-        </h3>
-
-        <p>
-          Unlock premium earning opportunities
-          with higher daily ad limits.
-        </p>
-
-        <div class="fee">
-          $30 activation fee · Premium access for 30 days
-        </div>
-
-        <div class="fee-box">
-          💎 $30 Activation Fee
-        </div>
-
-        <button
-          class="watch"
-          onclick="activatePremium()"
-          ${active?"disabled":""}
-        >
-          ${
-            active
-            ?"Premium Active ✓"
-            :"Activate Premium – $30"
-          }
+        <h3 class="display">Premium Membership</h3>
+        <p>Unlock premium earning opportunities with higher daily ad limits.</p>
+        <div class="fee">$30 activation fee · Premium access for 30 days</div>
+        <div class="fee-box">💎 $30 Activation Fee</div>
+        <button class="watch" onclick="activatePremium()" ${active?"disabled":""}>
+          ${active?"Premium Active ✓":"Activate Premium – $30"}
         </button>
-
       </div>
 
-      ${
-        active
-        ?`
-
+      ${active?`
         <div class="ad">
-
-          <div class="ad-icon">
-            💎
-          </div>
-
-          <h3>
-            Premium Ad
-          </h3>
-
-          <p>
-            Real Monetag rewarded ad · $0.01
-          </p>
-
-          <button
-            class="watch"
-            data-ad-button="true"
-            onclick="watchAd('premium')"
-            ${
-              state.premiumWatched>=
-                PREMIUM_MAX||
-              adInProgress||
-              premiumCooldown
-              ?"disabled":""
-            }
-          >
-            ${
-              state.premiumWatched>=
-                PREMIUM_MAX
-              ?"Daily Limit Completed"
-              :premiumCooldown
-              ?cooldownText()
-              :adInProgress
-              ?"Ad in progress..."
-              :"▶ Watch Premium Ad"
-            }
+          <div class="ad-icon">💎</div>
+          <h3>Premium Ad</h3>
+          <p>Real Monetag rewarded ad</p>
+          <button class="watch" data-ad-button="true" onclick="watchAd('premium')"
+            ${state.premiumWatched>=PREMIUM_MAX||adInProgress||premiumCooldown?"disabled":""}>
+            ${state.premiumWatched>=PREMIUM_MAX?"Daily Limit Completed":premiumCooldown?cooldownText():adInProgress?"Ad in progress...":"▶ Watch Premium Ad"}
           </button>
-
-          <div class="count">
-
-            <span>
-              Premium ads watched today
-            </span>
-
-            <span>
-              ${
-                state.premiumWatched
-              }/${PREMIUM_MAX}
-            </span>
-
-          </div>
-
-          ${
-            premiumCooldown
-            ?`
-
-              <div class="cooldown-box">
-
-                Please wait
-
-                <strong>
-                  ${
-                    remainingCooldownSeconds()
-                  }s
-                </strong>
-
-                before watching another ad.
-
-              </div>
-
-            `
-            :""
-          }
-
+          <div class="count"><span>Premium ads watched today</span><span>${state.premiumWatched}/${PREMIUM_MAX}</span></div>
+          ${premiumCooldown?`<div class="cooldown-box">Please wait <strong>${remainingCooldownSeconds()}s</strong> before watching another ad.</div>`:""}
         </div>
-
-        `
-        :""
-      }
-
+      `:""}
     `;
-
     return;
   }
 
-  let watched=0;
-  let max=20;
-  let title="";
-  let icon="▶️";
-  let reward=0.01;
+  let watched=0,max=20,title="",icon="▶️",reward=0.01;
 
-  if(tier==="light"){
+  if(tier==="light"){watched=state.lightWatched;title="Light Ad";reward=LIGHT_REWARD}
+  if(tier==="pro"){watched=state.proWatched;title="Pro Ad";icon="⭐";reward=PRO_REWARD}
+  if(tier==="extra"){watched=state.extraWatched;title="Extra Ad";icon="⚡";reward=EXTRA_REWARD}
 
-    watched=
-      state.lightWatched;
-
-    title="Light Ad";
-
-    reward=
-      LIGHT_REWARD;
-  }
-
-  if(tier==="pro"){
-
-    watched=
-      state.proWatched;
-
-    title="Pro Ad";
-
-    icon="⭐";
-
-    reward=
-      PRO_REWARD;
-  }
-
-  if(tier==="extra"){
-
-    watched=
-      state.extraWatched;
-
-    title="Extra Ad";
-
-    icon="⚡";
-
-    reward=
-      EXTRA_REWARD;
-  }
-
-  const completed=
-    watched>=max;
-
-  const cooldown=
-    isAdCooldownActive();
+  const completed=watched>=max;
+  const cooldown=isAdCooldownActive();
 
   box.innerHTML=`
-
     <div class="ad">
-
-      <div class="ad-icon">
-        ${icon}
-      </div>
-
-      <h3>
-        ${title}
-      </h3>
-
-      <p>
-        Real Monetag rewarded ad ·
-        ${POINTS_PER_AD} points ($0.01)
-      </p>
-
-      <button
-        class="watch"
-        data-ad-button="true"
-        onclick="watchAd('${tier}')"
-        ${
-          completed||
-          adInProgress||
-          cooldown
-          ?"disabled":""
-        }
-      >
-        ${
-          completed
-          ?"Daily Limit Completed"
-          :cooldown
-          ?cooldownText()
-          :adInProgress
-          ?"Ad in progress..."
-          :"▶ Watch Ad"
-        }
+      <div class="ad-icon">${icon}</div>
+      <h3>${title}</h3>
+      <p>Real Monetag rewarded ad · ${POINTS_PER_AD} points</p>
+      <button class="watch" data-ad-button="true" onclick="watchAd('${tier}')"
+        ${completed||adInProgress||cooldown?"disabled":""}>
+        ${completed?"Daily Limit Completed":cooldown?cooldownText():adInProgress?"Ad in progress...":"▶ Watch Ad"}
       </button>
-
-      <div class="count">
-
-        <span>
-          Ads watched today
-        </span>
-
-        <span>
-          ${watched} / ${max}
-        </span>
-
-      </div>
-
-      ${
-        cooldown
-        ?`
-
-          <div class="cooldown-box">
-
-            Please wait
-
-            <strong>
-              ${
-                remainingCooldownSeconds()
-              }s
-            </strong>
-
-            before watching another ad.
-
-          </div>
-
-        `
-        :""
-      }
-
-      ${
-        completed
-        ?`
-
-          <div class="limit">
-            Today's reward is complete.
-            Come back tomorrow.
-          </div>
-
-        `
-        :""
-      }
-
+      <div class="count"><span>Ads watched today</span><span>${watched} / ${max}</span></div>
+      ${cooldown?`<div class="cooldown-box">Please wait <strong>${remainingCooldownSeconds()}s</strong> before watching another ad.</div>`:""}
+      ${completed?`<div class="limit">Today's reward is complete. Come back tomorrow.</div>`:""}
     </div>
-
   `;
 }
 
 /* =========================================================
    WATCH AD
 ========================================================= */
-
 async function watchAd(tier){
+  if(adInProgress)return;
 
-  if(adInProgress){
-    return;
-  }
-
-  if(
-    isAdCooldownActive()
-  ){
-
-    toast(
-      "Please wait "+
-      remainingCooldownSeconds()+
-      " seconds."
-    );
-
+  if(isAdCooldownActive()){
+    toast("Please wait "+remainingCooldownSeconds()+" seconds.");
     return;
   }
 
   resetDaily();
   syncPremium();
 
-  let counter="";
-  let reward=0.01;
-  let max=20;
+  let counter="",reward=0.01,max=20;
 
-  if(tier==="light"){
-
-    counter="lightWatched";
-    reward=LIGHT_REWARD;
-    max=LIGHT_MAX;
-  }
-
-  if(tier==="pro"){
-
-    counter="proWatched";
-    reward=PRO_REWARD;
-    max=PRO_MAX;
-  }
-
-  if(tier==="extra"){
-
-    counter="extraWatched";
-    reward=EXTRA_REWARD;
-    max=EXTRA_MAX;
-  }
+  if(tier==="light"){counter="lightWatched";reward=LIGHT_REWARD;max=LIGHT_MAX}
+  if(tier==="pro"){counter="proWatched";reward=PRO_REWARD;max=PRO_MAX}
+  if(tier==="extra"){counter="extraWatched";reward=EXTRA_REWARD;max=EXTRA_MAX}
 
   if(tier==="premium"){
-
-    if(
-      !premiumIsActive()
-    ){
-
-      toast(
-        "Premium membership is not active."
-      );
-
+    if(!premiumIsActive()){
+      toast("Premium membership is not active.");
       renderTier("premium");
-
       return;
     }
-
     counter="premiumWatched";
     reward=PREMIUM_REWARD;
     max=PREMIUM_MAX;
   }
 
-  if(!counter){
-    return;
-  }
+  if(!counter)return;
 
-  if(
-    state[counter]>=max
-  ){
-
-    toast(
-      "Today's reward is complete."
-    );
-
+  if(state[counter]>=max){
+    toast("Today's reward is complete.");
     renderTier(tier);
-
     return;
   }
 
   currentTier=tier;
-
   adInProgress=true;
-
   renderTier(tier);
+  toast("Opening ad...");
 
-  toast(
-    "Opening ad..."
-  );
-
-  const result=
-    await showMonetagAd();
-
+  const result=await showMonetagAd();
   adInProgress=false;
 
   if(!result.rewarded){
-
-    toast(
-      "Ad was not verified — no reward added."
-    );
-
+    toast("Ad was not verified — no reward added.");
     renderTier(tier);
-
     return;
   }
 
-  const rewardLabel=
-    tier.charAt(0).toUpperCase()+
-    tier.slice(1)+
-    " Verified Ad Reward";
+  const rewardLabel=tier.charAt(0).toUpperCase()+tier.slice(1)+" Verified Ad Reward";
 
-  /*
-    IMPORTANT:
-    Counter is increased BEFORE
-    the final Firebase save.
-  */
-
-  state[counter]++;
-
-  const credited=
-    addEarning(
-      reward,
-      rewardLabel,
-      result.eventId
-    );
+  const credited=addEarning(reward,rewardLabel,result.eventId);
 
   if(!credited){
-
-    state[counter]--;
-
-    saveState();
-
-    toast(
-      "This ad reward was already credited."
-    );
-
+    toast("This ad reward was already credited.");
     renderTier(tier);
-
     return;
   }
 
-  /*
-    Force final complete state to Firestore.
-  */
-
-  const firebaseSaved=
-    await saveStateToFirebase();
-
-  if(!firebaseSaved){
-
-    console.warn(
-      "Final ad state could not be saved to Firestore."
-    );
-
-  }else{
-
-    console.log(
-      "Ad count saved:",
-      counter,
-      state[counter]
-    );
-  }
+  state[counter]++;
+  saveState();
 
   startAdCooldown();
 
-  if(
-    tier==="light"||
-    tier==="pro"||
-    tier==="extra"
-  ){
-
-    toast(
-      "+100 points verified reward!"
-    );
-
+  if(tier==="light"||tier==="pro"||tier==="extra"){
+    toast("+100 points verified reward!");
   }else{
-
-    toast(
-      "+"+
-      money(reward)+
-      " verified reward!"
-    );
+    toast("+"+money(reward)+" verified reward!");
   }
 
   renderTier(tier);
@@ -2040,1234 +963,397 @@ async function watchAd(tier){
 /* =========================================================
    BONUS AD
 ========================================================= */
-
 function renderBonusAd(){
-
   resetDaily();
 
-  const count=
-    Math.min(
-      Number(
-        state.bonusAdWatched||0
-      ),
-      BONUS_AD_MAX
-    );
+  const count=Math.min(Number(state.bonusAdWatched||0),BONUS_AD_MAX);
+  const percentage=(count/BONUS_AD_MAX)*100;
 
-  const percentage=
-    (
-      count/
-      BONUS_AD_MAX
-    )*
-    100;
+  const countEl=document.getElementById("bonusAdCount");
+  const fillEl=document.getElementById("bonusProgressFill");
+  const btnEl=document.getElementById("bonusAdBtn");
+  const messageEl=document.getElementById("bonusCompleteMessage");
 
-  const countEl=
-    document.getElementById(
-      "bonusAdCount"
-    );
+  if(!countEl||!fillEl||!btnEl||!messageEl)return;
 
-  const fillEl=
-    document.getElementById(
-      "bonusProgressFill"
-    );
+  countEl.textContent=count+" / "+BONUS_AD_MAX;
+  fillEl.style.width=percentage+"%";
 
-  const btnEl=
-    document.getElementById(
-      "bonusAdBtn"
-    );
+  const cooldown=isAdCooldownActive();
 
-  const messageEl=
-    document.getElementById(
-      "bonusCompleteMessage"
-    );
-
-  if(
-    !countEl||
-    !fillEl||
-    !btnEl||
-    !messageEl
-  ){
-    return;
-  }
-
-  countEl.textContent=
-    count+
-    " / "+
-    BONUS_AD_MAX;
-
-  fillEl.style.width=
-    percentage+"%";
-
-  const cooldown=
-    isAdCooldownActive();
-
-  if(
-    count>=BONUS_AD_MAX
-  ){
-
+  if(count>=BONUS_AD_MAX){
     btnEl.disabled=true;
-
-    btnEl.textContent=
-      "Bonus Reward Completed ✓";
-
-    messageEl.innerHTML=`
-
-      <div class="bonus-complete">
-
-        Rewards claimed successfully.<br>
-        Come back tomorrow.
-
-      </div>
-
-    `;
-
+    btnEl.textContent="Bonus Reward Completed ✓";
+    messageEl.innerHTML=`<div class="bonus-complete">Rewards claimed successfully.<br>Come back tomorrow.</div>`;
   }else{
-
-    btnEl.disabled=
-      adInProgress||
-      cooldown;
-
-    btnEl.textContent=
-      cooldown
-      ?"⏳ Next ad in "+
-       remainingCooldownSeconds()+
-       "s"
-      :adInProgress
-      ?"Ad in progress..."
-      :"▶ Watch Bonus Ad";
-
-    messageEl.innerHTML=
-      cooldown
-      ?`
-
-        <div class="cooldown-box">
-
-          Please wait
-
-          <strong>
-            ${
-              remainingCooldownSeconds()
-            }s
-          </strong>
-
-          before watching another ad.
-
-        </div>
-
-      `
-      :"";
+    btnEl.disabled=adInProgress||cooldown;
+    btnEl.textContent=cooldown?"⏳ Next ad in "+remainingCooldownSeconds()+"s":adInProgress?"Ad in progress...":"▶ Watch Bonus Ad";
+    messageEl.innerHTML=cooldown?`<div class="cooldown-box">Please wait <strong>${remainingCooldownSeconds()}s</strong> before watching another ad.</div>`:"";
   }
 }
 
 async function watchBonusAd(){
-
   resetDaily();
 
-  if(adInProgress){
+  if(adInProgress)return;
+
+  if(isAdCooldownActive()){
+    toast("Please wait "+remainingCooldownSeconds()+" seconds.");
     return;
   }
 
-  if(
-    isAdCooldownActive()
-  ){
-
-    toast(
-      "Please wait "+
-      remainingCooldownSeconds()+
-      " seconds."
-    );
-
-    return;
-  }
-
-  if(
-    Number(
-      state.bonusAdWatched
-    )>=BONUS_AD_MAX
-  ){
-
+  if(Number(state.bonusAdWatched)>=BONUS_AD_MAX){
     renderBonusAd();
-
     return;
   }
 
   adInProgress=true;
-
   renderBonusAd();
+  toast("Opening bonus ad...");
 
-  toast(
-    "Opening bonus ad..."
-  );
-
-  const result=
-    await showMonetagAd();
-
+  const result=await showMonetagAd();
   adInProgress=false;
 
   if(!result.rewarded){
-
-    toast(
-      "Ad was not verified — no bonus progress added."
-    );
-
+    toast("Ad was not verified — no bonus progress added.");
     renderBonusAd();
-
     return;
   }
 
-  const nextCount=
-    Number(
-      state.bonusAdWatched||0
-    )+
-    1;
+  const nextCount=Number(state.bonusAdWatched||0)+1;
 
-  if(
-    nextCount>=BONUS_AD_MAX
-  ){
-
-    const credited=
-      addEarning(
-        BONUS_AD_REWARD,
-        "Bonus Ad — 10 Verified Ads Reward",
-        result.eventId
-      );
+  if(nextCount>=BONUS_AD_MAX){
+    const credited=addEarning(BONUS_AD_REWARD,"Bonus Ad — 10 Verified Ads Reward",result.eventId);
 
     if(!credited){
-
-      toast(
-        "This ad reward was already credited."
-      );
-
+      toast("This ad reward was already credited.");
       renderBonusAd();
-
       return;
     }
 
-    state.bonusAdWatched=
-      BONUS_AD_MAX;
-
-    state.tasksClaimed.bonusAd=
-      true;
-
+    state.bonusAdWatched=BONUS_AD_MAX;
+    state.tasksClaimed.bonusAd=true;
     saveState();
-
-    await saveStateToFirebase();
-
     startAdCooldown();
-
     renderBonusAd();
-
-    toast(
-      "+$0.20 Bonus Reward Claimed!"
-    );
-
+    toast("+$0.20 Bonus Reward Claimed!");
     return;
   }
 
-  state.bonusAdWatched=
-    nextCount;
-
+  state.bonusAdWatched=nextCount;
   saveState();
-
-  await saveStateToFirebase();
-
   startAdCooldown();
-
   renderBonusAd();
-
-  toast(
-    "Bonus Ad "+
-    nextCount+
-    " / "+
-    BONUS_AD_MAX+
-    " completed."
-  );
+  toast("Bonus Ad "+nextCount+" / "+BONUS_AD_MAX+" completed.");
 }
 
 /* =========================================================
    PREMIUM ACTIVATION
 ========================================================= */
-
 function activatePremium(){
-
   syncPremium();
 
-  if(
-    premiumIsActive()
-  ){
-
-    toast(
-      "Premium is already active"
-    );
-
+  if(premiumIsActive()){
+    toast("Premium is already active");
     renderTier("premium");
-
     return;
   }
 
-  if(
-    Number(state.balance)<
-    PREMIUM_FEE
-  ){
-
-    toast(
-      "You need $30.00 balance to activate Premium."
-    );
-
+  if(Number(state.balance)<PREMIUM_FEE){
+    toast("You need $30.00 balance to activate Premium.");
     renderTier("premium");
-
     return;
   }
 
-  state.balance=
-    Number(state.balance)-
-    PREMIUM_FEE;
-
+  state.balance=Number(state.balance)-PREMIUM_FEE;
   state.premium=true;
-
-  state.premiumActivatedAt=
-    Date.now();
+  state.premiumActivatedAt=Date.now();
 
   state.transactions.unshift({
-
-    label:
-      "Premium Activation Fee — 30 Days",
-
-    amount:
-      -PREMIUM_FEE,
-
-    date:
-      new Date()
-        .toLocaleString(
-          "en-IN"
-        )
+    label:"Premium Activation Fee — 30 Days",
+    amount:-PREMIUM_FEE,
+    date:new Date().toLocaleString("en-IN")
   });
 
   saveState();
-
   renderTop();
-
   renderTransactions();
-
   renderTier("premium");
-
-  toast(
-    "Premium activated for 30 days."
-  );
+  toast("Premium activated for 30 days.");
 }
 
 /* =========================================================
    CHECK-IN
 ========================================================= */
-
 function pendingDay(){
+  const today=new Date().toDateString();
+  const yesterday=new Date(Date.now()-86400000).toDateString();
 
-  const today=
-    new Date().toDateString();
-
-  const yesterday=
-    new Date(
-      Date.now()-
-      86400000
-    ).toDateString();
-
-  if(
-    state.lastCheckinDate===
-    today
-  ){
-
-    return state.checkinDay;
-  }
-
-  if(
-    state.lastCheckinDate===
-    yesterday
-  ){
-
-    return state.checkinDay>=7
-      ?1
-      :state.checkinDay+1;
-  }
-
+  if(state.lastCheckinDate===today)return state.checkinDay;
+  if(state.lastCheckinDate===yesterday)return state.checkinDay>=7?1:state.checkinDay+1;
   return 1;
 }
 
 function renderStreak(){
+  const today=new Date().toDateString();
+  const claimed=state.lastCheckinDate===today;
+  const day=pendingDay();
 
-  const today=
-    new Date().toDateString();
-
-  const claimed=
-    state.lastCheckinDate===
-    today;
-
-  const day=
-    pendingDay();
-
-  const grid=
-    document.getElementById(
-      "streakGrid"
-    );
-
-  const btn=
-    document.getElementById(
-      "checkinBtn"
-    );
-
-  if(!grid||!btn){
-    return;
-  }
+  const grid=document.getElementById("streakGrid");
+  const btn=document.getElementById("checkinBtn");
+  if(!grid||!btn)return;
 
   let html="";
-
-  for(
-    let i=1;
-    i<=7;
-    i++
-  ){
-
-    const done=
-      claimed
-      ?i<=state.checkinDay
-      :i<day;
-
-    const current=
-      !claimed&&
-      i===day;
+  for(let i=1;i<=7;i++){
+    const done=claimed?i<=state.checkinDay:i<day;
+    const current=!claimed&&i===day;
 
     html+=`
-
-      <div class="day ${
-        done?"done":""
-      } ${
-        current?"current":""
-      }">
-
-        <small>
-          Day ${i}
-        </small>
-
-        <b>
-          ${
-            done
-            ?"✓"
-            :money(
-              STREAK_REWARDS[
-                i-1
-              ]
-            )
-          }
-        </b>
-
+      <div class="day ${done?"done":""} ${current?"current":""}">
+        <small>Day ${i}</small>
+        <b>${done?"✓":money(STREAK_REWARDS[i-1])}</b>
       </div>
-
     `;
   }
 
-  grid.innerHTML=
-    html;
+  grid.innerHTML=html;
 
-  const cooldown=
-    isAdCooldownActive();
-
-  btn.disabled=
-    claimed||
-    adInProgress||
-    cooldown;
-
-  btn.textContent=
-    claimed
-    ?"Claimed for Today"
-    :cooldown
-    ?"⏳ Next ad in "+
-     remainingCooldownSeconds()+
-     "s"
-    :adInProgress
-    ?"Ad in progress..."
-    :"Watch Ad to Claim "+
-     money(
-       STREAK_REWARDS[
-         day-1
-       ]
-     );
+  const cooldown=isAdCooldownActive();
+  btn.disabled=claimed||adInProgress||cooldown;
+  btn.textContent=claimed?"Claimed for Today":cooldown?"⏳ Next ad in "+remainingCooldownSeconds()+"s":adInProgress?"Ad in progress...":"Watch Ad to Claim "+money(STREAK_REWARDS[day-1]);
 }
 
 async function watchCheckin(){
+  const today=new Date().toDateString();
 
-  const today=
-    new Date().toDateString();
+  if(state.lastCheckinDate===today||adInProgress)return;
 
-  if(
-    state.lastCheckinDate===
-    today||
-    adInProgress
-  ){
-    return;
-  }
-
-  if(
-    isAdCooldownActive()
-  ){
-
-    toast(
-      "Please wait "+
-      remainingCooldownSeconds()+
-      " seconds."
-    );
-
+  if(isAdCooldownActive()){
+    toast("Please wait "+remainingCooldownSeconds()+" seconds.");
     return;
   }
 
   adInProgress=true;
-
   renderStreak();
+  toast("Opening ad...");
 
-  toast(
-    "Opening ad..."
-  );
-
-  const result=
-    await showMonetagAd();
-
+  const result=await showMonetagAd();
   adInProgress=false;
 
   if(!result.rewarded){
-
-    toast(
-      "Ad was not verified."
-    );
-
+    toast("Ad was not verified.");
     renderStreak();
-
     return;
   }
 
-  const day=
-    pendingDay();
+  const day=pendingDay();
+  const reward=STREAK_REWARDS[day-1];
 
-  const reward=
-    STREAK_REWARDS[
-      day-1
-    ];
-
-  const credited=
-    addEarning(
-      reward,
-      "Day "+
-      day+
-      " Verified Ad Check-in",
-      result.eventId
-    );
+  const credited=addEarning(reward,"Day "+day+" Verified Ad Check-in",result.eventId);
 
   if(!credited){
-
-    toast(
-      "This ad reward was already credited."
-    );
-
+    toast("This ad reward was already credited.");
     renderStreak();
-
     return;
   }
 
-  state.checkinDay=
-    day;
-
-  state.lastCheckinDate=
-    today;
-
+  state.checkinDay=day;
+  state.lastCheckinDate=today;
   saveState();
-
-  await saveStateToFirebase();
-
   startAdCooldown();
-
-  toast(
-    "+"+
-    money(reward)+
-    " check-in reward!"
-  );
-
+  toast("+"+money(reward)+" check-in reward!");
   renderStreak();
 }
 
 /* =========================================================
    TASKS
 ========================================================= */
-
 function claimTask(id,amount){
-
-  if(
-    state.tasksClaimed[id]
-  ){
-
-    toast(
-      "This task has already been claimed."
-    );
-
+  if(state.tasksClaimed[id]){
+    toast("This task has already been claimed.");
     return;
   }
 
-  state.tasksClaimed[id]=
-    true;
-
-  addEarning(
-    amount,
-    "Task Reward"
-  );
-
-  toast(
-    "+"+
-    money(amount)+
-    " earned!"
-  );
+  state.tasksClaimed[id]=true;
+  addEarning(amount,"Task Reward");
+  toast("+"+money(amount)+" earned!");
 }
 
 /* =========================================================
    WALLET / WITHDRAW
+   User must reach 200,000 points ($20.00),
+   and every withdrawal is exactly $20.
 ========================================================= */
-
 function scrollToWithdraw(){
-
   switchSection("wallet");
-
-  setTimeout(
-    ()=>{
-
-      const form=
-        document.getElementById(
-          "withdrawForm"
-        );
-
-      if(form){
-
-        form.scrollIntoView({
-          behavior:"smooth",
-          block:"center"
-        });
-      }
-
-    },
-    100
-  );
+  setTimeout(()=>{
+    const form=document.getElementById("withdrawForm");
+    if(form)form.scrollIntoView({behavior:"smooth",block:"center"});
+  },100);
 }
 
-async function submitWithdrawal(){
+function submitWithdrawal(){
+  const amount=Number(document.getElementById("withdrawAmount").value);
+  const address=document.getElementById("withdrawAddress").value.trim();
 
-  const amount=
-    Number(
-      document.getElementById(
-        "withdrawAmount"
-      ).value
-    );
+  const balancePoints=pointsFromBalance(state.balance);
 
-  const address=
-    document.getElementById(
-      "withdrawAddress"
-    ).value.trim();
-
-  const balancePoints=
-    pointsFromBalance(
-      state.balance
-    );
-
-  if(
-    balancePoints<
-    WITHDRAW_POINTS_THRESHOLD
-  ){
-
-    toast(
-      "You need 200,000 points ($20.00) to withdraw."
-    );
-
+  if(balancePoints<WITHDRAW_POINTS_THRESHOLD){
+    toast("You need 200,000 points ($20.00) to withdraw.");
     return;
   }
 
-  if(
-    amount!==
-    WITHDRAW_AMOUNT
-  ){
-
-    toast(
-      "Withdrawal amount must be exactly $20.00."
-    );
-
+  if(amount!==WITHDRAW_AMOUNT){
+    toast("Withdrawal amount must be exactly $20.00.");
     return;
   }
 
-  if(
-    amount>
-    state.balance
-  ){
-
-    toast(
-      "Amount exceeds your balance."
-    );
-
+  if(amount>state.balance){
+    toast("Amount exceeds your balance.");
     return;
   }
 
   if(!address){
-
-    toast(
-      "Enter your BEP20 address."
-    );
-
+    toast("Enter your BEP20 address.");
     return;
   }
 
-  if(
-    !/^0x[a-fA-F0-9]{40}$/
-      .test(address)
-  ){
-
-    toast(
-      "Enter a valid BEP20 address."
-    );
-
+  if(!/^0x[a-fA-F0-9]{40}$/.test(address)){
+    toast("Enter a valid BEP20 address.");
     return;
   }
 
-  if(
-    firebaseReady &&
-    db &&
-    firebaseUserId &&
-    firebaseAuthReady
-  ){
+  toast("Withdrawal request submitted.");
 
-    try{
-
-      await db
-        .collection("withdrawals")
-        .add({
-
-          telegramId:
-            String(
-              firebaseUserId
-            ),
-
-          amount:
-            WITHDRAW_AMOUNT,
-
-          points:
-            WITHDRAW_POINTS_THRESHOLD,
-
-          address:
-            address,
-
-          status:
-            "pending",
-
-          createdAt:
-            firebase.firestore
-              .FieldValue
-              .serverTimestamp()
-        });
-
-    }catch(error){
-
-      console.error(
-        "Withdrawal Firestore error:",
-        error
-      );
-
-      toast(
-        "Could not submit withdrawal request."
-      );
-
-      return;
-    }
-  }
-
-  toast(
-    "Withdrawal request submitted."
-  );
-
-  document.getElementById(
-    "withdrawAmount"
-  ).value="";
-
-  document.getElementById(
-    "withdrawAddress"
-  ).value="";
+  document.getElementById("withdrawAmount").value="";
+  document.getElementById("withdrawAddress").value="";
 }
 
 /* =========================================================
    TRANSACTIONS
 ========================================================= */
-
 function renderTransactions(){
+  const box=document.getElementById("txList");
+  if(!box)return;
 
-  const box=
-    document.getElementById(
-      "txList"
-    );
-
-  if(!box){
+  if(!state.transactions.length){
+    box.innerHTML="<p>No transactions yet</p>";
     return;
   }
 
-  if(
-    !state.transactions.length
-  ){
-
-    box.innerHTML=
-      "<p>No transactions yet</p>";
-
-    return;
-  }
-
-  box.innerHTML=
-    state.transactions
-      .slice(0,10)
-      .map(
-        tx=>`
-
-          <div class="tx-row">
-
-            <div>
-
-              <div>
-                ${tx.label}
-              </div>
-
-              <div class="tx-date">
-                ${tx.date}
-              </div>
-
-            </div>
-
-            <div class="${
-              tx.amount>=0
-              ?"plus"
-              :"minus"
-            }">
-
-              ${
-                tx.amount>=0
-                ?"+"
-                :""
-              }${money(tx.amount)}
-
-            </div>
-
-          </div>
-
-        `
-      )
-      .join("");
+  box.innerHTML=state.transactions.slice(0,10).map(tx=>`
+    <div class="tx-row">
+      <div>
+        <div>${tx.label}</div>
+        <div class="tx-date">${tx.date}</div>
+      </div>
+      <div class="${tx.amount>=0?"plus":"minus"}">
+        ${tx.amount>=0?"+":""}${money(tx.amount)}
+      </div>
+    </div>
+  `).join("");
 }
 
 /* =========================================================
    REFERRAL
 ========================================================= */
-
 function copyRefer(){
+  const code=document.getElementById("referCode").textContent;
 
-  const code=
-    document.getElementById(
-      "referCode"
-    ).textContent;
-
-  if(
-    navigator.clipboard
-  ){
-
-    navigator.clipboard
-      .writeText(code)
-      .then(
-        ()=>{
-          toast(
-            "Referral code copied."
-          );
-        }
-      )
-      .catch(
-        ()=>{
-          toast(
-            "Referral code: "+
-            code
-          );
-        }
-      );
-
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(code)
+      .then(()=>toast("Referral code copied."))
+      .catch(()=>toast("Referral code: "+code));
   }else{
-
-    toast(
-      "Referral code: "+
-      code
-    );
+    toast("Referral code: "+code);
   }
 }
 
 /* =========================================================
    PROFILE
 ========================================================= */
-
 function showProfile(type){
-
-  if(type==="Account"){
-
-    toast(
-      "Balance: "+
-      formatPoints(
-        pointsFromBalance(
-          state.balance
-        )
-      )+
-      " Points"
-    );
-
-    return;
-  }
-
-  if(type==="Referrals"){
-
-    toast(
-      "Referrals: "+
-      state.referCount
-    );
-
-    return;
-  }
-
-  if(type==="Security"){
-
-    toast(
-      "Telegram account connected ✓"
-    );
-
-    return;
-  }
-
-  if(type==="Terms & Conditions"){
-
-    toast(
-      "Terms & Conditions"
-    );
-
-    return;
-  }
-
-  if(type==="Privacy Policy"){
-
-    toast(
-      "Privacy Policy"
-    );
-
-    return;
-  }
-
-  if(type==="Help & Support"){
-
-    toast(
-      "Help & Support"
-    );
-
-    return;
-  }
+  if(type==="Account"){toast("Balance: "+money(state.balance));return}
+  if(type==="Referrals"){toast("Referrals: "+state.referCount);return}
+  if(type==="Security"){toast("Telegram account connected ✓");return}
+  if(type==="Terms & Conditions"){toast("Terms & Conditions");return}
+  if(type==="Privacy Policy"){toast("Privacy Policy");return}
+  if(type==="Help & Support"){toast("Help & Support");return}
 }
 
 function logoutUser(){
-
-  if(
-    tg&&
-    typeof tg.showConfirm===
-    "function"
-  ){
-
-    tg.showConfirm(
-      "Are you sure you want to logout?",
-      confirmed=>{
-
-        if(confirmed){
-
-          toast(
-            "Logout is handled by Telegram."
-          );
-        }
-      }
-    );
-
+  if(tg&&typeof tg.showConfirm==="function"){
+    tg.showConfirm("Are you sure you want to logout?",confirmed=>{
+      if(confirmed)toast("Logout is handled by Telegram.");
+    });
   }else{
-
-    toast(
-      "Logout is handled by Telegram."
-    );
+    toast("Logout is handled by Telegram.");
   }
 }
 
 /* =========================================================
    NAVIGATION
 ========================================================= */
-
 function switchSection(target){
-
   closeTier();
 
-  document
-    .querySelectorAll(
-      ".section"
-    )
-    .forEach(
-      section=>
-        section.classList.remove(
-          "active"
-        )
-    );
+  document.querySelectorAll(".section").forEach(section=>section.classList.remove("active"));
 
-  const section=
-    document.getElementById(
-      "sec-"+target
-    );
+  const section=document.getElementById("sec-"+target);
+  if(section)section.classList.add("active");
 
-  if(section){
+  document.querySelectorAll("nav button").forEach(button=>{
+    button.classList.toggle("active",button.dataset.target===target);
+  });
 
-    section.classList.add(
-      "active"
-    );
-  }
+  window.scrollTo(0,0);
 
-  document
-    .querySelectorAll(
-      "nav button"
-    )
-    .forEach(
-      button=>{
-
-        button.classList.toggle(
-          "active",
-          button.dataset.target===
-          target
-        );
-
-      }
-    );
-
-  window.scrollTo(
-    0,
-    0
-  );
-
-  if(
-    target==="task"
-  ){
-
+  if(target==="task"){
     resetDaily();
     renderBonusAd();
     renderStreak();
   }
 }
 
-document
-  .querySelectorAll(
-    "nav button"
-  )
-  .forEach(
-    button=>{
-
-      button.addEventListener(
-        "click",
-        ()=>{
-
-          switchSection(
-            button.dataset.target
-          );
-
-        }
-      );
-
-    }
-  );
+document.querySelectorAll("nav button").forEach(button=>{
+  button.addEventListener("click",()=>switchSection(button.dataset.target));
+});
 
 /* =========================================================
    TELEGRAM PROFILE
 ========================================================= */
-
 function initTelegramProfile(){
+  if(!tg||!tg.initDataUnsafe||!tg.initDataUnsafe.user)return;
 
-  if(
-    !tg||
-    !tg.initDataUnsafe||
-    !tg.initDataUnsafe.user
-  ){
+  const user=tg.initDataUnsafe.user;
+  const name=((user.first_name||"")+" "+(user.last_name||"")).trim();
 
-    return;
-  }
+  const profileName=document.getElementById("profileName");
+  const profileUsername=document.getElementById("profileUsername");
+  const profileId=document.getElementById("profileId");
+  const referCode=document.getElementById("referCode");
+  const avatar=document.getElementById("avatar");
 
-  const user=
-    tg.initDataUnsafe.user;
+  if(profileName)profileName.textContent=name||"User";
+  if(profileUsername)profileUsername.textContent=user.username?"@"+user.username:"@username";
+  if(profileId)profileId.textContent="Telegram ID: "+user.id;
+  if(referCode)referCode.textContent="EB-"+String(user.id).slice(-6);
 
-  const name=
-    (
-      (user.first_name||"")+
-      " "+
-      (user.last_name||"")
-    ).trim();
-
-  const profileName=
-    document.getElementById(
-      "profileName"
-    );
-
-  const profileUsername=
-    document.getElementById(
-      "profileUsername"
-    );
-
-  const profileId=
-    document.getElementById(
-      "profileId"
-    );
-
-  const referCode=
-    document.getElementById(
-      "referCode"
-    );
-
-  const avatar=
-    document.getElementById(
-      "avatar"
-    );
-
-  if(profileName){
-
-    profileName.textContent=
-      name||
-      "User";
-  }
-
-  if(profileUsername){
-
-    profileUsername.textContent=
-      user.username
-      ?"@"+user.username
-      :"@username";
-  }
-
-  if(profileId){
-
-    profileId.textContent=
-      "Telegram ID: "+
-      user.id;
-  }
-
-  if(referCode){
-
-    referCode.textContent=
-      "EB-"+
-      String(
-        user.id
-      ).slice(-6);
-  }
-
-  if(
-    avatar&&
-    user.photo_url
-  ){
-
+  if(avatar&&user.photo_url){
     avatar.innerHTML="";
-
-    const img=
-      document.createElement(
-        "img"
-      );
-
-    img.src=
-      user.photo_url;
-
-    img.alt=
-      "Profile";
-
-    img.onerror=
-      ()=>{
-        avatar.textContent=
-          (
-            user.first_name||
-            "U"
-          )
-          .charAt(0)
-          .toUpperCase();
-      };
-
-    avatar.appendChild(
-      img
-    );
-
+    const img=document.createElement("img");
+    img.src=user.photo_url;
+    img.alt="Profile";
+    img.onerror=()=>{avatar.textContent=(user.first_name||"U").charAt(0).toUpperCase()};
+    avatar.appendChild(img);
   }else if(avatar){
-
-    avatar.textContent=
-      (
-        user.first_name||
-        "U"
-      )
-      .charAt(0)
-      .toUpperCase();
+    avatar.textContent=(user.first_name||"U").charAt(0).toUpperCase();
   }
-}
-
-/* =========================================================
-   FIREBASE STARTUP
-========================================================= */
-
-async function initializeFirebaseUser(){
-
-  if(!firebaseReady){
-
-    console.warn(
-      "Firebase is not available."
-    );
-
-    return;
-  }
-
-  /*
-    Get Telegram ID first.
-  */
-
-  firebaseUserId=
-    getFirebaseUserId();
-
-  initTelegramProfile();
-
-  /*
-    Firebase Anonymous Login.
-  */
-
-  const authOK=
-    await initializeFirebaseAuth();
-
-  if(!authOK){
-
-    console.warn(
-      "Firebase Auth failed."
-    );
-
-    return;
-  }
-
-  /*
-    Load permanent user data.
-  */
-
-  await loadStateFromFirebase();
-
-  /*
-    Final render.
-  */
-
-  resetDaily();
-  syncPremium();
-  renderTop();
-  renderTransactions();
-  renderStreak();
-  renderBonusAd();
-  updateAdCooldownUI();
 }
 
 /* =========================================================
    START
 ========================================================= */
-
 resetDaily();
 syncPremium();
 initTelegramProfile();
@@ -3276,9 +1362,7 @@ renderTransactions();
 renderStreak();
 renderBonusAd();
 updateAdCooldownUI();
-
 initializeFirebaseUser();
-
 </script>
 
 </body>
