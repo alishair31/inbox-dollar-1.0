@@ -100,8 +100,225 @@ button{cursor:pointer}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:#0f1013f7;border-top:1px solid #282b31;display:flex;z-index:100}
-nav button{flex:1;border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:800}
-nav button span{font-size:19px}nav button.active{color:var(--gold)}
+nav button{flex:1;border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:9px;font-weight:800;min-width:0}
+nav button span{font-size:18px}nav button.active{color:var(--gold)}
+
+.leaderboard-head{
+display:flex;
+align-items:center;
+justify-content:flex-start;
+margin-top:18px;
+}
+
+.leaderboard-title{
+font-size:20px;
+font-weight:900;
+}
+
+.coming-soon{
+text-align:center;
+margin-top:28px;
+font-size:30px;
+font-weight:1000;
+letter-spacing:.02em;
+color:#000;
+background:#f5f5f7;
+border-radius:18px;
+padding:15px 10px;
+box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
+
+.coming-soon-eyes{
+display:inline-block;
+margin-left:6px;
+font-size:22px;
+letter-spacing:-4px;
+}
+
+.top-referees{
+text-align:center;
+margin-top:28px;
+}
+
+.top-referees h3{
+font-size:19px;
+font-weight:900;
+}
+
+.top-referees p{
+font-size:12px;
+color:var(--muted);
+line-height:1.5;
+margin-top:7px;
+}
+
+.leaderboard-timer{
+margin-top:16px;
+padding:13px;
+border-radius:15px;
+background:#17191e;
+border:1px solid #30333a;
+text-align:center;
+}
+
+.leaderboard-timer-label{
+font-size:10px;
+color:var(--muted);
+text-transform:uppercase;
+letter-spacing:.12em;
+font-weight:900;
+}
+
+.leaderboard-timer-value{
+font-size:22px;
+color:var(--gold);
+font-weight:900;
+margin-top:5px;
+}
+
+.leaderboard-divider{
+height:1px;
+background:#000;
+margin:30px 0 17px;
+}
+
+.leaderboard-box{
+padding:10px;
+background:linear-gradient(145deg,#181a1f,#111216);
+border:1px solid #30333a;
+border-radius:20px;
+}
+
+.leaderboard-row{
+display:grid;
+grid-template-columns:48px minmax(0,1fr) 1px 88px;
+align-items:center;
+min-height:64px;
+border-bottom:1px solid #30333a;
+padding:8px 5px;
+}
+
+.leaderboard-row:last-child{
+border-bottom:0;
+}
+
+.leaderboard-rank{
+font-size:13px;
+font-weight:900;
+color:var(--muted);
+text-align:center;
+}
+
+.leaderboard-user{
+font-size:13px;
+font-weight:900;
+padding-left:7px;
+}
+
+.leaderboard-user small{
+display:block;
+font-size:9px;
+color:var(--muted);
+margin-top:3px;
+font-weight:600;
+}
+
+.leaderboard-row-line{
+height:38px;
+background:#30333a;
+}
+
+.leaderboard-prize{
+font-size:13px;
+font-weight:900;
+color:var(--gold);
+text-align:right;
+padding-right:5px;
+}
+
+.leaderboard-row.top-one{
+border-radius:14px 14px 0 0;
+}
+
+.leaderboard-row.top-three .leaderboard-rank{
+font-size:16px;
+}
+
+.cup{
+font-size:25px;
+margin-right:5px;
+vertical-align:middle;
+}
+
+.gold-cup{
+filter:saturate(1.35);
+}
+
+.silver-cup{
+filter:grayscale(.15);
+}
+
+.copper-cup{
+filter:saturate(.75);
+}
+
+.referral-stats-note{
+margin-top:10px;
+padding:12px;
+border-radius:13px;
+background:#ffc72c12;
+border:1px solid #ffc72c38;
+color:var(--gold);
+font-size:11px;
+line-height:1.5;
+text-align:center;
+}
+
+.refer-stats-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:13px;
+}
+
+.refer-stat-card{
+min-height:105px;
+padding:15px;
+background:linear-gradient(145deg,#181a1f,#111216);
+border:1px solid #30333a;
+border-radius:18px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.refer-stat-card:first-child{
+grid-column:1 / -1;
+min-height:110px;
+}
+
+.refer-stat-label{
+font-size:11px;
+color:var(--muted);
+font-weight:900;
+text-transform:uppercase;
+letter-spacing:.08em;
+}
+
+.refer-stat-value{
+font-size:28px;
+margin-top:7px;
+color:var(--gold);
+font-weight:900;
+}
+
+.refer-stat-sub{
+font-size:9px;
+color:var(--muted);
+margin-top:4px;
+}
 
 .admin-open-btn{
 display:none;
@@ -295,10 +512,18 @@ font-size:11px;
 .section{padding:0 14px}
 .headline{font-size:29px}
 .wallet-number{font-size:39px}
+.coming-soon{font-size:26px}
+.leaderboard-row{grid-template-columns:40px minmax(0,1fr) 1px 78px}
+.leaderboard-prize{font-size:11px}
 }
 
 @media(max-width:500px){
 .admin-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:390px){
+nav button{font-size:8px}
+nav button span{font-size:17px}
 }
 </style>
 </head>
@@ -443,6 +668,32 @@ Claim $0.03
 <h2 class="title display">Refer & Earn</h2>
 <p class="subtitle">Invite friends and earn referral rewards.</p>
 
+<div class="referral-stats-note">
+Your added referral will be considered a valid referral after completing <b>100 verified ads</b>.
+</div>
+
+<div class="refer-stats-grid">
+
+<div class="refer-stat-card">
+<div class="refer-stat-label">Refers</div>
+<div class="refer-stat-value" id="referCount">0</div>
+<div class="refer-stat-sub">Total referrals</div>
+</div>
+
+<div class="refer-stat-card">
+<div class="refer-stat-label">Valid Refer</div>
+<div class="refer-stat-value" id="validReferCount">0</div>
+<div class="refer-stat-sub">Verified referrals</div>
+</div>
+
+<div class="refer-stat-card">
+<div class="refer-stat-label">Non-Valid Refer</div>
+<div class="refer-stat-value" id="nonValidReferCount">0</div>
+<div class="refer-stat-sub">Not yet verified</div>
+</div>
+
+</div>
+
 <div class="card">
 <h4>Your Referral Code</h4>
 
@@ -453,11 +704,6 @@ Claim $0.03
 </div>
 
 <div class="card">
-<h4>Total Referrals</h4>
-<p id="referCount">0</p>
-</div>
-
-<div class="card">
 <h4>Reward Per Referral</h4>
 <p>$0.10 after the invited user completes their first verified ad.</p>
 </div>
@@ -465,6 +711,237 @@ Claim $0.03
 <div class="card">
 <h4>Referral Benefits</h4>
 <p>Invite friends, grow your network, and unlock more earning opportunities.</p>
+</div>
+
+</section>
+
+<section class="section" id="sec-leaderboard">
+
+<div class="leaderboard-head">
+<h2 class="leaderboard-title">Leaderboard</h2>
+</div>
+
+<div class="coming-soon">
+COMING SOON
+<span class="coming-soon-eyes">👀</span>
+</div>
+
+<div class="top-referees">
+
+<h3>Top Referees</h3>
+
+<p>
+The top 10 verified referrers will share
+a <b>$300 monthly reward</b>.
+</p>
+
+</div>
+
+<div class="leaderboard-timer">
+
+<div class="leaderboard-timer-label">
+Monthly Competition Ends In
+</div>
+
+<div
+class="leaderboard-timer-value"
+id="leaderboardTimer"
+>
+Calculating...
+</div>
+
+</div>
+
+<div class="leaderboard-divider"></div>
+
+<div class="leaderboard-box">
+
+<div class="leaderboard-row top-one top-three">
+
+<div class="leaderboard-rank">
+1
+</div>
+
+<div class="leaderboard-user">
+<span class="cup gold-cup">🏆</span>
+User 1
+<small>Top Referee</small>
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$80
+</div>
+
+</div>
+
+<div class="leaderboard-row top-three">
+
+<div class="leaderboard-rank">
+2
+</div>
+
+<div class="leaderboard-user">
+<span class="cup silver-cup">🏆</span>
+User 2
+<small>Top Referee</small>
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$55
+</div>
+
+</div>
+
+<div class="leaderboard-row top-three">
+
+<div class="leaderboard-rank">
+3
+</div>
+
+<div class="leaderboard-user">
+<span class="cup copper-cup">🏆</span>
+User 3
+<small>Top Referee</small>
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$45
+</div>
+
+</div>
+
+<div class="leaderboard-row">
+
+<div class="leaderboard-rank">
+4
+</div>
+
+<div class="leaderboard-user">
+User 4
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$25
+</div>
+
+</div>
+
+<div class="leaderboard-row">
+
+<div class="leaderboard-rank">
+5
+</div>
+
+<div class="leaderboard-user">
+User 5
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$25
+</div>
+
+</div>
+
+<div class="leaderboard-row">
+
+<div class="leaderboard-rank">
+6
+</div>
+
+<div class="leaderboard-user">
+User 6
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$25
+</div>
+
+</div>
+
+<div class="leaderboard-row">
+
+<div class="leaderboard-rank">
+7
+</div>
+
+<div class="leaderboard-user">
+User 7
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$25
+</div>
+
+</div>
+
+<div class="leaderboard-row">
+
+<div class="leaderboard-rank">
+8
+</div>
+
+<div class="leaderboard-user">
+User 8
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$6.67
+</div>
+
+</div>
+
+<div class="leaderboard-row">
+
+<div class="leaderboard-rank">
+9
+</div>
+
+<div class="leaderboard-user">
+User 9
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$6.67
+</div>
+
+</div>
+
+<div class="leaderboard-row">
+
+<div class="leaderboard-rank">
+10
+</div>
+
+<div class="leaderboard-user">
+User 10
+</div>
+
+<div class="leaderboard-row-line"></div>
+
+<div class="leaderboard-prize">
+$6.66
+</div>
+
+</div>
+
 </div>
 
 </section>
@@ -686,6 +1163,11 @@ Task
 <button data-target="refer">
 <span>🔗</span>
 Refer
+</button>
+
+<button data-target="leaderboard">
+<span>🏆</span>
+Leaderboard
 </button>
 
 <button data-target="wallet">
@@ -1514,7 +1996,9 @@ Number(n||0).toFixed(2);
 function toast(message){
 
 const el=
-document.getElementById("toast");
+document.getElementById(
+"toast"
+);
 
 if(!el)return;
 
@@ -1570,9 +2054,115 @@ if(refer)
 refer.textContent=
 state.referCount;
 
+renderReferralStats();
 renderBonusAd();
 
 }
+
+function renderReferralStats(){
+
+const total=
+Number(state.referCount||0);
+
+const validEl=
+document.getElementById(
+"validReferCount"
+);
+
+const nonValidEl=
+document.getElementById(
+"nonValidReferCount"
+);
+
+if(!validEl||!nonValidEl)
+return;
+
+/*
+ Existing referral data structure is preserved.
+ At this stage the app only has total referCount.
+ Therefore valid/non-valid counts remain 0 until
+ the actual referral verification backend is added.
+*/
+
+validEl.textContent="0";
+
+nonValidEl.textContent=
+total>0
+?total
+:0;
+
+}
+
+function updateLeaderboardTimer(){
+
+const timer=
+document.getElementById(
+"leaderboardTimer"
+);
+
+if(!timer)
+return;
+
+const now=
+new Date();
+
+const end=
+new Date(
+now.getFullYear(),
+now.getMonth()+1,
+1,
+0,
+0,
+0,
+0
+);
+
+let diff=
+end.getTime()-
+now.getTime();
+
+if(diff<0)
+diff=0;
+
+const days=
+Math.floor(
+diff/
+(1000*60*60*24)
+);
+
+const hours=
+Math.floor(
+(diff%
+(1000*60*60*24))/
+(1000*60*60)
+);
+
+const minutes=
+Math.floor(
+(diff%
+(1000*60*60))/
+(1000*60)
+);
+
+const seconds=
+Math.floor(
+(diff%
+(1000*60))/
+1000
+);
+
+timer.textContent=
+days+"d "+
+String(hours).padStart(2,"0")+"h "+
+String(minutes).padStart(2,"0")+"m "+
+String(seconds).padStart(2,"0")+"s";
+
+}
+
+setInterval(
+updateLeaderboardTimer,
+1000
+);
 
 function monetagRewarded(result){
 
@@ -3114,6 +3704,18 @@ renderStreak();
 
 }
 
+if(target==="refer"){
+
+renderReferralStats();
+
+}
+
+if(target==="leaderboard"){
+
+updateLeaderboardTimer();
+
+}
+
 }
 
 document
@@ -3887,6 +4489,8 @@ renderTransactions();
 renderStreak();
 
 renderBonusAd();
+
+updateLeaderboardTimer();
 
 updateAdCooldownUI();
 
