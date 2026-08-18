@@ -2165,6 +2165,8 @@ Privacy Policy
 Help & Support
 </div>
 
+</div>
+
 <div class="profile-arrow">
 ›
 </div>
@@ -2468,55 +2470,40 @@ measurementId:"G-V2Q9C6DTLS"
 
 
 let firebaseReady=false;
-
 let db=null;
-
 let auth=null;
-
 let firebaseUserId=null;
-
 let firebaseSaveTimer=null;
 
 
 const ADMIN_TELEGRAM_ID="7400626588";
-
 const ADMIN_EMAIL="mananali3407657648@gmail.com";
-
 const STORAGE_KEY="earnboard_state_v7";
 
 
 const defaults={
 
 balance:0,
-
 todayEarned:0,
-
 totalEarned:0,
 
 lightWatched:0,
-
 proWatched:0,
-
 extraWatched:0,
-
 premiumWatched:0,
 
 premium:false,
-
 premiumActivatedAt:null,
 
 checkinDay:1,
-
 lastCheckinDate:null,
 
 tasksClaimed:{},
 
 bonusAdWatched:0,
-
 bonusAdDate:new Date().toDateString(),
 
 referCount:0,
-
 referralCode:null,
 
 transactions:[],
@@ -2786,12 +2773,6 @@ try{
 
 await ref.set({
 
-/*
- * Main EarnBoard account data.
- * Only the fields required by the app
- * are written here.
- */
-
 telegramId:
 String(firebaseUserId),
 
@@ -2809,8 +2790,6 @@ Number(state.todayEarned||0),
 
 totalEarned:
 Number(state.totalEarned||0),
-
-/* Lite / Pro / Extra ad counters */
 
 lightWatched:
 Number(state.lightWatched||0),
@@ -2836,8 +2815,6 @@ Number(state.premiumWatched||0),
 premiumAdsWatched:
 Number(state.premiumWatched||0),
 
-/* Bonus Ads */
-
 bonusAdWatched:
 Number(state.bonusAdWatched||0),
 
@@ -2846,8 +2823,6 @@ Number(state.bonusAdWatched||0),
 
 bonusAdDate:
 state.bonusAdDate||null,
-
-/* Premium */
 
 premium:
 Boolean(state.premium),
@@ -2867,8 +2842,6 @@ Number(state.premiumActivatedAt)
 )
 ),
 
-/* Daily / checking status */
-
 checkinDay:
 Number(state.checkinDay||1),
 
@@ -2881,12 +2854,8 @@ Boolean(state.telegramTaskVerified),
 telegramTaskVerified:
 Boolean(state.telegramTaskVerified),
 
-/* Referral */
-
 referCount:
 Number(state.referCount||0),
-
-/* Tasks and transactions */
 
 tasksClaimed:
 state.tasksClaimed||{},
@@ -2970,12 +2939,6 @@ state={
 
 ...r,
 
-/*
- * Prefer the new Lite field if
- * the existing document already
- * contains it.
- */
-
 lightWatched=
 Number(
 r.liteAdsWatched??
@@ -3051,11 +3014,6 @@ JSON.stringify(state)
 );
 
 
-/*
- * Rewrite the document using the
- * clean EarnBoard structure.
- */
-
 await saveStateToFirestore();
 
 
@@ -3098,7 +3056,6 @@ ensureReferralCode();
 
 await loadStateFromFirestore();
 
-
 resetDaily();
 
 syncPremium();
@@ -3109,30 +3066,19 @@ renderAll();
 
 
 const LIGHT_MAX=35;
-
 const PRO_MAX=35;
-
 const EXTRA_MAX=35;
-
 const PREMIUM_MAX=100;
 
-
 const LIGHT_REWARD=.0005;
-
 const PRO_REWARD=.0005;
-
 const EXTRA_REWARD=.0005;
-
 const PREMIUM_REWARD=.0005;
-
 
 const PREMIUM_FEE=30;
 
-
 const BONUS_AD_MAX=25;
-
 const BONUS_AD_REWARD=.10;
-
 
 const STREAK_REWARDS=[
 .02,
@@ -3144,21 +3090,15 @@ const STREAK_REWARDS=[
 .10
 ];
 
-
 const WITHDRAW_POINTS_THRESHOLD=100000;
-
 const WITHDRAW_AMOUNT=10;
-
 
 const AD_COOLDOWN_SECONDS=10;
 
 
 let adInProgress=false;
-
 let currentTier=null;
-
 let adCooldownUntil=0;
-
 let adCooldownTimer=null;
 
 
@@ -3177,8 +3117,6 @@ Math.ceil(
 (adCooldownUntil-Date.now())/1000
 )
 );
-
-}
 
 
 function startAdCooldown(){
@@ -3201,6 +3139,9 @@ setInterval(()=>{
 
 updateAdCooldownUI();
 
+renderBonusAd();
+renderStreak();
+
 
 if(
 remainingCooldownSeconds()<=0
@@ -3217,7 +3158,6 @@ adCooldownUntil=0;
 updateAdCooldownUI();
 
 renderBonusAd();
-
 renderStreak();
 
 }
@@ -3269,7 +3209,6 @@ function premiumIsActive(){
 return !!(
 
 state.premium&&
-
 state.premiumActivatedAt&&
 
 (
@@ -3292,7 +3231,6 @@ state.premium&&
 ){
 
 state.premium=false;
-
 state.premiumActivatedAt=null;
 
 saveState();
@@ -3317,11 +3255,8 @@ if(state.adDate!==today){
 state.adDate=today;
 
 state.lightWatched=0;
-
 state.proWatched=0;
-
 state.extraWatched=0;
-
 state.premiumWatched=0;
 
 state.todayEarned=0;
@@ -3334,7 +3269,6 @@ saveState();
 if(state.bonusAdDate!==today){
 
 state.bonusAdDate=today;
-
 state.bonusAdWatched=0;
 
 
@@ -3392,7 +3326,6 @@ formatPoints(p);
 
 
 renderReferralStats();
-
 renderBonusAd();
 
 }
@@ -3446,7 +3379,6 @@ typeof result!=="object"
 return{
 
 rewarded:false,
-
 eventId:null
 
 };
@@ -3458,6 +3390,7 @@ const type=
 String(
 result.reward_event_type||""
 )
+.trim()
 .toLowerCase();
 
 
@@ -3465,21 +3398,17 @@ const id=
 result.event_id||
 result.eventId||
 result.ymid||
+result.request_var||
 null;
 
 
 return{
 
-/*
- * IMPORTANT:
- * Reward ONLY when Monetag says
- * reward_event_type === "valued".
- */
-
 rewarded:
 type==="valued",
 
-eventId:id
+eventId:
+id
 
 };
 
@@ -3491,7 +3420,6 @@ function createAdId(){
 return "eb_"+
 Date.now().toString(36)+
 "_"+
-
 Math.random()
 .toString(36)
 .slice(2,10);
@@ -3516,8 +3444,8 @@ toast(
 return{
 
 rewarded:false,
-
-eventId:null
+eventId:null,
+completed:false
 
 };
 
@@ -3530,10 +3458,16 @@ createAdId();
 
 try{
 
+/*
+ * Monetag Rewarded Interstitial:
+ * pass a unique ymid and wait for
+ * the SDK Promise to resolve.
+ */
+
 const result=
-await Promise.resolve(
-fn(ymid)
-);
+await fn({
+ymid:ymid
+});
 
 
 const parsed=
@@ -3541,8 +3475,9 @@ monetagRewarded(result);
 
 
 /*
- * If the same verified event was
- * already credited, reject it.
+ * IMPORTANT:
+ * Reward ONLY when Monetag explicitly
+ * returns reward_event_type === "valued".
  */
 
 if(
@@ -3555,9 +3490,9 @@ String(parsed.eventId)
 return{
 
 rewarded:false,
-
 eventId:
-String(parsed.eventId)
+String(parsed.eventId),
+completed:true
 
 };
 
@@ -3574,25 +3509,25 @@ parsed.eventId
 ?
 String(parsed.eventId)
 :
-ymid
+ymid,
+
+completed:true
 
 };
 
 }catch(e){
 
-console.error(e);
-
-
-toast(
-"Ad could not be completed."
+console.error(
+"Monetag ad error:",
+e
 );
 
 
 return{
 
 rewarded:false,
-
-eventId:null
+eventId:null,
+completed:false
 
 };
 
@@ -3681,7 +3616,6 @@ null
 saveState();
 
 renderTop();
-
 renderTransactions();
 
 return true;
@@ -3729,7 +3663,6 @@ document.getElementById(
 function renderTier(tier){
 
 resetDaily();
-
 syncPremium();
 
 
@@ -3856,6 +3789,14 @@ ${state.premiumWatched}/${PREMIUM_MAX}
 
 </div>
 
+${
+state.premiumWatched>=PREMIUM_MAX
+?
+'<div class="limit">Today\'s reward is complete.</div>'
+:
+""
+}
+
 </div>
 
 `
@@ -3871,11 +3812,8 @@ return;
 
 
 let watched=0;
-
 let title="";
-
 let icon="▶️";
-
 let max=35;
 
 
@@ -4068,7 +4006,6 @@ currentTier==="premium"
 
 
 renderBonusAd();
-
 renderStreak();
 
 }
@@ -4094,21 +4031,17 @@ return;
 
 
 resetDaily();
-
 syncPremium();
 
 
 let counter="";
-
 let reward=.0005;
-
 let max=35;
 
 
 if(tier==="light"){
 
 counter="lightWatched";
-
 reward=LIGHT_REWARD;
 
 }
@@ -4117,7 +4050,6 @@ reward=LIGHT_REWARD;
 if(tier==="pro"){
 
 counter="proWatched";
-
 reward=PRO_REWARD;
 
 }
@@ -4126,7 +4058,6 @@ reward=PRO_REWARD;
 if(tier==="extra"){
 
 counter="extraWatched";
-
 reward=EXTRA_REWARD;
 
 }
@@ -4147,9 +4078,7 @@ return;
 }
 
 counter="premiumWatched";
-
 reward=PREMIUM_REWARD;
-
 max=PREMIUM_MAX;
 
 }
@@ -4175,7 +4104,6 @@ return;
 
 
 currentTier=tier;
-
 adInProgress=true;
 
 renderTier(tier);
@@ -4183,18 +4111,44 @@ renderTier(tier);
 toast("Opening ad...");
 
 
-const result=
+let result;
+
+try{
+
+result=
 await showMonetagAd();
+
+}catch(e){
+
+console.error(e);
+
+result={
+rewarded:false,
+eventId:null,
+completed:false
+};
+
+}
 
 
 adInProgress=false;
 
 
 /*
- * NO REWARD:
- * If Monetag did not return valued,
- * the counter and balance are untouched.
+ * The ad Promise has completed.
+ * Start the 10-second cooldown immediately
+ * so the user does not need to refresh.
+ *
+ * No reward is added unless Monetag returned
+ * reward_event_type === "valued".
  */
+
+if(result.completed){
+
+startAdCooldown();
+
+}
+
 
 if(!result.rewarded){
 
@@ -4240,16 +4194,9 @@ return;
 }
 
 
-/*
- * Increase watched counter ONLY after
- * verified reward has been credited.
- */
-
 state[counter]++;
 
 saveState();
-
-startAdCooldown();
 
 toast("+5 points verified reward!");
 
@@ -4398,11 +4345,34 @@ renderBonusAd();
 toast("Opening bonus ad...");
 
 
-const result=
+let result;
+
+try{
+
+result=
 await showMonetagAd();
+
+}catch(e){
+
+console.error(e);
+
+result={
+rewarded:false,
+eventId:null,
+completed:false
+};
+
+}
 
 
 adInProgress=false;
+
+
+if(result.completed){
+
+startAdCooldown();
+
+}
 
 
 if(!result.rewarded){
@@ -4460,8 +4430,6 @@ state.tasksClaimed.bonusAd=true;
 
 saveState();
 
-startAdCooldown();
-
 renderBonusAd();
 
 toast("+0.10 bonus reward!");
@@ -4476,8 +4444,6 @@ next;
 
 
 saveState();
-
-startAdCooldown();
 
 renderBonusAd();
 
@@ -4555,9 +4521,7 @@ new Date()
 saveState();
 
 renderTop();
-
 renderTransactions();
-
 renderTier("premium");
 
 toast(
@@ -4756,11 +4720,34 @@ renderStreak();
 toast("Opening ad...");
 
 
-const result=
+let result;
+
+try{
+
+result=
 await showMonetagAd();
+
+}catch(e){
+
+console.error(e);
+
+result={
+rewarded:false,
+eventId:null,
+completed:false
+};
+
+}
 
 
 adInProgress=false;
+
+
+if(result.completed){
+
+startAdCooldown();
+
+}
 
 
 if(!result.rewarded){
@@ -4812,13 +4799,9 @@ return;
 
 
 state.checkinDay=day;
-
 state.lastCheckinDate=today;
 
-
 saveState();
-
-startAdCooldown();
 
 toast(
 "Check-in reward added."
@@ -5387,7 +5370,6 @@ if(target==="task"){
 resetDaily();
 
 renderBonusAd();
-
 renderStreak();
 
 }
@@ -5714,8 +5696,7 @@ document
 const password=
 document.getElementById(
 "adminPassword"
-)
-.value;
+).value;
 
 
 if(
@@ -5909,7 +5890,6 @@ await db
 
 
 let totalPoints=0;
-
 let totalBalance=0;
 
 
@@ -6198,3 +6178,4 @@ console.error(e)
 
 </body>
 </html>
+```0
