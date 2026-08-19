@@ -66,6 +66,7 @@ nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:#0f1013f7;bord
 .referral-stats-note{margin-top:10px;padding:12px;border-radius:13px;background:#ffc72c12;border:1px solid #ffc72c38;color:var(--gold);font-size:11px;line-height:1.5;text-align:center}.refer-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.refer-stat-card{min-height:105px;padding:15px;background:linear-gradient(145deg,#181a1f,#111216);border:1px solid #30333a;border-radius:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.refer-stat-label{font-size:11px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.08em}.refer-stat-value{font-size:28px;margin-top:7px;color:var(--gold);font-weight:900}.refer-stat-sub{font-size:9px;color:var(--muted);margin-top:4px}
 .channel-btn{display:block;text-decoration:none;text-align:center;width:100%;margin-top:14px;padding:13px;border-radius:13px;background:#229ed9;color:white;font-weight:900}.verify-btn{margin-top:10px}.admin-open-btn{display:none;width:100%;margin-top:14px;padding:14px;border-radius:14px;border:1px solid #ffc72c66;background:#ffc72c12;color:var(--gold);font-weight:900}
 .admin-login,.admin-dashboard{display:none;position:fixed;inset:0;z-index:500;background:#08090b;padding:22px 18px 100px;overflow-y:auto}.admin-box,.admin-wrap{max-width:700px;margin:35px auto;padding:22px;background:linear-gradient(145deg,#181a1f,#111216);border:1px solid #30333a;border-radius:22px}.admin-box h2{font-size:28px;margin-bottom:7px}.admin-input{width:100%;padding:14px;margin-top:10px;border-radius:12px;border:1px solid #30333a;background:#1c1e23;color:white;outline:none}.admin-btn{width:100%;padding:14px;margin-top:12px;border:0;border-radius:13px;background:var(--gold);color:#171200;font-weight:900}.admin-secondary{background:#25272d;color:white}.admin-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.admin-head h2{font-size:26px}.admin-logout{border:1px solid #ff676758;background:#ff676712;color:var(--danger);padding:9px 12px;border-radius:10px;font-weight:900}.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.admin-stat,.admin-card{padding:17px;background:linear-gradient(145deg,#181a1f,#111216);border:1px solid #30333a;border-radius:17px}.admin-card{margin-top:13px}.admin-stat small{color:var(--muted);font-size:10px;font-weight:900}.admin-stat strong{display:block;margin-top:8px;font-size:23px;color:var(--gold)}.admin-card h3{font-size:16px;margin-bottom:10px}.admin-row{padding:12px 0;border-bottom:1px solid #292c32;font-size:12px}.admin-row:last-child{border-bottom:0}.admin-row-top{display:flex;justify-content:space-between;gap:10px}.admin-status{color:var(--gold);font-weight:900}.admin-muted{color:var(--muted);font-size:10px;margin-top:4px;word-break:break-all}.refresh-btn{width:100%;padding:13px;border-radius:13px;border:1px solid #30333a;background:#1c1e23;color:white;font-weight:900;margin-bottom:13px}.admin-error{display:none;margin-top:10px;padding:11px;border-radius:11px;background:#ff676712;border:1px solid #ff676758;color:var(--danger);font-size:11px}
+.admin-action-row{display:flex;gap:8px;margin-top:12px}.admin-action-row button{flex:1;padding:11px;border:0;border-radius:11px;font-weight:900}.approve-btn{background:var(--success);color:#07140f}.reject-btn{background:var(--danger);color:#190505}.reject-all-btn{width:100%;padding:13px;border:1px solid #ff676758;border-radius:12px;background:#ff676712;color:var(--danger);font-weight:900;margin-bottom:12px}.admin-processing{opacity:.65;pointer-events:none}.admin-approved{color:var(--success)!important}.admin-rejected{color:var(--danger)!important}.admin-reserved{color:#ffc72c;font-weight:900;font-size:10px;margin-top:5px}
 @media(max-width:360px){.section{padding:0 14px}.headline{font-size:29px}.wallet-number{font-size:39px}.coming-soon{font-size:26px}.leaderboard-row{grid-template-columns:40px minmax(0,1fr) 1px 78px}.leaderboard-prize{font-size:11px}}
 @media(max-width:390px){nav button{font-size:8px}nav button span{font-size:17px}}
 </style>
@@ -274,15 +275,25 @@ The referrer receives <b>$0.50</b> after the referral becomes valid.
 <div><div class="eyebrow">EarnBoard Admin</div><h2 class="display">Dashboard</h2></div>
 <button class="admin-logout" onclick="adminLogout()">Logout</button>
 </div>
+
 <button class="refresh-btn" onclick="loadAdminDashboard()">🔄 Refresh Dashboard</button>
+
 <div class="admin-grid">
 <div class="admin-stat"><small>Total Users</small><strong id="adminTotalUsers">—</strong></div>
 <div class="admin-stat"><small>Pending Withdrawals</small><strong id="adminPendingWithdrawals">—</strong></div>
 <div class="admin-stat"><small>Total Points</small><strong id="adminTotalPoints">—</strong></div>
 <div class="admin-stat"><small>Total Balance</small><strong id="adminTotalBalance">—</strong></div>
 </div>
-<div class="admin-card"><h3>Pending Withdrawals</h3><div id="adminWithdrawals"><p class="subtitle">Loading...</p></div></div>
-<div class="admin-card"><h3>Admin Account</h3><p class="subtitle" id="adminAccountEmail">Not logged in</p></div>
+
+<div class="admin-card">
+<h3>Pending Withdrawals</h3>
+<div id="adminWithdrawals"><p class="subtitle">Loading...</p></div>
+</div>
+
+<div class="admin-card">
+<h3>Admin Account</h3>
+<p class="subtitle" id="adminAccountEmail">Not logged in</p>
+</div>
 </div>
 </div>
 
@@ -313,7 +324,8 @@ checkinDay:1,lastCheckinDate:null,tasksClaimed:{},
 bonusAdWatched:0,bonusAdDate:new Date().toDateString(),
 referCount:0,validReferCount:0,referralCode:null,referredBy:null,
 referralRewardPaid:false,transactions:[],adDate:new Date().toDateString(),
-rewardedAdIds:[],telegramTaskVerified:false
+rewardedAdIds:[],telegramTaskVerified:false,
+reservedWithdrawalPoints:0
 };
 
 function loadState(){
@@ -321,7 +333,7 @@ try{
 const raw=localStorage.getItem(STORAGE_KEY);
 if(!raw)return {...defaults};
 const p=JSON.parse(raw);
-return {...defaults,...p,tasksClaimed:p.tasksClaimed||{},transactions:Array.isArray(p.transactions)?p.transactions:[],rewardedAdIds:Array.isArray(p.rewardedAdIds)?p.rewardedAdIds:[],referralCode:p.referralCode||null};
+return {...defaults,...p,tasksClaimed:p.tasksClaimed||{},transactions:Array.isArray(p.transactions)?p.transactions:[],rewardedAdIds:Array.isArray(p.rewardedAdIds)?p.rewardedAdIds:[],referralCode:p.referralCode||null,reservedWithdrawalPoints:Number(p.reservedWithdrawalPoints||0)};
 }catch(e){return {...defaults}}
 }
 
@@ -375,6 +387,7 @@ referralCode:state.referralCode||null,
 referredBy:state.referredBy||null,
 points:pointsFromBalance(state.balance),
 balance:Number(state.balance||0),
+reservedWithdrawalPoints:Number(state.reservedWithdrawalPoints||0),
 todayEarned:Number(state.todayEarned||0),
 totalEarned:Number(state.totalEarned||0),
 lightWatched:Number(state.lightWatched||0),
@@ -425,6 +438,7 @@ proWatched:Number(r.proAdsWatched??r.proWatched??0),
 extraWatched:Number(r.extraAdsWatched??r.extraWatched??0),
 premiumWatched:Number(r.premiumAdsWatched??r.premiumWatched??0),
 bonusAdWatched:Number(r.bonusAdsWatched??r.bonusAdWatched??0),
+reservedWithdrawalPoints:Number(r.reservedWithdrawalPoints||0),
 tasksClaimed:r.tasksClaimed||{},
 transactions:Array.isArray(r.transactions)?r.transactions:[],
 rewardedAdIds:Array.isArray(r.rewardedAdIds)?r.rewardedAdIds:[],
@@ -513,8 +527,7 @@ saveState();
 }
 
 function renderTop(){
-const p=pointsFromBalance(state.balance);
-const top=document.getElementById("topBalance"),wallet=document.getElementById("walletBalance");
+const p=pointsFromBalance(state.balance),top=document.getElementById("topBalance"),wallet=document.getElementById("walletBalance");
 if(top)top.textContent=formatPoints(p);
 if(wallet)wallet.textContent=formatPoints(p);
 renderReferralStats();renderBonusAd();
@@ -786,19 +799,104 @@ function scrollToWithdraw(){
 switchSection("wallet");
 setTimeout(()=>document.getElementById("withdrawForm")?.scrollIntoView({behavior:"smooth",block:"center"}),100);
 }
-
 async function submitWithdrawal(){
-const amount=Number(document.getElementById("withdrawAmount").value),address=document.getElementById("withdrawAddress").value.trim();
-if(pointsFromBalance(state.balance)<WITHDRAW_POINTS_THRESHOLD){toast("You need 100,000 points.");return}
-if(amount!==WITHDRAW_AMOUNT){toast("Withdrawal must be exactly $10.");return}
-if(!address){toast("Enter BEP20 address.");return}
-if(!/^0x[a-fA-F0-9]{40}$/.test(address)){toast("Enter valid BEP20 address.");return}
-if(!firebaseReady||!db||!firebaseUserId){toast("Firebase is not ready. Try again.");return}
+const amount=Number(document.getElementById("withdrawAmount").value);
+const address=document.getElementById("withdrawAddress").value.trim();
+
+if(pointsFromBalance(state.balance)<WITHDRAW_POINTS_THRESHOLD){
+toast("You need 100,000 points.");
+return;
+}
+
+if(Number(state.reservedWithdrawalPoints||0)>0){
+toast("You already have a withdrawal being processed.");
+return;
+}
+
+if(amount!==WITHDRAW_AMOUNT){
+toast("Withdrawal must be exactly $10.");
+return;
+}
+
+if(!address){
+toast("Enter BEP20 address.");
+return;
+}
+
+if(!/^0x[a-fA-F0-9]{40}$/.test(address)){
+toast("Enter valid BEP20 address.");
+return;
+}
+
+if(!firebaseReady||!db||!firebaseUserId){
+toast("Firebase is not ready. Try again.");
+return;
+}
+
+const userRef=db.collection("users").doc(String(firebaseUserId));
+const withdrawalRef=db.collection("withdrawals").doc();
+
 try{
-await db.collection("withdrawals").add({telegramId:String(firebaseUserId),address,amount:10,points:100000,status:"pending",createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+await db.runTransaction(async transaction=>{
+const userSnap=await transaction.get(userRef);
+
+if(!userSnap.exists)throw new Error("USER_NOT_FOUND");
+
+const userData=userSnap.data()||{};
+const currentPoints=Number(userData.points??pointsFromBalance(userData.balance||0));
+const reserved=Number(userData.reservedWithdrawalPoints||0);
+
+if(reserved>0)throw new Error("WITHDRAWAL_ALREADY_RESERVED");
+if(currentPoints<WITHDRAW_POINTS_THRESHOLD)throw new Error("INSUFFICIENT_POINTS");
+
+transaction.update(userRef,{
+points:currentPoints-WITHDRAW_POINTS_THRESHOLD,
+balance:Number((currentPoints-WITHDRAW_POINTS_THRESHOLD)/10000),
+reservedWithdrawalPoints:WITHDRAW_POINTS_THRESHOLD,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+
+transaction.set(withdrawalRef,{
+telegramId:String(firebaseUserId),
+address:address,
+amount:WITHDRAW_AMOUNT,
+points:WITHDRAW_POINTS_THRESHOLD,
+status:"pending",
+pointsReserved:true,
+processed:false,
+createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+});
+
+state.balance=Number(state.balance)-WITHDRAW_AMOUNT;
+state.reservedWithdrawalPoints=WITHDRAW_POINTS_THRESHOLD;
+state.transactions.unshift({
+label:"Withdrawal Reserved — $10.00",
+amount:-WITHDRAW_AMOUNT,
+points:-WITHDRAW_POINTS_THRESHOLD,
+date:new Date().toLocaleString("en-IN"),
+withdrawalId:withdrawalRef.id,
+status:"pending"
+});
+saveState();
+renderTop();
+renderTransactions();
+
+document.getElementById("withdrawAmount").value="";
+document.getElementById("withdrawAddress").value="";
 toast("Withdrawal request submitted.");
-document.getElementById("withdrawAmount").value="";document.getElementById("withdrawAddress").value="";
-}catch(e){console.error(e);toast("Withdrawal request failed. Try again.")}
+}catch(e){
+console.error("Withdrawal submission error:",e);
+
+if(e.message==="WITHDRAWAL_ALREADY_RESERVED"){
+toast("You already have a withdrawal being processed.");
+}else if(e.message==="INSUFFICIENT_POINTS"){
+toast("You need 100,000 points.");
+}else{
+toast("Withdrawal request failed. Try again.");
+}
+}
 }
 
 function renderTransactions(){
@@ -861,81 +959,470 @@ timer.textContent=d+"d "+String(h).padStart(2,"0")+"h "+String(m).padStart(2,"0"
 function isAdminTelegramUser(){return getTelegramUserId()===ADMIN_TELEGRAM_ID}
 
 function initAdminAccess(){
-const b=document.getElementById("adminOpenBtn");if(b)b.style.display=isAdminTelegramUser()?"flex":"none";
+const b=document.getElementById("adminOpenBtn");
+if(b)b.style.display=isAdminTelegramUser()?"flex":"none";
 }
 
 function openAdminLogin(){
-if(!isAdminTelegramUser()){toast("Admin access denied.");return}
+if(!isAdminTelegramUser()){
+toast("Admin access denied.");
+return;
+}
 document.getElementById("adminLogin").style.display="block";
 }
 
 function closeAdminLogin(){
 document.getElementById("adminLogin").style.display="none";
-const e=document.getElementById("adminLoginError");e.style.display="none";e.textContent="";
+const e=document.getElementById("adminLoginError");
+e.style.display="none";
+e.textContent="";
 }
 
 function showAdminError(m){
-const e=document.getElementById("adminLoginError");e.textContent=m;e.style.display="block";
+const e=document.getElementById("adminLoginError");
+e.textContent=m;
+e.style.display="block";
 }
 
 async function adminLogin(){
-if(!isAdminTelegramUser()){showAdminError("Admin Telegram account not authorized.");return}
+if(!isAdminTelegramUser()){
+showAdminError("Admin Telegram account not authorized.");
+return;
+}
+
 if(!firebaseReady)initFirebase();
-if(!auth){showAdminError("Firebase Authentication is not available.");return}
-const email=document.getElementById("adminEmail").value.trim(),password=document.getElementById("adminPassword").value;
-if(email!==ADMIN_EMAIL){showAdminError("Invalid admin email.");return}
-if(!password){showAdminError("Enter your Firebase password.");return}
+if(!auth){
+showAdminError("Firebase Authentication is not available.");
+return;
+}
+
+const email=document.getElementById("adminEmail").value.trim();
+const password=document.getElementById("adminPassword").value;
+
+if(email!==ADMIN_EMAIL){
+showAdminError("Invalid admin email.");
+return;
+}
+
+if(!password){
+showAdminError("Enter your Firebase password.");
+return;
+}
+
 try{
 const result=await auth.signInWithEmailAndPassword(email,password);
-if(!result?.user){showAdminError("Admin login failed.");return}
-if(String(result.user.email).toLowerCase()!==ADMIN_EMAIL.toLowerCase()){await auth.signOut();showAdminError("Unauthorized admin account.");return}
-document.getElementById("adminEmail").value="";document.getElementById("adminPassword").value="";
-closeAdminLogin();openAdminDashboard();toast("Admin login successful.");
-}catch(e){showAdminError("Login failed. Check your email and password.")}
+
+if(!result?.user){
+showAdminError("Admin login failed.");
+return;
+}
+
+if(String(result.user.email).toLowerCase()!==ADMIN_EMAIL.toLowerCase()){
+await auth.signOut();
+showAdminError("Unauthorized admin account.");
+return;
+}
+
+document.getElementById("adminEmail").value="";
+document.getElementById("adminPassword").value="";
+closeAdminLogin();
+openAdminDashboard();
+toast("Admin login successful.");
+
+}catch(e){
+console.error("Admin login error:",e);
+showAdminError("Login failed. Check your email and password.");
+}
 }
 
 function openAdminDashboard(){
-if(!auth||!auth.currentUser){toast("Admin authentication required.");return}
+if(!auth||!auth.currentUser){
+toast("Admin authentication required.");
+return;
+}
+
+if(!isAdminTelegramUser()){
+toast("Unauthorized admin.");
+return;
+}
+
+if(String(auth.currentUser.email).toLowerCase()!==ADMIN_EMAIL.toLowerCase()){
+toast("Unauthorized admin.");
+return;
+}
+
 document.getElementById("adminDashboard").style.display="block";
 document.getElementById("adminAccountEmail").textContent="Logged in as: "+auth.currentUser.email;
 loadAdminDashboard();
 }
 
 async function adminLogout(){
-try{if(auth)await auth.signOut()}catch(e){}
-document.getElementById("adminDashboard").style.display="none";toast("Admin logged out.");
+try{
+if(auth)await auth.signOut();
+}catch(e){}
+
+document.getElementById("adminDashboard").style.display="none";
+toast("Admin logged out.");
+}
+
+function getAdminIdentity(){
+if(!auth||!auth.currentUser)return null;
+if(!isAdminTelegramUser())return null;
+if(String(auth.currentUser.email).toLowerCase()!==ADMIN_EMAIL.toLowerCase())return null;
+return{
+email:String(auth.currentUser.email).toLowerCase(),
+telegramId:String(getTelegramUserId()||"")
+};
+}
+
+function adminActionButtonState(id,processing){
+const row=document.querySelector('[data-withdrawal-id="'+CSS.escape(String(id))+'"]');
+if(!row)return;
+if(processing)row.classList.add("admin-processing");
+}
+
+async function processWithdrawal(withdrawalId,action){
+const identity=getAdminIdentity();
+
+if(!identity){
+toast("Admin authentication required.");
+return;
+}
+
+if(!withdrawalId){
+toast("Invalid withdrawal.");
+return;
+}
+
+if(action!=="approve"&&action!=="reject"){
+toast("Invalid action.");
+return;
+}
+
+if(!db){
+toast("Firebase is not ready.");
+return;
+}
+
+const withdrawalRef=db.collection("withdrawals").doc(String(withdrawalId));
+
+try{
+await db.runTransaction(async transaction=>{
+const withdrawalSnap=await transaction.get(withdrawalRef);
+
+if(!withdrawalSnap.exists){
+throw new Error("WITHDRAWAL_NOT_FOUND");
+}
+
+const withdrawal=withdrawalSnap.data()||{};
+const status=String(withdrawal.status||"pending").toLowerCase();
+
+if(status!=="pending"){
+throw new Error("ALREADY_PROCESSED");
+}
+
+const telegramId=String(withdrawal.telegramId||"");
+if(!telegramId){
+throw new Error("USER_ID_MISSING");
+}
+
+const userRef=db.collection("users").doc(telegramId);
+const userSnap=await transaction.get(userRef);
+
+if(!userSnap.exists){
+throw new Error("USER_NOT_FOUND");
+}
+
+const user=userSnap.data()||{};
+const withdrawalPoints=Number(withdrawal.points||WITHDRAW_POINTS_THRESHOLD);
+const reservedPoints=Number(user.reservedWithdrawalPoints||0);
+const points=Number(user.points||0);
+const balance=Number(user.balance||0);
+
+if(action==="approve"){
+
+/*
+ Approved withdrawal:
+ The points were already removed/reserved when the request
+ was created. Therefore they must NOT be deducted again.
+*/
+const newReserved=Math.max(0,reservedPoints-withdrawalPoints);
+
+transaction.update(userRef,{
+reservedWithdrawalPoints:newReserved,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+
+transaction.update(withdrawalRef,{
+status:"approved",
+processed:true,
+processedBy:identity.email,
+processedByTelegramId:identity.telegramId,
+processedAt:firebase.firestore.FieldValue.serverTimestamp(),
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+
+}else{
+
+/*
+ Rejected withdrawal:
+ Return the reserved points exactly once.
+ If the reservation exists, refund it.
+*/
+let refundPoints=0;
+
+if(reservedPoints>=withdrawalPoints){
+refundPoints=withdrawalPoints;
+}else if(Boolean(withdrawal.pointsReserved)){
+/*
+ If data is inconsistent, do not blindly add money.
+ This protects against accidental over-refunds.
+*/
+refundPoints=0;
+}
+
+const newPoints=points+refundPoints;
+const newBalance=newPoints/10000;
+const newReserved=Math.max(0,reservedPoints-refundPoints);
+
+transaction.update(userRef,{
+points:newPoints,
+balance:newBalance,
+reservedWithdrawalPoints:newReserved,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+
+transaction.update(withdrawalRef,{
+status:"rejected",
+processed:true,
+refundPoints:refundPoints,
+processedBy:identity.email,
+processedByTelegramId:identity.telegramId,
+processedAt:firebase.firestore.FieldValue.serverTimestamp(),
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+}
+});
+
+toast(action==="approve"?"Withdrawal approved.":"Withdrawal rejected and points refunded.");
+await loadAdminDashboard();
+
+}catch(e){
+console.error("Withdrawal processing error:",e);
+
+if(e.message==="ALREADY_PROCESSED"){
+toast("This withdrawal was already processed.");
+}else if(e.message==="WITHDRAWAL_NOT_FOUND"){
+toast("Withdrawal not found.");
+}else if(e.message==="USER_NOT_FOUND"){
+toast("User account not found.");
+}else if(e.message==="USER_ID_MISSING"){
+toast("Withdrawal user ID is missing.");
+}else{
+toast("Could not process withdrawal.");
+}
+}
+}
+
+async function approveWithdrawal(withdrawalId){
+await processWithdrawal(withdrawalId,"approve");
+}
+
+async function rejectWithdrawal(withdrawalId){
+await processWithdrawal(withdrawalId,"reject");
+}
+
+async function rejectAllWithdrawals(){
+const identity=getAdminIdentity();
+
+if(!identity){
+toast("Admin authentication required.");
+return;
+}
+
+if(!db){
+toast("Firebase is not ready.");
+return;
+}
+
+const pendingSnap=await db.collection("withdrawals").where("status","==","pending").get();
+
+if(pendingSnap.empty){
+toast("No pending withdrawals.");
+return;
+}
+
+const confirmed=window.confirm("Reject ALL pending withdrawals? Reserved points will be refunded.");
+if(!confirmed)return;
+
+let processedCount=0;
+let skippedCount=0;
+
+for(const doc of pendingSnap.docs){
+
+try{
+await db.runTransaction(async transaction=>{
+const withdrawalRef=db.collection("withdrawals").doc(doc.id);
+const freshSnap=await transaction.get(withdrawalRef);
+
+if(!freshSnap.exists)throw new Error("NOT_FOUND");
+
+const withdrawal=freshSnap.data()||{};
+const status=String(withdrawal.status||"pending").toLowerCase();
+
+if(status!=="pending"){
+throw new Error("ALREADY_PROCESSED");
+}
+
+const telegramId=String(withdrawal.telegramId||"");
+if(!telegramId)throw new Error("USER_ID_MISSING");
+
+const userRef=db.collection("users").doc(telegramId);
+const userSnap=await transaction.get(userRef);
+
+if(!userSnap.exists)throw new Error("USER_NOT_FOUND");
+
+const user=userSnap.data()||{};
+const withdrawalPoints=Number(withdrawal.points||WITHDRAW_POINTS_THRESHOLD);
+const reservedPoints=Number(user.reservedWithdrawalPoints||0);
+const currentPoints=Number(user.points||0);
+
+let refundPoints=0;
+
+if(reservedPoints>=withdrawalPoints){
+refundPoints=withdrawalPoints;
+}
+
+const newPoints=currentPoints+refundPoints;
+const newReserved=Math.max(0,reservedPoints-refundPoints);
+
+transaction.update(userRef,{
+points:newPoints,
+balance:Number(newPoints/10000),
+reservedWithdrawalPoints:newReserved,
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+
+transaction.update(withdrawalRef,{
+status:"rejected",
+processed:true,
+refundPoints:refundPoints,
+processedBy:identity.email,
+processedByTelegramId:identity.telegramId,
+processedAt:firebase.firestore.FieldValue.serverTimestamp(),
+updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+});
+
+processedCount++;
+
+}catch(e){
+console.error("Reject all item error:",doc.id,e);
+skippedCount++;
+}
+}
+
+toast("Reject All complete: "+processedCount+" rejected"+(skippedCount?" · "+skippedCount+" skipped":""));
+await loadAdminDashboard();
 }
 
 async function loadAdminDashboard(){
-if(!auth?.currentUser){toast("Please login as admin.");return}
-if(String(auth.currentUser.email).toLowerCase()!==ADMIN_EMAIL.toLowerCase()){toast("Unauthorized admin.");return}
+const identity=getAdminIdentity();
+
+if(!identity){
+toast("Please login as admin.");
+return;
+}
+
 try{
 const users=await db.collection("users").get();
-let totalPoints=0,totalBalance=0;
-users.forEach(d=>{const x=d.data()||{};totalPoints+=Number(x.points||0);totalBalance+=Number(x.balance||0)});
+
+let totalPoints=0;
+let totalBalance=0;
+
+users.forEach(d=>{
+const x=d.data()||{};
+totalPoints+=Number(x.points||0);
+totalBalance+=Number(x.balance||0);
+});
+
 document.getElementById("adminTotalUsers").textContent=users.size.toLocaleString("en-US");
 document.getElementById("adminTotalPoints").textContent=totalPoints.toLocaleString("en-US");
 document.getElementById("adminTotalBalance").textContent="$"+totalBalance.toFixed(2);
-const ws=await db.collection("withdrawals").get(),list=[];
-ws.forEach(d=>list.push({id:d.id,...(d.data()||{})}));
+
+const ws=await db.collection("withdrawals").get();
+const list=[];
+
+ws.forEach(d=>{
+list.push({
+id:d.id,
+...(d.data()||{})
+});
+});
+
 const pending=list.filter(x=>String(x.status||"").toLowerCase()==="pending");
+
 document.getElementById("adminPendingWithdrawals").textContent=pending.length.toLocaleString("en-US");
+
 renderAdminWithdrawals(pending);
+
 }catch(e){
-console.error(e);
-["adminTotalUsers","adminPendingWithdrawals","adminTotalPoints","adminTotalBalance"].forEach(id=>document.getElementById(id).textContent="—");
+console.error("Admin dashboard load error:",e);
+
+["adminTotalUsers","adminPendingWithdrawals","adminTotalPoints","adminTotalBalance"]
+.forEach(id=>document.getElementById(id).textContent="—");
+
 document.getElementById("adminWithdrawals").innerHTML="<p style='color:#ff6767'>Could not load admin data.</p>";
 }
 }
 
 function renderAdminWithdrawals(list){
-const box=document.getElementById("adminWithdrawals");if(!box)return;
-if(!list.length){box.innerHTML='<p class="subtitle">No pending withdrawals.</p>';return}
-box.innerHTML=list.map(item=>{
+const box=document.getElementById("adminWithdrawals");
+if(!box)return;
+
+if(!list.length){
+box.innerHTML='<p class="subtitle">No pending withdrawals.</p>';
+return;
+}
+
+box.innerHTML=`
+<button class="reject-all-btn" onclick="rejectAllWithdrawals()">❌ Reject All Pending Withdrawals</button>
+${list.map(item=>{
 let date="Pending";
-if(item.createdAt?.toDate)date=item.createdAt.toDate().toLocaleString("en-IN");
-return `<div class="admin-row"><div class="admin-row-top"><strong>$${Number(item.amount||0).toFixed(2)}</strong><span class="admin-status">${String(item.status||"pending").toUpperCase()}</span></div><div class="admin-muted">Telegram ID: ${item.telegramId||"—"}</div><div class="admin-muted">BEP20: ${item.address||"—"}</div><div class="admin-muted">Points: ${Number(item.points||0).toLocaleString("en-US")}</div><div class="admin-muted">Date: ${date}</div></div>`;
-}).join("");
+
+if(item.createdAt?.toDate){
+date=item.createdAt.toDate().toLocaleString("en-IN");
+}
+
+const id=String(item.id||"");
+const amount=Number(item.amount||0);
+const points=Number(item.points||0);
+const reserved=item.pointsReserved!==false;
+
+return `
+<div class="admin-row" data-withdrawal-id="${id.replace(/"/g,"&quot;")}">
+
+<div class="admin-row-top">
+<strong>$${amount.toFixed(2)}</strong>
+<span class="admin-status">${String(item.status||"pending").toUpperCase()}</span>
+</div>
+
+<div class="admin-muted">Withdrawal ID: ${id}</div>
+<div class="admin-muted">Telegram ID: ${item.telegramId||"—"}</div>
+<div class="admin-muted">BEP20: ${item.address||"—"}</div>
+<div class="admin-muted">Points: ${points.toLocaleString("en-US")}</div>
+<div class="admin-reserved">${reserved?"🔒 100,000 points reserved":"⚠️ Reservation not recorded"}</div>
+<div class="admin-muted">Date: ${date}</div>
+
+<div class="admin-action-row">
+<button class="approve-btn" onclick="approveWithdrawal('${id.replace(/'/g,"\\'")}')">✅ Approve</button>
+<button class="reject-btn" onclick="rejectWithdrawal('${id.replace(/'/g,"\\'")}')">❌ Reject</button>
+</div>
+
+</div>
+`;
+}).join("")}
+`;
 }
 
 /* Referral system:
@@ -943,6 +1430,7 @@ return `<div class="admin-row"><div class="admin-row-top"><strong>$${Number(item
    They become valid after 100 verified ad rewards.
    Referrer gets exactly $0.50 once.
 */
+
 function getStartParam(){
 try{
 return tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param?String(tg.initDataUnsafe.start_param):null;
@@ -964,6 +1452,7 @@ const snap=await db.collection("users").where("referralCode","==",code).limit(1)
 if(snap.empty)return;
 
 const referrer=snap.docs[0];
+
 if(referrer.id===String(firebaseUserId))return;
 
 state.referredBy=referrer.id;
@@ -984,7 +1473,9 @@ referCount:firebase.firestore.FieldValue.increment(1),
 updatedAt:firebase.firestore.FieldValue.serverTimestamp()
 },{merge:true});
 
-}catch(e){console.error("Referral registration error:",e)}
+}catch(e){
+console.error("Referral registration error:",e);
+}
 }
 
 async function updateReferralProgress(){
@@ -1043,7 +1534,9 @@ updatedAt:firebase.firestore.FieldValue.serverTimestamp()
 state.referralRewardPaid=true;
 saveState();
 
-}catch(e){console.error("Referral progress error:",e)}
+}catch(e){
+console.error("Referral progress error:",e);
+}
 }
 
 function renderAll(){
